@@ -61,5 +61,15 @@ describe("Tokenizer", () => {
 
       assertEquals(tokenizer.cursor.line, 4);
     });
+
+    it("should track line start positions", () => {
+      tokenizer = new Tokenizer("  \r  \n      local  \r\n  \n\r    bar  baz ");
+
+      tokenizer.next();
+      assertEquals(tokenizer.cursor.lineStart, 6);
+
+      tokenizer.next();
+      assertEquals(tokenizer.cursor.lineStart, 25);
+    });
   });
 });
