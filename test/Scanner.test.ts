@@ -28,6 +28,20 @@ describe("Scanner", () => {
     });
   });
 
+  describe("isDotNotation", () => {
+    it("should return true if the char being pointed at is a whitespace", () => {
+      scanner = new Scanner(".");
+
+      assert(scanner.isDotNotation(0));
+    });
+
+    it("should return false if the char being pointed at is not a whitespace", () => {
+      scanner = new Scanner("\n .");
+
+      assert(!scanner.isDotNotation(0));
+    });
+  });
+
   describe("isWhitespace", () => {
     it("should return true if the char being pointed at is a whitespace", () => {
       scanner = new Scanner(" ");

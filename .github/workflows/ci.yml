@@ -47,8 +47,3 @@ jobs:
 
       - name: Check code formatting
         run: make fmt
-
-  commit_lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: webiny/action-conventional-commits@v1.0.3

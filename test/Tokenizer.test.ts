@@ -11,59 +11,69 @@ describe("Tokenizer", () => {
   describe("tokenize", () => {
     it("consumes all whitespaces", () => {
       tokenizer = new Tokenizer("          bar      foo");
-      let token = tokenizer.tokenize();
 
-      assertEquals(token?.value, "bar");
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.value, "foo");
+      assertEquals(tokenizer.tokenize()?.value, "bar");
+      assertEquals(tokenizer.tokenize()?.value, "foo");
       assert(tokenizer.scanner.isOutOfBounds());
     });
 
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
       tokenizer = new Tokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
 
-      let token = tokenizer.tokenize();
-      assertEquals(token?.value, "foo");
-
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "bar");
-
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "baz");
+      assertEquals(tokenizer.tokenize()?.value, "foo");
+      assertEquals(tokenizer.tokenize()?.value, "bar");
+      assertEquals(tokenizer.tokenize()?.value, "baz");
     });
 
     it("returns a token when an identifier is found", () => {
       tokenizer = new Tokenizer("          local      bar  baz ");
 
-      let token = tokenizer.tokenize();
-      assertEquals(token?.value, "local");
-
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "bar");
-
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "baz");
+      assertEquals(tokenizer.tokenize()?.value, "local");
+      assertEquals(tokenizer.tokenize()?.value, "bar");
+      assertEquals(tokenizer.tokenize()?.value, "baz");
     });
 
     it("does not recognize identifiers that start with digits", () => {
       tokenizer = new Tokenizer("          3local      bar  3baz ");
 
-      let token = tokenizer.tokenize();
-      assertEquals(token?.value, "3");
+      tokenizer.tokenize()
 
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "local");
+      assertEquals(tokenizer.tokenize()?.value, "local");
+      assertEquals(tokenizer.tokenize()?.value, "bar");
 
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "bar");
+      tokenizer.tokenize()
 
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "3");
+      assertEquals(tokenizer.tokenize()?.value, "baz");
 
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "baz");
+    });
+
+    it("returns a keyword identifier token", () => {
+      tokenizer = new Tokenizer("local 3 return ");
+
+      assertEquals(tokenizer.tokenize()?.value, "local");
+
+      tokenizer.tokenize();
+
+      assertEquals(tokenizer.tokenize()?.value, "return");
+    });
+
+    it("returns a boolean identifier token", () => {
+      tokenizer = new Tokenizer("local 3 true ");
+
+      tokenizer.tokenize();
+      tokenizer.tokenize();
+
+      assertEquals(tokenizer.tokenize()?.value, true);
+    });
+
+    it("returns a nil identifier token", () => {
+      tokenizer = new Tokenizer("nil 3 nil ");
+
+      assertEquals(tokenizer.tokenize()?.value, null);
+
+      tokenizer.tokenize();
+
+      assertEquals(tokenizer.tokenize()?.value, null);
     });
   });
 });

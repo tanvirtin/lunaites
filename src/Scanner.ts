@@ -7,7 +7,7 @@ interface ScannerOptions {
 class Scanner {
   public index = 0;
   public line = 0;
-  public lineStart = 0;
+  public lineStart = 1;
   private markedIndex = 0;
   private source = "";
   private options: ScannerOptions = {
@@ -22,9 +22,24 @@ class Scanner {
     };
   }
 
+  private sanitizeIndex(index?: number) {
+    return index ?? this.index;
+  }
+
+  // ' '
+  isDotNotation(index?: number): boolean {
+    index = this.sanitizeIndex(index);
+
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
+
+    return charCode === 46;
+  }
+
   // ' '
   isWhitespace(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -36,7 +51,7 @@ class Scanner {
 
   // \n
   isLineFeed(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -47,7 +62,7 @@ class Scanner {
 
   // \r
   isCarriageReturn(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -58,7 +73,7 @@ class Scanner {
 
   // \n or \r
   isLineTerminator(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -67,7 +82,7 @@ class Scanner {
 
   // \n\r or \r\n
   isNewLine(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -77,7 +92,7 @@ class Scanner {
 
   // [0-9]
   isDigit(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -88,7 +103,7 @@ class Scanner {
 
   // Extended alphabets starting  ending in ÿ
   isExtendedAlphabets(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -99,7 +114,7 @@ class Scanner {
 
   // Alphabets
   isAlphabet(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -113,7 +128,7 @@ class Scanner {
 
   // [0-9] or Alphabets
   isAlphanumeric(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -122,14 +137,14 @@ class Scanner {
 
   // When scanner goes out of bounds of the source.
   isOutOfBounds(index?: number): boolean {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     return index < 0 || index >= this.source.length;
   }
 
   // Returns the current char under scanner.
   getChar(index?: number): string {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (index >= this.source.length || index < 0) {
       throw new Error('"index" is out of range');
@@ -140,7 +155,7 @@ class Scanner {
 
   // Returns the current char code under scanner.
   getCharCode(index?: number): number {
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (index >= this.source.length || index < 0) {
       throw new Error('"index" is out of range');
@@ -154,7 +169,7 @@ class Scanner {
   getText(markedIndex?: number, index?: number): string {
     const length = this.source.length;
     markedIndex = markedIndex ?? this.markedIndex;
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
 
     if (markedIndex >= length || markedIndex < 0) {
       throw new Error('"markedIndex" is out of range');
@@ -175,7 +190,7 @@ class Scanner {
   // index in an array or a specified range.
   getRange(markedIndex?: number, index?: number): number[] {
     markedIndex = markedIndex ?? this.markedIndex;
-    index = index ?? this.index;
+    index = this.sanitizeIndex(index);
     const length = this.source.length;
 
     if (markedIndex >= length || markedIndex < 0) {
