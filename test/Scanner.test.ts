@@ -343,7 +343,10 @@ describe("Scanner", () => {
         "bar".length,
       ).eatWhitespace();
 
-      assertEquals(scanner.getText(scanner.index, scanner.index + "baz".length), "baz")
+      assertEquals(
+        scanner.getText(scanner.index, scanner.index + "baz".length),
+        "baz",
+      );
     });
 
     it("should track line numbers being added", () => {
