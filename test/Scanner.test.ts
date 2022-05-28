@@ -1,6 +1,9 @@
 import { Scanner } from "../src/Scanner.ts";
 import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
-import { assert, assertEquals } from "https://deno.land/std@0.110.0/testing/asserts.ts";
+import {
+  assert,
+  assertEquals,
+} from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("Scanner", () => {
   describe("isWhitespace", () => {
@@ -191,20 +194,20 @@ describe("Scanner", () => {
     it("returns true if scanner is beyond the source", () => {
       const scanner = new Scanner("nnn");
 
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
 
-      assert(scanner.isOutOfBounds())
+      assert(scanner.isOutOfBounds());
     });
 
     it("should return false if the char being pointed at is not a whitespace", () => {
       const scanner = new Scanner("[]");
 
-      scanner.increment()
+      scanner.increment();
 
-      assert(!scanner.isOutOfBounds())
+      assert(!scanner.isOutOfBounds());
     });
   });
 
@@ -212,10 +215,10 @@ describe("Scanner", () => {
     it("returns the char at the scanner", () => {
       const scanner = new Scanner("nmp");
 
-      scanner.increment()
-      assertEquals(scanner.getChar(), "n")
-      assertEquals(scanner.getChar(1), "m")
-      assertEquals(scanner.getChar(2), "p")
+      scanner.increment();
+      assertEquals(scanner.getChar(), "n");
+      assertEquals(scanner.getChar(1), "m");
+      assertEquals(scanner.getChar(2), "p");
     });
   });
 
@@ -223,10 +226,10 @@ describe("Scanner", () => {
     it("returns the char code at the scanner", () => {
       const scanner = new Scanner("npm");
 
-      scanner.increment()
-      assertEquals(scanner.getCharCode(), 110)
-      assertEquals(scanner.getCharCode(1), 112)
-      assertEquals(scanner.getCharCode(2), 109)
+      scanner.increment();
+      assertEquals(scanner.getCharCode(), 110);
+      assertEquals(scanner.getCharCode(1), 112);
+      assertEquals(scanner.getCharCode(2), 109);
     });
   });
 
@@ -234,21 +237,21 @@ describe("Scanner", () => {
     it("returns a text for a given range from the source", () => {
       const scanner = new Scanner("npm");
 
-      assertEquals(scanner.getText(0, 3), "npm")
+      assertEquals(scanner.getText(0, 3), "npm");
     });
 
     it("returns a text starting at a marked spot from the source", () => {
       const scanner = new Scanner("hello");
 
-      scanner.increment()
-      scanner.mark()
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
+      scanner.increment();
+      scanner.mark();
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
 
-      assertEquals(scanner.getText(), "hello")
+      assertEquals(scanner.getText(), "hello");
     });
   });
 
@@ -256,21 +259,21 @@ describe("Scanner", () => {
     it("returns an array for a given range", () => {
       const scanner = new Scanner("npm");
 
-      assertEquals(scanner.getRange(0, 3), [0, 3])
+      assertEquals(scanner.getRange(0, 3), [0, 3]);
     });
 
     it("returns an array starting at a marked spot", () => {
       const scanner = new Scanner("hello");
 
-      scanner.increment()
-      scanner.mark()
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
-      scanner.increment()
+      scanner.increment();
+      scanner.mark();
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
+      scanner.increment();
 
-      assertEquals(scanner.getRange(), [0, 5])
+      assertEquals(scanner.getRange(), [0, 5]);
     });
   });
 });
