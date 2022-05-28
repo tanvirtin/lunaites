@@ -13,7 +13,7 @@ enum TokenType {
 }
 
 interface Token {
-  type: number;
+  type: TokenType;
   value: null | boolean | number | string;
   line: number;
   lineStart: number;
@@ -158,4 +158,4 @@ class Tokenizer {
   }
 }
 
-export { Tokenizer };
+export { Tokenizer, TokenType };
