@@ -5,11 +5,11 @@ import { Feature } from "./Lexer.ts";
 class Cursor {
   // The index is intialized to -1, because first next will
   // increment it to 1 as soon as it the function is invoked.
-  public index: number = -1;
-  public line: number = 0;
-  public lineStart: number = 0;
-  public markedIndex: number = 0;
-  private source: string = "";
+  public index = -1;
+  public line = 0;
+  public lineStart = 0;
+  public markedIndex = 0;
+  private source = "";
   private feature: Feature;
 
   constructor(source: string, feature: Feature) {
