@@ -2,7 +2,7 @@ import { Feature } from "./Lexer.ts";
 
 // Please refer to the https://www.asciitable.com/ for the char codes.
 
-class Cursor {
+class Scanner {
   // The index is intialized to -1, because first next will
   // increment it to 1 as soon as it the function is invoked.
   public index = -1;
@@ -91,17 +91,17 @@ class Cursor {
     return this.isDigit(index) || this.isAlphabet(index);
   }
 
-  // When cursor goes out of bounds of the source.
+  // When scanner goes out of bounds of the source.
   isOutOfBounds(): boolean {
     return this.index < 0 || this.index >= this.source.length;
   }
 
-  // Returns the current char under cursor.
+  // Returns the current char under scanner.
   getChar(index?: number): string {
     return this.source[index ?? this.index];
   }
 
-  // Returns the current char code under cursor.
+  // Returns the current char code under scanner.
   getCharCode(index?: number): number {
     return this.source.charCodeAt(index ?? this.index);
   }
@@ -125,7 +125,7 @@ class Cursor {
     this.markedIndex = this.index;
   }
 
-  // Increments the cursor by 1 or many.
+  // Increments the scanner by 1 or many.
   increment(by?: number) {
     if (by) {
       this.index += by;
@@ -136,7 +136,7 @@ class Cursor {
     return ++this.index;
   }
 
-  // Decrements the cursor by 1 or many.
+  // Decrements the scanner by 1 or many.
   decrement(by?: number) {
     if (by) {
       this.index -= by;
@@ -170,4 +170,4 @@ class Cursor {
   }
 }
 
-export { Cursor };
+export { Scanner };

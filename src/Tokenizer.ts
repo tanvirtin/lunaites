@@ -1,8 +1,8 @@
-import { Cursor } from "./Cursor.ts";
+import { Scanner } from "./Scanner.ts";
 import { Feature, Token, TokenType } from "./Lexer.ts";
 
 class Tokenizer {
-  public cursor: Cursor;
+  public scanner: Scanner;
   private feature: Feature = {
     labels: true,
     integerDivision: true,
@@ -12,50 +12,50 @@ class Tokenizer {
 
   constructor(source: string, feature?: Feature) {
     this.feature = feature ?? this.feature;
-    this.cursor = new Cursor(source, this.feature);
+    this.scanner = new Scanner(source, this.feature);
   }
 
-  scanEOF(): Token {
+  tokenizeEOF(): Token {
     return {
       type: TokenType.EOF,
       value: "<eof>",
-      range: [this.cursor.index, this.cursor.index],
-      line: this.cursor.line,
-      lineStart: this.cursor.lineStart,
+      range: [this.scanner.index, this.scanner.index],
+      line: this.scanner.line,
+      lineStart: this.scanner.lineStart,
     };
   }
 
-  scanIdentifier(): Token {
-    this.cursor.mark();
+  tokenizeIdentifier(): Token {
+    this.scanner.mark();
 
-    while (this.cursor.isAlphanumeric()) {
-      this.cursor.increment();
+    while (this.scanner.isAlphanumeric()) {
+      this.scanner.increment();
     }
 
     return {
       type: TokenType.Identifier,
-      value: this.cursor.getText(),
-      range: this.cursor.getRange(),
-      line: this.cursor.line,
-      lineStart: this.cursor.lineStart,
+      value: this.scanner.getText(),
+      range: this.scanner.getRange(),
+      line: this.scanner.line,
+      lineStart: this.scanner.lineStart,
     };
   }
 
-  next(): Token | void {
-    this.cursor.increment();
+  tokenize(): Token | void {
+    this.scanner.increment();
     // All whitespace noise is eaten away as they have no semantic value.
-    this.cursor.eatWhitespace();
+    this.scanner.eatWhitespace();
 
-    if (this.cursor.isOutOfBounds()) {
-      return this.scanEOF();
+    if (this.scanner.isOutOfBounds()) {
+      return this.tokenizeEOF();
     }
 
     // If the word is an alphabet it probably is an identifier.
-    if (this.cursor.isAlphabet()) {
-      return this.scanIdentifier();
+    if (this.scanner.isAlphabet()) {
+      return this.tokenizeIdentifier();
     }
 
-    this.cursor.mark();
+    this.scanner.mark();
   }
 }
 

@@ -8,68 +8,68 @@ import {
 describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
 
-  describe("next", () => {
+  describe("tokenize", () => {
     it("consumes all whitespaces", () => {
       tokenizer = new Tokenizer("          9      3");
-      tokenizer.next();
+      tokenizer.tokenize();
 
-      assertEquals(tokenizer.cursor.getChar(), "9");
+      assertEquals(tokenizer.scanner.getChar(), "9");
 
-      tokenizer.next();
+      tokenizer.tokenize();
 
-      assertEquals(tokenizer.cursor.getChar(), "3");
+      assertEquals(tokenizer.scanner.getChar(), "3");
 
-      tokenizer.next();
+      tokenizer.tokenize();
 
-      assertEquals(tokenizer.cursor.getChar(), undefined);
+      assertEquals(tokenizer.scanner.getChar(), undefined);
 
-      assert(tokenizer.cursor.isOutOfBounds());
+      assert(tokenizer.scanner.isOutOfBounds());
     });
 
     it("returns a token when an identifier is found", () => {
       tokenizer = new Tokenizer("          local      bar  baz ");
 
-      let token = tokenizer.next();
+      let token = tokenizer.tokenize();
       assertEquals(token?.value, "local");
 
-      token = tokenizer.next();
+      token = tokenizer.tokenize();
       assertEquals(token?.value, "bar");
 
-      token = tokenizer.next();
+      token = tokenizer.tokenize();
       assertEquals(token?.value, "baz");
     });
 
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
       tokenizer = new Tokenizer("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
-      let token = tokenizer.next();
+      let token = tokenizer.tokenize();
       assertEquals(token?.value, "local");
 
-      token = tokenizer.next();
+      token = tokenizer.tokenize();
       assertEquals(token?.value, "bar");
 
-      token = tokenizer.next();
+      token = tokenizer.tokenize();
       assertEquals(token?.value, "baz");
     });
 
     it("should track line numbers being added", () => {
       tokenizer = new Tokenizer("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
-      tokenizer.next();
-      tokenizer.next();
-      tokenizer.next();
+      tokenizer.tokenize();
+      tokenizer.tokenize();
+      tokenizer.tokenize();
 
-      assertEquals(tokenizer.cursor.line, 4);
+      assertEquals(tokenizer.scanner.line, 4);
     });
 
     it("should track line start positions", () => {
       tokenizer = new Tokenizer("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
-      tokenizer.next();
-      assertEquals(tokenizer.cursor.lineStart, 6);
+      tokenizer.tokenize();
+      assertEquals(tokenizer.scanner.lineStart, 6);
 
-      tokenizer.next();
-      assertEquals(tokenizer.cursor.lineStart, 25);
+      tokenizer.tokenize();
+      assertEquals(tokenizer.scanner.lineStart, 25);
     });
   });
 });
