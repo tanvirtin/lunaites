@@ -1,5 +1,8 @@
 tests:
-	deno test --allow-read
+	deno test -A --unstable
 
 lint:
+	deno lint
+
+fmt:
 	deno fmt --check

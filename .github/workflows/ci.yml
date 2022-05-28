@@ -6,36 +6,47 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        deno-version: [1.2.2, 1.3.0]
-
     steps:
-      - name: Git Checkout Deno Module
+      - name: Setup repo
         uses: actions/checkout@v2
-      - name: Use Deno Version ${{ matrix.deno-version }}
-        uses: denolib/setup-deno@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@004814556e37c54a2f6e31384c9e18e983317366
         with:
-          deno-version: ${{ matrix.deno-version }}
-      - name: Test Deno Module
+          deno-version: v1.x
+
+      - name: Run tests
         run: make tests
 
   lint:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        deno-version: [1.2.2, 1.3.0]
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@004814556e37c54a2f6e31384c9e18e983317366
+        with:
+          deno-version: v1.x
+
+      - name: Check lint
+        run: make lint
+
+  fmt:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Git Checkout Deno Module
+      - name: Setup repo
         uses: actions/checkout@v2
-      - name: Use Deno Version ${{ matrix.deno-version }}
-        uses: denolib/setup-deno@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@004814556e37c54a2f6e31384c9e18e983317366
         with:
-          deno-version: ${{ matrix.deno-version }}
-      - name: Lint Deno Module
-        run: make lint
+          deno-version: v1.x
+
+      - name: Check code formatting
+        run: make fmt
 
   commit_lint:
     runs-on: ubuntu-latest
