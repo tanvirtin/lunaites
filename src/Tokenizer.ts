@@ -49,7 +49,7 @@ class Tokenizer {
   }
 
   // All lua keywords
-  isKeyword(text: string) {
+  private isKeyword(text: string) {
     const { feature } = this;
 
     // Easier to narrow down by length of the string.
@@ -81,7 +81,7 @@ class Tokenizer {
     return false;
   }
 
-  tokenizeEOF(): Token {
+  private tokenizeEOF(): Token {
     return {
       type: TokenType.EOF,
       value: "<eof>",
@@ -91,7 +91,7 @@ class Tokenizer {
     };
   }
 
-  tokenizeIdentifier(): Token {
+  private tokenizeIdentifier(): Token {
     this.scanner.mark();
 
     while (this.scanner.isAlphanumeric()) {
@@ -121,7 +121,7 @@ class Tokenizer {
     };
   }
 
-  tokenizeNumericLiteral(): Token {
+  private tokenizeNumericLiteral(): Token {
     this.scanner.mark();
 
     // As long as there is a number we seen in the horizon we advance.

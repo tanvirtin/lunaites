@@ -1,7 +1,6 @@
 import { Tokenizer, TokenType } from "../src/Tokenizer.ts";
 import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
-  assert,
   assertEquals,
 } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
@@ -9,20 +8,25 @@ describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
 
   describe("tokenize", () => {
-    it("consumes all whitespaces", () => {
-      tokenizer = new Tokenizer("          bar      foo");
-
-      assertEquals(tokenizer.tokenize()?.value, "bar");
-      assertEquals(tokenizer.tokenize()?.value, "foo");
-      assert(tokenizer.scanner.isOutOfBounds());
-    });
-
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
       tokenizer = new Tokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
 
       assertEquals(tokenizer.tokenize()?.value, "foo");
       assertEquals(tokenizer.tokenize()?.value, "bar");
       assertEquals(tokenizer.tokenize()?.value, "baz");
+      assertEquals(tokenizer.tokenize()?.value, "<eof>");
+    });
+
+    it("correctly returns end of file", () => {
+      tokenizer = new Tokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
+
+      tokenizer.tokenize()
+      tokenizer.tokenize()
+      tokenizer.tokenize()
+      const token = tokenizer.tokenize()
+
+      assertEquals(token?.value, "<eof>");
+      assertEquals(token?.type, TokenType.EOF);
     });
 
     it("does not recognize identifiers that start with digits", () => {
@@ -38,7 +42,54 @@ describe("Tokenizer", () => {
       assertEquals(tokenizer.tokenize()?.value, "baz");
     });
 
-    describe("correctly recognizes keywords", () => {
+    describe("correctly returns ambigious identifiers", () => {
+      it('when identifier is "foo"', () => {
+        tokenizer = new Tokenizer("foo");
+
+        const token = tokenizer.tokenize()
+
+        assertEquals(token?.value, "foo");
+        assertEquals(token?.type, TokenType.Identifier);
+      });
+
+      it('when identifier is "bar"', () => {
+        tokenizer = new Tokenizer("bar");
+
+        const token = tokenizer.tokenize()
+
+        assertEquals(token?.value, "bar");
+        assertEquals(token?.type, TokenType.Identifier);
+      });
+
+      it('when identifier is "p"', () => {
+        tokenizer = new Tokenizer("p");
+
+        const token = tokenizer.tokenize()
+
+        assertEquals(token?.value, "p");
+        assertEquals(token?.type, TokenType.Identifier);
+      });
+
+      it('when identifier is "hello_world"', () => {
+        tokenizer = new Tokenizer("hello_world");
+
+        const token = tokenizer.tokenize()
+
+        assertEquals(token?.value, "hello_world");
+        assertEquals(token?.type, TokenType.Identifier);
+      });
+
+      it('when identifier is "helloWorld"', () => {
+        tokenizer = new Tokenizer("helloWorld");
+
+        const token = tokenizer.tokenize()
+
+        assertEquals(token?.value, "helloWorld");
+        assertEquals(token?.type, TokenType.Identifier);
+      });
+    })
+
+    describe("correctly returns keywords", () => {
       it('when identifier is "local"', () => {
         tokenizer = new Tokenizer("local");
 
