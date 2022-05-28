@@ -3,24 +3,21 @@ import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
   assert,
   assertEquals,
+  assertThrows
 } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("Scanner", () => {
-  let scanner;
+  let scanner: Scanner;
 
   describe("scan", () => {
     it("increments the current scanner index by 1", () => {
       scanner = new Scanner("hello world");
-
-      scanner.scan();
 
       assertEquals(scanner.index, 0);
     });
 
     it("increments the current scanner index by a specific number", () => {
       scanner = new Scanner("hello world");
-
-      scanner.scan();
 
       assertEquals(scanner.index, 0);
 
@@ -96,8 +93,6 @@ describe("Scanner", () => {
   describe("isNewLine", () => {
     it("should return true if the char being pointed at is a combination of line feed and carriage return", () => {
       scanner = new Scanner("\r\n\n\r");
-
-      scanner.scan();
 
       assert(scanner.isNewLine());
 
@@ -222,15 +217,12 @@ describe("Scanner", () => {
       scanner.scan();
       scanner.scan();
       scanner.scan();
-      scanner.scan();
 
       assert(scanner.isOutOfBounds());
     });
 
     it("should return false if the char being pointed at is not a whitespace", () => {
       scanner = new Scanner("[]");
-
-      scanner.scan();
 
       assert(!scanner.isOutOfBounds());
     });
@@ -240,7 +232,6 @@ describe("Scanner", () => {
     it("returns the char at the scanner", () => {
       scanner = new Scanner("nmp");
 
-      scanner.scan();
       assertEquals(scanner.getChar(), "n");
       assertEquals(scanner.getChar(1), "m");
       assertEquals(scanner.getChar(2), "p");
@@ -251,7 +242,6 @@ describe("Scanner", () => {
     it("returns the char code at the scanner", () => {
       scanner = new Scanner("npm");
 
-      scanner.scan();
       assertEquals(scanner.getCharCode(), 110);
       assertEquals(scanner.getCharCode(1), 112);
       assertEquals(scanner.getCharCode(2), 109);
@@ -268,7 +258,6 @@ describe("Scanner", () => {
     it("returns a text starting at a marked spot from the source", () => {
       scanner = new Scanner("hello");
 
-      scanner.scan();
       scanner.mark();
       scanner.scan();
       scanner.scan();
@@ -290,7 +279,6 @@ describe("Scanner", () => {
     it("returns an array starting at a marked spot", () => {
       scanner = new Scanner("hello");
 
-      scanner.scan();
       scanner.mark();
       scanner.scan();
       scanner.scan();
@@ -306,42 +294,39 @@ describe("Scanner", () => {
     it("tracks the current index in memory", () => {
       scanner = new Scanner("memory");
       scanner.scan();
-      scanner.scan();
       scanner.mark();
 
       assertEquals(scanner.markedIndex, 1);
     });
   });
 
-  describe("eatWhitespace", () => {
+  describe("comsumeWhitespace", () => {
     it("consumes all whitespaces", () => {
       scanner = new Scanner("          9      3");
-      scanner.scan();
-      scanner.eatWhitespace();
+      scanner.comsumeWhitespace();
 
       assertEquals(scanner.getChar(), "9");
 
       scanner.scan();
-      scanner.eatWhitespace();
+      scanner.comsumeWhitespace();
 
       assertEquals(scanner.getChar(), "3");
 
-      scanner.eatWhitespace();
+      scanner.comsumeWhitespace();
       assertEquals(scanner.getChar(), "3");
 
       scanner.scan();
-      scanner.eatWhitespace();
-
-      assertEquals(scanner.getChar(), undefined);
+      scanner.comsumeWhitespace();
 
       assert(scanner.isOutOfBounds());
+      assertThrows(() => scanner.getChar());
     });
 
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
-      scanner.scan().eatWhitespace().scan("local".length).eatWhitespace().scan(
+      scanner.comsumeWhitespace().scan("local".length).comsumeWhitespace().scan(
         "bar".length,
-      ).eatWhitespace();
+      ).comsumeWhitespace();
 
       assertEquals(
         scanner.getText(scanner.index, scanner.index + "baz".length),
@@ -352,7 +337,7 @@ describe("Scanner", () => {
     it("should track line numbers being added", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
-      scanner.scan().eatWhitespace();
+      scanner.comsumeWhitespace();
 
       assertEquals(scanner.line, 2);
     });
@@ -360,10 +345,10 @@ describe("Scanner", () => {
     it("should track line start positions", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
-      scanner.scan().eatWhitespace();
+      scanner.comsumeWhitespace();
       assertEquals(scanner.lineStart, 6);
 
-      scanner.scan("local".length).eatWhitespace();
+      scanner.scan("local".length).comsumeWhitespace();
       assertEquals(scanner.lineStart, 25);
     });
   });

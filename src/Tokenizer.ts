@@ -46,21 +46,39 @@ class Tokenizer {
     };
   }
 
+  tokenizeNumericLiteral(): Token {
+    this.scanner.mark();
+
+    while (this.scanner.isDigit()) {
+      this.scanner.scan();
+    }
+
+    return {
+      type: TokenType.NumericLiteral,
+      value: this.scanner.getText(),
+      range: this.scanner.getRange(),
+      line: this.scanner.line,
+      lineStart: this.scanner.lineStart,
+    };
+  }
+
   tokenize(): Token | void {
-    this.scanner.scan();
     // All whitespace noise is eaten away as they have no semantic value.
-    this.scanner.eatWhitespace();
+    this.scanner.comsumeWhitespace();
 
     if (this.scanner.isOutOfBounds()) {
       return this.tokenizeEOF();
     }
 
+    if (this.scanner.isDigit()) {
+      return this.tokenizeNumericLiteral();
+    }
+
     // If the word is an alphabet it probably is an identifier.
+    // NOTE: lua identifiers do not start with numbers.
     if (this.scanner.isAlphabet()) {
       return this.tokenizeIdentifier();
     }
-
-    this.scanner.mark();
   }
 }
 

@@ -5,9 +5,7 @@ interface ScannerOptions {
 }
 
 class Scanner {
-  // The index is intialized to -1, because first next will
-  // incremented to 1 as soon as it the function is invoked.
-  public index = -1;
+  public index = 0;
   public line = 0;
   public lineStart = 0;
   public markedIndex = 0;
@@ -26,7 +24,11 @@ class Scanner {
 
   // ' '
   isWhitespace(index?: number): boolean {
-    const charCode = this.getCharCode(index ?? this.index);
+    index = index ?? this.index;
+
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
 
     return charCode === 9 || charCode === 32 || charCode === 0xB ||
       charCode === 0xC;
@@ -34,14 +36,22 @@ class Scanner {
 
   // \n
   isLineFeed(index?: number): boolean {
-    const charCode = this.getCharCode(index ?? this.index);
+    index = index ?? this.index;
+
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
 
     return charCode === 10;
   }
 
   // \r
   isCarriageReturn(index?: number): boolean {
-    const charCode = this.getCharCode(index ?? this.index);
+    index = index ?? this.index
+
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
 
     return charCode === 13;
   }
@@ -50,6 +60,8 @@ class Scanner {
   isLineTerminator(index?: number): boolean {
     index = index ?? this.index;
 
+    if (this.isOutOfBounds(index)) return false;
+
     return this.isLineFeed(index) || this.isCarriageReturn(index);
   }
 
@@ -57,27 +69,40 @@ class Scanner {
   isNewLine(index?: number): boolean {
     index = index ?? this.index;
 
+    if (this.isOutOfBounds(index)) return false;
+
     return (this.isLineFeed(index) && this.isCarriageReturn(index + 1)) ||
       (this.isCarriageReturn(index) && this.isLineFeed(index + 1));
   }
 
   // [0-9]
   isDigit(index?: number): boolean {
-    const charCode = this.getCharCode(index ?? this.index);
+index = index ?? this.index
+
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
 
     return charCode >= 48 && charCode <= 57;
   }
 
   // Extended alphabets starting  ending in ÿ
   isExtendedAlphabets(index?: number): boolean {
-    const charCode = this.getCharCode(index ?? this.index);
+    index = index ?? this.index
+
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
 
     return charCode >= 128;
   }
 
   // Alphabets
   isAlphabet(index?: number): boolean {
-    const charCode = this.getCharCode(index ?? this.index);
+    index = index ?? this.index
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
 
     return ((charCode >= 65 && charCode <= 90) ||
       (charCode >= 97 && charCode <= 122) || 95 === charCode) ||
@@ -89,34 +114,81 @@ class Scanner {
   isAlphanumeric(index?: number): boolean {
     index = index ?? this.index;
 
+    if (this.isOutOfBounds(index)) return false;
+
     return this.isDigit(index) || this.isAlphabet(index);
   }
 
   // When scanner goes out of bounds of the source.
-  isOutOfBounds(): boolean {
-    return this.index < 0 || this.index >= this.source.length;
+  isOutOfBounds(index?: number): boolean {
+    index = index ?? this.index;
+
+    return index < 0 || index >= this.source.length;
   }
 
   // Returns the current char under scanner.
   getChar(index?: number): string {
-    return this.source[index ?? this.index];
+    index = index ?? this.index
+
+    if (index >= this.source.length || index < 0) {
+      throw new Error('"index" is out of range');
+    }
+
+    return this.source[index];
   }
 
   // Returns the current char code under scanner.
   getCharCode(index?: number): number {
-    return this.source.charCodeAt(index ?? this.index);
+    index = index ?? this.index
+
+    if (index >= this.source.length || index < 0) {
+      throw new Error('"index" is out of range');
+    }
+
+    return this.source.charCodeAt(index);
   }
 
+  // Returns the current range from marked index to
+  // current index in an array or a specified range.
   getText(markedIndex?: number, index?: number): string {
     markedIndex = markedIndex ?? this.markedIndex;
     index = index ?? this.index;
 
+    const length = this.source.length
+
+    if (markedIndex >= length || markedIndex < 0) {
+      throw new Error('"markedIndex" is out of range');
+    }
+
+    if (index >= length + 1 || index < 0) {
+      throw new Error('"markedIndex" is out of range');
+    }
+
+    if (markedIndex >= index) {
+      throw new Error('"markedIndex" is greater than "index"');
+    }
+
     return this.source.slice(markedIndex, index);
   }
 
+  // Returns the current range from marked index to current
+  // index in an array or a specified range.
   getRange(markedIndex?: number, index?: number): number[] {
     markedIndex = markedIndex ?? this.markedIndex;
     index = index ?? this.index;
+    const length = this.source.length;
+
+    if (markedIndex >= length || markedIndex < 0) {
+      throw new Error('"markedIndex" is out of range');
+    }
+
+    if (index >= length + 1 || index < 0) {
+      throw new Error('"markedIndex" is out of range');
+    }
+
+    if (markedIndex >= index) {
+      throw new Error('"markedIndex" is greater than "index"');
+    }
 
     return [markedIndex, index];
   }
@@ -130,13 +202,14 @@ class Scanner {
 
   // Increments the internal scanner index by 1.
   scan(by?: number): Scanner {
-    this.index += by ?? 1;
+    // 0 gets ignored and treated as 1 which is why we use || and not ??.
+    this.index += by || 1;
 
     return this;
   }
 
   // Eats away all whitespace characters and progresses the index.
-  eatWhitespace(): Scanner {
+  comsumeWhitespace(): Scanner {
     while (!this.isOutOfBounds()) {
       if (this.isWhitespace()) {
         this.scan();
