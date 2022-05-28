@@ -17,7 +17,7 @@ class Cursor {
     this.feature = feature;
   }
 
-  // ''
+  // ' '
   isWhitespace(index?: number): boolean {
     index = index ?? this.index;
     const charCode = this.getCharCode(index);

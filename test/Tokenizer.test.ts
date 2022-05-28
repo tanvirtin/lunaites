@@ -51,5 +51,15 @@ describe("Tokenizer", () => {
       token = tokenizer.next();
       assertEquals(token?.value, "baz");
     });
+
+    it("should track line numbers being added", () => {
+      tokenizer = new Tokenizer("  \r  \n      local  \r\n  \n\r    bar  baz ");
+
+      tokenizer.next();
+      tokenizer.next();
+      tokenizer.next();
+
+      assertEquals(tokenizer.cursor.line, 4);
+    });
   });
 });
