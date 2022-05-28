@@ -6,7 +6,7 @@ interface ScannerOptions {
 
 class Scanner {
   // The index is intialized to -1, because first next will
-  // increment it to 1 as soon as it the function is invoked.
+  // incremented to 1 as soon as it the function is invoked.
   public index = -1;
   public line = 0;
   public lineStart = 0;
@@ -122,52 +122,42 @@ class Scanner {
   }
 
   // Mark the current index in memory.
-  mark(): void {
+  mark(): Scanner {
     this.markedIndex = this.index;
+
+    return this;
   }
 
-  // Increments the scanner by 1 or many.
-  increment(by?: number) {
-    if (by) {
-      this.index += by;
+  // Increments the internal scanner index by 1.
+  scan(by?: number): Scanner {
+    this.index += by ?? 1;
 
-      return this.index;
-    }
-
-    return ++this.index;
-  }
-
-  // Decrements the scanner by 1 or many.
-  decrement(by?: number) {
-    if (by) {
-      this.index -= by;
-
-      return this.index;
-    }
-
-    return --this.index;
+    return this;
   }
 
   // Eats away all whitespace characters and progresses the index.
-  eatWhitespace(): void {
+  eatWhitespace(): Scanner {
     while (!this.isOutOfBounds()) {
       if (this.isWhitespace()) {
-        this.increment();
+        this.scan();
       } else if (this.isLineTerminator()) {
-        // If we encountered a line terminator, we increment the line count by 1.
+        // If we encountered a line terminator, we scan the line count by 1.
         ++this.line;
         // If we encounter \n\r or \r\n it's a new line.
         if (this.isNewLine()) {
-          this.increment();
-          this.lineStart = this.increment();
+          this.scan().scan();
+          this.lineStart = this.index;
           // Otherwise we skip the \n or \r.
         } else {
-          this.lineStart = this.increment();
+          this.scan();
+          this.lineStart = this.index;
         }
       } else {
         break;
       }
     }
+
+    return this;
   }
 }
 

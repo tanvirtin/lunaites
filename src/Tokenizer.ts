@@ -34,7 +34,7 @@ class Tokenizer {
     this.scanner.mark();
 
     while (this.scanner.isAlphanumeric()) {
-      this.scanner.increment();
+      this.scanner.scan();
     }
 
     return {
@@ -47,7 +47,7 @@ class Tokenizer {
   }
 
   tokenize(): Token | void {
-    this.scanner.increment();
+    this.scanner.scan();
     // All whitespace noise is eaten away as they have no semantic value.
     this.scanner.eatWhitespace();
 

@@ -26,19 +26,6 @@ describe("Tokenizer", () => {
       assert(tokenizer.scanner.isOutOfBounds());
     });
 
-    it("returns a token when an identifier is found", () => {
-      tokenizer = new Tokenizer("          local      bar  baz ");
-
-      let token = tokenizer.tokenize();
-      assertEquals(token?.value, "local");
-
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "bar");
-
-      token = tokenizer.tokenize();
-      assertEquals(token?.value, "baz");
-    });
-
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
       tokenizer = new Tokenizer("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
@@ -70,6 +57,19 @@ describe("Tokenizer", () => {
 
       tokenizer.tokenize();
       assertEquals(tokenizer.scanner.lineStart, 25);
+    });
+
+    it("returns a token when an identifier is found", () => {
+      tokenizer = new Tokenizer("          local      bar  baz ");
+
+      let token = tokenizer.tokenize();
+      assertEquals(token?.value, "local");
+
+      token = tokenizer.tokenize();
+      assertEquals(token?.value, "bar");
+
+      token = tokenizer.tokenize();
+      assertEquals(token?.value, "baz");
     });
   });
 });
