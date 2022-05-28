@@ -1,6 +1,8 @@
-import { Feature } from "./Lexer.ts";
-
 // Please refer to the https://www.asciitable.com/ for the char codes.
+
+interface ScannerOptions {
+  extendedIdentifiers: boolean;
+}
 
 class Scanner {
   // The index is intialized to -1, because first next will
@@ -10,17 +12,21 @@ class Scanner {
   public lineStart = 0;
   public markedIndex = 0;
   private source = "";
-  private feature: Feature;
+  private options: ScannerOptions = {
+    extendedIdentifiers: true,
+  };
 
-  constructor(source: string, feature: Feature) {
+  constructor(source: string, options?: ScannerOptions) {
     this.source = source;
-    this.feature = feature;
+    this.options = {
+      ...this.options,
+      ...(options ?? {}),
+    };
   }
 
   // ' '
   isWhitespace(index?: number): boolean {
-    index = index ?? this.index;
-    const charCode = this.getCharCode(index);
+    const charCode = this.getCharCode(index ?? this.index);
 
     return charCode === 9 || charCode === 32 || charCode === 0xB ||
       charCode === 0xC;
@@ -28,16 +34,14 @@ class Scanner {
 
   // \n
   isLineFeed(index?: number): boolean {
-    index = index ?? this.index;
-    const charCode = this.getCharCode(index);
+    const charCode = this.getCharCode(index ?? this.index);
 
     return charCode === 10;
   }
 
   // \r
   isCarriageReturn(index?: number): boolean {
-    index = index ?? this.index;
-    const charCode = this.getCharCode(index);
+    const charCode = this.getCharCode(index ?? this.index);
 
     return charCode === 13;
   }
@@ -59,28 +63,25 @@ class Scanner {
 
   // [0-9]
   isDigit(index?: number): boolean {
-    index = index ?? this.index;
-    const charCode = this.getCharCode(index);
+    const charCode = this.getCharCode(index ?? this.index);
 
     return charCode >= 48 && charCode <= 57;
   }
 
   // Extended alphabets starting  ending in ÿ
   isExtendedAlphabets(index?: number): boolean {
-    index = index ?? this.index;
-    const charCode = this.getCharCode(index);
+    const charCode = this.getCharCode(index ?? this.index);
 
     return charCode >= 128;
   }
 
   // Alphabets
   isAlphabet(index?: number): boolean {
-    index = index ?? this.index;
-    const charCode = this.getCharCode(index);
+    const charCode = this.getCharCode(index ?? this.index);
 
     return ((charCode >= 65 && charCode <= 90) ||
       (charCode >= 97 && charCode <= 122) || 95 === charCode) ||
-      (this.feature.extendedIdentifiers && this.isExtendedAlphabets(index) ||
+      (this.options.extendedIdentifiers && this.isExtendedAlphabets(index) ||
         false);
   }
 
@@ -107,14 +108,14 @@ class Scanner {
   }
 
   getText(markedIndex?: number, index?: number): string {
-    markedIndex = this.markedIndex ?? this.markedIndex;
+    markedIndex = markedIndex ?? this.markedIndex;
     index = index ?? this.index;
 
     return this.source.slice(markedIndex, index);
   }
 
   getRange(markedIndex?: number, index?: number): number[] {
-    markedIndex = this.markedIndex ?? this.markedIndex;
+    markedIndex = markedIndex ?? this.markedIndex;
     index = index ?? this.index;
 
     return [markedIndex, index];
@@ -171,3 +172,4 @@ class Scanner {
 }
 
 export { Scanner };
+export type { ScannerOptions };

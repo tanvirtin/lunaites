@@ -11,8 +11,13 @@ class Tokenizer {
   };
 
   constructor(source: string, feature?: Feature) {
-    this.feature = feature ?? this.feature;
-    this.scanner = new Scanner(source, this.feature);
+    this.feature = {
+      ...this.feature,
+      ...(feature ?? {}),
+    };
+    this.scanner = new Scanner(source, {
+      extendedIdentifiers: this.feature.extendedIdentifiers ?? true,
+    });
   }
 
   tokenizeEOF(): Token {
