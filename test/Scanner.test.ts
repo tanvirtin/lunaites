@@ -3,7 +3,7 @@ import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
   assert,
   assertEquals,
-  assertThrows
+  assertThrows,
 } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("Scanner", () => {
@@ -296,7 +296,7 @@ describe("Scanner", () => {
       scanner.scan();
       scanner.mark();
 
-      assertEquals(scanner.markedIndex, 1);
+      assertEquals(scanner.getRange(), [1, 1]);
     });
   });
 

@@ -8,7 +8,7 @@ class Scanner {
   public index = 0;
   public line = 0;
   public lineStart = 0;
-  public markedIndex = 0;
+  private markedIndex = 0;
   private source = "";
   private options: ScannerOptions = {
     extendedIdentifiers: true,
@@ -47,7 +47,7 @@ class Scanner {
 
   // \r
   isCarriageReturn(index?: number): boolean {
-    index = index ?? this.index
+    index = index ?? this.index;
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -77,7 +77,7 @@ class Scanner {
 
   // [0-9]
   isDigit(index?: number): boolean {
-index = index ?? this.index
+    index = index ?? this.index;
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -88,7 +88,7 @@ index = index ?? this.index
 
   // Extended alphabets starting  ending in ÿ
   isExtendedAlphabets(index?: number): boolean {
-    index = index ?? this.index
+    index = index ?? this.index;
 
     if (this.isOutOfBounds(index)) return false;
 
@@ -99,7 +99,8 @@ index = index ?? this.index
 
   // Alphabets
   isAlphabet(index?: number): boolean {
-    index = index ?? this.index
+    index = index ?? this.index;
+
     if (this.isOutOfBounds(index)) return false;
 
     const charCode = this.getCharCode(index);
@@ -128,7 +129,7 @@ index = index ?? this.index
 
   // Returns the current char under scanner.
   getChar(index?: number): string {
-    index = index ?? this.index
+    index = index ?? this.index;
 
     if (index >= this.source.length || index < 0) {
       throw new Error('"index" is out of range');
@@ -139,7 +140,7 @@ index = index ?? this.index
 
   // Returns the current char code under scanner.
   getCharCode(index?: number): number {
-    index = index ?? this.index
+    index = index ?? this.index;
 
     if (index >= this.source.length || index < 0) {
       throw new Error('"index" is out of range');
@@ -151,10 +152,9 @@ index = index ?? this.index
   // Returns the current range from marked index to
   // current index in an array or a specified range.
   getText(markedIndex?: number, index?: number): string {
+    const length = this.source.length;
     markedIndex = markedIndex ?? this.markedIndex;
     index = index ?? this.index;
-
-    const length = this.source.length
 
     if (markedIndex >= length || markedIndex < 0) {
       throw new Error('"markedIndex" is out of range');
@@ -186,7 +186,7 @@ index = index ?? this.index
       throw new Error('"markedIndex" is out of range');
     }
 
-    if (markedIndex >= index) {
+    if (markedIndex > index) {
       throw new Error('"markedIndex" is greater than "index"');
     }
 

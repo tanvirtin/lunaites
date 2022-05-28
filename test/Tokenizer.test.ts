@@ -3,7 +3,6 @@ import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
   assert,
   assertEquals,
-  assertThrows
 } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("Tokenizer", () => {
@@ -48,7 +47,7 @@ describe("Tokenizer", () => {
       assertEquals(token?.value, "baz");
     });
 
-   it("does not recognize identifiers that start with digits", () => {
+    it("does not recognize identifiers that start with digits", () => {
       tokenizer = new Tokenizer("          3local      bar  3baz ");
 
       let token = tokenizer.tokenize();
