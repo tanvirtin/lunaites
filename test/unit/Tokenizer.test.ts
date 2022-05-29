@@ -320,6 +320,24 @@ describe("Tokenizer", () => {
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
+      it('when identifier is "3.14159265359"', () => {
+        tokenizer = new Tokenizer("3.14159265359");
+
+        const token = tokenizer.tokenize();
+
+        assertEquals(token?.value, 3.14159265359);
+        assertEquals(token?.type, TokenType.NumericLiteral);
+      });
+
+      it('when identifier is "314159265359."', () => {
+        tokenizer = new Tokenizer("314159265359.");
+
+        const token = tokenizer.tokenize();
+
+        assertEquals(token?.value, 314159265359);
+        assertEquals(token?.type, TokenType.NumericLiteral);
+      });
+
       it('when identifier is "1e1"', () => {
         tokenizer = new Tokenizer("1e1");
 

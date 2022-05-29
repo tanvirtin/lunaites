@@ -52,35 +52,33 @@ class Tokenizer {
 
   // All lua keywords
   private isKeyword(text: string) {
+    const keywords: string[] = [
+      "do",
+      "if",
+      "in",
+      "or",
+      "and",
+      "end",
+      "for",
+      "not",
+      "else",
+      "then",
+      "break",
+      "local",
+      "until",
+      "while",
+      "elseif",
+      "repeat",
+      "return",
+      "function",
+    ];
     const { feature } = this;
 
-    // Easier to narrow down by length of the string.
-    switch (text.length) {
-      case 2:
-        return text === "do" || text === "if" || text === "in" || text === "or";
-      case 3:
-        return text == "and" || text === "end" || text === "for" ||
-          text === "not";
-      case 4:
-        if (text === "else" || text === "then") {
-          return true;
-        }
-
-        if (feature.labels && !feature.contextualGoto) {
-          return (text === "goto");
-        }
-
-        return false;
-      case 5:
-        return text === "break" || text === "local" || text === "until" ||
-          text === "while";
-      case 6:
-        return text === "elseif" || text === "repeat" || text === "return";
-      case 8:
-        return text === "function";
+    if (feature.labels && !feature.contextualGoto) {
+      keywords.push("goto")
     }
 
-    return false;
+    return keywords.some((keyword) => text === keyword);
   }
 
   private tokenizeEOF(): Token {
@@ -96,7 +94,7 @@ class Tokenizer {
   private tokenizeIdentifier(): Token {
     const { scanner } = this;
 
-    scanner.mark().scanWhile(scanner.isAlphanumeric)
+    scanner.mark().scanWhile(scanner.isAlphanumeric);
 
     let type = TokenType.Identifier;
     let value: null | string | boolean = scanner.getText();
@@ -125,7 +123,7 @@ class Tokenizer {
     const { scanner } = this;
 
     // Mark the position and scan until we no longer encounter a digit.
-    scanner.mark().scanWhile(scanner.isDigit)
+    scanner.mark().scanWhile(scanner.isDigit);
 
     // If we are here we probably encountered something not a digit.
     // If it is a dot notation then we skip over it and scan some more.
