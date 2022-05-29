@@ -5,5 +5,17 @@ Lua AST
 ### Tests
 
 ```
-deno test --allow-read
+make tests
+```
+
+### Check format
+
+```
+make fmt
+```
+
+### Check lint
+
+```
+make lint
 ```
