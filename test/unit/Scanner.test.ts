@@ -184,50 +184,33 @@ describe("Scanner", () => {
   });
 
   describe("isAlphabet", () => {
-    describe("with extendentIdentifiers set to true", () => {
-      it("should return true if the char being pointed at is an extended alphabet", () => {
-        assert((new Scanner("ž", {
-          extendedIdentifiers: true,
-        })).isAlphabet(0));
-      });
-
-      it("should return true if the char being pointed at is an alphabet", () => {
-        assert((new Scanner("a", {
-          extendedIdentifiers: true,
-        })).isAlphabet(0));
-      });
-
-      it("should return false if the char being pointed at is not an alphabet", () => {
-        assert(
-          !(new Scanner("1", {
-            extendedIdentifiers: true,
-          })).isAlphabet(0),
-        );
-      });
+    it("should return true if the char being pointed at is an alphabet", () => {
+      assert((new Scanner("a")).isAlphabet(0));
     });
 
-    describe("with extendentIdentifiers set to false", () => {
-      it("should return false if the char being pointed at is an extended alphabet", () => {
-        assert(
-          !(new Scanner("ž", {
-            extendedIdentifiers: false,
-          })).isAlphabet(0),
-        );
-      });
+    it("should return false if the char being pointed at is not an alphabet", () => {
+      assert(
+        !(new Scanner("1")).isAlphabet(0),
+      );
+    });
+  });
 
-      it("should return true if the char being pointed at is an alphabet", () => {
-        assert((new Scanner("a", {
-          extendedIdentifiers: false,
-        })).isAlphabet(0));
-      });
+  describe("isHexDigit", () => {
+    it("should return true if the char being pointed at a hex digit", () => {
+      assert((new Scanner("1")).isHexDigit(0));
+      assert((new Scanner("2")).isHexDigit(0));
+      assert((new Scanner("8")).isHexDigit(0));
+      assert((new Scanner("9")).isHexDigit(0));
+      assert((new Scanner("A")).isHexDigit(0));
+      assert((new Scanner("a")).isHexDigit(0));
+      assert((new Scanner("z")).isHexDigit(0));
+      assert((new Scanner("Z")).isHexDigit(0));
+    });
 
-      it("should return false if the char being pointed at is not an alphabet", () => {
-        assert(
-          !(new Scanner("1", {
-            extendedIdentifiers: false,
-          })).isAlphabet(0),
-        );
-      });
+    it("should return false if the char being pointed at is not a hex digit", () => {
+      assert(!(new Scanner("ž")).isHexDigit(0));
+      assert(!(new Scanner(";")).isHexDigit(0));
+      assert(!(new Scanner("\n")).isHexDigit(0));
     });
   });
 

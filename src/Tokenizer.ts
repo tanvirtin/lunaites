@@ -136,6 +136,7 @@ class Tokenizer {
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
 
     // We check for exponent notation using the letter "e" or "E".
+    // The letters "e" and "E" are considered to be part of the numeric literal.
     if (scanner.isCharCode(69) || scanner.isCharCode(101)) {
       scanner.scan();
 

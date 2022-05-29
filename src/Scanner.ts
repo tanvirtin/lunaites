@@ -125,6 +125,8 @@ class Scanner {
 
   // Extended alphabets starting  ending in ÿ
   isExtendedAlphabets(index?: number): boolean {
+    if (!this.options.extendedIdentifiers) return false;
+
     index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
@@ -134,7 +136,7 @@ class Scanner {
     return charCode >= 128;
   }
 
-  // Alphabets
+  // Alphabets [A-Z, a-z]
   isAlphabet(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -143,9 +145,16 @@ class Scanner {
     const charCode = this.getCharCode(index);
 
     return ((charCode >= 65 && charCode <= 90) ||
-      (charCode >= 97 && charCode <= 122) || 95 === charCode) ||
-      (this.options.extendedIdentifiers && this.isExtendedAlphabets(index) ||
-        false);
+      (charCode >= 97 && charCode <= 122) || 95 === charCode);
+  }
+
+  // [0-9], [A-Z, a-z]
+  isHexDigit(index?: number) {
+    index = this.sanitizeIndex(index);
+
+    if (this.isOutOfBounds(index)) return false;
+
+    return this.isDigit(index) || this.isAlphabet(index);
   }
 
   // [0-9] or Alphabets
@@ -154,7 +163,8 @@ class Scanner {
 
     if (this.isOutOfBounds(index)) return false;
 
-    return this.isDigit(index) || this.isAlphabet(index);
+    return this.isDigit(index) || this.isAlphabet(index) ||
+      this.isExtendedAlphabets(index);
   }
 
   // When scanner goes out of bounds of the source.
