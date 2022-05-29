@@ -1,4 +1,4 @@
-import { Scanner } from "../src/Scanner.ts";
+import { Scanner } from "../../src/Scanner.ts";
 import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
   assert,
