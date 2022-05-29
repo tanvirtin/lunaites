@@ -148,13 +148,16 @@ class Scanner {
       (charCode >= 97 && charCode <= 122) || 95 === charCode);
   }
 
-  // [0-9], [A-Z, a-z]
+  // [0-9], [A-f, a-f]
   isHexDigit(index?: number) {
     index = this.sanitizeIndex(index);
 
     if (this.isOutOfBounds(index)) return false;
 
-    return this.isDigit(index) || this.isAlphabet(index);
+    const charCode = this.getCharCode(index);
+
+    return this.isDigit(index) || (charCode >= 65 && charCode <= 70) ||
+      (charCode >= 97 && charCode <= 102);
   }
 
   // [0-9] or Alphabets

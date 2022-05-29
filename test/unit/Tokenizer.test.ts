@@ -289,7 +289,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 1);
+        assertEquals(token?.value, "1");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -298,7 +298,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 0.9);
+        assertEquals(token?.value, ".9");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -307,7 +307,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 3.3);
+        assertEquals(token?.value, "3.3");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -316,7 +316,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 10.3);
+        assertEquals(token?.value, "10.3");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -325,7 +325,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 3.14159265359);
+        assertEquals(token?.value, "3.14159265359");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -334,7 +334,16 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 314159265359);
+        assertEquals(token?.value, "314159265359.");
+        assertEquals(token?.type, TokenType.NumericLiteral);
+      });
+
+      it('when identifier is "3.3e103e3"', () => {
+        tokenizer = new Tokenizer("3.3e103e3");
+
+        const token = tokenizer.tokenize();
+
+        assertEquals(token?.value, "3.3e103");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -343,7 +352,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 10);
+        assertEquals(token?.value, "1e1");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -352,7 +361,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 10);
+        assertEquals(token?.value, "1E1");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -361,7 +370,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 1000000000);
+        assertEquals(token?.value, "1e+9");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -370,7 +379,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 0.1);
+        assertEquals(token?.value, "1e-1");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -379,7 +388,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 343000000000);
+        assertEquals(token?.value, "34.3e10");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -388,7 +397,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 15);
+        assertEquals(token?.value, "0xf");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -397,7 +406,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 15);
+        assertEquals(token?.value, "0xf.");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -406,7 +415,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 15.1875);
+        assertEquals(token?.value, "0xf.3");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -415,7 +424,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 30);
+        assertEquals(token?.value, "0xfp1");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -424,7 +433,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 30);
+        assertEquals(token?.value, "0xfp+1");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -433,7 +442,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 7.5);
+        assertEquals(token?.value, "0xfp-1");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
@@ -442,7 +451,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, 7680);
+        assertEquals(token?.value, "0xFP+9");
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
     });

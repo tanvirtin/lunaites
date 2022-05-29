@@ -119,6 +119,57 @@ class Tokenizer {
     };
   }
 
+  private tokenizeHexadecimalNumericLiteral(): Token {
+    let encounteredDotNotation = false;
+    const { scanner } = this;
+
+    // Put a mark on the scanner before we progress it.
+    scanner.mark();
+
+    // Since we are in this function, we know we are dealing with hexadecimal numeric literals.
+    // This means we can successfully acknowledge 0 and "x".
+    scanner.scan().scan();
+
+    // Hexadecimal numbers can be represented as 0x.34
+    if (scanner.isDotNotation()) {
+      encounteredDotNotation = true;
+      // If we encounter a dot notation we go over it as we know this can be expected.
+      scanner.scan();
+    }
+
+    scanner.scanWhile(scanner.isHexDigit);
+
+    // If we already "." it cannot appear again.
+    if (!encounteredDotNotation && scanner.isDotNotation()) {
+      encounteredDotNotation = true;
+      // If we encounter a dot notation we go over it as we know this can be expected.
+      scanner.scan();
+    }
+
+    scanner.scanWhile(scanner.isHexDigit);
+
+    // We check for exponents, which is denoted by the "p" or "P" symbol.
+    // NOTE: "e" or "E" is a hex digit.
+    if (scanner.isCharCode(80) || scanner.isCharCode(112)) {
+      scanner.scan();
+
+      // +/- gets recognized as well since it's tied to exponents.
+      if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
+        scanner.scan();
+      }
+
+      scanner.scanWhile(scanner.isDigit);
+    }
+
+    return {
+      type: TokenType.NumericLiteral,
+      value: scanner.getText(),
+      range: scanner.getRange(),
+      line: scanner.line,
+      lineStart: scanner.lineStart,
+    };
+  }
+
   private tokenizeDecimalNumericLiteral(): Token {
     const { scanner } = this;
 
@@ -126,7 +177,7 @@ class Tokenizer {
     scanner.mark().scanWhile(scanner.isDigit);
 
     // If we are here we probably encountered something not a digit.
-    // If it is a dot notation then we skip over it and scan some more
+    // If it is a dot notation then we acknowledge over it and scan some more
     // only if it's a digit.
     if (scanner.isDotNotation()) {
       scanner.scan().scanWhile(scanner.isDigit);
@@ -140,8 +191,8 @@ class Tokenizer {
     if (scanner.isCharCode(69) || scanner.isCharCode(101)) {
       scanner.scan();
 
-      // If we encounter it after "e" or "E", it makes sense to just skip
-      // the tokens. Deno can parse the numbers comfortably.
+      // If we encounter a "+" or "-", we can just continue our
+      // scanning as it's part of the semantics.
       if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
         scanner.scan();
       }
@@ -151,7 +202,7 @@ class Tokenizer {
 
     return {
       type: TokenType.NumericLiteral,
-      value: parseFloat(scanner.getText()),
+      value: scanner.getText(),
       range: scanner.getRange(),
       line: scanner.line,
       lineStart: scanner.lineStart,
@@ -159,6 +210,11 @@ class Tokenizer {
   }
 
   private tokenizeNumericLiteral(): Token {
+    // If it's a hexadecimal it starts with "0x" or "0X".
+    if (this.scanner.isHexadecimal()) {
+      return this.tokenizeHexadecimalNumericLiteral();
+    }
+
     return this.tokenizeDecimalNumericLiteral();
   }
 

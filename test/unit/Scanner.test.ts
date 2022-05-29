@@ -199,18 +199,34 @@ describe("Scanner", () => {
     it("should return true if the char being pointed at a hex digit", () => {
       assert((new Scanner("1")).isHexDigit(0));
       assert((new Scanner("2")).isHexDigit(0));
+      assert((new Scanner("3")).isHexDigit(0));
+      assert((new Scanner("4")).isHexDigit(0));
+      assert((new Scanner("5")).isHexDigit(0));
+      assert((new Scanner("6")).isHexDigit(0));
+      assert((new Scanner("7")).isHexDigit(0));
       assert((new Scanner("8")).isHexDigit(0));
       assert((new Scanner("9")).isHexDigit(0));
       assert((new Scanner("A")).isHexDigit(0));
+      assert((new Scanner("B")).isHexDigit(0));
+      assert((new Scanner("C")).isHexDigit(0));
+      assert((new Scanner("D")).isHexDigit(0));
+      assert((new Scanner("E")).isHexDigit(0));
+      assert((new Scanner("F")).isHexDigit(0));
       assert((new Scanner("a")).isHexDigit(0));
-      assert((new Scanner("z")).isHexDigit(0));
-      assert((new Scanner("Z")).isHexDigit(0));
+      assert((new Scanner("b")).isHexDigit(0));
+      assert((new Scanner("c")).isHexDigit(0));
+      assert((new Scanner("d")).isHexDigit(0));
+      assert((new Scanner("e")).isHexDigit(0));
+      assert((new Scanner("f")).isHexDigit(0));
     });
 
     it("should return false if the char being pointed at is not a hex digit", () => {
       assert(!(new Scanner("ž")).isHexDigit(0));
       assert(!(new Scanner(";")).isHexDigit(0));
       assert(!(new Scanner("\n")).isHexDigit(0));
+      assert(!(new Scanner("z")).isHexDigit(0));
+      assert(!(new Scanner("g")).isHexDigit(0));
+      assert(!(new Scanner("G")).isHexDigit(0));
     });
   });
 
