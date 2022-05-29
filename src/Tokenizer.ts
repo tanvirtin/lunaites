@@ -28,6 +28,8 @@ interface Feature {
   extendedIdentifiers?: boolean;
 }
 
+// References: https://www.ibm.com/docs/en/i/7.3?topic=tokens-literals
+
 class Tokenizer {
   public scanner: Scanner;
   private feature: Feature = {
@@ -92,14 +94,12 @@ class Tokenizer {
   }
 
   private tokenizeIdentifier(): Token {
-    this.scanner.mark();
+    const { scanner } = this;
 
-    while (this.scanner.isAlphanumeric()) {
-      this.scanner.scan();
-    }
+    scanner.mark().scanWhile(scanner.isAlphanumeric)
 
     let type = TokenType.Identifier;
-    let value: null | string | boolean = this.scanner.getText();
+    let value: null | string | boolean = scanner.getText();
 
     // Type and value depends on what type of identifier we are dealing with.
     if (this.isKeyword(value)) {
@@ -115,44 +115,60 @@ class Tokenizer {
     return {
       type,
       value,
-      range: this.scanner.getRange(),
-      line: this.scanner.line,
-      lineStart: this.scanner.lineStart,
+      range: scanner.getRange(),
+      line: scanner.line,
+      lineStart: scanner.lineStart,
     };
   }
 
-  private tokenizeNumericLiteral(): Token {
-    this.scanner.mark();
+  private tokenizeDecimalNumericLiteral(): Token {
+    const { scanner } = this;
 
-    // As long as there is a number we seen in the horizon we advance.
-    while (this.scanner.isDigit()) {
-      this.scanner.scan();
+    // Mark the position and scan until we no longer encounter a digit.
+    scanner.mark().scanWhile(scanner.isDigit)
+
+    // If we are here we probably encountered something not a digit.
+    // If it is a dot notation then we skip over it and scan some more.
+    if (scanner.isDotNotation()) {
+      scanner.scan().scanWhile(scanner.isDigit);
     }
 
     return {
       type: TokenType.NumericLiteral,
-      value: this.scanner.getText(),
-      range: this.scanner.getRange(),
-      line: this.scanner.line,
-      lineStart: this.scanner.lineStart,
+      value: parseFloat(scanner.getText()),
+      range: scanner.getRange(),
+      line: scanner.line,
+      lineStart: scanner.lineStart,
     };
   }
 
-  tokenize(): Token | void {
-    // All whitespace noise is eaten away as they have no semantic value.
-    this.scanner.comsumeWhitespace();
+  private tokenizeNumericLiteral(): Token {
+    return this.tokenizeDecimalNumericLiteral();
+  }
 
-    if (this.scanner.isOutOfBounds()) {
+  tokenize(): Token | void {
+    const { scanner } = this;
+
+    // All whitespace noise is eaten away as they have no semantic value.
+    scanner.comsumeWhitespace();
+
+    if (scanner.isOutOfBounds()) {
       return this.tokenizeEOF();
     }
 
-    if (this.scanner.isDigit()) {
+    if (scanner.isDigit()) {
       return this.tokenizeNumericLiteral();
+    }
+
+    if (scanner.isDotNotation()) {
+      if (scanner.isDigit(scanner.index + 1)) {
+        return this.tokenizeDecimalNumericLiteral();
+      }
     }
 
     // If the word is an alphabet it probably is an identifier.
     // NOTE: lua identifiers do not start with numbers.
-    if (this.scanner.isAlphabet()) {
+    if (scanner.isAlphabet()) {
       return this.tokenizeIdentifier();
     }
   }

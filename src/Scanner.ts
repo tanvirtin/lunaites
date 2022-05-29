@@ -26,7 +26,16 @@ class Scanner {
     return index ?? this.index;
   }
 
-  // ' '
+  // Verify if a given charcode is the one being pointed at.
+  isCharCode(charCode: number, index?: number): boolean {
+    index = this.sanitizeIndex(index);
+
+    if (this.isOutOfBounds(index)) return false;
+
+    return this.getCharCode(index) === charCode;
+  }
+
+  // '.'
   isDotNotation(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -90,6 +99,19 @@ class Scanner {
       (this.isCarriageReturn(index) && this.isLineFeed(index + 1));
   }
 
+  // A hexadecimal integer literal begins with the 0 digit followed by either an x or X,
+  // followed by any combination of the digits 0 through 9 and the letters a through f or A through F.
+  isHexadecimal(index?: number): boolean {
+    index = this.sanitizeIndex(index);
+
+    if (this.isOutOfBounds(index)) return false;
+
+    const charCode = this.getCharCode(index);
+    const nextCharCode = this.getCharCode(index + 1);
+
+    return charCode == 48 && (nextCharCode === 120 || nextCharCode === 88);
+  }
+
   // [0-9]
   isDigit(index?: number): boolean {
     index = this.sanitizeIndex(index);
@@ -146,10 +168,6 @@ class Scanner {
   getChar(index?: number): string {
     index = this.sanitizeIndex(index);
 
-    if (index >= this.source.length || index < 0) {
-      throw new Error('"index" is out of range');
-    }
-
     return this.source[index];
   }
 
@@ -157,31 +175,14 @@ class Scanner {
   getCharCode(index?: number): number {
     index = this.sanitizeIndex(index);
 
-    if (index >= this.source.length || index < 0) {
-      throw new Error('"index" is out of range');
-    }
-
     return this.source.charCodeAt(index);
   }
 
   // Returns the current range from marked index to
   // current index in an array or a specified range.
   getText(markedIndex?: number, index?: number): string {
-    const length = this.source.length;
     markedIndex = markedIndex ?? this.markedIndex;
     index = this.sanitizeIndex(index);
-
-    if (markedIndex >= length || markedIndex < 0) {
-      throw new Error('"markedIndex" is out of range');
-    }
-
-    if (index >= length + 1 || index < 0) {
-      throw new Error('"markedIndex" is out of range');
-    }
-
-    if (markedIndex >= index) {
-      throw new Error('"markedIndex" is greater than "index"');
-    }
 
     return this.source.slice(markedIndex, index);
   }
@@ -191,19 +192,6 @@ class Scanner {
   getRange(markedIndex?: number, index?: number): number[] {
     markedIndex = markedIndex ?? this.markedIndex;
     index = this.sanitizeIndex(index);
-    const length = this.source.length;
-
-    if (markedIndex >= length || markedIndex < 0) {
-      throw new Error('"markedIndex" is out of range');
-    }
-
-    if (index >= length + 1 || index < 0) {
-      throw new Error('"markedIndex" is out of range');
-    }
-
-    if (markedIndex > index) {
-      throw new Error('"markedIndex" is greater than "index"');
-    }
 
     return [markedIndex, index];
   }
@@ -219,6 +207,14 @@ class Scanner {
   scan(by?: number): Scanner {
     // 0 gets ignored and treated as 1 which is why we use || and not ??.
     this.index += by || 1;
+
+    return this;
+  }
+
+  scanWhile(cond: () => boolean): Scanner {
+    while (cond.call(this)) {
+      this.scan();
+    }
 
     return this;
   }

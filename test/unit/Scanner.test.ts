@@ -3,7 +3,6 @@ import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
   assert,
   assertEquals,
-  assertThrows,
 } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("Scanner", () => {
@@ -11,9 +10,7 @@ describe("Scanner", () => {
 
   describe("scan", () => {
     it("increments the current scanner index by 1", () => {
-      scanner = new Scanner("hello world");
-
-      assertEquals(scanner.index, 0);
+      assertEquals((new Scanner("hello world")).index, 0);
     });
 
     it("increments the current scanner index by a specific number", () => {
@@ -28,59 +25,81 @@ describe("Scanner", () => {
     });
   });
 
+  describe("isCharCode", () => {
+    it("should return true if the char being pointed at is a the given char code", () => {
+      assert((new Scanner("E")).isCharCode(69, 0));
+      assert((new Scanner("e")).isCharCode(101, 0));
+    });
+
+    it("should return false if the char being pointed at is not a given char code", () => {
+      assert(!(new Scanner("E")).isCharCode(68, 0));
+      assert(!(new Scanner("e")).isCharCode(100, 0));
+    });
+  });
+
+  describe("isHexadecimal", () => {
+    it("should return true if the char being pointed at is a hexadecimal", () => {
+      assert((new Scanner("0x3b24")).isHexadecimal(0));
+      assert((new Scanner("0X3b24")).isHexadecimal(0));
+      assert((new Scanner("0XF96")).isHexadecimal(0));
+      assert((new Scanner("0x21")).isHexadecimal(0));
+      assert((new Scanner("0x3AA")).isHexadecimal(0));
+      assert((new Scanner("0X29b")).isHexadecimal(0));
+      assert((new Scanner("0X4bD")).isHexadecimal(0));
+    });
+
+    it("should return false if the char being pointed at is not a hexadecimal", () => {
+      assert(!(new Scanner("03b24")).isHexadecimal(0));
+      assert(!(new Scanner("0")).isHexadecimal(0));
+      assert(!(new Scanner("01")).isHexadecimal(0));
+      assert(!(new Scanner(" 0X29b")).isHexadecimal(0));
+      assert(!(new Scanner(" 0x29b")).isHexadecimal(0));
+      assert(!(new Scanner("0 x29b")).isHexadecimal(0));
+      assert(!(new Scanner("0 X29c")).isHexadecimal(0));
+      assert(!(new Scanner("")).isHexadecimal(0));
+    });
+  });
+
   describe("isDotNotation", () => {
     it("should return true if the char being pointed at is a whitespace", () => {
-      scanner = new Scanner(".");
-
-      assert(scanner.isDotNotation(0));
+      assert((new Scanner(".")).isDotNotation(0));
+      assert((new Scanner("..")).isDotNotation(0));
+      assert((new Scanner(". ")).isDotNotation(0));
     });
 
     it("should return false if the char being pointed at is not a whitespace", () => {
-      scanner = new Scanner("\n .");
-
-      assert(!scanner.isDotNotation(0));
+      assert(!(new Scanner("\n .")).isDotNotation(0));
+      assert(!(new Scanner(" .")).isDotNotation(0));
     });
   });
 
   describe("isWhitespace", () => {
     it("should return true if the char being pointed at is a whitespace", () => {
-      scanner = new Scanner(" ");
-
-      assert(scanner.isWhitespace(0));
+      assert((new Scanner(" ")).isWhitespace(0));
     });
 
     it("should return false if the char being pointed at is not a whitespace", () => {
-      scanner = new Scanner("\n");
-
-      assert(!scanner.isWhitespace(0));
+      assert(!(new Scanner("\n")).isWhitespace(0));
     });
   });
 
   describe("isLineFeed", () => {
     it("should return true if the char being pointed at is line feed", () => {
-      scanner = new Scanner("\n");
-
-      assert(scanner.isLineFeed(0));
+      assert((new Scanner("\n")).isLineFeed(0));
     });
 
     it("should return false if the char being pointed at is line feed", () => {
-      scanner = new Scanner("\r");
-
-      assert(!scanner.isLineFeed(0));
+      assert(!(new Scanner("\r")).isLineFeed(0));
     });
   });
 
   describe("isCarriageReturn", () => {
     it("should return true if the char being pointed at is carriage return", () => {
-      scanner = new Scanner("\r");
-
-      assert(scanner.isCarriageReturn(0));
+      assert((new Scanner("\r")).isCarriageReturn(0));
     });
 
     it("should return false if the char being pointed at is carriage return", () => {
-      scanner = new Scanner("\n");
-
-      assert(!scanner.isCarriageReturn(0));
+      assert(!(new Scanner("\n")).isCarriageReturn(0));
     });
   });
 
@@ -127,82 +146,68 @@ describe("Scanner", () => {
 
   describe("isDigit", () => {
     it("should return true if the char being pointed at is a digit", () => {
-      scanner = new Scanner("3");
-
-      assert(scanner.isDigit(0));
+      assert((new Scanner("3")).isDigit(0));
     });
 
     it("should return false if the char being pointed at is not a digit", () => {
-      scanner = new Scanner("\n");
-
-      assert(!scanner.isDigit(0));
+      assert(!(new Scanner("\n")).isDigit(0));
     });
   });
 
   describe("isExtendedAlphabet", () => {
     it("should return true if the char being pointed at is an extended alphabet", () => {
-      scanner = new Scanner("œ");
-
-      assert(scanner.isExtendedAlphabets(0));
+      assert((new Scanner("œ")).isExtendedAlphabets(0));
     });
 
     it("should return false if the char being pointed at is not an extended alphabet", () => {
-      scanner = new Scanner("4");
-
-      assert(!scanner.isExtendedAlphabets(0));
+      assert(!(new Scanner("4")).isExtendedAlphabets(0));
     });
   });
 
   describe("isAlphabet", () => {
     describe("with extendentIdentifiers set to true", () => {
       it("should return true if the char being pointed at is an extended alphabet", () => {
-        scanner = new Scanner("ž", {
+        assert((new Scanner("ž", {
           extendedIdentifiers: true,
-        });
-
-        assert(scanner.isAlphabet(0));
+        })).isAlphabet(0));
       });
 
       it("should return true if the char being pointed at is an alphabet", () => {
-        scanner = new Scanner("a", {
+        assert((new Scanner("a", {
           extendedIdentifiers: true,
-        });
-
-        assert(scanner.isAlphabet(0));
+        })).isAlphabet(0));
       });
 
       it("should return false if the char being pointed at is not an alphabet", () => {
-        scanner = new Scanner("1", {
-          extendedIdentifiers: true,
-        });
-
-        assert(!scanner.isAlphabet(0));
+        assert(
+          !(new Scanner("1", {
+            extendedIdentifiers: true,
+          })).isAlphabet(0),
+        );
       });
     });
 
     describe("with extendentIdentifiers set to false", () => {
       it("should return false if the char being pointed at is an extended alphabet", () => {
-        scanner = new Scanner("ž", {
-          extendedIdentifiers: false,
-        });
-
-        assert(!scanner.isAlphabet(0));
+        assert(
+          !(new Scanner("ž", {
+            extendedIdentifiers: false,
+          })).isAlphabet(0),
+        );
       });
 
       it("should return true if the char being pointed at is an alphabet", () => {
-        scanner = new Scanner("a", {
+        assert((new Scanner("a", {
           extendedIdentifiers: false,
-        });
-
-        assert(scanner.isAlphabet(0));
+        })).isAlphabet(0));
       });
 
       it("should return false if the char being pointed at is not an alphabet", () => {
-        scanner = new Scanner("1", {
-          extendedIdentifiers: false,
-        });
-
-        assert(!scanner.isAlphabet(0));
+        assert(
+          !(new Scanner("1", {
+            extendedIdentifiers: false,
+          })).isAlphabet(0),
+        );
       });
     });
   });
@@ -333,7 +338,6 @@ describe("Scanner", () => {
       scanner.comsumeWhitespace();
 
       assert(scanner.isOutOfBounds());
-      assertThrows(() => scanner.getChar());
     });
 
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
