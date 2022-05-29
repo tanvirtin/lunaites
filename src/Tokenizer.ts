@@ -75,7 +75,7 @@ class Tokenizer {
     ];
 
     if (feature.labels && !feature.contextualGoto) {
-      keywords.push("goto")
+      keywords.push("goto");
     }
 
     return keywords.some((keyword) => text === keyword);
@@ -126,9 +126,26 @@ class Tokenizer {
     scanner.mark().scanWhile(scanner.isDigit);
 
     // If we are here we probably encountered something not a digit.
-    // If it is a dot notation then we skip over it and scan some more.
+    // If it is a dot notation then we skip over it and scan some more
+    // only if it's a digit.
     if (scanner.isDotNotation()) {
       scanner.scan().scanWhile(scanner.isDigit);
+    }
+
+    // After we are done with the code above we may have something like 3 or 3.14159265359.
+    // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
+
+    // We check for exponent notation using the letter "e" or "E".
+    if (scanner.isCharCode(69) || scanner.isCharCode(101)) {
+      scanner.scan();
+
+      // If we encounter it after "e" or "E", it makes sense to just skip
+      // the tokens. Deno can parse the numbers comfortably.
+      if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
+        scanner.scan();
+      }
+
+      scanner.scanWhile(scanner.isDigit);
     }
 
     return {

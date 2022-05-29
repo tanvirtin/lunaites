@@ -381,7 +381,7 @@ describe("Tokenizer", () => {
 
         assertEquals(token?.value, 343000000000);
         assertEquals(token?.type, TokenType.NumericLiteral);
-      })
+      });
 
       it('when identifier is "0xf"', () => {
         tokenizer = new Tokenizer("0xf");
