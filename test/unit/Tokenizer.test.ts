@@ -1,6 +1,9 @@
 import { Tokenizer, TokenType } from "../../src/Tokenizer.ts";
 import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
-import { assertEquals } from "https://deno.land/std@0.110.0/testing/asserts.ts";
+import {
+  assertEquals,
+  assertThrows,
+} from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
@@ -315,6 +318,21 @@ describe("Tokenizer", () => {
           assertEquals(token?.value, result);
           assertEquals(token?.type, TokenType.NumericLiteral);
         });
+      });
+    });
+
+    describe("throws correct errors", () => {
+      const testTable = {
+        "0x333pe": "[1:7] malformed number near '0x333p'",
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () =>
+          assertThrows(
+            () => (new Tokenizer(source)).tokenize(),
+            SyntaxError,
+            result,
+          ));
       });
     });
   });

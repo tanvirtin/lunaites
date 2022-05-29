@@ -6,8 +6,8 @@ interface ScannerOptions {
 
 class Scanner {
   public index = 0;
-  public line = 0;
-  public lineStart = 1;
+  public line = 1;
+  public lineStart = 0;
   private markedIndex = 0;
   private source = "";
   private options: ScannerOptions = {

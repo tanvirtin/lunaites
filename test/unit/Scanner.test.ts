@@ -386,7 +386,7 @@ describe("Scanner", () => {
 
       scanner.comsumeWhitespace();
 
-      assertEquals(scanner.line, 2);
+      assertEquals(scanner.line, 3);
     });
 
     it("should track line start positions", () => {

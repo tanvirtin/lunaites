@@ -1,5 +1,5 @@
 import { Scanner } from "./Scanner.ts";
-import { ErrorReporter } from './ErrorReporter.ts'
+import { ErrorReporter } from "./ErrorReporter.ts";
 
 enum TokenType {
   EOF = 1,
@@ -156,6 +156,10 @@ class Tokenizer {
       // +/- gets recognized as well since it's tied to exponents.
       if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
         scanner.scan();
+      }
+
+      if (!this.scanner.isDigit()) {
+        this.errorReporter.raiseMalformedNumber();
       }
 
       scanner.scanWhile(scanner.isDigit);
