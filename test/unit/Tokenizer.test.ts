@@ -284,175 +284,37 @@ describe("Tokenizer", () => {
     });
 
     describe("correctly tokenizes numeric literals", () => {
-      it('when identifier is "1"', () => {
-        tokenizer = new Tokenizer("1");
+      const testTable = {
+        "1": "1",
+        ".9": ".9",
+        "3.3": "3.3",
+        "10.3": "10.3",
+        "3.14159265359": "3.14159265359",
+        "314159265359.": "314159265359.",
+        "3.3e103e3": "3.3e103",
+        "1e1": "1e1",
+        "1E1": "1E1",
+        "1e+9": "1e+9",
+        "1e-1": "1e-1",
+        "34.3e10": "34.3e10",
+        "0xf": "0xf",
+        "0xf.": "0xf.",
+        "0xf.3": "0xf.3",
+        "0xfp1": "0xfp1",
+        "0xfp+1": "0xfp+1",
+        "0xfp-1": "0xfp-1",
+        "0xFP+9": "0xFP+9",
+      };
 
-        const token = tokenizer.tokenize();
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
 
-        assertEquals(token?.value, "1");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
+          const token = tokenizer.tokenize();
 
-      it('when identifier is ".9"', () => {
-        tokenizer = new Tokenizer(".9");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, ".9");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "3.3"', () => {
-        tokenizer = new Tokenizer("3.3");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "3.3");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "10.3"', () => {
-        tokenizer = new Tokenizer("10.3");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "10.3");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "3.14159265359"', () => {
-        tokenizer = new Tokenizer("3.14159265359");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "3.14159265359");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "314159265359."', () => {
-        tokenizer = new Tokenizer("314159265359.");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "314159265359.");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "3.3e103e3"', () => {
-        tokenizer = new Tokenizer("3.3e103e3");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "3.3e103");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "1e1"', () => {
-        tokenizer = new Tokenizer("1e1");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "1e1");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "1E1"', () => {
-        tokenizer = new Tokenizer("1E1");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "1E1");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "1e+9"', () => {
-        tokenizer = new Tokenizer("1e+9");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "1e+9");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "1e-1"', () => {
-        tokenizer = new Tokenizer("1e-1");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "1e-1");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "34.3e10"', () => {
-        tokenizer = new Tokenizer("34.3e10");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "34.3e10");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "0xf"', () => {
-        tokenizer = new Tokenizer("0xf");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "0xf");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "0xf."', () => {
-        tokenizer = new Tokenizer("0xf.");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "0xf.");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "0xf.3"', () => {
-        tokenizer = new Tokenizer("0xf.3");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "0xf.3");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "0xfp1"', () => {
-        tokenizer = new Tokenizer("0xfp1");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "0xfp1");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "0xfp+1"', () => {
-        tokenizer = new Tokenizer("0xfp+1");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "0xfp+1");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "0xfp-1"', () => {
-        tokenizer = new Tokenizer("0xfp-1");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "0xfp-1");
-        assertEquals(token?.type, TokenType.NumericLiteral);
-      });
-
-      it('when identifier is "0xFP+9"', () => {
-        tokenizer = new Tokenizer("0xFP+9");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "0xFP+9");
-        assertEquals(token?.type, TokenType.NumericLiteral);
+          assertEquals(token?.value, result);
+          assertEquals(token?.type, TokenType.NumericLiteral);
+        });
       });
     });
   });
