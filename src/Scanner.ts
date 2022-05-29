@@ -212,7 +212,7 @@ class Scanner {
   }
 
   scanWhile(cond: () => boolean): Scanner {
-    while (cond.call(this)) {
+    while (cond.call(this) && this.index < this.source.length) {
       this.scan();
     }
 

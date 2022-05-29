@@ -52,6 +52,7 @@ class Tokenizer {
 
   // All lua keywords
   private isKeyword(text: string) {
+    const { feature } = this;
     const keywords: string[] = [
       "do",
       "if",
@@ -72,7 +73,6 @@ class Tokenizer {
       "return",
       "function",
     ];
-    const { feature } = this;
 
     if (feature.labels && !feature.contextualGoto) {
       keywords.push("goto")

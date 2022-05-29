@@ -25,6 +25,25 @@ describe("Scanner", () => {
     });
   });
 
+  describe("scanWhile", () => {
+    it("should scan until a given scanner evaluates to false", () => {
+      const scanner = new Scanner("........................h")
+
+      scanner.scanWhile(scanner.isDotNotation);
+
+      assertEquals(scanner.getChar(), 'h');
+    });
+
+    it("should scan until a given function evaluates to false", () => {
+      const scanner = new Scanner("........................h")
+
+      scanner.scanWhile(() => true);
+
+      assert(scanner.isOutOfBounds());
+      assertEquals(scanner.getChar(), undefined);
+    });
+  });
+
   describe("isCharCode", () => {
     it("should return true if the char being pointed at is a the given char code", () => {
       assert((new Scanner("E")).isCharCode(69, 0));

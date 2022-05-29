@@ -374,6 +374,15 @@ describe("Tokenizer", () => {
         assertEquals(token?.type, TokenType.NumericLiteral);
       });
 
+      it('when identifier is "34.3e10"', () => {
+        tokenizer = new Tokenizer("34.3e10");
+
+        const token = tokenizer.tokenize();
+
+        assertEquals(token?.value, 343000000000);
+        assertEquals(token?.type, TokenType.NumericLiteral);
+      })
+
       it('when identifier is "0xf"', () => {
         tokenizer = new Tokenizer("0xf");
 
