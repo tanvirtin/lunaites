@@ -16,8 +16,8 @@ enum TokenType {
 interface Token {
   type: TokenType;
   value: boolean | number | string;
-  line: number;
-  lineStart: number;
+  lnum: number;
+  lnumIndex: number;
   range: number[];
 }
 
@@ -89,8 +89,8 @@ class Tokenizer {
       type: TokenType.EOF,
       value: "<eof>",
       range: [this.scanner.index, this.scanner.index],
-      line: this.scanner.line,
-      lineStart: this.scanner.lineStart,
+      lnum: this.scanner.lnum,
+      lnumIndex: this.scanner.lnumIndex,
     };
   }
 
@@ -115,8 +115,8 @@ class Tokenizer {
       type,
       value,
       range: scanner.getRange(),
-      line: scanner.line,
-      lineStart: scanner.lineStart,
+      lnum: scanner.lnum,
+      lnumIndex: scanner.lnumIndex,
     };
   }
 
@@ -169,8 +169,8 @@ class Tokenizer {
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
       range: scanner.getRange(),
-      line: scanner.line,
-      lineStart: scanner.lineStart,
+      lnum: scanner.lnum,
+      lnumIndex: scanner.lnumIndex,
     };
   }
 
@@ -208,8 +208,8 @@ class Tokenizer {
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
       range: scanner.getRange(),
-      line: scanner.line,
-      lineStart: scanner.lineStart,
+      lnum: scanner.lnum,
+      lnumIndex: scanner.lnumIndex,
     };
   }
 

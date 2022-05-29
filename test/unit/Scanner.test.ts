@@ -386,17 +386,17 @@ describe("Scanner", () => {
 
       scanner.comsumeWhitespace();
 
-      assertEquals(scanner.line, 3);
+      assertEquals(scanner.lnum, 3);
     });
 
     it("should track line start positions", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
       scanner.comsumeWhitespace();
-      assertEquals(scanner.lineStart, 6);
+      assertEquals(scanner.lnumIndex, 6);
 
       scanner.scan("local".length).comsumeWhitespace();
-      assertEquals(scanner.lineStart, 25);
+      assertEquals(scanner.lnumIndex, 25);
     });
   });
 });

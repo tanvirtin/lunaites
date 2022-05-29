@@ -12,10 +12,10 @@ class ErrorReporter {
   }
 
   raiseMalformedNumber(): void {
-    const { index, line, lineStart } = this.scanner;
-    const col = index - lineStart + 1;
+    const { index, lnum, lnumIndex } = this.scanner;
+    const col = index - lnumIndex + 1;
     const errorMessage =
-      `[${line}:${col}] malformed number near '${this.scanner.getText()}'`;
+      `[${lnum}:${col}] malformed number near '${this.scanner.getText()}'`;
 
     throw new SyntaxError(errorMessage);
   }

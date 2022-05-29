@@ -6,8 +6,8 @@ interface ScannerOptions {
 
 class Scanner {
   public index = 0;
-  public line = 1;
-  public lineStart = 0;
+  public lnum = 1;
+  public lnumIndex = 0;
   private markedIndex = 0;
   private source = "";
   private options: ScannerOptions = {
@@ -247,15 +247,15 @@ class Scanner {
         this.scan();
       } else if (this.isLineTerminator()) {
         // If we encountered a line terminator, we scan the line count by 1.
-        ++this.line;
+        ++this.lnum;
         // If we encounter \n\r or \r\n it's a new line.
         if (this.isNewLine()) {
           this.scan().scan();
-          this.lineStart = this.index;
+          this.lnumIndex = this.index;
           // Otherwise we skip the \n or \r.
         } else {
           this.scan();
-          this.lineStart = this.index;
+          this.lnumIndex = this.index;
         }
       } else {
         break;
