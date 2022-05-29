@@ -97,7 +97,7 @@ class Tokenizer {
     scanner.mark().scanWhile(scanner.isAlphanumeric);
 
     let type = TokenType.Identifier;
-    let value = scanner.getText();
+    const value = scanner.getText();
 
     // Type and value depends on what type of identifier we are dealing with.
     if (this.isKeyword(value)) {
