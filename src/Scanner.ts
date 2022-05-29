@@ -5,11 +5,11 @@ interface ScannerOptions {
 }
 
 class Scanner {
+  private source = "";
   public index = 0;
   public lnum = 1;
-  public lnumIndex = 0;
+  public lnumStartIndex = 0;
   private markedIndex = 0;
-  private source = "";
   private options: ScannerOptions = {
     extendedIdentifiers: true,
   };
@@ -177,6 +177,10 @@ class Scanner {
     return index < 0 || index >= this.source.length;
   }
 
+  getCol() {
+    return this.index - this.lnumStartIndex + 1;
+  }
+
   // Returns the current char under scanner.
   getChar(index?: number): string {
     index = this.sanitizeIndex(index);
@@ -251,11 +255,11 @@ class Scanner {
         // If we encounter \n\r or \r\n it's a new line.
         if (this.isNewLine()) {
           this.scan().scan();
-          this.lnumIndex = this.index;
+          this.lnumStartIndex = this.index;
           // Otherwise we skip the \n or \r.
         } else {
           this.scan();
-          this.lnumIndex = this.index;
+          this.lnumStartIndex = this.index;
         }
       } else {
         break;

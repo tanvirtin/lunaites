@@ -393,10 +393,10 @@ describe("Scanner", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
       scanner.comsumeWhitespace();
-      assertEquals(scanner.lnumIndex, 6);
+      assertEquals(scanner.lnumStartIndex, 6);
 
       scanner.scan("local".length).comsumeWhitespace();
-      assertEquals(scanner.lnumIndex, 25);
+      assertEquals(scanner.lnumStartIndex, 25);
     });
   });
 });

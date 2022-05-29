@@ -16,9 +16,9 @@ enum TokenType {
 interface Token {
   type: TokenType;
   value: boolean | number | string;
-  lnum: number;
-  lnumIndex: number;
   range: number[];
+  lnum: number;
+  lnumStartIndex: number;
 }
 
 interface Feature {
@@ -90,7 +90,7 @@ class Tokenizer {
       value: "<eof>",
       range: [this.scanner.index, this.scanner.index],
       lnum: this.scanner.lnum,
-      lnumIndex: this.scanner.lnumIndex,
+      lnumStartIndex: this.scanner.lnumStartIndex,
     };
   }
 
@@ -116,7 +116,7 @@ class Tokenizer {
       value,
       range: scanner.getRange(),
       lnum: scanner.lnum,
-      lnumIndex: scanner.lnumIndex,
+      lnumStartIndex: scanner.lnumStartIndex,
     };
   }
 
@@ -170,7 +170,7 @@ class Tokenizer {
       value: scanner.getText(),
       range: scanner.getRange(),
       lnum: scanner.lnum,
-      lnumIndex: scanner.lnumIndex,
+      lnumStartIndex: scanner.lnumStartIndex,
     };
   }
 
@@ -209,7 +209,7 @@ class Tokenizer {
       value: scanner.getText(),
       range: scanner.getRange(),
       lnum: scanner.lnum,
-      lnumIndex: scanner.lnumIndex,
+      lnumStartIndex: scanner.lnumStartIndex,
     };
   }
 
