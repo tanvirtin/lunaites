@@ -232,6 +232,14 @@ class Scanner {
     return this;
   }
 
+  scanUntil(cond: () => boolean): Scanner {
+    while (!cond.call(this) && this.index < this.source.length) {
+      this.scan();
+    }
+
+    return this;
+  }
+
   // Eats away all whitespace characters and progresses the index.
   comsumeWhitespace(): Scanner {
     while (!this.isOutOfBounds()) {

@@ -44,6 +44,17 @@ describe("Scanner", () => {
     });
   });
 
+  describe("scanUntil", () => {
+    it("should scan until a given function evaluates to true", () => {
+      const scanner = new Scanner("........................h");
+
+      scanner.scanUntil(scanner.isOutOfBounds);
+
+      assert(scanner.isOutOfBounds());
+      assertEquals(scanner.getChar(), undefined);
+    });
+  });
+
   describe("isCharCode", () => {
     it("should return true if the char being pointed at is a the given char code", () => {
       assert((new Scanner("E")).isCharCode(69, 0));

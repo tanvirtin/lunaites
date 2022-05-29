@@ -1,4 +1,5 @@
 import { Scanner } from "./Scanner.ts";
+import { ErrorReporter } from './ErrorReporter.ts'
 
 enum TokenType {
   EOF = 1,
@@ -32,6 +33,7 @@ interface Feature {
 
 class Tokenizer {
   public scanner: Scanner;
+  private errorReporter: ErrorReporter;
   private feature: Feature = {
     labels: true,
     contextualGoto: true,
@@ -48,6 +50,7 @@ class Tokenizer {
     this.scanner = new Scanner(source, {
       extendedIdentifiers: this.feature.extendedIdentifiers ?? true,
     });
+    this.errorReporter = new ErrorReporter(this.scanner);
   }
 
   // All lua keywords
@@ -147,7 +150,6 @@ class Tokenizer {
     scanner.scanWhile(scanner.isHexDigit);
 
     // We check for exponents, which is denoted by the "p" or "P" symbol.
-    // NOTE: "e" or "E" is a hex digit.
     if (scanner.isCharCode(80) || scanner.isCharCode(112)) {
       scanner.scan();
 
