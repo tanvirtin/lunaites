@@ -14,7 +14,7 @@ enum TokenType {
 
 interface Token {
   type: TokenType;
-  value: null | boolean | number | string;
+  value: boolean | number | string;
   line: number;
   lineStart: number;
   range: number[];
@@ -97,17 +97,15 @@ class Tokenizer {
     scanner.mark().scanWhile(scanner.isAlphanumeric);
 
     let type = TokenType.Identifier;
-    let value: null | string | boolean = scanner.getText();
+    let value = scanner.getText();
 
     // Type and value depends on what type of identifier we are dealing with.
     if (this.isKeyword(value)) {
       type = TokenType.Keyword;
     } else if (value === "true" || value === "false") {
       type = TokenType.BooleanLiteral;
-      value = value === "true";
     } else if (value === "nil") {
       type = TokenType.NilLiteral;
-      value = null;
     }
 
     return {

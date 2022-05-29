@@ -260,7 +260,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, true);
+        assertEquals(token?.value, "true");
         assertEquals(token?.type, TokenType.BooleanLiteral);
       });
 
@@ -269,7 +269,7 @@ describe("Tokenizer", () => {
 
         const token = tokenizer.tokenize();
 
-        assertEquals(token?.value, false);
+        assertEquals(token?.value, "false");
         assertEquals(token?.type, TokenType.BooleanLiteral);
       });
     });
@@ -279,7 +279,7 @@ describe("Tokenizer", () => {
 
       const token = tokenizer.tokenize();
 
-      assertEquals(token?.value, null);
+      assertEquals(token?.value, "nil");
       assertEquals(token?.type, TokenType.NilLiteral);
     });
 
