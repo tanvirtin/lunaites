@@ -24,6 +24,7 @@ interface Token {
 interface Feature {
   labels?: boolean;
   contextualGoto?: boolean;
+  integerSuffixes?: boolean;
   integerDivision?: boolean;
   bitwiseOperators?: boolean;
   imaginaryNumbers?: boolean;
@@ -41,6 +42,7 @@ class Tokenizer {
     integerDivision: true,
     bitwiseOperators: true,
     imaginaryNumbers: true,
+    integerSuffixes: true,
     extendedIdentifiers: true,
   };
 
@@ -104,7 +106,7 @@ class Tokenizer {
 
       // If we encounter a digit after the exponent it's an error.
       if (!this.scanner.isDigit()) {
-        this.errorReporter.raiseMalformedNumber();
+        this.errorReporter.reportMalformedNumber(`expected a digit to be followed after ${isBinary ? 'p' : 'e'}`);
       }
 
       scanner.scanWhile(scanner.isDigit);
@@ -118,7 +120,6 @@ class Tokenizer {
   private consumeImaginaryUnitSuffix() {
     const { feature, scanner } = this;
 
-    // Imaginary unit number suffix.
     if (!feature.imaginaryNumbers) {
       return false;
     }
@@ -128,6 +129,52 @@ class Tokenizer {
       scanner.scan();
 
       return true;
+    }
+
+    return false;
+  }
+
+  // Rules: Integer suffix should not work if the literal the suffix is
+  // part of  has fractions ("." notation). Integer suffix will also
+  // not work if there is an imaginary suffix before it as well.
+  private consumeInt64Suffix() {
+    const { errorReporter, feature, scanner } = this;
+
+    if (!feature.integerSuffixes) {
+      return false;
+    }
+
+    // Accepted suffixes: Any casing combination of ULL and LL
+
+    // U or u
+    if (scanner.isCharCode(85) || scanner.isCharCode(117)) {
+      scanner.scan();
+      // L or l
+      if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+        scanner.scan();
+        // L or l
+        if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+          scanner.scan();
+
+          return true;
+        }
+        // UL but no L
+        errorReporter.reportMalformedNumber('expected "UL" to be followed by an "L"');
+      }
+      // U but no L
+      errorReporter.reportMalformedNumber('expected "U" to be followed by an "L"');
+      // L or l
+    } else if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+      scanner.scan();
+
+      // L or l
+      if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+        scanner.scan();
+
+        return true;
+      }
+      // First L but no second L
+      errorReporter.reportMalformedNumber('expected "L" to be followed by another "l"');
     }
 
     return false;
@@ -200,6 +247,7 @@ class Tokenizer {
 
     this.consumeExponent({ isBinary: false });
     this.consumeImaginaryUnitSuffix();
+    this.consumeInt64Suffix();
 
     return {
       type: TokenType.NumericLiteral,
@@ -228,6 +276,7 @@ class Tokenizer {
 
     this.consumeExponent({ isBinary: true });
     this.consumeImaginaryUnitSuffix();
+    this.consumeInt64Suffix();
 
     return {
       type: TokenType.NumericLiteral,

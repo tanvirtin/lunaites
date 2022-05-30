@@ -1,5 +1,9 @@
 import { Scanner } from "./Scanner.ts";
 
+class TokenError extends SyntaxError {
+  hint?: string;
+}
+
 class ErrorReporter {
   scanner: Scanner;
 
@@ -17,8 +21,8 @@ class ErrorReporter {
     return `[${this.scanner.lnum}:${this.scanner.getCol()}] ${message} }'`;
   }
 
-  private throwError(templateMessage: string, ...args: string[]) {
-    throw new SyntaxError(
+  private throwError(templateMessage: string, ...args: string[]): TokenError {
+    return new TokenError(
       this.createErrorMessage(
         this.deriveTemplate(
           templateMessage,
@@ -28,8 +32,12 @@ class ErrorReporter {
     );
   }
 
-  raiseMalformedNumber(): void {
-    this.throwError("malformed number near '%s'", this.scanner.getText());
+  reportMalformedNumber(hint: string = ""): void {
+    const error = this.throwError("malformed number near '%s'", this.scanner.getText());
+
+    error.hint = hint;
+
+    throw error;
   }
 }
 

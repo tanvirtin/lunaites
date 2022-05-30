@@ -4,7 +4,7 @@ import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import { assertThrows } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("ErrorReporter", () => {
-  describe("raise", () => {
+  describe("reportMalformedNumber", () => {
     it("throws a malformed number error correctly", () => {
       const computation = () => {
         const scanner = new Scanner("0x333pe");
@@ -12,7 +12,7 @@ describe("ErrorReporter", () => {
 
         scanner.scan("0x333p".length);
 
-        errorReporter.raiseMalformedNumber();
+        errorReporter.reportMalformedNumber();
       };
 
       assertThrows(

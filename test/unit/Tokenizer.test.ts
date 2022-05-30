@@ -319,44 +319,123 @@ describe("Tokenizer", () => {
           assertEquals(token?.type, TokenType.NumericLiteral);
         });
       });
-    });
 
-    describe("correctly tokenizes imaginary literals when feature is on", () => {
-      const testTable = {
-        "3.333I": "3.333I",
-        "3i": "3i",
-        "0.9I": "0.9I",
-      };
+      describe("with imaginary suffix feature on", () => {
+        const testTable = {
+          "3.333I": "3.333I",
+          "3i": "3i",
+          "0.9I": "0.9I",
+          "0x.3fI": "0x.3fI",
+          "0x.3I": "0x.3I",
+          "0x3i": "0x3i",
+        };
 
-      Object.entries(testTable).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+        Object.entries(testTable).forEach(([source, result]) => {
+          it(`"${source}" is tokenized as numeric identifier`, () => {
+            tokenizer = new Tokenizer(source);
 
-          const token = tokenizer.tokenize();
+            const token = tokenizer.tokenize();
 
-          assertEquals(token?.value, result);
-          assertEquals(token?.type, TokenType.NumericLiteral);
+            assertEquals(token?.value, result);
+            assertEquals(token?.type, TokenType.NumericLiteral);
+          });
         });
       });
-    });
 
-    describe("ignores imaginary number suffix when feature is off", () => {
-      const testTable = {
-        "3.333I": "3.333",
-        "3i": "3",
-        "0.9I": "0.9",
-      };
+      describe("with int64 suffix when feature is on", () => {
+        const testTable = {
+          "1uLL": "1uLL",
+          "3ulL": "3ulL",
+          "4uLl": "4uLl",
+          "5ULL": "5ULL",
+          "6UlL": "6UlL",
+        };
 
-      Object.entries(testTable).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source, {
-            imaginaryNumbers: false,
+        Object.entries(testTable).forEach(([source, result]) => {
+          it(`"${source}" is tokenized as numeric identifier`, () => {
+            tokenizer = new Tokenizer(source);
+
+            const token = tokenizer.tokenize();
+
+            assertEquals(token?.value, result);
+            assertEquals(token?.type, TokenType.NumericLiteral);
           });
+        });
+      });
 
-          const token = tokenizer.tokenize();
+      describe("with imaginary suffix feature off", () => {
+        const testTable = {
+          "3.333I": "3.333",
+          "3i": "3",
+          "0.9I": "0.9",
+          "0x.3fI": "0x.3f",
+          "0x.3I": "0x.3",
+          "0x3i": "0x3",
+        };
 
-          assertEquals(token?.value, result);
-          assertEquals(token?.type, TokenType.NumericLiteral);
+        Object.entries(testTable).forEach(([source, result]) => {
+          it(`"i" suffix is ignored when ${source}" numeric identifier`, () => {
+            tokenizer = new Tokenizer(source, {
+              imaginaryNumbers: false
+            });
+
+            const token = tokenizer.tokenize();
+
+            assertEquals(token?.value, result);
+            assertEquals(token?.type, TokenType.NumericLiteral);
+          });
+        });
+      });
+
+      describe("with int64 suffix when feature is on", () => {
+        const testTable = {
+          "1uLL": "1uLL",
+          "3ulL": "3ulL",
+          "4uLl": "4uLl",
+          "5ULL": "5ULL",
+          "6UlL": "6UlL",
+          "44lL": "44lL",
+          "53Ll": "53Ll",
+          "100ll": "100ll",
+          "101LL": "101LL",
+        };
+
+        Object.entries(testTable).forEach(([source, result]) => {
+          it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
+            tokenizer = new Tokenizer(source);
+
+            const token = tokenizer.tokenize();
+
+            assertEquals(token?.value, result);
+            assertEquals(token?.type, TokenType.NumericLiteral);
+          });
+        });
+      });
+
+      describe("with int64 suffix when feature is off", () => {
+        const testTable = {
+          "1uLL": "1",
+          "3ulL": "3",
+          "4uLl": "4",
+          "5ULL": "5",
+          "6UlL": "6",
+          "44lL": "44",
+          "53Ll": "53",
+          "100ll": "100",
+          "101LL": "101",
+        };
+
+        Object.entries(testTable).forEach(([source, result]) => {
+          it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
+            tokenizer = new Tokenizer(source, {
+              integerSuffixes: false
+            });
+
+            const token = tokenizer.tokenize();
+
+            assertEquals(token?.value, result);
+            assertEquals(token?.type, TokenType.NumericLiteral);
+          });
         });
       });
     });
@@ -371,6 +450,15 @@ describe("Tokenizer", () => {
         // Exponents are represented by p for hexadecimals and a non digit appearing right after the exponent is not allowed
         "10.e-b": "[1:6] malformed number near '10.e-",
         "10.eb": "[1:5] malformed number near '10.e",
+        // Integar suffix: must be ULL or LL.
+        "1U": "[1:3] malformed number near '1U'",
+        "1u": "[1:3] malformed number near '1u'",
+        "1UL": "[1:4] malformed number near '1UL'",
+        "1uL": "[1:4] malformed number near '1uL'",
+        "1ul": "[1:4] malformed number near '1ul'",
+        "1Ul": "[1:4] malformed number near '1Ul'",
+        "1l": "[1:3] malformed number near '1l'",
+        "1L": "[1:3] malformed number near '1L'",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
