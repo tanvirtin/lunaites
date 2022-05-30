@@ -31,11 +31,11 @@ describe("Tokenizer", () => {
     });
 
     it("does not recognize identifiers that start with digits", () => {
-      tokenizer = new Tokenizer("          3local      bar  3baz ");
+      tokenizer = new Tokenizer("          3foo      bar  3baz ");
 
       tokenizer.tokenize();
 
-      assertEquals(tokenizer.tokenize()?.value, "local");
+      assertEquals(tokenizer.tokenize()?.value, "foo");
       assertEquals(tokenizer.tokenize()?.value, "bar");
 
       tokenizer.tokenize();
@@ -321,9 +321,56 @@ describe("Tokenizer", () => {
       });
     });
 
-    describe("throws correct errors", () => {
+    describe("correctly tokenizes imaginary literals when feature is on", () => {
       const testTable = {
+        "3.333I": "3.333I",
+        "3i": "3i",
+        "0.9I": "0.9I",
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
+
+          const token = tokenizer.tokenize();
+
+          assertEquals(token?.value, result);
+          assertEquals(token?.type, TokenType.NumericLiteral);
+        });
+      });
+    });
+
+    describe("ignores imaginary number suffix when feature is off", () => {
+      const testTable = {
+        "3.333I": "3.333",
+        "3i": "3",
+        "0.9I": "0.9",
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source, {
+            imaginaryNumbers: false,
+          });
+
+          const token = tokenizer.tokenize();
+
+          assertEquals(token?.value, result);
+          assertEquals(token?.type, TokenType.NumericLiteral);
+        });
+      });
+    });
+
+    describe("throws errors when unexpected characters appear while parsing numeric literals", () => {
+      const testTable = {
+        // Exponents are represented by p for hexadecimals and a non digit appearing right after the exponent is not allowed
         "0x333pe": "[1:7] malformed number near '0x333p'",
+        "0x333p+e": "[1:8] malformed number near '0x333p+'",
+        "0xfp-.": "[1:6] malformed number near '0xfp-",
+        "10.e-.": "[1:6] malformed number near '10.e-",
+        // Exponents are represented by p for hexadecimals and a non digit appearing right after the exponent is not allowed
+        "10.e-b": "[1:6] malformed number near '10.e-",
+        "10.eb": "[1:5] malformed number near '10.e",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {

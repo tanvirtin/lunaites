@@ -26,6 +26,7 @@ interface Feature {
   contextualGoto?: boolean;
   integerDivision?: boolean;
   bitwiseOperators?: boolean;
+  imaginaryNumbers?: boolean;
   extendedIdentifiers?: boolean;
 }
 
@@ -39,6 +40,7 @@ class Tokenizer {
     contextualGoto: true,
     integerDivision: true,
     bitwiseOperators: true,
+    imaginaryNumbers: true,
     extendedIdentifiers: true,
   };
 
@@ -82,6 +84,53 @@ class Tokenizer {
     }
 
     return keywords.some((keyword) => text === keyword);
+  }
+
+  private consumeExponent({ isBinary }: { isBinary?: boolean }) {
+    const { scanner } = this;
+
+    if (
+      isBinary
+        ? (scanner.isCharCode(69) || scanner.isCharCode(101)) // (p or P)
+        : (scanner.isCharCode(80) || scanner.isCharCode(112)) // (e or E)
+    ) {
+      scanner.scan();
+
+      // If we encounter a "+" or "-", we can just continue our
+      // scanning as it's part of the semantics.
+      if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
+        scanner.scan();
+      }
+
+      // If we encounter a digit after the exponent it's an error.
+      if (!this.scanner.isDigit()) {
+        this.errorReporter.raiseMalformedNumber();
+      }
+
+      scanner.scanWhile(scanner.isDigit);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  private consumeImaginaryUnitSuffix() {
+    const { feature, scanner } = this;
+
+    // Imaginary unit number suffix.
+    if (!feature.imaginaryNumbers) {
+      return false;
+    }
+
+    // We check of suffix indicator for imaginary numbers by "i" or "I"
+    if (scanner.isCharCode(73) || scanner.isCharCode(105)) {
+      scanner.scan();
+
+      return true;
+    }
+
+    return false;
   }
 
   private tokenizeEOF(): Token {
@@ -149,21 +198,8 @@ class Tokenizer {
 
     scanner.scanWhile(scanner.isHexDigit);
 
-    // We check for exponents, which is denoted by the "p" or "P" symbol.
-    if (scanner.isCharCode(80) || scanner.isCharCode(112)) {
-      scanner.scan();
-
-      // +/- gets recognized as well since it's tied to exponents.
-      if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
-        scanner.scan();
-      }
-
-      if (!this.scanner.isDigit()) {
-        this.errorReporter.raiseMalformedNumber();
-      }
-
-      scanner.scanWhile(scanner.isDigit);
-    }
+    this.consumeExponent({ isBinary: false });
+    this.consumeImaginaryUnitSuffix();
 
     return {
       type: TokenType.NumericLiteral,
@@ -190,19 +226,8 @@ class Tokenizer {
     // After we are done with the code above we may have something like 3 or 3.14159265359.
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
 
-    // We check for exponent notation using the letter "e" or "E".
-    // The letters "e" and "E" are considered to be part of the numeric literal.
-    if (scanner.isCharCode(69) || scanner.isCharCode(101)) {
-      scanner.scan();
-
-      // If we encounter a "+" or "-", we can just continue our
-      // scanning as it's part of the semantics.
-      if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
-        scanner.scan();
-      }
-
-      scanner.scanWhile(scanner.isDigit);
-    }
+    this.consumeExponent({ isBinary: true });
+    this.consumeImaginaryUnitSuffix();
 
     return {
       type: TokenType.NumericLiteral,
