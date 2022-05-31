@@ -469,7 +469,18 @@ describe("Tokenizer", () => {
         "1.3LL": "[1:6] malformed number near '1.3LL'",
         "1.LL": "[1:5] malformed number near '1.LL'",
         "0x4.LL": "[1:7] malformed number near '0x4.LL'",
-        "0x.40LL": "[1:8] malformed number near '0x.40LL'"
+        "0x.40LL": "[1:8] malformed number near '0x.40LL'",
+        // Imaginary number suffix cannot be followed by integer suffix
+        "3.33iULL": "[1:9] malformed number near '3.33iULL'",
+        "3.33iLL": "[1:8] malformed number near '3.33iLL'",
+        "333iULL": "[1:8] malformed number near '333iULL'",
+        "333iLL": "[1:7] malformed number near '333iLL'",
+        "0x4iULL": "[1:8] malformed number near '0x4iULL'",
+        "0x4iLL": "[1:7] malformed number near '0x4iLL'",
+        "0x.4iULL": "[1:9] malformed number near '0x.4iULL'",
+        "0x.4iLL": "[1:8] malformed number near '0x.4iLL'",
+        "0x4.3iULL": "[1:10] malformed number near '0x4.3iULL'",
+        "0x4.2iLL": "[1:9] malformed number near '0x4.2iLL'",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {

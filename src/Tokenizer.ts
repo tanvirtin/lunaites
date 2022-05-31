@@ -266,10 +266,10 @@ class Tokenizer {
     } 
 
     this.consumeExponent({ isBinary: false });
-    this.consumeImaginaryUnitSuffix();
+    const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
-    if (isDecimal && hasInt64Suffix) {
+    if ((isDecimal || hasImaginaryUnitSuffix) && hasInt64Suffix) {
       this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
     }
 
@@ -300,12 +300,11 @@ class Tokenizer {
 
     // After we are done with the code above we may have something like 3 or 3.14159265359.
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
-
     this.consumeExponent({ isBinary: true });
-    this.consumeImaginaryUnitSuffix();
+    const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
-    if (isDecimal && hasInt64Suffix) {
+    if ((isDecimal || hasImaginaryUnitSuffix) && hasInt64Suffix) {
       this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
     }
 
