@@ -464,6 +464,12 @@ describe("Tokenizer", () => {
         "1Ul": "[1:4] malformed number near '1Ul'",
         "1l": "[1:3] malformed number near '1l'",
         "1L": "[1:3] malformed number near '1L'",
+        // Decimal numbers cannot have integer suffix.
+        ".3ULL": "[1:3] malformed number near '1L'",
+        "1.3LL": "[1:3] malformed number near '1L'",
+        "1.LL": "[1:3] malformed number near '1L'",
+        "0x4.LL": "[1:3] malformed number near '1L'",
+        "0x.40LL": "[1:3] malformed number near '1L'"
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
