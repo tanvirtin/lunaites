@@ -262,15 +262,21 @@ class Tokenizer {
 
     // if we encounter another dot notation it's an error, e.g "0x3..3".
     if (isDecimal && scanner.isDotNotation()) {
-      this.errorReporter.reportMalformedNumber('integer literal cannot have more than one "."');
-    } 
+      this.errorReporter.reportMalformedNumber(
+        'integer literal cannot have more than one "."',
+      );
+    }
 
     const hasExponent = this.consumeExponent({ isBinary: false });
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
-    if ((isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix) {
-      this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
+    if (
+      (isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix
+    ) {
+      this.errorReporter.reportMalformedNumber(
+        "numbers with fractions cannot have integer suffixes",
+      );
     }
 
     return {
@@ -295,8 +301,10 @@ class Tokenizer {
 
     // If we encounter another dot notation it's an error, e.g "3..3" or "3.3.4".
     if (isDecimal && scanner.isDotNotation()) {
-      this.errorReporter.reportMalformedNumber('integer literal cannot have more than one "."');
-    } 
+      this.errorReporter.reportMalformedNumber(
+        'integer literal cannot have more than one "."',
+      );
+    }
 
     // After we are done with the code above we may have something like 3 or 3.14159265359.
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
@@ -304,8 +312,12 @@ class Tokenizer {
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
-    if ((isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix) {
-      this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
+    if (
+      (isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix
+    ) {
+      this.errorReporter.reportMalformedNumber(
+        "numbers with fractions cannot have integer suffixes",
+      );
     }
 
     return {
