@@ -286,6 +286,30 @@ describe("Tokenizer", () => {
       assertEquals(token?.type, TokenType.NilLiteral);
     });
 
+    describe("correctly tokenizes string literals", () => {
+      const testTable = {
+        "''": "''",
+        '""': '""',
+        "'foo'": "'foo'",
+        '"baz"': '"baz"',
+        "\"bar\"": "\"bar\"",
+        '"\nhello world"': '"\nhello world"',
+        "'\\''": "'\\''",
+        '"\\""': '"\\""'
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
+
+          const token = tokenizer.tokenize();
+
+          assertEquals(token?.value, result);
+          assertEquals(token?.type, TokenType.StringLiteral);
+        });
+      });
+    });
+
     describe("correctly tokenizes numeric literals", () => {
       const testTable = {
         "1": "1",

@@ -35,6 +35,11 @@ class Scanner {
     return this.getCharCode(index) === charCode;
   }
 
+  // '\'
+  isBackslash(index?: number): boolean {
+    return this.isCharCode(92, index);
+  }
+
   // '.'
   isDotNotation(index?: number): boolean {
     return this.isCharCode(46, index);

@@ -117,6 +117,16 @@ class Tokenizer {
     return false;
   }
 
+  private consumeBackslash() {
+    const { scanner } = this;
+
+    if (scanner.isBackslash()) {
+      scanner.scan();
+    }
+
+    return false;
+  }
+
   private consumeImaginaryUnitSuffix() {
     const { feature, scanner } = this;
 
@@ -199,6 +209,41 @@ class Tokenizer {
       range: [this.scanner.index, this.scanner.index],
       lnum: this.scanner.lnum,
       lnumStartIndex: this.scanner.lnumStartIndex,
+    };
+  }
+
+  private tokenizeStringLiteral(): Token {
+    const { scanner, errorReporter } = this;
+    const { lnum, lnumStartIndex } = scanner;
+    const delimeterCharCode = scanner.getCharCode();
+
+    scanner.mark();
+
+    // Scan over the ending string delimiter (", ')
+    scanner.scan();
+
+    while (!scanner.isCharCode(delimeterCharCode)) {
+      // If we hit out of bounds we have an unfinished string that 
+      // never met the matching delimiter.
+      if (scanner.isOutOfBounds()) {
+        errorReporter.reportMalformedNumber();
+      }
+
+      // We skip the next character after the backslash character.
+      this.consumeBackslash();
+
+      scanner.scan();
+    }
+
+    // Scan over the ending string delimiter (", ')
+    scanner.scan();
+
+    return {
+      type: TokenType.StringLiteral,
+      value: scanner.getText(),
+      range: scanner.getRange(),
+      lnum,
+      lnumStartIndex,
     };
   }
 
@@ -334,6 +379,10 @@ class Tokenizer {
 
     if (scanner.isOutOfBounds()) {
       return this.tokenizeEOF();
+    }
+
+    if (scanner.isQuote() || scanner.isDoubleQuote()) {
+      return this.tokenizeStringLiteral();
     }
 
     if (scanner.isDigit()) {

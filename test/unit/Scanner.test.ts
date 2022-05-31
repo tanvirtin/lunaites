@@ -55,6 +55,17 @@ describe("Scanner", () => {
     });
   });
 
+  describe("isBackslash", () => {
+    it("should return true if the char being pointed at is a backslash", () => {
+      assert((new Scanner("\\'")).isBackslash());
+    });
+
+    it("should return false if the char being pointed at is not a backslash", () => {
+      assert(!(new Scanner("\e")).isBackslash());
+      assert(!(new Scanner("/")).isBackslash());
+    });
+  });
+
   describe("isCharCode", () => {
     it("should return true if the char being pointed at is a the given char code", () => {
       assert((new Scanner("E")).isCharCode(69, 0));
