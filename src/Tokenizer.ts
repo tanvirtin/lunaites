@@ -267,7 +267,11 @@ class Tokenizer {
 
     this.consumeExponent({ isBinary: false });
     this.consumeImaginaryUnitSuffix();
-    this.consumeInt64Suffix();
+    const hasInt64Suffix = this.consumeInt64Suffix();
+
+    if (isDecimal && hasInt64Suffix) {
+      this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
+    }
 
     return {
       type: TokenType.NumericLiteral,
@@ -299,7 +303,11 @@ class Tokenizer {
 
     this.consumeExponent({ isBinary: true });
     this.consumeImaginaryUnitSuffix();
-    this.consumeInt64Suffix();
+    const hasInt64Suffix = this.consumeInt64Suffix();
+
+    if (isDecimal && hasInt64Suffix) {
+      this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
+    }
 
     return {
       type: TokenType.NumericLiteral,
