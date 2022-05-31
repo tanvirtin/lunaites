@@ -265,11 +265,11 @@ class Tokenizer {
       this.errorReporter.reportMalformedNumber('integer literal cannot have more than one "."');
     } 
 
-    this.consumeExponent({ isBinary: false });
+    const hasExponent = this.consumeExponent({ isBinary: false });
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
-    if ((isDecimal || hasImaginaryUnitSuffix) && hasInt64Suffix) {
+    if ((isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix) {
       this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
     }
 
@@ -289,7 +289,7 @@ class Tokenizer {
     scanner.mark().scanWhile(scanner.isDigit);
 
     // We check for dot notation to check if we are dealing with decimal numbers.
-    let isDecimal = this.consumeDotNotation();
+    const isDecimal = this.consumeDotNotation();
 
     scanner.scanWhile(scanner.isDigit);
 
@@ -300,11 +300,11 @@ class Tokenizer {
 
     // After we are done with the code above we may have something like 3 or 3.14159265359.
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
-    this.consumeExponent({ isBinary: true });
+    const hasExponent = this.consumeExponent({ isBinary: true });
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
-    if ((isDecimal || hasImaginaryUnitSuffix) && hasInt64Suffix) {
+    if ((isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix) {
       this.errorReporter.reportMalformedNumber("numbers with fractions cannot have integer suffixes");
     }
 
