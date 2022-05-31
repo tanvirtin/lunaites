@@ -90,6 +90,28 @@ describe("Scanner", () => {
     });
   });
 
+  describe("isQuote", () => {
+    it("should return true if the char being pointed at is a quote", () => {
+      assert((new Scanner("'")).isQuote(0));
+    });
+
+    it("should return false if the char being pointed at is not a quote", () => {
+      assert(!(new Scanner('"')).isQuote(0));
+      assert(!(new Scanner('`')).isQuote(0));
+    });
+  });
+
+  describe("isDoubleQuote", () => {
+    it("should return true if the char being pointed at is a doubleQuote", () => {
+      assert((new Scanner('"')).isDoubleQuote(0));
+    });
+
+    it("should return false if the char being pointed at is not a doubleQuote", () => {
+      assert(!(new Scanner("'")).isDoubleQuote(0));
+      assert(!(new Scanner("`")).isDoubleQuote(0));
+    });
+  });
+
   describe("isDotNotation", () => {
     it("should return true if the char being pointed at is a whitespace", () => {
       assert((new Scanner(".")).isDotNotation(0));

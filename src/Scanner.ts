@@ -37,13 +37,7 @@ class Scanner {
 
   // '.'
   isDotNotation(index?: number): boolean {
-    index = this.sanitizeIndex(index);
-
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
-
-    return charCode === 46;
+    return this.isCharCode(46, index);
   }
 
   // ' '
@@ -60,24 +54,12 @@ class Scanner {
 
   // \n
   isLineFeed(index?: number): boolean {
-    index = this.sanitizeIndex(index);
-
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
-
-    return charCode === 10;
+    return this.isCharCode(10, index)
   }
 
   // \r
   isCarriageReturn(index?: number): boolean {
-    index = this.sanitizeIndex(index);
-
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
-
-    return charCode === 13;
+    return this.isCharCode(13, index)
   }
 
   // \n or \r
@@ -121,6 +103,16 @@ class Scanner {
     const charCode = this.getCharCode(index);
 
     return charCode >= 48 && charCode <= 57;
+  }
+
+  // '
+  isQuote(index?: number): boolean {
+    return this.isCharCode(39, index);
+  }
+
+  // "
+  isDoubleQuote(index?: number): boolean {
+    return this.isCharCode(34, index)
   }
 
   // Extended alphabets starting  ending in ÿ
