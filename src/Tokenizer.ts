@@ -106,9 +106,7 @@ class Tokenizer {
 
       // If we encounter a digit after the exponent it's an error.
       if (!this.scanner.isDigit()) {
-        this.errorReporter.reportMalformedNumber(
-          `expected a digit to be followed after ${isBinary ? "p" : "e"}`,
-        );
+        this.errorReporter.reportMalformedNumber();
       }
 
       scanner.scanWhile(scanner.isDigit);
@@ -161,14 +159,10 @@ class Tokenizer {
           return true;
         }
         // UL but no L
-        errorReporter.reportMalformedNumber(
-          'expected "UL" to be followed by an "L"',
-        );
+        errorReporter.reportMalformedNumber();
       }
       // U but no L
-      errorReporter.reportMalformedNumber(
-        'expected "U" to be followed by an "L"',
-      );
+      errorReporter.reportMalformedNumber();
       // L or l
     } else if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
       scanner.scan();
@@ -180,9 +174,7 @@ class Tokenizer {
         return true;
       }
       // First L but no second L
-      errorReporter.reportMalformedNumber(
-        'expected "L" to be followed by another "l"',
-      );
+      errorReporter.reportMalformedNumber();
     }
 
     return false;
@@ -262,21 +254,19 @@ class Tokenizer {
 
     // if we encounter another dot notation it's an error, e.g "0x3..3".
     if (isDecimal && scanner.isDotNotation()) {
-      this.errorReporter.reportMalformedNumber(
-        'integer literal cannot have more than one "."',
-      );
+      this.errorReporter.reportMalformedNumber();
     }
 
     const hasExponent = this.consumeExponent({ isBinary: false });
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
+    // If either the number is a decimal, has exponent or has imaginary suffix,
+    // if we find integer suffix as well, we throw an error.
     if (
       (isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix
     ) {
-      this.errorReporter.reportMalformedNumber(
-        "numbers with fractions cannot have integer suffixes",
-      );
+      this.errorReporter.reportMalformedNumber();
     }
 
     return {
@@ -301,9 +291,7 @@ class Tokenizer {
 
     // If we encounter another dot notation it's an error, e.g "3..3" or "3.3.4".
     if (isDecimal && scanner.isDotNotation()) {
-      this.errorReporter.reportMalformedNumber(
-        'integer literal cannot have more than one "."',
-      );
+      this.errorReporter.reportMalformedNumber();
     }
 
     // After we are done with the code above we may have something like 3 or 3.14159265359.
@@ -312,12 +300,12 @@ class Tokenizer {
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
+    // If either the number is a decimal, has exponent or has imaginary suffix,
+    // if we find integer suffix as well, we throw an error.
     if (
       (isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix
     ) {
-      this.errorReporter.reportMalformedNumber(
-        "numbers with fractions cannot have integer suffixes",
-      );
+      this.errorReporter.reportMalformedNumber();
     }
 
     return {
