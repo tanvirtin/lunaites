@@ -97,7 +97,7 @@ describe("Scanner", () => {
 
     it("should return false if the char being pointed at is not a quote", () => {
       assert(!(new Scanner('"')).isQuote(0));
-      assert(!(new Scanner('`')).isQuote(0));
+      assert(!(new Scanner("`")).isQuote(0));
     });
   });
 

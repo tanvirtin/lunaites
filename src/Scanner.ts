@@ -54,12 +54,12 @@ class Scanner {
 
   // \n
   isLineFeed(index?: number): boolean {
-    return this.isCharCode(10, index)
+    return this.isCharCode(10, index);
   }
 
   // \r
   isCarriageReturn(index?: number): boolean {
-    return this.isCharCode(13, index)
+    return this.isCharCode(13, index);
   }
 
   // \n or \r
@@ -112,7 +112,7 @@ class Scanner {
 
   // "
   isDoubleQuote(index?: number): boolean {
-    return this.isCharCode(34, index)
+    return this.isCharCode(34, index);
   }
 
   // Extended alphabets starting  ending in ÿ
