@@ -33,7 +33,10 @@ class ErrorReporter {
   }
 
   reportMalformedNumber(hint: string = ""): void {
-    const error = this.throwError("malformed number near '%s'", this.scanner.getText());
+    const error = this.throwError(
+      "malformed number near '%s'",
+      this.scanner.getText(),
+    );
 
     error.hint = hint;
 

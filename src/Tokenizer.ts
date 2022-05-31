@@ -106,7 +106,9 @@ class Tokenizer {
 
       // If we encounter a digit after the exponent it's an error.
       if (!this.scanner.isDigit()) {
-        this.errorReporter.reportMalformedNumber(`expected a digit to be followed after ${isBinary ? 'p' : 'e'}`);
+        this.errorReporter.reportMalformedNumber(
+          `expected a digit to be followed after ${isBinary ? "p" : "e"}`,
+        );
       }
 
       scanner.scanWhile(scanner.isDigit);
@@ -159,10 +161,14 @@ class Tokenizer {
           return true;
         }
         // UL but no L
-        errorReporter.reportMalformedNumber('expected "UL" to be followed by an "L"');
+        errorReporter.reportMalformedNumber(
+          'expected "UL" to be followed by an "L"',
+        );
       }
       // U but no L
-      errorReporter.reportMalformedNumber('expected "U" to be followed by an "L"');
+      errorReporter.reportMalformedNumber(
+        'expected "U" to be followed by an "L"',
+      );
       // L or l
     } else if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
       scanner.scan();
@@ -174,7 +180,21 @@ class Tokenizer {
         return true;
       }
       // First L but no second L
-      errorReporter.reportMalformedNumber('expected "L" to be followed by another "l"');
+      errorReporter.reportMalformedNumber(
+        'expected "L" to be followed by another "l"',
+      );
+    }
+
+    return false;
+  }
+
+  private consumeDotNotation() {
+    const { scanner } = this;
+
+    if (scanner.isDotNotation()) {
+      scanner.scan();
+
+      return true;
     }
 
     return false;
@@ -217,7 +237,6 @@ class Tokenizer {
   }
 
   private tokenizeHexadecimalNumericLiteral(): Token {
-    let encounteredDotNotation = false;
     const { scanner } = this;
 
     // Put a mark on the scanner before we progress it.
@@ -228,22 +247,23 @@ class Tokenizer {
     scanner.scan().scan();
 
     // Hexadecimal numbers can be represented as 0x.34
-    if (scanner.isDotNotation()) {
-      encounteredDotNotation = true;
-      // If we encounter a dot notation we go over it as we know this can be expected.
-      scanner.scan();
+    let isDecimal = this.consumeDotNotation();
+
+    scanner.scanWhile(scanner.isHexDigit);
+
+    // If we already encountered a "." it cannot appear again, so incase we didn't encounter
+    // a hex that start with a dot notation such as "0x.3f" we account for dot notation that
+    // may appear afterwards.
+    if (!isDecimal) {
+      isDecimal = this.consumeDotNotation();
     }
 
     scanner.scanWhile(scanner.isHexDigit);
 
-    // If we already "." it cannot appear again.
-    if (!encounteredDotNotation && scanner.isDotNotation()) {
-      encounteredDotNotation = true;
-      // If we encounter a dot notation we go over it as we know this can be expected.
-      scanner.scan();
-    }
-
-    scanner.scanWhile(scanner.isHexDigit);
+    // if we encounter another dot notation it's an error, e.g "0x3..3".
+    if (isDecimal && scanner.isDotNotation()) {
+      this.errorReporter.reportMalformedNumber('integer literal cannot have more than one "."');
+    } 
 
     this.consumeExponent({ isBinary: false });
     this.consumeImaginaryUnitSuffix();
@@ -264,12 +284,15 @@ class Tokenizer {
     // Mark the position and scan until we no longer encounter a digit.
     scanner.mark().scanWhile(scanner.isDigit);
 
-    // If we are here we probably encountered something not a digit.
-    // If it is a dot notation then we acknowledge over it and scan some more
-    // only if it's a digit.
-    if (scanner.isDotNotation()) {
-      scanner.scan().scanWhile(scanner.isDigit);
-    }
+    // We check for dot notation to check if we are dealing with decimal numbers.
+    let isDecimal = this.consumeDotNotation();
+
+    scanner.scanWhile(scanner.isDigit);
+
+    // If we encounter another dot notation it's an error, e.g "3..3" or "3.3.4".
+    if (isDecimal && scanner.isDotNotation()) {
+      this.errorReporter.reportMalformedNumber('integer literal cannot have more than one "."');
+    } 
 
     // After we are done with the code above we may have something like 3 or 3.14159265359.
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.

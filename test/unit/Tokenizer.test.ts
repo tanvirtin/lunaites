@@ -376,7 +376,7 @@ describe("Tokenizer", () => {
         Object.entries(testTable).forEach(([source, result]) => {
           it(`"i" suffix is ignored when ${source}" numeric identifier`, () => {
             tokenizer = new Tokenizer(source, {
-              imaginaryNumbers: false
+              imaginaryNumbers: false,
             });
 
             const token = tokenizer.tokenize();
@@ -428,7 +428,7 @@ describe("Tokenizer", () => {
         Object.entries(testTable).forEach(([source, result]) => {
           it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
             tokenizer = new Tokenizer(source, {
-              integerSuffixes: false
+              integerSuffixes: false,
             });
 
             const token = tokenizer.tokenize();
@@ -442,6 +442,11 @@ describe("Tokenizer", () => {
 
     describe("throws errors when unexpected characters appear while parsing numeric literals", () => {
       const testTable = {
+        "1..1": "[1:3] malformed number near '1.'",
+        "1.1.1": "[1:4] malformed number near '1.1'",
+        "0x..": "[1:4] malformed number near '0x.'",
+        "0x3..3": "[1:5] malformed number near '0x3.'",
+        "0x3...3": "[1:5] malformed number near '0x3.'",
         // Exponents are represented by p for hexadecimals and a non digit appearing right after the exponent is not allowed
         "0x333pe": "[1:7] malformed number near '0x333p'",
         "0x333p+e": "[1:8] malformed number near '0x333p+'",
