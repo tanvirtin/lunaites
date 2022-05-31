@@ -481,6 +481,9 @@ describe("Tokenizer", () => {
         "0x.4iLL": "[1:8] malformed number near '0x.4iLL'",
         "0x4.3iULL": "[1:10] malformed number near '0x4.3iULL'",
         "0x4.2iLL": "[1:9] malformed number near '0x4.2iLL'",
+        // Numbers with exponent cannot be followed by integer suffix.
+        "333e3ULL": "[1:9] malformed number near '333e3ULL'",
+        "0x4p3ULL": "[1:9] malformed number near '0x4p3ULL'"
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
