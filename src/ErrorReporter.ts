@@ -36,6 +36,15 @@ class ErrorReporter {
 
     throw error;
   }
+
+  reportUnfinishedString(): void {
+    const error = this.throwError(
+      "unfinished string near '%s'",
+      this.scanner.getText(),
+    );
+
+    throw error;
+  }
 }
 
 export { ErrorReporter };

@@ -55,6 +55,28 @@ describe("Scanner", () => {
     });
   });
 
+  describe("match", () => {
+    it("should return true if the number of consequetive chars equal the current slice in the positive index", () => {
+      const scanner = new Scanner("0xb1e");
+
+      assert(scanner.match('0x'))
+
+      scanner.scan().scan();
+
+      assert(scanner.match('b1e'))
+    })
+
+    it("should return false if the number of consequetive chars does not equal the current slice in the positive index", () => {
+      const scanner = new Scanner("0xb1e");
+
+      assert(!scanner.match('hello'))
+
+      scanner.scan().scan();
+
+      assert(!scanner.match('0xb1e'))
+    })
+  })
+
   describe("isBackslash", () => {
     it("should return true if the char being pointed at is a backslash", () => {
       assert((new Scanner("\\'")).isBackslash());
@@ -75,29 +97,6 @@ describe("Scanner", () => {
     it("should return false if the char being pointed at is not a given char code", () => {
       assert(!(new Scanner("E")).isCharCode(68, 0));
       assert(!(new Scanner("e")).isCharCode(100, 0));
-    });
-  });
-
-  describe("isHexadecimal", () => {
-    it("should return true if the char being pointed at is a hexadecimal", () => {
-      assert((new Scanner("0x3b24")).isHexadecimal(0));
-      assert((new Scanner("0X3b24")).isHexadecimal(0));
-      assert((new Scanner("0XF96")).isHexadecimal(0));
-      assert((new Scanner("0x21")).isHexadecimal(0));
-      assert((new Scanner("0x3AA")).isHexadecimal(0));
-      assert((new Scanner("0X29b")).isHexadecimal(0));
-      assert((new Scanner("0X4bD")).isHexadecimal(0));
-    });
-
-    it("should return false if the char being pointed at is not a hexadecimal", () => {
-      assert(!(new Scanner("03b24")).isHexadecimal(0));
-      assert(!(new Scanner("0")).isHexadecimal(0));
-      assert(!(new Scanner("01")).isHexadecimal(0));
-      assert(!(new Scanner(" 0X29b")).isHexadecimal(0));
-      assert(!(new Scanner(" 0x29b")).isHexadecimal(0));
-      assert(!(new Scanner("0 x29b")).isHexadecimal(0));
-      assert(!(new Scanner("0 X29c")).isHexadecimal(0));
-      assert(!(new Scanner("")).isHexadecimal(0));
     });
   });
 

@@ -310,6 +310,23 @@ describe("Tokenizer", () => {
       });
     });
 
+    describe("throws errors when unexpected characters appear while parsing string literals", () => {
+      const testTable = {
+        '"': "[1:2] unfinished string near '\"'",
+        "'": '[1:2] unfinished string near \'\'\'',
+        "'\\": '[1:4] unfinished string near \'\'\\\'',
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () =>
+          assertThrows(
+            () => (new Tokenizer(source)).tokenize(),
+            SyntaxError,
+            result,
+          ));
+      });
+    })
+
     describe("correctly tokenizes numeric literals", () => {
       const testTable = {
         "1": "1",

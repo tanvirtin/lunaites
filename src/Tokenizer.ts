@@ -226,7 +226,7 @@ class Tokenizer {
       // If we hit out of bounds we have an unfinished string that 
       // never met the matching delimiter.
       if (scanner.isOutOfBounds()) {
-        errorReporter.reportMalformedNumber();
+        errorReporter.reportUnfinishedString();
       }
 
       // We skip the next character after the backslash character.
@@ -363,8 +363,10 @@ class Tokenizer {
   }
 
   private tokenizeNumericLiteral(): Token {
+    const { scanner } = this;
+
     // If it's a hexadecimal it starts with "0x" or "0X".
-    if (this.scanner.isHexadecimal()) {
+    if (scanner.match("0x") || scanner.match("0X")) {
       return this.tokenizeHexadecimalNumericLiteral();
     }
 

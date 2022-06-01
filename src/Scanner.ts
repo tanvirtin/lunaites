@@ -86,19 +86,6 @@ class Scanner {
       (this.isCarriageReturn(index) && this.isLineFeed(index + 1));
   }
 
-  // A hexadecimal integer literal begins with the 0 digit followed by either an x or X,
-  // followed by any combination of the digits 0 through 9 and the letters a through f or A through F.
-  isHexadecimal(index?: number): boolean {
-    index = this.sanitizeIndex(index);
-
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
-    const nextCharCode = this.getCharCode(index + 1);
-
-    return charCode == 48 && (nextCharCode === 120 || nextCharCode === 88);
-  }
-
   // [0-9]
   isDigit(index?: number): boolean {
     index = this.sanitizeIndex(index);
@@ -174,7 +161,7 @@ class Scanner {
     return index < 0 || index >= this.source.length;
   }
 
-  getCol() {
+  getCol(): number {
     return this.index - this.lnumStartIndex + 1;
   }
 
@@ -208,6 +195,21 @@ class Scanner {
     index = this.sanitizeIndex(index);
 
     return [markedIndex, index];
+  }
+
+  match(chars: string): boolean {
+    let found = true;
+
+    for (let i = 0; i < chars.length; ++i) {
+      const charCode = chars.charCodeAt(i);
+      found = this.isCharCode(charCode, this.index + i);
+
+      if (!found) {
+        break;
+      }
+    }
+
+    return found;
   }
 
   // Mark the current index in memory.
