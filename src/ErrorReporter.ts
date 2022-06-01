@@ -45,6 +45,15 @@ class ErrorReporter {
 
     throw error;
   }
+
+  reportUnfinishedLongString(): void {
+    const error = this.throwError(
+      "unfinished long string near '%s'",
+      this.scanner.getText(),
+    );
+
+    throw error;
+  }
 }
 
 export { ErrorReporter };

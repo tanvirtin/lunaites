@@ -22,4 +22,42 @@ describe("ErrorReporter", () => {
       );
     });
   });
+
+  describe("reportUnfinishedString", () => {
+    it("throws a unfinished string error correctly", () => {
+      const computation = () => {
+        const scanner = new Scanner("'");
+        const errorReporter = new ErrorReporter(scanner);
+
+        scanner.scan();
+
+        errorReporter.reportUnfinishedString();
+      };
+
+      assertThrows(
+        computation,
+        SyntaxError,
+        "[1:2] unfinished string near '\''",
+      );
+    });
+  });
+
+  describe("reportUnfinishedLongString", () => {
+    it("throws a unfinished string error correctly", () => {
+      const computation = () => {
+        const scanner = new Scanner("[[");
+        const errorReporter = new ErrorReporter(scanner);
+
+        scanner.scan().scan();
+
+        errorReporter.reportUnfinishedLongString();
+      };
+
+      assertThrows(
+        computation,
+        SyntaxError,
+        "[1:3] unfinished long string near '[['",
+      );
+    });
+  });
 });
