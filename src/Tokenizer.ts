@@ -247,6 +247,40 @@ class Tokenizer {
     };
   }
 
+  private tokenizeLongStringLiteral(): Token {
+    let depth = 0;
+    const { scanner, errorReporter } = this;
+    const { lnum, lnumStartIndex } = scanner;
+
+    scanner.mark();
+
+    // Scan over the ending long string delimiter [[
+    scanner.scan().scan();
+
+    while (!scanner.match("]]") && depth === 0) {
+      // If we hit out of bounds we have an unfinished string that 
+      // never met the matching delimiter.
+      if (scanner.isOutOfBounds()) {
+        errorReporter.reportUnfinishedLongString();
+      }
+
+      // Note: Long strings do not support escape sequences such as backslash.
+
+      scanner.scan();
+    }
+
+    // Scan over the ending long string delimiter ]]
+    scanner.scan().scan();
+
+    return {
+      type: TokenType.StringLiteral,
+      value: scanner.getText(),
+      range: scanner.getRange(),
+      lnum,
+      lnumStartIndex,
+    };
+  }
+
   private tokenizeIdentifier(): Token {
     const { scanner } = this;
 
@@ -385,6 +419,10 @@ class Tokenizer {
 
     if (scanner.isQuote() || scanner.isDoubleQuote()) {
       return this.tokenizeStringLiteral();
+    }
+
+    if (scanner.match('[[')) {
+      return this.tokenizeLongStringLiteral();
     }
 
     if (scanner.isDigit()) {

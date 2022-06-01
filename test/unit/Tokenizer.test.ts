@@ -295,7 +295,8 @@ describe("Tokenizer", () => {
         "\"bar\"": "\"bar\"",
         '"\nhello world"': '"\nhello world"',
         "'\\''": "'\\''",
-        '"\\""': '"\\""'
+        '"\\""': '"\\""',
+        "[[ hello world ]]": "[[ hello world ]]"
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
@@ -315,6 +316,8 @@ describe("Tokenizer", () => {
         '"': "[1:2] unfinished string near '\"'",
         "'": '[1:2] unfinished string near \'\'\'',
         "'\\": '[1:4] unfinished string near \'\'\\\'',
+        "[[": "[1:3] unfinished long string near '[['",
+        "[[]": "[1:4] unfinished long string near '[[]'",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
