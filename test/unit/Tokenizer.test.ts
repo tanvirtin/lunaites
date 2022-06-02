@@ -296,7 +296,13 @@ describe("Tokenizer", () => {
         '"\nhello world"': '"\nhello world"',
         "'\\''": "'\\''",
         '"\\""': '"\\""',
-        "[[ hello world ]]": "[[ hello world ]]"
+        "[[ hello world ]]": "[[ hello world ]]",
+        "[=[one [[two]] one]=]": "[=[one [[two]] one]=]",
+        "[===[one [[two]] one]===]": "[===[one [[two]] one]===]",
+        "[=[one [ [==[ one]=]": "[=[one [ [==[ one]=]",
+        '[[This is an "escaped" word, the characters ]].]]': '[[This is an "escaped" word, the characters ]]',
+        '[[]]': '[[]]',
+        '[==[]==]': '[==[]==]',
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
@@ -318,6 +324,7 @@ describe("Tokenizer", () => {
         "'\\": '[1:4] unfinished string near \'\'\\\'',
         "[[": "[1:3] unfinished long string near '[['",
         "[[]": "[1:4] unfinished long string near '[[]'",
+        "[==============================sup": "[1:32] unfinished long string near '[=============================='",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {

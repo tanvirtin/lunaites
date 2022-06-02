@@ -88,6 +88,20 @@ class Tokenizer {
     return keywords.some((keyword) => text === keyword);
   }
 
+  private consume(chars: string) {
+    const { scanner } = this;
+
+    if (scanner.match(chars)) {
+      for (const _ of chars) {
+        scanner.scan();
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
   private consumeExponent({ isBinary }: { isBinary?: boolean }) {
     const { scanner } = this;
 
@@ -223,6 +237,7 @@ class Tokenizer {
     scanner.scan();
 
     while (!scanner.isCharCode(delimeterCharCode)) {
+      this.scanner.consumeEOL();
       // If we hit out of bounds we have an unfinished string that 
       // never met the matching delimiter.
       if (scanner.isOutOfBounds()) {
@@ -249,28 +264,70 @@ class Tokenizer {
 
   private tokenizeLongStringLiteral(): Token {
     let depth = 0;
+    let encounteredDelimeter = false;
     const { scanner, errorReporter } = this;
     const { lnum, lnumStartIndex } = scanner;
 
     scanner.mark();
 
-    // Scan over the ending long string delimiter [[
-    scanner.scan().scan();
+    // Skip over "["
+    scanner.scan();
 
-    while (!scanner.match("]]") && depth === 0) {
-      // If we hit out of bounds we have an unfinished string that 
-      // never met the matching delimiter.
-      if (scanner.isOutOfBounds()) {
-        errorReporter.reportUnfinishedLongString();
+    // if we keep encountering "=" we scan it and increment depth count.
+    while (scanner.isEqual()) {
+      scanner.scan();
+      ++depth;
+    }
+
+    // If we encounter a bunch of "=" and we already have a string sequence such as [====
+    // or something and the next character is not a "[" then we know it's an unfinished string.
+    // This expression holds true for the following cases: "[[" or "[====["
+    if (!scanner.isOpenBracket()) {
+      errorReporter.reportUnfinishedLongString();
+    }
+
+    while (!scanner.isOutOfBounds() && !encounteredDelimeter) { 
+      let runningDepth = 0;
+
+      // Consume any end of line.
+      this.scanner.consumeEOL();
+
+      // If we encounter equal characters.
+      while (scanner.isEqual()) {
+        // We increment our running depth and check if it equals the real depth.
+        // If it does and current char and next char equals "=]" we encountered
+        // our delimeter.
+        if (++runningDepth === depth && scanner.match("=]")) {
+          encounteredDelimeter = true;
+          depth = 0;
+
+          scanner.scan();
+
+          break; 
+        }
+
+        scanner.scan();
       }
 
-      // Note: Long strings do not support escape sequences such as backslash.
+      // The long string itself could have no depth if it starts with [[.
+      // Another instance could be there was a depth and we found a delimiter.
+      if (depth === 0) {
+        if (scanner.match("]]")) {
+          encounteredDelimeter = true;
+
+          // Scan over this delimeter.
+          scanner.scan();
+        }
+      }
 
       scanner.scan();
     }
 
-    // Scan over the ending long string delimiter ]]
-    scanner.scan().scan();
+     // If we hit out of bounds we have an unfinished
+    // long string that never met the matching delimiter.
+    if (!encounteredDelimeter && scanner.isOutOfBounds()) {
+      errorReporter.reportUnfinishedLongString();
+    }
 
     return {
       type: TokenType.StringLiteral,
@@ -411,7 +468,7 @@ class Tokenizer {
     const { scanner } = this;
 
     // All whitespace noise is eaten away as they have no semantic value.
-    scanner.comsumeWhitespace();
+    scanner.consumeWhitespace();
 
     if (scanner.isOutOfBounds()) {
       return this.tokenizeEOF();
@@ -421,7 +478,7 @@ class Tokenizer {
       return this.tokenizeStringLiteral();
     }
 
-    if (scanner.match('[[')) {
+    if (scanner.match('[[') || scanner.match('[=')) {
       return this.tokenizeLongStringLiteral();
     }
 

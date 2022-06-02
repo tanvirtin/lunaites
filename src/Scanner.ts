@@ -35,6 +35,16 @@ class Scanner {
     return this.getCharCode(index) === charCode;
   }
 
+  // '['
+  isOpenBracket(index?: number): boolean {
+    return this.isCharCode(91, index);
+  }
+
+  // '='
+  isEqual(index?: number): boolean {
+    return this.isCharCode(61, index);
+  }
+
   // '\'
   isBackslash(index?: number): boolean {
     return this.isCharCode(92, index);
@@ -243,29 +253,37 @@ class Scanner {
     return this;
   }
 
+  consumeEOL(): boolean {
+    if (this.isLineTerminator()) {
+      // If we encountered a line terminator, we scan the line count by 1.
+      ++this.lnum;
+      // If we encounter \n\r or \r\n it's a new line.
+      if (this.isNewLine()) {
+        this.scan().scan();
+        this.lnumStartIndex = this.index;
+        // Otherwise we skip the \n or \r.
+      } else {
+        this.scan();
+        this.lnumStartIndex = this.index;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
   // Eats away all whitespace characters and progresses the index.
-  comsumeWhitespace(): Scanner {
+  consumeWhitespace(): boolean {
     while (!this.isOutOfBounds()) {
       if (this.isWhitespace()) {
         this.scan();
-      } else if (this.isLineTerminator()) {
-        // If we encountered a line terminator, we scan the line count by 1.
-        ++this.lnum;
-        // If we encounter \n\r or \r\n it's a new line.
-        if (this.isNewLine()) {
-          this.scan().scan();
-          this.lnumStartIndex = this.index;
-          // Otherwise we skip the \n or \r.
-        } else {
-          this.scan();
-          this.lnumStartIndex = this.index;
-        }
-      } else {
-        break;
+      } else if (!this.consumeEOL()) {
+        return true;
       }
     }
 
-    return this;
+    return false;
   }
 }
 

@@ -77,6 +77,30 @@ describe("Scanner", () => {
     })
   })
 
+  describe("isOpenBracket", () => {
+    it("should return true if the char being pointed at is a backslash", () => {
+      assert((new Scanner("[]")).isOpenBracket());
+      assert((new Scanner("[[]]")).isOpenBracket());
+    });
+
+    it("should return false if the char being pointed at is not a backslash", () => {
+      assert(!(new Scanner("]]")).isOpenBracket());
+      assert(!(new Scanner(" [[]]")).isOpenBracket());
+    });
+  });
+
+  describe("isEqual", () => {
+    it("should return true if the char being pointed at is a backslash", () => {
+      assert((new Scanner("=")).isEqual());
+      assert((new Scanner("==")).isEqual());
+    });
+
+    it("should return false if the char being pointed at is not a backslash", () => {
+      assert(!(new Scanner("\e")).isEqual());
+      assert(!(new Scanner(" =/")).isEqual());
+    });
+  });
+
   describe("isBackslash", () => {
     it("should return true if the char being pointed at is a backslash", () => {
       assert((new Scanner("\\'")).isBackslash());
@@ -380,32 +404,37 @@ describe("Scanner", () => {
     });
   });
 
-  describe("comsumeWhitespace", () => {
+  describe("consumeWhitespace", () => {
     it("consumes all whitespaces", () => {
       scanner = new Scanner("          9      3");
-      scanner.comsumeWhitespace();
+      scanner.consumeWhitespace();
 
       assertEquals(scanner.getChar(), "9");
 
       scanner.scan();
-      scanner.comsumeWhitespace();
+      scanner.consumeWhitespace();
 
       assertEquals(scanner.getChar(), "3");
 
-      scanner.comsumeWhitespace();
+      scanner.consumeWhitespace();
       assertEquals(scanner.getChar(), "3");
 
       scanner.scan();
-      scanner.comsumeWhitespace();
+      scanner.consumeWhitespace();
 
       assert(scanner.isOutOfBounds());
     });
 
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
-      scanner.comsumeWhitespace().scan("local".length).comsumeWhitespace().scan(
+
+      scanner.consumeWhitespace()
+      scanner.scan("local".length)
+      scanner.consumeWhitespace()
+      scanner.scan(
         "bar".length,
-      ).comsumeWhitespace();
+      )
+      scanner.consumeWhitespace();
 
       assertEquals(
         scanner.getText(scanner.index, scanner.index + "baz".length),
@@ -416,7 +445,7 @@ describe("Scanner", () => {
     it("should track line numbers being added", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
-      scanner.comsumeWhitespace();
+      scanner.consumeWhitespace();
 
       assertEquals(scanner.lnum, 3);
     });
@@ -424,10 +453,10 @@ describe("Scanner", () => {
     it("should track line start positions", () => {
       scanner = new Scanner("  \r  \n      local  \r\n  \n\r    bar  baz ");
 
-      scanner.comsumeWhitespace();
+      scanner.consumeWhitespace();
       assertEquals(scanner.lnumStartIndex, 6);
 
-      scanner.scan("local".length).comsumeWhitespace();
+      scanner.scan("local".length).consumeWhitespace();
       assertEquals(scanner.lnumStartIndex, 25);
     });
   });
