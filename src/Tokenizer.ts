@@ -11,6 +11,7 @@ enum TokenType {
   BooleanLiteral = 64,
   NilLiteral = 128,
   VarargLiteral = 256,
+  Comment = 512,
 }
 
 interface Token {
@@ -88,15 +89,16 @@ class Tokenizer {
     return keywords.some((keyword) => text === keyword);
   }
 
-  private consume(chars: string) {
+  // Eats away all whitespace characters and progresses the index.
+  private consumeWhitespace(): boolean {
     const { scanner } = this;
 
-    if (scanner.match(chars)) {
-      for (const _ of chars) {
+    while (!scanner.isOutOfBounds()) {
+      if (scanner.isWhitespace()) {
         scanner.scan();
+      } else if (!scanner.consumeEOL()) {
+        return true;
       }
-
-      return true;
     }
 
     return false;
@@ -226,6 +228,27 @@ class Tokenizer {
     };
   }
 
+  private tokenizeComment(): Token {
+    const { scanner } = this;
+    const { lnum, lnumStartIndex } = scanner;
+
+    // Mark the spot in the scanner for us to remember the start.
+    scanner.mark();
+
+    // scan over "--"
+    scanner.scan().scan();
+
+    scanner.scanUntil(scanner.consumeEOL);
+
+    return {
+      type: TokenType.Comment,
+      value: scanner.getText(),
+      range: scanner.getRange(),
+      lnum,
+      lnumStartIndex,
+    };
+  }
+
   private tokenizeStringLiteral(): Token {
     const { scanner, errorReporter } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -237,8 +260,9 @@ class Tokenizer {
     scanner.scan();
 
     while (!scanner.isCharCode(delimeterCharCode)) {
+      // Consume all EOL so that the scanner automatically increments line count.
       this.scanner.consumeEOL();
-      // If we hit out of bounds we have an unfinished string that 
+      // If we hit out of bounds we have an unfinished string that
       // never met the matching delimiter.
       if (scanner.isOutOfBounds()) {
         errorReporter.reportUnfinishedString();
@@ -286,7 +310,7 @@ class Tokenizer {
       errorReporter.reportUnfinishedLongString();
     }
 
-    while (!scanner.isOutOfBounds() && !encounteredDelimeter) { 
+    while (!scanner.isOutOfBounds() && !encounteredDelimeter) {
       let runningDepth = 0;
 
       // Consume any end of line.
@@ -303,7 +327,7 @@ class Tokenizer {
 
           scanner.scan();
 
-          break; 
+          break;
         }
 
         scanner.scan();
@@ -323,7 +347,7 @@ class Tokenizer {
       scanner.scan();
     }
 
-     // If we hit out of bounds we have an unfinished
+    // If we hit out of bounds we have an unfinished
     // long string that never met the matching delimiter.
     if (!encounteredDelimeter && scanner.isOutOfBounds()) {
       errorReporter.reportUnfinishedLongString();
@@ -468,17 +492,21 @@ class Tokenizer {
     const { scanner } = this;
 
     // All whitespace noise is eaten away as they have no semantic value.
-    scanner.consumeWhitespace();
+    this.consumeWhitespace();
 
     if (scanner.isOutOfBounds()) {
       return this.tokenizeEOF();
+    }
+
+    if (scanner.match("--")) {
+      return this.tokenizeComment();
     }
 
     if (scanner.isQuote() || scanner.isDoubleQuote()) {
       return this.tokenizeStringLiteral();
     }
 
-    if (scanner.match('[[') || scanner.match('[=')) {
+    if (scanner.match("[[") || scanner.match("[=")) {
       return this.tokenizeLongStringLiteral();
     }
 

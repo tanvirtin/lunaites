@@ -9,6 +9,22 @@ describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
 
   describe("tokenize", () => {
+    describe("segments", () => {
+      it('when source is "[[]]3"', () => {
+        tokenizer = new Tokenizer("[[]]3");
+
+        assertEquals(tokenizer.tokenize()?.value, "[[]]");
+        assertEquals(tokenizer.tokenize()?.value, "3");
+      });
+
+      it('when source is "3[[]]"', () => {
+        tokenizer = new Tokenizer("3[[]]");
+
+        assertEquals(tokenizer.tokenize()?.value, "3");
+        assertEquals(tokenizer.tokenize()?.value, "[[]]");
+      });
+    });
+
     it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
       tokenizer = new Tokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
 
@@ -292,7 +308,7 @@ describe("Tokenizer", () => {
         '""': '""',
         "'foo'": "'foo'",
         '"baz"': '"baz"',
-        "\"bar\"": "\"bar\"",
+        '"bar"': '"bar"',
         '"\nhello world"': '"\nhello world"',
         "'\\''": "'\\''",
         '"\\""': '"\\""',
@@ -300,9 +316,12 @@ describe("Tokenizer", () => {
         "[=[one [[two]] one]=]": "[=[one [[two]] one]=]",
         "[===[one [[two]] one]===]": "[===[one [[two]] one]===]",
         "[=[one [ [==[ one]=]": "[=[one [ [==[ one]=]",
-        '[[This is an "escaped" word, the characters ]].]]': '[[This is an "escaped" word, the characters ]]',
-        '[[]]': '[[]]',
-        '[==[]==]': '[==[]==]',
+        '[[This is an "escaped" word, the characters ]].]]':
+          '[[This is an "escaped" word, the characters ]]',
+        "[[]]": "[[]]",
+        "[==[]==]": "[==[]==]",
+        "[[**Hello**, &_world_&.]] &_*Won#der#ful* day_&, **-don't- you** #th*in*k?#":
+          "[[**Hello**, &_world_&.]]",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
@@ -315,16 +334,26 @@ describe("Tokenizer", () => {
           assertEquals(token?.type, TokenType.StringLiteral);
         });
       });
+
+      it("should handle lnum when string contains new lines", () => {
+        const source = '"hello \n world"';
+        tokenizer = new Tokenizer(source);
+
+        tokenizer.tokenize();
+
+        assertEquals(tokenizer.scanner.lnum, 2);
+      });
     });
 
     describe("throws errors when unexpected characters appear while parsing string literals", () => {
       const testTable = {
         '"': "[1:2] unfinished string near '\"'",
-        "'": '[1:2] unfinished string near \'\'\'',
-        "'\\": '[1:4] unfinished string near \'\'\\\'',
+        "'": "[1:2] unfinished string near '''",
+        "'\\": "[1:4] unfinished string near ''\\'",
         "[[": "[1:3] unfinished long string near '[['",
         "[[]": "[1:4] unfinished long string near '[[]'",
-        "[==============================sup": "[1:32] unfinished long string near '[=============================='",
+        "[==============================sup":
+          "[1:32] unfinished long string near '[=============================='",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
@@ -335,7 +364,7 @@ describe("Tokenizer", () => {
             result,
           ));
       });
-    })
+    });
 
     describe("correctly tokenizes numeric literals", () => {
       const testTable = {
@@ -545,6 +574,96 @@ describe("Tokenizer", () => {
             result,
           ));
       });
+    });
+  });
+
+  describe("correctly tokenizes single comments", () => {
+    it('when source is "-- comment"', () => {
+      tokenizer = new Tokenizer("-- comment");
+
+      const token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+    });
+
+    it('when source is "--coment"', () => {
+      tokenizer = new Tokenizer("--coment");
+
+      const token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+    });
+
+    it('when source is "-- comment\n-- comment"', () => {
+      tokenizer = new Tokenizer("-- comment\n-- comment");
+
+      let token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+    });
+
+    it('when source is "-- comment\nreturn"', () => {
+      tokenizer = new Tokenizer("-- comment\nreturn");
+
+      let token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Keyword);
+    });
+
+    it('when source is "return --comment \n"', () => {
+      tokenizer = new Tokenizer("return --comment \n");
+
+      let token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Keyword);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+    });
+
+    it('when source is "--[=[comment]=] return"', () => {
+      tokenizer = new Tokenizer("--[=[comment]=] return");
+
+      let token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+    });
+
+    it('when source is "if true -- comment\nthen end"', () => {
+      tokenizer = new Tokenizer("if true -- comment\nthen end");
+
+      let token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Keyword);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.BooleanLiteral);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Comment);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Keyword);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.Keyword);
+
+      token = tokenizer.tokenize();
+
+      assertEquals(token?.type, TokenType.EOF);
     });
   });
 });

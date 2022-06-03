@@ -272,19 +272,6 @@ class Scanner {
 
     return false;
   }
-
-  // Eats away all whitespace characters and progresses the index.
-  consumeWhitespace(): boolean {
-    while (!this.isOutOfBounds()) {
-      if (this.isWhitespace()) {
-        this.scan();
-      } else if (!this.consumeEOL()) {
-        return true;
-      }
-    }
-
-    return false;
-  }
 }
 
 export { Scanner };

@@ -37,7 +37,7 @@ describe("ErrorReporter", () => {
       assertThrows(
         computation,
         SyntaxError,
-        "[1:2] unfinished string near '\''",
+        "[1:2] unfinished string near '''",
       );
     });
   });
