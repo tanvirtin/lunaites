@@ -22,7 +22,7 @@ interface Token {
   lnumStartIndex: number;
 }
 
-interface Feature {
+interface TokenizerOptions {
   labels?: boolean;
   contextualGoto?: boolean;
   integerSuffixes?: boolean;
@@ -37,7 +37,7 @@ interface Feature {
 class Tokenizer {
   public scanner: Scanner;
   private errorReporter: ErrorReporter;
-  private feature: Feature = {
+  private options: TokenizerOptions = {
     labels: true,
     contextualGoto: true,
     integerDivision: true,
@@ -47,20 +47,20 @@ class Tokenizer {
     extendedIdentifiers: true,
   };
 
-  constructor(source: string, feature?: Feature) {
-    this.feature = {
-      ...this.feature,
-      ...(feature ?? {}),
+  constructor(source: string, options?: TokenizerOptions) {
+    this.options = {
+      ...this.options,
+      ...(options ?? {}),
     };
     this.scanner = new Scanner(source, {
-      extendedIdentifiers: this.feature.extendedIdentifiers ?? true,
+      extendedIdentifiers: this.options.extendedIdentifiers ?? true,
     });
     this.errorReporter = new ErrorReporter(this.scanner);
   }
 
   // All lua keywords
   private isKeyword(text: string) {
-    const { feature } = this;
+    const { options } = this;
     const keywords: string[] = [
       "do",
       "if",
@@ -82,7 +82,7 @@ class Tokenizer {
       "function",
     ];
 
-    if (feature.labels && !feature.contextualGoto) {
+    if (options.labels && !options.contextualGoto) {
       keywords.push("goto");
     }
 
@@ -144,9 +144,9 @@ class Tokenizer {
   }
 
   private consumeImaginaryUnitSuffix() {
-    const { feature, scanner } = this;
+    const { options, scanner } = this;
 
-    if (!feature.imaginaryNumbers) {
+    if (!options.imaginaryNumbers) {
       return false;
     }
 
@@ -164,9 +164,9 @@ class Tokenizer {
   // part of  has fractions ("." notation). Integer suffix will also
   // not work if there is an imaginary suffix before it as well.
   private consumeInt64Suffix() {
-    const { errorReporter, feature, scanner } = this;
+    const { errorReporter, options, scanner } = this;
 
-    if (!feature.integerSuffixes) {
+    if (!options.integerSuffixes) {
       return false;
     }
 
@@ -219,12 +219,17 @@ class Tokenizer {
   }
 
   private tokenizeEOF(): Token {
+    const { scanner } = this;
+
+    // Mark the spot in the scanner for us to remember the start.
+    scanner.mark();
+
     return {
       type: TokenType.EOF,
       value: "<eof>",
-      range: [this.scanner.index, this.scanner.index],
-      lnum: this.scanner.lnum,
-      lnumStartIndex: this.scanner.lnumStartIndex,
+      range: scanner.getRange(),
+      lnum: scanner.lnum,
+      lnumStartIndex: scanner.lnumStartIndex,
     };
   }
 
@@ -238,7 +243,13 @@ class Tokenizer {
     // scan over "--"
     scanner.scan().scan();
 
-    scanner.scanUntil(scanner.consumeEOL);
+    while (!scanner.isOutOfBounds()) {
+      if (scanner.isLineTerminator()) {
+        break;
+      }
+
+      scanner.scan();
+    }
 
     return {
       type: TokenType.Comment,
@@ -254,6 +265,7 @@ class Tokenizer {
     const { lnum, lnumStartIndex } = scanner;
     const delimeterCharCode = scanner.getCharCode();
 
+    // Mark the spot in the scanner for us to remember the start.
     scanner.mark();
 
     // Scan over the ending string delimiter (", ')
@@ -292,6 +304,7 @@ class Tokenizer {
     const { scanner, errorReporter } = this;
     const { lnum, lnumStartIndex } = scanner;
 
+    // Mark the spot in the scanner for us to remember the start.
     scanner.mark();
 
     // Skip over "["
@@ -365,7 +378,11 @@ class Tokenizer {
   private tokenizeIdentifier(): Token {
     const { scanner } = this;
 
-    scanner.mark().scanWhile(scanner.isAlphanumeric);
+    // Mark the spot in the scanner for us to remember the start.
+    scanner.mark();
+
+    // Itentifiers can only be characters that are alphanumeric (digits or alphabets).
+    scanner.scanWhile(scanner.isAlphanumeric);
 
     let type = TokenType.Identifier;
     const value = scanner.getText();
@@ -488,7 +505,7 @@ class Tokenizer {
     return this.tokenizeDecimalNumericLiteral();
   }
 
-  tokenize(): Token | void {
+  tokenize(): Token {
     const { scanner } = this;
 
     // All whitespace noise is eaten away as they have no semantic value.
@@ -525,7 +542,10 @@ class Tokenizer {
     if (scanner.isAlphabet()) {
       return this.tokenizeIdentifier();
     }
+
+    this.errorReporter.reportUnexpectedCharacter();
   }
 }
 
 export { Tokenizer, TokenType };
+export type { TokenizerOptions };

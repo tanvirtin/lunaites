@@ -3,6 +3,7 @@ import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
   assert,
   assertEquals,
+  assertObjectMatch,
 } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
 describe("Scanner", () => {
@@ -16,11 +17,16 @@ describe("Scanner", () => {
     it("increments the current scanner index by a specific number", () => {
       scanner = new Scanner("hello world");
 
-      assertEquals(scanner.index, 0);
+      assertObjectMatch(scanner, {
+        index: 0,
+      });
 
       scanner.scan(200);
 
-      assertEquals(scanner.index, 200);
+      assertObjectMatch(scanner, {
+        index: 200,
+      });
+
       assert(scanner.isOutOfBounds());
     });
   });

@@ -17,7 +17,7 @@ class ErrorReporter {
     return `[${this.scanner.lnum}:${this.scanner.getCol()}] ${message} }'`;
   }
 
-  private throwError(templateMessage: string, ...args: string[]): SyntaxError {
+  private createError(templateMessage: string, ...args: string[]): SyntaxError {
     return new SyntaxError(
       this.createErrorMessage(
         this.deriveTemplate(
@@ -28,8 +28,8 @@ class ErrorReporter {
     );
   }
 
-  reportMalformedNumber(): void {
-    const error = this.throwError(
+  reportMalformedNumber(): never {
+    const error = this.createError(
       "malformed number near '%s'",
       this.scanner.getText(),
     );
@@ -37,8 +37,8 @@ class ErrorReporter {
     throw error;
   }
 
-  reportUnfinishedString(): void {
-    const error = this.throwError(
+  reportUnfinishedString(): never {
+    const error = this.createError(
       "unfinished string near '%s'",
       this.scanner.getText(),
     );
@@ -46,9 +46,18 @@ class ErrorReporter {
     throw error;
   }
 
-  reportUnfinishedLongString(): void {
-    const error = this.throwError(
+  reportUnfinishedLongString(): never {
+    const error = this.createError(
       "unfinished long string near '%s'",
+      this.scanner.getText(),
+    );
+
+    throw error;
+  }
+
+  reportUnexpectedCharacter(): never {
+    const error = this.createError(
+      "unfinished character near '%s'",
       this.scanner.getText(),
     );
 

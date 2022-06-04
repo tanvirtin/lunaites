@@ -2,6 +2,7 @@ import { Tokenizer, TokenType } from "../../src/Tokenizer.ts";
 import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 import {
   assertEquals,
+  assertObjectMatch,
   assertThrows,
 } from "https://deno.land/std@0.110.0/testing/asserts.ts";
 
@@ -9,29 +10,21 @@ describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
 
   describe("tokenize", () => {
-    describe("segments", () => {
-      it('when source is "[[]]3"', () => {
-        tokenizer = new Tokenizer("[[]]3");
-
-        assertEquals(tokenizer.tokenize()?.value, "[[]]");
-        assertEquals(tokenizer.tokenize()?.value, "3");
-      });
-
-      it('when source is "3[[]]"', () => {
-        tokenizer = new Tokenizer("3[[]]");
-
-        assertEquals(tokenizer.tokenize()?.value, "3");
-        assertEquals(tokenizer.tokenize()?.value, "[[]]");
-      });
-    });
-
-    it("should disregard whitespace, line feed, carriage return and line break and return identifiers", () => {
+    it("should disregard whitespace, line feed, carriage return and line break", () => {
       tokenizer = new Tokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
 
-      assertEquals(tokenizer.tokenize()?.value, "foo");
-      assertEquals(tokenizer.tokenize()?.value, "bar");
-      assertEquals(tokenizer.tokenize()?.value, "baz");
-      assertEquals(tokenizer.tokenize()?.value, "<eof>");
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "foo",
+      });
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "bar",
+      });
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "baz",
+      });
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "<eof>",
+      });
     });
 
     it("correctly tokenizes end of file", () => {
@@ -40,10 +33,13 @@ describe("Tokenizer", () => {
       tokenizer.tokenize();
       tokenizer.tokenize();
       tokenizer.tokenize();
-      const token = tokenizer.tokenize();
 
-      assertEquals(token?.value, "<eof>");
-      assertEquals(token?.type, TokenType.EOF);
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "<eof>",
+      });
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "<eof>",
+      });
     });
 
     it("does not recognize identifiers that start with digits", () => {
@@ -51,255 +47,101 @@ describe("Tokenizer", () => {
 
       tokenizer.tokenize();
 
-      assertEquals(tokenizer.tokenize()?.value, "foo");
-      assertEquals(tokenizer.tokenize()?.value, "bar");
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "foo",
+      });
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "bar",
+      });
 
       tokenizer.tokenize();
 
-      assertEquals(tokenizer.tokenize()?.value, "baz");
-    });
-
-    describe("correctly tokenizes ambigious identifiers", () => {
-      it('when identifier is "foo"', () => {
-        tokenizer = new Tokenizer("foo");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "foo");
-        assertEquals(token?.type, TokenType.Identifier);
-      });
-
-      it('when identifier is "bar"', () => {
-        tokenizer = new Tokenizer("bar");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "bar");
-        assertEquals(token?.type, TokenType.Identifier);
-      });
-
-      it('when identifier is "p"', () => {
-        tokenizer = new Tokenizer("p");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "p");
-        assertEquals(token?.type, TokenType.Identifier);
-      });
-
-      it('when identifier is "hello_world"', () => {
-        tokenizer = new Tokenizer("hello_world");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "hello_world");
-        assertEquals(token?.type, TokenType.Identifier);
-      });
-
-      it('when identifier is "helloWorld"', () => {
-        tokenizer = new Tokenizer("helloWorld");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "helloWorld");
-        assertEquals(token?.type, TokenType.Identifier);
-      });
-    });
-
-    describe("correctly tokenizes keywords", () => {
-      it('when identifier is "local"', () => {
-        tokenizer = new Tokenizer("local");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "local");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "if"', () => {
-        tokenizer = new Tokenizer("if");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "if");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "in"', () => {
-        tokenizer = new Tokenizer("in");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "in");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "or"', () => {
-        tokenizer = new Tokenizer("or");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "or");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "and"', () => {
-        tokenizer = new Tokenizer("and");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "and");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "for"', () => {
-        tokenizer = new Tokenizer("for");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "for");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "not"', () => {
-        tokenizer = new Tokenizer("not");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "not");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "else"', () => {
-        tokenizer = new Tokenizer("else");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "else");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "then"', () => {
-        tokenizer = new Tokenizer("then");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "then");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "break"', () => {
-        tokenizer = new Tokenizer("break");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "break");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "local"', () => {
-        tokenizer = new Tokenizer("local");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "local");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "until"', () => {
-        tokenizer = new Tokenizer("until");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "until");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "while"', () => {
-        tokenizer = new Tokenizer("while");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "while");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "elseif"', () => {
-        tokenizer = new Tokenizer("elseif");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "elseif");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "repeat"', () => {
-        tokenizer = new Tokenizer("repeat");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "repeat");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "return"', () => {
-        tokenizer = new Tokenizer("return");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "return");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "function"', () => {
-        tokenizer = new Tokenizer("function");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "function");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-
-      it('when identifier is "goto"', () => {
-        tokenizer = new Tokenizer("goto", {
-          labels: true,
-          contextualGoto: false,
-        });
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "goto");
-        assertEquals(token?.type, TokenType.Keyword);
-      });
-    });
-
-    describe("correctly tokenizes booleans", () => {
-      it('when identifier is "true"', () => {
-        tokenizer = new Tokenizer("true");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "true");
-        assertEquals(token?.type, TokenType.BooleanLiteral);
-      });
-
-      it('when identifier is "false"', () => {
-        tokenizer = new Tokenizer("false");
-
-        const token = tokenizer.tokenize();
-
-        assertEquals(token?.value, "false");
-        assertEquals(token?.type, TokenType.BooleanLiteral);
+      assertObjectMatch(tokenizer.tokenize(), {
+        value: "baz",
       });
     });
 
     it("correctly tokenizes nil keyword", () => {
       tokenizer = new Tokenizer("nil");
 
-      const token = tokenizer.tokenize();
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.NilLiteral,
+        value: "nil",
+      });
+    });
 
-      assertEquals(token?.value, "nil");
-      assertEquals(token?.type, TokenType.NilLiteral);
+    describe("correctly tokenizes ambigious identifiers", () => {
+      const testTable = {
+        "foo": "foo",
+        "bar": "bar",
+        "p": "p",
+        "hello_world": "hello_world",
+        "helloWorld": "helloWorld",
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
+
+          assertObjectMatch(tokenizer.tokenize(), {
+            type: TokenType.Identifier,
+            value: result,
+          });
+        });
+      });
+    });
+
+    describe("correctly tokenizes keywords", () => {
+      const testTable = {
+        "if": "if",
+        "in": "in",
+        "or": "or",
+        "and": "and",
+        "for": "for",
+        "not": "not",
+        "goto": "goto",
+        "else": "else",
+        "then": "then",
+        "local": "local",
+        "break": "break",
+        "until": "until",
+        "while": "while",
+        "elseif": "elseif",
+        "repeat": "repeat",
+        "return": "return",
+        "function": "function",
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source, {
+            contextualGoto: false,
+          });
+
+          assertObjectMatch(tokenizer.tokenize(), {
+            type: TokenType.Keyword,
+            value: result,
+          });
+        });
+      });
+    });
+
+    describe("correctly tokenizes booleans", () => {
+      const testTable = {
+        "true": "true",
+        "false": "false",
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
+
+          assertObjectMatch(tokenizer.tokenize(), {
+            type: TokenType.BooleanLiteral,
+            value: result,
+          });
+        });
+      });
     });
 
     describe("correctly tokenizes string literals", () => {
@@ -328,10 +170,10 @@ describe("Tokenizer", () => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = new Tokenizer(source);
 
-          const token = tokenizer.tokenize();
-
-          assertEquals(token?.value, result);
-          assertEquals(token?.type, TokenType.StringLiteral);
+          assertObjectMatch(tokenizer.tokenize(), {
+            type: TokenType.StringLiteral,
+            value: result,
+          });
         });
       });
 
@@ -393,10 +235,10 @@ describe("Tokenizer", () => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = new Tokenizer(source);
 
-          const token = tokenizer.tokenize();
-
-          assertEquals(token?.value, result);
-          assertEquals(token?.type, TokenType.NumericLiteral);
+          assertObjectMatch(tokenizer.tokenize(), {
+            type: TokenType.NumericLiteral,
+            value: result,
+          });
         });
       });
 
@@ -414,10 +256,10 @@ describe("Tokenizer", () => {
           it(`"${source}" is tokenized as numeric identifier`, () => {
             tokenizer = new Tokenizer(source);
 
-            const token = tokenizer.tokenize();
-
-            assertEquals(token?.value, result);
-            assertEquals(token?.type, TokenType.NumericLiteral);
+            assertObjectMatch(tokenizer.tokenize(), {
+              type: TokenType.NumericLiteral,
+              value: result,
+            });
           });
         });
       });
@@ -435,10 +277,10 @@ describe("Tokenizer", () => {
           it(`"${source}" is tokenized as numeric identifier`, () => {
             tokenizer = new Tokenizer(source);
 
-            const token = tokenizer.tokenize();
-
-            assertEquals(token?.value, result);
-            assertEquals(token?.type, TokenType.NumericLiteral);
+            assertObjectMatch(tokenizer.tokenize(), {
+              type: TokenType.NumericLiteral,
+              value: result,
+            });
           });
         });
       });
@@ -459,10 +301,10 @@ describe("Tokenizer", () => {
               imaginaryNumbers: false,
             });
 
-            const token = tokenizer.tokenize();
-
-            assertEquals(token?.value, result);
-            assertEquals(token?.type, TokenType.NumericLiteral);
+            assertObjectMatch(tokenizer.tokenize(), {
+              type: TokenType.NumericLiteral,
+              value: result,
+            });
           });
         });
       });
@@ -484,10 +326,10 @@ describe("Tokenizer", () => {
           it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
             tokenizer = new Tokenizer(source);
 
-            const token = tokenizer.tokenize();
-
-            assertEquals(token?.value, result);
-            assertEquals(token?.type, TokenType.NumericLiteral);
+            assertObjectMatch(tokenizer.tokenize(), {
+              type: TokenType.NumericLiteral,
+              value: result,
+            });
           });
         });
       });
@@ -511,10 +353,10 @@ describe("Tokenizer", () => {
               integerSuffixes: false,
             });
 
-            const token = tokenizer.tokenize();
-
-            assertEquals(token?.value, result);
-            assertEquals(token?.type, TokenType.NumericLiteral);
+            assertObjectMatch(tokenizer.tokenize(), {
+              type: TokenType.NumericLiteral,
+              value: result,
+            });
           });
         });
       });
@@ -578,92 +420,115 @@ describe("Tokenizer", () => {
   });
 
   describe("correctly tokenizes single comments", () => {
-    it('when source is "-- comment"', () => {
-      tokenizer = new Tokenizer("-- comment");
+    const testTable = {
+      "-- comment": [
+        {
+          type: TokenType.Comment,
+          value: "-- comment",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--comment": [
+        {
+          type: TokenType.Comment,
+          value: "--comment",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "-- comment\n-- comment": [
+        {
+          type: TokenType.Comment,
+          value: "-- comment",
+        },
+        {
+          type: TokenType.Comment,
+          value: "-- comment",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        }
+      ],
+      "-- comment\nreturn": [
+        {
+          type: TokenType.Comment,
+          value: "-- comment",
+        },
+        {
+          type: TokenType.Keyword,
+          value: "return",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        }
+      ],
+      "return --comment \n": [
+        {
+          type: TokenType.Keyword,
+          value: "return",
+        },
+       {
+          type: TokenType.Comment,
+          value: "--comment ",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        }
+      ],
+      "--=[comment]=] return": [
+        {
+          type: TokenType.Comment,
+          value: "--=[comment]=] return"
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        }
+      ],
+      "if true -- comment\nthen end": [
+        {
+          type: TokenType.Keyword,
+          value: "if"
+        },
+        {
+          type: TokenType.BooleanLiteral,
+          value: "true"
+        },
+        {
+          type: TokenType.Comment,
+          value: "-- comment"
+        },
+        {
+          type: TokenType.Keyword,
+          value: "then"
+        },
+        {
+          type: TokenType.Keyword,
+          value: "end"
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>"
+        },
+      ]
+    };
 
-      const token = tokenizer.tokenize();
+    Object.entries(testTable).forEach(([source, results]) => {
+      it(`when source is "${source}"`, () => {
+        tokenizer = new Tokenizer(source);
 
-      assertEquals(token?.type, TokenType.Comment);
-    });
-
-    it('when source is "--coment"', () => {
-      tokenizer = new Tokenizer("--coment");
-
-      const token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Comment);
-    });
-
-    it('when source is "-- comment\n-- comment"', () => {
-      tokenizer = new Tokenizer("-- comment\n-- comment");
-
-      let token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Comment);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Comment);
-    });
-
-    it('when source is "-- comment\nreturn"', () => {
-      tokenizer = new Tokenizer("-- comment\nreturn");
-
-      let token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Comment);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Keyword);
-    });
-
-    it('when source is "return --comment \n"', () => {
-      tokenizer = new Tokenizer("return --comment \n");
-
-      let token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Keyword);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Comment);
-    });
-
-    it('when source is "--[=[comment]=] return"', () => {
-      tokenizer = new Tokenizer("--[=[comment]=] return");
-
-      let token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Comment);
-    });
-
-    it('when source is "if true -- comment\nthen end"', () => {
-      tokenizer = new Tokenizer("if true -- comment\nthen end");
-
-      let token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Keyword);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.BooleanLiteral);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Comment);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Keyword);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.Keyword);
-
-      token = tokenizer.tokenize();
-
-      assertEquals(token?.type, TokenType.EOF);
+        results.forEach((result) => {
+          assertObjectMatch(tokenizer.tokenize(), result);
+        });
+      });
     });
   });
 });

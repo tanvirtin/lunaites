@@ -26,6 +26,13 @@ class Scanner {
     return index ?? this.index;
   }
 
+  // Mark the current index in memory.
+  mark(): Scanner {
+    this.markedIndex = this.index;
+
+    return this;
+  }
+
   // Verify if a given charcode is the one being pointed at.
   isCharCode(charCode: number, index?: number): boolean {
     index = this.sanitizeIndex(index);
@@ -222,11 +229,24 @@ class Scanner {
     return found;
   }
 
-  // Mark the current index in memory.
-  mark(): Scanner {
-    this.markedIndex = this.index;
+  consumeEOL(): boolean {
+    if (this.isLineTerminator()) {
+      // If we encountered a line terminator, we scan the line count by 1.
+      ++this.lnum;
+      // If we encounter \n\r or \r\n it's a new line.
+      if (this.isNewLine()) {
+        this.scan().scan();
+        this.lnumStartIndex = this.index;
+        // Otherwise we skip the \n or \r.
+      } else {
+        this.scan();
+        this.lnumStartIndex = this.index;
+      }
 
-    return this;
+      return true;
+    }
+
+    return false;
   }
 
   // Increments the internal scanner index by 1.
@@ -251,26 +271,6 @@ class Scanner {
     }
 
     return this;
-  }
-
-  consumeEOL(): boolean {
-    if (this.isLineTerminator()) {
-      // If we encountered a line terminator, we scan the line count by 1.
-      ++this.lnum;
-      // If we encounter \n\r or \r\n it's a new line.
-      if (this.isNewLine()) {
-        this.scan().scan();
-        this.lnumStartIndex = this.index;
-        // Otherwise we skip the \n or \r.
-      } else {
-        this.scan();
-        this.lnumStartIndex = this.index;
-      }
-
-      return true;
-    }
-
-    return false;
   }
 }
 
