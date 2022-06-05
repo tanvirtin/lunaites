@@ -10,20 +10,56 @@ describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
 
   describe("tokenize", () => {
-    it("should disregard whitespace, line feed, carriage return and line break", () => {
-      tokenizer = new Tokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
+    describe("correctly ignores whitespace", () => {
+      const testTable = {
+        "  \r  \n      foo  \r\n  \n\r    bar  baz ": [
+          {
+            type: TokenType.Identifier,
+            value: "foo",
+          },
+          {
+            type: TokenType.Identifier,
+            value: "bar",
+          },
+          {
+            type: TokenType.Identifier,
+            value: "baz",
+          },
+          {
+            type: TokenType.EOF,
+            value: "<eof>",
+          },
+        ],
+        "foo  \r\n  \n\r": [
+          {
+            type: TokenType.Identifier,
+            value: "foo",
+          },
+          {
+            type: TokenType.EOF,
+            value: "<eof>",
+          },
+        ],
+        "foo  \r\n  \n\r\n\r\n": [
+          {
+            type: TokenType.Identifier,
+            value: "foo",
+          },
+          {
+            type: TokenType.EOF,
+            value: "<eof>",
+          },
+        ],
+      };
 
-      assertObjectMatch(tokenizer.tokenize(), {
-        value: "foo",
-      });
-      assertObjectMatch(tokenizer.tokenize(), {
-        value: "bar",
-      });
-      assertObjectMatch(tokenizer.tokenize(), {
-        value: "baz",
-      });
-      assertObjectMatch(tokenizer.tokenize(), {
-        value: "<eof>",
+      Object.entries(testTable).forEach(([source, results]) => {
+        it(`when source is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
+
+          results.forEach((result) => {
+            assertObjectMatch(tokenizer.tokenize(), result);
+          });
+        });
       });
     });
 
@@ -453,7 +489,7 @@ describe("Tokenizer", () => {
         {
           type: TokenType.EOF,
           value: "<eof>",
-        }
+        },
       ],
       "-- comment\nreturn": [
         {
@@ -467,56 +503,74 @@ describe("Tokenizer", () => {
         {
           type: TokenType.EOF,
           value: "<eof>",
-        }
+        },
       ],
       "return --comment \n": [
         {
           type: TokenType.Keyword,
           value: "return",
         },
-       {
+        {
           type: TokenType.Comment,
           value: "--comment ",
         },
         {
           type: TokenType.EOF,
           value: "<eof>",
-        }
+        },
       ],
       "--=[comment]=] return": [
         {
           type: TokenType.Comment,
-          value: "--=[comment]=] return"
+          value: "--=[comment]=] return",
         },
         {
           type: TokenType.EOF,
           value: "<eof>",
-        }
+        },
       ],
       "if true -- comment\nthen end": [
         {
           type: TokenType.Keyword,
-          value: "if"
+          value: "if",
         },
         {
           type: TokenType.BooleanLiteral,
-          value: "true"
+          value: "true",
         },
         {
           type: TokenType.Comment,
-          value: "-- comment"
+          value: "-- comment",
         },
         {
           type: TokenType.Keyword,
-          value: "then"
+          value: "then",
         },
         {
           type: TokenType.Keyword,
-          value: "end"
+          value: "end",
         },
         {
           type: TokenType.EOF,
-          value: "<eof>"
+          value: "<eof>",
+        },
+      ],
+      "-- [[ hello world ]]\n local a": [
+        {
+          type: TokenType.Comment,
+          value: "-- [[ hello world ]]",
+        },
+        {
+          type: TokenType.Keyword,
+          value: "local",
+        },
+        {
+          type: TokenType.Identifier,
+          value: "a",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
         },
       ]
     };
@@ -525,9 +579,160 @@ describe("Tokenizer", () => {
       it(`when source is "${source}"`, () => {
         tokenizer = new Tokenizer(source);
 
-        results.forEach((result) => {
-          assertObjectMatch(tokenizer.tokenize(), result);
-        });
+        results.forEach((result) => assertObjectMatch(tokenizer.tokenize(), result));
+      });
+    });
+  });
+
+  describe("correctly tokenizes long comments", () => {
+    const testTable = {
+      "--[[ hello world ]]": [
+        {
+          type: TokenType.Comment,
+          value: "--[[ hello world ]]",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[ hello world \n ]]": [
+        {
+          type: TokenType.Comment,
+          value: "-- [[ hello world \n ]]",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[ hello world \n ]] --": [
+        {
+          type: TokenType.Comment,
+          value: "-- [[ hello world \n ]]",
+        },
+        {
+          type: TokenType.Comment,
+          value: "--",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[ hello world \n ]] -- ": [
+        {
+          type: TokenType.Comment,
+          value: "-- [[ hello world \n ]]",
+        },
+        {
+          type: TokenType.Comment,
+          value: "-- ",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[ hello world \n ]] -- \n foo": [
+        {
+          type: TokenType.Comment,
+          value: "-- [[ hello world \n ]]",
+        },
+        {
+          type: TokenType.Comment,
+          value: "-- ",
+        },
+        {
+          type: TokenType.Identifier,
+          value: "foo",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "if true--[[comment]]then end": [
+        {
+          type: TokenType.Keyword,
+          value: "if",
+        },
+        {
+          type: TokenType.BooleanLiteral,
+          value: "true",
+        },
+        {
+          type: TokenType.Comment,
+          value: "--[[comment]]",
+        },
+        {
+          type: TokenType.Keyword,
+          value: "then",
+        },
+        {
+          type: TokenType.Keyword,
+          value: "end",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[comment\nline two]]": [
+        {
+          type: TokenType.Comment,
+          value: "--[[comment\nline two]]",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[\ncomment\nline two\n]]": [
+        {
+          type: TokenType.Comment,
+          value: "--[[\ncomment\nline two\n]]",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[\ncomment\nline two\n]]--[[\n\n\ncomment\n\n\n]]": [
+        {
+          type: TokenType.Comment,
+          value: "--[[\ncomment\nline two\n]]",
+        },
+        {
+          type: TokenType.Comment,
+          value: "--[[\n\n\ncomment\n\n\n]]",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+      "--[[]]--[[]]": [
+        {
+          type: TokenType.Comment,
+          value: "--[[]]",
+        },
+        {
+          type: TokenType.Comment,
+          value: "--[[]]",
+        },
+        {
+          type: TokenType.EOF,
+          value: "<eof>",
+        },
+      ],
+    };
+
+    Object.entries(testTable).forEach(([source, results]) => {
+      it(`when source is "${source}"`, () => {
+        tokenizer = new Tokenizer(source);
+
+        results.forEach((result) => assertObjectMatch(tokenizer.tokenize(), result));
       });
     });
   });
