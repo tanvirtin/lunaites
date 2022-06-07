@@ -740,4 +740,23 @@ describe("Tokenizer", () => {
       });
     });
   });
+
+  describe("correctly tokenizes vararg literal", () => {
+    const testTable = {
+      "...": "...",
+      "... .": "...",
+      "... ..": "...",
+    };
+
+    Object.entries(testTable).forEach(([source, result]) => {
+      it(`when identifier is "${source}"`, () => {
+        tokenizer = new Tokenizer(source);
+
+        assertObjectMatch(tokenizer.tokenize(), {
+          type: TokenType.VarargLiteral,
+          value: result,
+        });
+      });
+    });
+  });
 });

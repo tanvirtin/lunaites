@@ -540,6 +540,24 @@ class Tokenizer {
     return this.tokenizeDecimalNumericLiteral();
   }
 
+  private tokenizeVarargLiteral(): Token {
+    const { scanner } = this;
+
+    // Put a mark on the scanner before we progress it.
+    scanner.mark();
+
+    // skip over "...".
+    scanner.scan().scan().scan();
+
+    return {
+      type: TokenType.VarargLiteral,
+      value: scanner.getText(),
+      range: scanner.getRange(),
+      lnum: scanner.lnum,
+      lnumStartIndex: scanner.lnumStartIndex,
+    };
+  }
+
   tokenize(): Token {
     const { scanner } = this;
 
@@ -573,6 +591,10 @@ class Tokenizer {
     if (scanner.isDotNotation()) {
       if (scanner.isDigit(scanner.index + 1)) {
         return this.tokenizeDecimalNumericLiteral();
+      }
+
+      if (scanner.match("...")) {
+        return this.tokenizeVarargLiteral();
       }
     }
 

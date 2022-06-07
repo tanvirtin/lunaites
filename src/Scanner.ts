@@ -42,26 +42,6 @@ class Scanner {
     return this.getCharCode(index) === charCode;
   }
 
-  // '['
-  isOpenBracket(index?: number): boolean {
-    return this.isCharCode(91, index);
-  }
-
-  // '='
-  isEqual(index?: number): boolean {
-    return this.isCharCode(61, index);
-  }
-
-  // '\'
-  isBackslash(index?: number): boolean {
-    return this.isCharCode(92, index);
-  }
-
-  // '.'
-  isDotNotation(index?: number): boolean {
-    return this.isCharCode(46, index);
-  }
-
   // ' '
   isWhitespace(index?: number): boolean {
     index = this.sanitizeIndex(index);
@@ -176,6 +156,26 @@ class Scanner {
     index = this.sanitizeIndex(index);
 
     return index < 0 || index >= this.source.length;
+  }
+
+  // '['
+  isOpenBracket(index?: number): boolean {
+    return this.isCharCode(91, index);
+  }
+
+  // '='
+  isEqual(index?: number): boolean {
+    return this.isCharCode(61, index);
+  }
+
+  // '\'
+  isBackslash(index?: number): boolean {
+    return this.isCharCode(92, index);
+  }
+
+  // '.'
+  isDotNotation(index?: number): boolean {
+    return this.isCharCode(46, index);
   }
 
   getCol(): number {
