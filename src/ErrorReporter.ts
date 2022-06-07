@@ -63,6 +63,24 @@ class ErrorReporter {
 
     throw error;
   }
+
+  reportUnfinishedComment(): never {
+    const error = this.createError(
+      "unfinished comment near '%s'",
+      this.scanner.getText(),
+    );
+
+    throw error;
+  }
+
+  reportUnfinishedLongComment(): never {
+    const error = this.createError(
+      "unfinished long comment near '%s'",
+      this.scanner.getText(),
+    );
+
+    throw error;
+  }
 }
 
 export { ErrorReporter };

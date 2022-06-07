@@ -121,7 +121,7 @@ class Tokenizer {
       }
 
       // If we encounter a digit after the exponent it's an error.
-      if (!this.scanner.isDigit()) {
+      if (!scanner.isDigit()) {
         this.errorReporter.reportMalformedNumber();
       }
 
@@ -243,13 +243,45 @@ class Tokenizer {
     // scan over "--"
     scanner.scan().scan();
 
-    while (!scanner.isOutOfBounds()) {
-      if (scanner.isLineTerminator()) {
-        break;
+    while (!scanner.isLineTerminator() && !scanner.isOutOfBounds()) {
+      scanner.scan();
+    }
+
+    return {
+      type: TokenType.Comment,
+      value: scanner.getText(),
+      range: scanner.getRange(),
+      lnum,
+      lnumStartIndex,
+    };
+  }
+
+  private tokenizeLongComment(): Token {
+    const { errorReporter, scanner } = this;
+    const { lnum, lnumStartIndex } = scanner;
+
+    // Mark the spot in the scanner for us to remember the start.
+    scanner.mark();
+
+    // scan over "--[["
+    scanner.scan("--[[".length);
+
+    while (!scanner.match("]]")) {
+      // If we hit out of bounds it's an error
+      if (scanner.isOutOfBounds()) {
+        errorReporter.reportUnfinishedLongComment();
       }
 
       scanner.scan();
+
+      // NOTE: EOL consumption should be done at the end of the loop, so that our while loop
+      //       condition and error check statements are the first things to be ran in the new loop.
+      // Multi line comments may contain \n, so we consume them to increment line number.
+      scanner.consumeEOL();
     }
+
+    // scan over "]]"
+    scanner.scan().scan();
 
     return {
       type: TokenType.Comment,
@@ -272,8 +304,6 @@ class Tokenizer {
     scanner.scan();
 
     while (!scanner.isCharCode(delimeterCharCode)) {
-      // Consume all EOL so that the scanner automatically increments line count.
-      this.scanner.consumeEOL();
       // If we hit out of bounds we have an unfinished string that
       // never met the matching delimiter.
       if (scanner.isOutOfBounds()) {
@@ -284,6 +314,10 @@ class Tokenizer {
       this.consumeBackslash();
 
       scanner.scan();
+
+      // NOTE: EOL consumption should be done at the end of the loop, so that our while loop
+      //       condition and error check statements are the first things to be ran in the new loop.
+      scanner.consumeEOL();
     }
 
     // Scan over the ending string delimiter (", ')
@@ -323,11 +357,14 @@ class Tokenizer {
       errorReporter.reportUnfinishedLongString();
     }
 
-    while (!scanner.isOutOfBounds() && !encounteredDelimeter) {
+    while (!encounteredDelimeter) {
       let runningDepth = 0;
 
-      // Consume any end of line.
-      this.scanner.consumeEOL();
+      // If we hit out of bounds we have an unfinished
+      // long string that never met the matching delimiter.
+      if (scanner.isOutOfBounds()) {
+        errorReporter.reportUnfinishedLongString();
+      }
 
       // If we encounter equal characters.
       while (scanner.isEqual()) {
@@ -358,12 +395,10 @@ class Tokenizer {
       }
 
       scanner.scan();
-    }
 
-    // If we hit out of bounds we have an unfinished
-    // long string that never met the matching delimiter.
-    if (!encounteredDelimeter && scanner.isOutOfBounds()) {
-      errorReporter.reportUnfinishedLongString();
+      // NOTE: EOL consumption should be done at the end of the loop, so that our while loop
+      //       condition and error check statements are the first things to be ran in the new loop.
+      scanner.consumeEOL();
     }
 
     return {
@@ -516,6 +551,10 @@ class Tokenizer {
     }
 
     if (scanner.match("--")) {
+      if (scanner.match("--[[")) {
+        return this.tokenizeLongComment();
+      }
+
       return this.tokenizeComment();
     }
 

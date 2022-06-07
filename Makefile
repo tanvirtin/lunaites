@@ -6,3 +6,5 @@ lint:
 
 fmt:
 	deno fmt --check
+
+check: lint fmt tests
