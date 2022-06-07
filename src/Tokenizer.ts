@@ -558,14 +558,37 @@ class Tokenizer {
     };
   }
 
-  tokenize(): Token {
+  private tokenizePunctuator(punctuator: string): Token {
     const { scanner } = this;
+
+    // Put a mark on the scanner before we progress it.
+    scanner.mark();
+
+    scanner.scan(punctuator.length);
+
+    return {
+      type: TokenType.Punctuator,
+      value: scanner.getText(),
+      range: scanner.getRange(),
+      lnum: scanner.lnum,
+      lnumStartIndex: scanner.lnumStartIndex,
+    };
+  }
+
+  tokenize(): Token {
+    const { scanner, options } = this;
 
     // All whitespace noise is eaten away as they have no semantic value.
     this.consumeWhitespace();
 
     if (scanner.isOutOfBounds()) {
       return this.tokenizeEOF();
+    }
+
+    // If the word is an alphabet it probably is an identifier.
+    // NOTE: lua identifiers do not start with numbers.
+    if (scanner.isAlphabet()) {
+      return this.tokenizeIdentifier();
     }
 
     if (scanner.match("--")) {
@@ -580,8 +603,12 @@ class Tokenizer {
       return this.tokenizeStringLiteral();
     }
 
-    if (scanner.match("[[") || scanner.match("[=")) {
-      return this.tokenizeLongStringLiteral();
+    if (scanner.isOpenBracket()) {
+      if (scanner.match("[[") || scanner.match("[=")) {
+        return this.tokenizeLongStringLiteral();
+      }
+
+      return this.tokenizePunctuator("[");
     }
 
     if (scanner.isDigit()) {
@@ -596,12 +623,72 @@ class Tokenizer {
       if (scanner.match("...")) {
         return this.tokenizeVarargLiteral();
       }
+
+      if (scanner.match("..")) {
+        return this.tokenizePunctuator("..");
+      }
     }
 
-    // If the word is an alphabet it probably is an identifier.
-    // NOTE: lua identifiers do not start with numbers.
-    if (scanner.isAlphabet()) {
-      return this.tokenizeIdentifier();
+    if (scanner.isEqual()) {
+      if (scanner.match("==")) {
+        return this.tokenizePunctuator("==");
+      }
+
+      return this.tokenizePunctuator("=");
+    }
+
+    if (scanner.isOpenAngledBracket()) {
+      if (options.bitwiseOperators && scanner.match(">>")) {
+        return this.tokenizePunctuator(">>");
+      }
+
+      return this.tokenizePunctuator(">");
+    }
+
+    if (scanner.isClosedAngledBracket()) {
+      if (options.bitwiseOperators && scanner.match("<<")) {
+        return this.tokenizePunctuator("<<");
+      }
+
+      return this.tokenizePunctuator("<");
+    }
+
+    if (scanner.isTilde()) {
+      if (scanner.match("~=")) {
+        return this.tokenizePunctuator("~=");
+      }
+
+      if (options.bitwiseOperators) {
+        return this.tokenizePunctuator("~");
+      }
+    }
+
+    if (scanner.isSlash()) {
+      if (options.integerDivision && scanner.match("//")) {
+        return this.tokenizePunctuator("//");
+      }
+
+      return this.tokenizePunctuator("/");
+    }
+
+    if (scanner.isColon()) {
+      if (options.labels && scanner.match("::")) {
+        return this.tokenizePunctuator("::");
+      }
+
+      return this.tokenizePunctuator(":");
+    }
+
+    if (options.bitwiseOperators && scanner.isAmpersand()) {
+      return this.tokenizePunctuator("&");
+    }
+
+    if (options.bitwiseOperators && scanner.isVerticalBar()) {
+      return this.tokenizePunctuator("|");
+    }
+
+    if (scanner.someChar("*^%,{}]();#-+")) {
+      return this.tokenizePunctuator(scanner.getChar());
     }
 
     this.errorReporter.reportUnexpectedCharacter();

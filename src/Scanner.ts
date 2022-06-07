@@ -33,6 +33,15 @@ class Scanner {
     return this;
   }
 
+  // Verify if a given char is the one being pointed at.
+  isChar(char: string, index?: number): boolean {
+    index = this.sanitizeIndex(index);
+
+    if (this.isOutOfBounds(index)) return false;
+
+    return this.getChar(index) === char;
+  }
+
   // Verify if a given charcode is the one being pointed at.
   isCharCode(charCode: number, index?: number): boolean {
     index = this.sanitizeIndex(index);
@@ -40,6 +49,114 @@ class Scanner {
     if (this.isOutOfBounds(index)) return false;
 
     return this.getCharCode(index) === charCode;
+  }
+
+  someChar(chars: string[] | string, index?: number): boolean {
+    for (const char of chars) {
+      if (this.isChar(char, index)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  everyChar(chars: string[] | string, index?: number): boolean {
+    for (const char of chars) {
+      if (this.isChar(char, index)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  someCharCode(charCodes: number[], index?: number): boolean {
+    return charCodes.some((charCode) => this.isCharCode(charCode, index));
+  }
+
+  everyCharCode(charCodes: number[], index: number): boolean {
+    return charCodes.some((charCode) => this.isCharCode(charCode, index));
+  }
+
+  // &
+  isAmpersand(index?: number): boolean {
+    return this.isCharCode(38, index);
+  }
+
+  // |
+  isVerticalBar(index?: number): boolean {
+    return this.isCharCode(124, index);
+  }
+
+  // :
+  isColon(index?: number): boolean {
+    return this.isCharCode(58, index);
+  }
+
+  // ~
+  isTilde(index?: number): boolean {
+    return this.isCharCode(126, index);
+  }
+
+  // '
+  isQuote(index?: number): boolean {
+    return this.isCharCode(39, index);
+  }
+
+  // "
+  isDoubleQuote(index?: number): boolean {
+    return this.isCharCode(34, index);
+  }
+
+  // /
+  isSlash(index?: number): boolean {
+    return this.isCharCode(47, index);
+  }
+
+  // [
+  isOpenBracket(index?: number): boolean {
+    return this.isCharCode(91, index);
+  }
+
+  // ]
+  isClosedBracket(index?: number): boolean {
+    return this.isCharCode(93, index);
+  }
+
+  // <
+  isOpenAngledBracket(index?: number): boolean {
+    return this.isCharCode(60, index);
+  }
+
+  // >
+  isClosedAngledBracket(index?: number): boolean {
+    return this.isCharCode(62, index);
+  }
+
+  // '='
+  isEqual(index?: number): boolean {
+    return this.isCharCode(61, index);
+  }
+
+  // '\'
+  isBackslash(index?: number): boolean {
+    return this.isCharCode(92, index);
+  }
+
+  // '.'
+  isDotNotation(index?: number): boolean {
+    return this.isCharCode(46, index);
+  }
+
+  // \n
+  isLineFeed(index?: number): boolean {
+    return this.isCharCode(10, index);
+  }
+
+  // \r
+  isCarriageReturn(index?: number): boolean {
+    return this.isCharCode(13, index);
   }
 
   // ' '
@@ -52,16 +169,6 @@ class Scanner {
 
     return charCode === 9 || charCode === 32 || charCode === 0xB ||
       charCode === 0xC;
-  }
-
-  // \n
-  isLineFeed(index?: number): boolean {
-    return this.isCharCode(10, index);
-  }
-
-  // \r
-  isCarriageReturn(index?: number): boolean {
-    return this.isCharCode(13, index);
   }
 
   // \n or \r
@@ -92,16 +199,6 @@ class Scanner {
     const charCode = this.getCharCode(index);
 
     return charCode >= 48 && charCode <= 57;
-  }
-
-  // '
-  isQuote(index?: number): boolean {
-    return this.isCharCode(39, index);
-  }
-
-  // "
-  isDoubleQuote(index?: number): boolean {
-    return this.isCharCode(34, index);
   }
 
   // Extended alphabets starting  ending in ÿ
@@ -156,26 +253,6 @@ class Scanner {
     index = this.sanitizeIndex(index);
 
     return index < 0 || index >= this.source.length;
-  }
-
-  // '['
-  isOpenBracket(index?: number): boolean {
-    return this.isCharCode(91, index);
-  }
-
-  // '='
-  isEqual(index?: number): boolean {
-    return this.isCharCode(61, index);
-  }
-
-  // '\'
-  isBackslash(index?: number): boolean {
-    return this.isCharCode(92, index);
-  }
-
-  // '.'
-  isDotNotation(index?: number): boolean {
-    return this.isCharCode(46, index);
   }
 
   getCol(): number {

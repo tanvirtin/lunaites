@@ -759,4 +759,18 @@ describe("Tokenizer", () => {
       });
     });
   });
+
+  describe("punctuators", () => {
+    it("should correctly tokenize single char punctuator", () => {
+      const source = "*^%,{}]();#-+|&:/~><=";
+      tokenizer = new Tokenizer(source);
+
+      for (const value of source) {
+        assertObjectMatch(tokenizer.tokenize(), {
+          type: TokenType.Punctuator,
+          value,
+        });
+      }
+    });
+  });
 });
