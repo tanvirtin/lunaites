@@ -207,7 +207,7 @@ function getSource() {
 }
 
 function main() {
-  const epochs = 10000000;
+  const epochs = 100000000;
   const source = getSource();
   const tokenizer = new Tokenizer(source);
 
