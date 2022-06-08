@@ -772,5 +772,26 @@ describe("Tokenizer", () => {
         });
       }
     });
+
+    const testTable = {
+      "::": "::",
+      "//": "//",
+      "~=": "~=",
+      "<<": "<<",
+      ">>": ">>",
+      "==": "==",
+      "..": "..",
+    };
+
+    Object.entries(testTable).forEach(([source, result]) => {
+      it(`should tokenize punctuators with double chars when identifier is "${source}"`, () => {
+        tokenizer = new Tokenizer(source);
+
+        assertObjectMatch(tokenizer.tokenize(), {
+          type: TokenType.Punctuator,
+          value: result,
+        });
+      });
+    });
   });
 });
