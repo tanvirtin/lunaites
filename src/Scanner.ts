@@ -79,76 +79,6 @@ class Scanner {
     return charCodes.some((charCode) => this.isCharCode(charCode, index));
   }
 
-  // &
-  isAmpersand(index?: number): boolean {
-    return this.isCharCode(38, index);
-  }
-
-  // |
-  isVerticalBar(index?: number): boolean {
-    return this.isCharCode(124, index);
-  }
-
-  // :
-  isColon(index?: number): boolean {
-    return this.isCharCode(58, index);
-  }
-
-  // ~
-  isTilde(index?: number): boolean {
-    return this.isCharCode(126, index);
-  }
-
-  // '
-  isQuote(index?: number): boolean {
-    return this.isCharCode(39, index);
-  }
-
-  // "
-  isDoubleQuote(index?: number): boolean {
-    return this.isCharCode(34, index);
-  }
-
-  // /
-  isSlash(index?: number): boolean {
-    return this.isCharCode(47, index);
-  }
-
-  // [
-  isOpenBracket(index?: number): boolean {
-    return this.isCharCode(91, index);
-  }
-
-  // ]
-  isClosedBracket(index?: number): boolean {
-    return this.isCharCode(93, index);
-  }
-
-  // <
-  isOpenAngledBracket(index?: number): boolean {
-    return this.isCharCode(60, index);
-  }
-
-  // >
-  isClosedAngledBracket(index?: number): boolean {
-    return this.isCharCode(62, index);
-  }
-
-  // '='
-  isEqual(index?: number): boolean {
-    return this.isCharCode(61, index);
-  }
-
-  // '\'
-  isBackslash(index?: number): boolean {
-    return this.isCharCode(92, index);
-  }
-
-  // '.'
-  isDotNotation(index?: number): boolean {
-    return this.isCharCode(46, index);
-  }
-
   // \n
   isLineFeed(index?: number): boolean {
     return this.isCharCode(10, index);
@@ -292,18 +222,13 @@ class Scanner {
   }
 
   match(chars: string): boolean {
-    let found = true;
-
     for (let i = 0; i < chars.length; ++i) {
-      const charCode = chars.charCodeAt(i);
-      found = this.isCharCode(charCode, this.index + i);
-
-      if (!found) {
-        break;
+      if (!this.isChar(chars[i], this.index + i)) {
+        return false;
       }
     }
 
-    return found;
+    return true;
   }
 
   consumeEOL(): boolean {

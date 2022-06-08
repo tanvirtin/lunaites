@@ -33,9 +33,9 @@ describe("Scanner", () => {
 
   describe("scanWhile", () => {
     it("should scan until a given scanner evaluates to false", () => {
-      const scanner = new Scanner("........................h");
+      const scanner = new Scanner("\n\n\n\n\n\n\n\n\n\nh");
 
-      scanner.scanWhile(scanner.isDotNotation);
+      scanner.scanWhile(scanner.isLineFeed);
 
       assertEquals(scanner.getChar(), "h");
     });
@@ -83,41 +83,6 @@ describe("Scanner", () => {
     });
   });
 
-  describe("isOpenBracket", () => {
-    it("should return true if the char being pointed at is a backslash", () => {
-      assert((new Scanner("[]")).isOpenBracket());
-      assert((new Scanner("[[]]")).isOpenBracket());
-    });
-
-    it("should return false if the char being pointed at is not a backslash", () => {
-      assert(!(new Scanner("]]")).isOpenBracket());
-      assert(!(new Scanner(" [[]]")).isOpenBracket());
-    });
-  });
-
-  describe("isEqual", () => {
-    it("should return true if the char being pointed at is a backslash", () => {
-      assert((new Scanner("=")).isEqual());
-      assert((new Scanner("==")).isEqual());
-    });
-
-    it("should return false if the char being pointed at is not a backslash", () => {
-      assert(!(new Scanner("\e")).isEqual());
-      assert(!(new Scanner(" =/")).isEqual());
-    });
-  });
-
-  describe("isBackslash", () => {
-    it("should return true if the char being pointed at is a backslash", () => {
-      assert((new Scanner("\\'")).isBackslash());
-    });
-
-    it("should return false if the char being pointed at is not a backslash", () => {
-      assert(!(new Scanner("\e")).isBackslash());
-      assert(!(new Scanner("/")).isBackslash());
-    });
-  });
-
   describe("isCharCode", () => {
     it("should return true if the char being pointed at is a the given char code", () => {
       assert((new Scanner("E")).isCharCode(69, 0));
@@ -127,41 +92,6 @@ describe("Scanner", () => {
     it("should return false if the char being pointed at is not a given char code", () => {
       assert(!(new Scanner("E")).isCharCode(68, 0));
       assert(!(new Scanner("e")).isCharCode(100, 0));
-    });
-  });
-
-  describe("isQuote", () => {
-    it("should return true if the char being pointed at is a quote", () => {
-      assert((new Scanner("'")).isQuote(0));
-    });
-
-    it("should return false if the char being pointed at is not a quote", () => {
-      assert(!(new Scanner('"')).isQuote(0));
-      assert(!(new Scanner("`")).isQuote(0));
-    });
-  });
-
-  describe("isDoubleQuote", () => {
-    it("should return true if the char being pointed at is a doubleQuote", () => {
-      assert((new Scanner('"')).isDoubleQuote(0));
-    });
-
-    it("should return false if the char being pointed at is not a doubleQuote", () => {
-      assert(!(new Scanner("'")).isDoubleQuote(0));
-      assert(!(new Scanner("`")).isDoubleQuote(0));
-    });
-  });
-
-  describe("isDotNotation", () => {
-    it("should return true if the char being pointed at is a whitespace", () => {
-      assert((new Scanner(".")).isDotNotation(0));
-      assert((new Scanner("..")).isDotNotation(0));
-      assert((new Scanner(". ")).isDotNotation(0));
-    });
-
-    it("should return false if the char being pointed at is not a whitespace", () => {
-      assert(!(new Scanner("\n .")).isDotNotation(0));
-      assert(!(new Scanner(" .")).isDotNotation(0));
     });
   });
 

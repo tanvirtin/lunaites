@@ -136,7 +136,7 @@ class Tokenizer {
   private consumeBackslash() {
     const { scanner } = this;
 
-    if (scanner.isBackslash()) {
+    if (scanner.match("\\")) {
       scanner.scan();
     }
 
@@ -209,7 +209,7 @@ class Tokenizer {
   private consumeDotNotation() {
     const { scanner } = this;
 
-    if (scanner.isDotNotation()) {
+    if (scanner.match(".")) {
       scanner.scan();
 
       return true;
@@ -345,7 +345,7 @@ class Tokenizer {
     scanner.scan();
 
     // if we keep encountering "=" we scan it and increment depth count.
-    while (scanner.isEqual()) {
+    while (scanner.match("=")) {
       scanner.scan();
       ++depth;
     }
@@ -353,7 +353,7 @@ class Tokenizer {
     // If we encounter a bunch of "=" and we already have a string sequence such as [====
     // or something and the next character is not a "[" then we know it's an unfinished string.
     // This expression holds true for the following cases: "[[" or "[====["
-    if (!scanner.isOpenBracket()) {
+    if (!scanner.match("[")) {
       errorReporter.reportUnfinishedLongString();
     }
 
@@ -367,7 +367,7 @@ class Tokenizer {
       }
 
       // If we encounter equal characters.
-      while (scanner.isEqual()) {
+      while (scanner.match("=")) {
         // We increment our running depth and check if it equals the real depth.
         // If it does and current char and next char equals "=]" we encountered
         // our delimeter.
@@ -465,7 +465,7 @@ class Tokenizer {
     scanner.scanWhile(scanner.isHexDigit);
 
     // if we encounter another dot notation it's an error, e.g "0x3..3".
-    if (isDecimal && scanner.isDotNotation()) {
+    if (isDecimal && scanner.match(".")) {
       this.errorReporter.reportMalformedNumber();
     }
 
@@ -502,7 +502,7 @@ class Tokenizer {
     scanner.scanWhile(scanner.isDigit);
 
     // If we encounter another dot notation it's an error, e.g "3..3" or "3.3.4".
-    if (isDecimal && scanner.isDotNotation()) {
+    if (isDecimal && scanner.match(".")) {
       this.errorReporter.reportMalformedNumber();
     }
 
@@ -599,11 +599,11 @@ class Tokenizer {
       return this.tokenizeComment();
     }
 
-    if (scanner.isQuote() || scanner.isDoubleQuote()) {
+    if (scanner.match('"') || scanner.match("'")) {
       return this.tokenizeStringLiteral();
     }
 
-    if (scanner.isOpenBracket()) {
+    if (scanner.match("[")) {
       if (scanner.match("[[") || scanner.match("[=")) {
         return this.tokenizeLongStringLiteral();
       }
@@ -615,7 +615,7 @@ class Tokenizer {
       return this.tokenizeNumericLiteral();
     }
 
-    if (scanner.isDotNotation()) {
+    if (scanner.match(".")) {
       if (scanner.isDigit(scanner.index + 1)) {
         return this.tokenizeDecimalNumericLiteral();
       }
@@ -629,7 +629,7 @@ class Tokenizer {
       }
     }
 
-    if (scanner.isEqual()) {
+    if (scanner.match("=")) {
       if (scanner.match("==")) {
         return this.tokenizePunctuator("==");
       }
@@ -637,7 +637,7 @@ class Tokenizer {
       return this.tokenizePunctuator("=");
     }
 
-    if (scanner.isOpenAngledBracket()) {
+    if (scanner.match(">")) {
       if (options.bitwiseOperators && scanner.match(">>")) {
         return this.tokenizePunctuator(">>");
       }
@@ -645,7 +645,7 @@ class Tokenizer {
       return this.tokenizePunctuator(">");
     }
 
-    if (scanner.isClosedAngledBracket()) {
+    if (scanner.match("<")) {
       if (options.bitwiseOperators && scanner.match("<<")) {
         return this.tokenizePunctuator("<<");
       }
@@ -653,7 +653,7 @@ class Tokenizer {
       return this.tokenizePunctuator("<");
     }
 
-    if (scanner.isTilde()) {
+    if (scanner.match("~")) {
       if (scanner.match("~=")) {
         return this.tokenizePunctuator("~=");
       }
@@ -663,7 +663,7 @@ class Tokenizer {
       }
     }
 
-    if (scanner.isSlash()) {
+    if (scanner.match("/")) {
       if (options.integerDivision && scanner.match("//")) {
         return this.tokenizePunctuator("//");
       }
@@ -671,7 +671,7 @@ class Tokenizer {
       return this.tokenizePunctuator("/");
     }
 
-    if (scanner.isColon()) {
+    if (scanner.match(":")) {
       if (options.labels && scanner.match("::")) {
         return this.tokenizePunctuator("::");
       }
@@ -679,11 +679,11 @@ class Tokenizer {
       return this.tokenizePunctuator(":");
     }
 
-    if (options.bitwiseOperators && scanner.isAmpersand()) {
+    if (options.bitwiseOperators && scanner.match("&")) {
       return this.tokenizePunctuator("&");
     }
 
-    if (options.bitwiseOperators && scanner.isVerticalBar()) {
+    if (options.bitwiseOperators && scanner.match("|")) {
       return this.tokenizePunctuator("|");
     }
 
