@@ -627,6 +627,10 @@ class Tokenizer {
       if (scanner.match("..")) {
         return this.tokenizePunctuator("..");
       }
+
+      if (scanner.match(".")) {
+        return this.tokenizePunctuator(".");
+      }
     }
 
     if (scanner.match("=")) {
