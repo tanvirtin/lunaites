@@ -11,6 +11,7 @@ import {
 function getRepositories() {
   return [
     "https://github.com/tanvirtin/vgit.nvim.git",
+    "https://github.com/koreader/koreader",
   ];
 }
 
