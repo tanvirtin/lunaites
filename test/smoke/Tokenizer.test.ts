@@ -1,5 +1,6 @@
 import { Tokenizer, TokenType } from "../../src/Tokenizer.ts";
 import { exec } from "https://deno.land/x/exec/mod.ts";
+import { relative } from "https://deno.land/std@0.102.0/path/mod.ts";
 import { globToRegExp } from "https://deno.land/x/std@0.63.0/path/glob.ts";
 import { walkSync } from "https://deno.land/std@0.77.0/fs/mod.ts";
 import {
@@ -7,6 +8,10 @@ import {
   describe,
   it,
 } from "https://deno.land/std@0.141.0/testing/bdd.ts";
+
+function makeRelativePath(path: string) {
+  return relative(`${Deno.cwd()}/test/fixture`, path)
+}
 
 function getRepositories() {
   return [
@@ -54,7 +59,7 @@ describe("Tokenizer", () => {
   });
 
   for (const { path } of ls()) {
-    it(`validating source file: ${path}`, async () => {
+    it(makeRelativePath(path), async () => {
       let token;
       const text = await Deno.readTextFile(path);
       const tokenizer = new Tokenizer(text);
