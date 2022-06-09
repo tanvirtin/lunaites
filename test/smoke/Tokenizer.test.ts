@@ -17,6 +17,9 @@ function getRepositories() {
   return [
     "https://github.com/tanvirtin/vgit.nvim.git",
     "https://github.com/koreader/koreader",
+    "https://github.com/Neopallium/lua-pb.git",
+    "https://github.com/luvit/luvit.git",
+    "https://github.com/leafo/pgmoon.git"
   ];
 }
 
@@ -39,10 +42,14 @@ function deleteGitRepository(link: string) {
 }
 
 async function fetchLuaSources() {
-  await Promise.all(getRepositories().map((link) => cloneGitRepository(link)));
+  await Promise.all(getRepositories().map((link) => {
+    console.info(`Cloning: ${link}`);
+
+    return cloneGitRepository(link)
+  }));
 
   const files = walkSync(`${Deno.cwd()}/test/fixture/`, {
-    match: [globToRegExp("**/**/*.lua")],
+    match: [globToRegExp("*/**/*.lua")],
   });
 
   // files are bound by closure, in other words the closure acts as a getter for the private variable files.
