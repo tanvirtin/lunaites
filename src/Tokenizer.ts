@@ -35,6 +35,7 @@ interface TokenizerOptions {
 // References: https://www.ibm.com/docs/en/i/7.3?topic=tokens-literals
 
 class Tokenizer {
+  private isStarted = false;
   public scanner: Scanner;
   private errorReporter: ErrorReporter;
   private options: TokenizerOptions = {
@@ -99,6 +100,20 @@ class Tokenizer {
       } else if (!scanner.consumeEOL()) {
         return true;
       }
+    }
+
+    return false;
+  }
+
+  // Eats away the entire shebang line
+  private consumeShebangLine(): boolean {
+    const { scanner } = this;
+
+    if (scanner.match("#!")) {
+      scanner.scanUntil(scanner.isLineFeed);
+      this.consumeWhitespace()
+
+      return true;
     }
 
     return false;
@@ -576,13 +591,19 @@ class Tokenizer {
   }
 
   tokenize(): Token {
-    const { scanner, options } = this;
+    const { scanner, options, isStarted } = this;
 
     // All whitespace noise is eaten away as they have no semantic value.
     this.consumeWhitespace();
 
     if (scanner.isOutOfBounds()) {
       return this.tokenizeEOF();
+    }
+
+    if (!isStarted) {
+      this.isStarted = true; 
+
+      this.consumeShebangLine();
     }
 
     // If the word is an alphabet it probably is an identifier.
