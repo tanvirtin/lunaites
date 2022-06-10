@@ -111,7 +111,7 @@ class Tokenizer {
 
     if (scanner.match("#!")) {
       scanner.scanUntil(scanner.isLineFeed);
-      this.consumeWhitespace()
+      this.consumeWhitespace();
 
       return true;
     }
@@ -601,7 +601,7 @@ class Tokenizer {
     }
 
     if (!isStarted) {
-      this.isStarted = true; 
+      this.isStarted = true;
 
       this.consumeShebangLine();
     }

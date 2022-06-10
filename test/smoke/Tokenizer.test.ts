@@ -10,7 +10,7 @@ import {
 } from "https://deno.land/std@0.141.0/testing/bdd.ts";
 
 function makeRelativePath(path: string) {
-  return relative(`${Deno.cwd()}/test/fixture`, path)
+  return relative(`${Deno.cwd()}/test/fixture`, path);
 }
 
 function getRepositories() {
@@ -19,7 +19,10 @@ function getRepositories() {
     "https://github.com/koreader/koreader",
     "https://github.com/Neopallium/lua-pb.git",
     "https://github.com/luvit/luvit.git",
-    "https://github.com/leafo/pgmoon.git"
+    "https://github.com/leafo/pgmoon.git",
+    "https://github.com/lua/lua",
+    "https://github.com/Neopallium/llvm-lua.git",
+    "https://github.com/moteus/lua-path.git",
   ];
 }
 
@@ -42,11 +45,13 @@ function deleteGitRepository(link: string) {
 }
 
 async function fetchLuaSources() {
-  await Promise.all(getRepositories().map((link) => {
-    console.info(`Cloning: ${link}`);
+  await Promise.all(
+    getRepositories().map((link) => {
+      console.info(`Cloning ${link}`);
 
-    return cloneGitRepository(link)
-  }));
+      return cloneGitRepository(link);
+    }),
+  );
 
   const files = walkSync(`${Deno.cwd()}/test/fixture/`, {
     match: [globToRegExp("*/**/*.lua")],
@@ -56,13 +61,18 @@ async function fetchLuaSources() {
   return () => files;
 }
 
+function deleteLuaSources() {
+  return Promise.all(
+    getRepositories().map((link) => deleteGitRepository(link)),
+  );
+}
+
+await deleteLuaSources();
 const ls = await fetchLuaSources();
 
 describe("Tokenizer", () => {
   afterAll(async () => {
-    await Promise.all(
-      getRepositories().map((link) => deleteGitRepository(link)),
-    );
+    await deleteLuaSources();
   });
 
   for (const { path } of ls()) {
