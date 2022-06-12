@@ -1,6 +1,5 @@
-import { ErrorReporter, Scanner } from "../../src/mod.ts";
-import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
-import { assertThrows } from "https://deno.land/std@0.110.0/testing/asserts.ts";
+import { ErrorReporter, Scanner } from "../../mod.ts";
+import { assertThrows, describe, it } from "../../deps.ts";
 
 describe("ErrorReporter", () => {
   describe("reportMalformedNumber", () => {

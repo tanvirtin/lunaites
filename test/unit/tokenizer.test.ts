@@ -1,10 +1,11 @@
-import { Tokenizer, TokenType } from "../../src/mod.ts";
-import { describe, it } from "https://deno.land/std@0.141.0/testing/bdd.ts";
+import { Tokenizer, TokenType } from "../../mod.ts";
 import {
   assertEquals,
   assertObjectMatch,
   assertThrows,
-} from "https://deno.land/std@0.110.0/testing/asserts.ts";
+  describe,
+  it,
+} from "../../deps.ts";
 
 describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
@@ -235,12 +236,13 @@ describe("Tokenizer", () => {
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () =>
+        it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (new Tokenizer(source)).tokenize(),
             SyntaxError,
             result,
-          ));
+          );
+        });
       });
     });
 
@@ -445,12 +447,13 @@ describe("Tokenizer", () => {
       };
 
       Object.entries(testTable).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () =>
+        it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (new Tokenizer(source)).tokenize(),
             SyntaxError,
             result,
-          ));
+          );
+        });
       });
     });
   });

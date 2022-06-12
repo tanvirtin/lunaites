@@ -1,4 +1,4 @@
-import { Tokenizer, TokenType } from "../src/Tokenizer.ts";
+import { Tokenizer, TokenType } from "../mod.ts";
 
 function getSource() {
   return `

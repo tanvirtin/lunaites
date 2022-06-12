@@ -1,13 +1,13 @@
-import { Tokenizer, TokenType } from "../../src/mod.ts";
-import { exec } from "https://deno.land/x/exec/mod.ts";
-import { relative } from "https://deno.land/std@0.102.0/path/mod.ts";
-import { globToRegExp } from "https://deno.land/x/std@0.63.0/path/glob.ts";
-import { walkSync } from "https://deno.land/std@0.77.0/fs/mod.ts";
+import { Tokenizer, TokenType } from "../../mod.ts";
 import {
   afterAll,
   describe,
+  exec,
+  globToRegExp,
   it,
-} from "https://deno.land/std@0.141.0/testing/bdd.ts";
+  relative,
+  walkSync,
+} from "../../deps.ts";
 
 function makeRelativePath(path: string) {
   return relative(`${Deno.cwd()}/test/fixture`, path);
