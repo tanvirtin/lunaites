@@ -13,7 +13,7 @@ lint:
 fmt:
 	deno fmt --check
 
-benchmarks:
-	deno run benchmark/Tokenizer.benchmark.ts
+bench:
+	deno run bench/Tokenizer.bench.ts
 
 check: lint fmt tests

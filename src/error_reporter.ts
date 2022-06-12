@@ -1,4 +1,4 @@
-import { Scanner } from "./Scanner.ts";
+import { Scanner } from "./scanner.ts";
 
 class ErrorReporter {
   scanner: Scanner;
@@ -28,58 +28,37 @@ class ErrorReporter {
     );
   }
 
-  reportMalformedNumber(): never {
+  reportError(message: string, nearbyText?: string): never {
     const error = this.createError(
-      "malformed number near '%s'",
-      this.scanner.getText(),
+      message,
+      nearbyText ?? this.scanner.getText(),
     );
 
     throw error;
+  }
+
+  reportMalformedNumber(): never {
+    this.reportError("malformed number near '%s'");
   }
 
   reportUnfinishedString(): never {
-    const error = this.createError(
-      "unfinished string near '%s'",
-      this.scanner.getText(),
-    );
-
-    throw error;
+    this.reportError("unfinished string near '%s'");
   }
 
   reportUnfinishedLongString(): never {
-    const error = this.createError(
-      "unfinished long string near '%s'",
-      this.scanner.getText(),
-    );
-
-    throw error;
+    this.reportError("unfinished long string near '%s'");
   }
 
   reportUnexpectedCharacter(): never {
-    const error = this.createError(
-      "unfinished character near '%s'",
-      this.scanner.getText(),
-    );
-
-    throw error;
+    this.reportError("unfinished character near '%s'");
   }
 
   reportUnfinishedComment(): never {
-    const error = this.createError(
-      "unfinished comment near '%s'",
-      this.scanner.getText(),
-    );
-
-    throw error;
+    this.reportError("unfinished comment near '%s'");
   }
 
   reportUnfinishedLongComment(): never {
-    const error = this.createError(
-      "unfinished long comment near '%s'",
-      this.scanner.getText(),
-    );
-
-    throw error;
+    this.reportError("unfinished long comment near '%s'");
   }
 }
 
