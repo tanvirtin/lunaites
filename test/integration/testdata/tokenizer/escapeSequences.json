@@ -1,0 +1,1046 @@
+[
+  {
+    "source": "a = \"bar\nbaz\"",
+    "result": [
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ],
+        "type": 8,
+        "value": "a"
+      },
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ],
+        "type": 32,
+        "value": "="
+      },
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          13
+        ],
+        "type": 2,
+        "value": "\"bar\nbaz\""
+      },
+      {
+        "lnum": 2,
+        "lnumStartIndex": 9,
+        "range": [
+          13,
+          13
+        ],
+        "type": 1,
+        "value": "<eof>"
+      }
+    ]
+  },
+  {
+    "source": "a = \"bar\rbaz\"",
+    "result": "[1:10] unfinished string near '\"bar'"
+  },
+  {
+    "source": "a = \"bar\\n\\r\\t\tbaz\"",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"bar\\n\\r\\t\tbaz\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          19
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          19
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = \"bar\\80baz\\a\\80\\0foo\"",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"bar\\80baz\\a\\80\\0foo\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          25
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          25
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = \"bar\\f\\v\\bbaz\"",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"bar\\f\\v\\bbaz\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          18
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = \"bar\f\u000b\baz\"",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"bar\f\u000b\baz\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\\\'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\\\\",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\''",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\''",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\['",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\['",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\123'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": null,
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          10
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\255'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\255'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          10
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\300'",
+    "result": "[1:10] decimal escape too large near '\\300'"
+  },
+  {
+    "source": "a = [[bar\\f\\v\\bbaz]]",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "[[bar\\f\\v\\bbaz]]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = [[\\]]",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "[[\\]]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          9
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\z \\x'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\z \\x'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          11
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\x23'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\x23'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          10
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\x0'",
+    "result": "[1:7] hexadecimal digit expected near '\\x0'"
+  },
+  {
+    "source": "a = '\\x0x'",
+    "result": "[1:7] hexadecimal digit expected near '\\x0'"
+  },
+  {
+    "source": "a = '\\xx'",
+    "result": "[1:7] hexadecimal digit expected near '\\xx'"
+  },
+  {
+    "source": "a = \"bar\\z    baz\"",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"bar\\z    baz\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "lastLine": 1,
+        "lastLineStart": 0,
+        "range": [
+          4,
+          18
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{0}'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\u{0}'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          11
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{1f4a9}'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\u{1f4a9}'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          15
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          15
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{7f}\\u{80}'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\u{7f}\\u{80}'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          18
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{7ff}\\u{800}'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\u{7ff}\\u{800}'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{ffff}\\u{1f4a9}'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\u{ffff}\\u{1f4a9}'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          23
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          23
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{10ffff}'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\u{10ffff}'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{110000}'",
+    "result": "[1:16] UTF-8 value too large near '\\u{110000}'"
+  },
+  {
+    "source": "a = '\\u{120000}'",
+    "result": "[1:16] UTF-8 value too large near '\\u{120000}'"
+  },
+  {
+    "source": "a = '\\u{000000001f4a9}'",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'\\u{000000001f4a9}'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          23
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          23
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = '\\u{100000001f4a9}'",
+    "result": "[1:16] UTF-8 value too large near '\\u{1000000'"
+  },
+  {
+    "source": "a = '\\u{1f4a9'",
+    "result": "[1:14] missing '}' near '\\u{1f4a9''"
+  },
+  {
+    "source": "a = \"\\u{1f4a9\"",
+    "result": "[1:14] missing '}' near '\\u{1f4a9\"'"
+  },
+  {
+    "source": "a = '\\uaa'",
+    "result": "[1:9] missing '{' near '\\ua'"
+  },
+  {
+    "source": "a = '\\u{}'",
+    "result": "[1:9] hexadecimal digit expected near '\\u{'"
+  },
+  {
+    "source": "a = '\\u{0g}'",
+    "result": "[1:11] hexadecimal digit expected near '\\u{0g'"
+  }
+]

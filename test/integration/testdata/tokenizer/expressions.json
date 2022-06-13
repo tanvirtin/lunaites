@@ -1,0 +1,2932 @@
+[
+  {
+    "source": "a =",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = [[foo]]",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 2,
+        "value": "[[foo]]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          11
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = {}",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "{",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "}",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = (a)",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = (nil)",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 128,
+        "value": "nil",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          8
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = (true)",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 64,
+        "value": "true",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          9
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = (1)",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = (\"foo\")",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"foo\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          10
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          11
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = ([[foo]])",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 2,
+        "value": "[[foo]]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          13
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = ({})",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "{",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 32,
+        "value": "}",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a.b",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": ".",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a.b.",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": ".",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 32,
+        "value": ".",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a.b.c",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": ".",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 32,
+        "value": ".",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 8,
+        "value": "c",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a:b",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": ":",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a[]",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "[",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 32,
+        "value": "]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a[b]",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "[",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 32,
+        "value": "]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a[1]",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "[",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 32,
+        "value": "]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = a[\"foo\"]",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "[",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"foo\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          11
+        ]
+      },
+      {
+        "type": 32,
+        "value": "]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = ()",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          6
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function 1",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function a",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          13
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function() end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          18
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(1",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p) end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          19
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          19
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p,q) end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 8,
+        "value": "q",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p q) end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 8,
+        "value": "q",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p,)",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p q",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 8,
+        "value": "q",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p,q,r) end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 8,
+        "value": "q",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 8,
+        "value": "r",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          23
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          23
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p,q,1",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 8,
+        "value": "q",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(...) end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 256,
+        "value": "...",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(...,",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 256,
+        "value": "...",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          17
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p,...) end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 256,
+        "value": "...",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          18
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          23
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          23
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = function(p,q,r,...) end",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          12
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          13
+        ]
+      },
+      {
+        "type": 8,
+        "value": "p",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 8,
+        "value": "q",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 8,
+        "value": "r",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          19
+        ]
+      },
+      {
+        "type": 256,
+        "value": "...",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          22
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          27
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          27
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = {'-'}",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "{",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'-'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          8
+        ]
+      },
+      {
+        "type": 32,
+        "value": "}",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = {'not'}",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "{",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 2,
+        "value": "'not'",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          10
+        ]
+      },
+      {
+        "type": 32,
+        "value": "}",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          11
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  {
+    "source": "a = {not true}",
+    "result": [
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": 32,
+        "value": "{",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 4,
+        "value": "not",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          8
+        ]
+      },
+      {
+        "type": 64,
+        "value": "true",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          13
+        ]
+      },
+      {
+        "type": 32,
+        "value": "}",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  }
+]

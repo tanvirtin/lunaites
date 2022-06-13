@@ -1,0 +1,1617 @@
+[
+  {
+    "source": "while",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while do",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while =",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do local a end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          22
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do local a local b end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          24
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          26
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          30
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          30
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do local a; local b; end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          25
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          27
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          28
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          29,
+          32
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          32
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do 2 end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do \"foo\" end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"foo\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while true do end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 64,
+        "value": "true",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          17
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          17
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do ; end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do while",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          11
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 2 do",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          12
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 = 2 do",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          11
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do return end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          17
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do return return end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          17
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          24
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          28
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          28
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do do end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          17
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do do return end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          24
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          28
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          28
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do break break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          22
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          26
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          26
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do do break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          27
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          27
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do ; end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 1 do break break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          22
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          26
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          26
+        ]
+      }
+    ]
+  }
+]

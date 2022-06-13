@@ -7,6 +7,9 @@ unit-tests:
 smoke-tests:
 	deno test -A --unstable ./test/smoke/
 
+integration-tests:
+	deno test -A --unstable ./test/integration/
+
 lint:
 	deno lint
 

@@ -243,9 +243,9 @@ class Tokenizer {
     return {
       type: TokenType.EOF,
       value: "<eof>",
-      range: scanner.getRange(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -266,9 +266,9 @@ class Tokenizer {
     return {
       type: TokenType.Comment,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum,
       lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -302,9 +302,9 @@ class Tokenizer {
     return {
       type: TokenType.Comment,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum,
       lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -342,9 +342,9 @@ class Tokenizer {
     return {
       type: TokenType.StringLiteral,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum,
       lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -420,9 +420,9 @@ class Tokenizer {
     return {
       type: TokenType.StringLiteral,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum,
       lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -450,9 +450,9 @@ class Tokenizer {
     return {
       type,
       value,
-      range: scanner.getRange(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -500,9 +500,9 @@ class Tokenizer {
     return {
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -539,9 +539,9 @@ class Tokenizer {
     return {
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -568,9 +568,9 @@ class Tokenizer {
     return {
       type: TokenType.VarargLiteral,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -585,9 +585,9 @@ class Tokenizer {
     return {
       type: TokenType.Punctuator,
       value: scanner.getText(),
-      range: scanner.getRange(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
+      range: scanner.getRange(),
     };
   }
 
@@ -666,6 +666,10 @@ class Tokenizer {
     }
 
     if (scanner.match(">")) {
+      if (options.bitwiseOperators && scanner.match(">=")) {
+        return this.tokenizePunctuator(">=");
+      }
+
       if (options.bitwiseOperators && scanner.match(">>")) {
         return this.tokenizePunctuator(">>");
       }
@@ -674,6 +678,10 @@ class Tokenizer {
     }
 
     if (scanner.match("<")) {
+      if (options.bitwiseOperators && scanner.match("<=")) {
+        return this.tokenizePunctuator("<=");
+      }
+
       if (options.bitwiseOperators && scanner.match("<<")) {
         return this.tokenizePunctuator("<<");
       }
@@ -737,4 +745,4 @@ class Tokenizer {
 }
 
 export { Tokenizer, TokenType };
-export type { TokenizerOptions };
+export type { Token, TokenizerOptions };

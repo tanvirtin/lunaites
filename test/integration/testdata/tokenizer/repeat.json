@@ -1,0 +1,1297 @@
+[
+  {
+    "source": "repeat",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat until",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat until false",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 64,
+        "value": "false",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat until local",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat end",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          10
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat 1",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat =",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat local a until 1",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          20
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          22
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat local a local b until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          20
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          22
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          28
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          29,
+          30
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          30
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat local a; local b; until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          14
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          21
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          23
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          24
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          30
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          31,
+          32
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          32
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat ; until 1",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          14
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat 2 until 1",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          14
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat \"foo\" until 1",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 2,
+        "value": "\"foo\"",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat return until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          19
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat return return until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          26
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          28
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          28
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat break until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat break break until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          24
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          26
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          26
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat do end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          19
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat do return end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          26
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          28
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          28
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat do break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          25
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          27
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          27
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat ; until 1",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          14
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat break break until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          24
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          26
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          26
+        ]
+      }
+    ]
+  }
+]

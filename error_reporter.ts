@@ -14,7 +14,7 @@ class ErrorReporter {
   }
 
   private createErrorMessage(message: string) {
-    return `[${this.scanner.lnum}:${this.scanner.getCol()}] ${message} }'`;
+    return `[${this.scanner.lnum}:${this.scanner.getCol()}] ${message}`;
   }
 
   private createError(templateMessage: string, ...args: string[]): SyntaxError {
@@ -46,7 +46,9 @@ class ErrorReporter {
   }
 
   reportUnfinishedLongString(): never {
-    this.reportError("unfinished long string near '%s'");
+    this.reportError(
+      `unfinished long string (starting at line ${this.scanner.lnum}) near '%s'`,
+    );
   }
 
   reportUnexpectedCharacter(): never {

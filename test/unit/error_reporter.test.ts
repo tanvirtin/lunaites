@@ -54,7 +54,7 @@ describe("ErrorReporter", () => {
       assertThrows(
         computation,
         SyntaxError,
-        "[1:3] unfinished long string near '[['",
+        "[1:3] unfinished long string (starting at line 1) near '[['",
       );
     });
   });

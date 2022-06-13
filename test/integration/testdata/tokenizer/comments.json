@@ -1,0 +1,331 @@
+[
+  {
+    "source": "-- comment",
+    "result": [
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "source": "-- comment\n-- comment",
+    "result": [
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 2,
+        "lnumStartIndex": 11,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--coment",
+    "result": [
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "source": "-- comment\nreturn",
+    "result": [
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 2,
+        "lnumStartIndex": 11,
+        "range": [
+          11,
+          17
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 2,
+        "lnumStartIndex": 11,
+        "range": [
+          17,
+          17
+        ]
+      }
+    ]
+  },
+  {
+    "source": "return --comment \n",
+    "result": [
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 2,
+        "lnumStartIndex": 18,
+        "range": [
+          18,
+          18
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--[[comment]]",
+    "result": [
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          13
+        ]
+      }
+    ]
+  },
+  {
+    "source": "if true--[[comment]]then end",
+    "result": [
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 64,
+        "value": "true",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          24
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          28
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          28
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--[=[comment]=] return",
+    "result": [
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          22
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--[===[comment\n--[=[sub]=]--\n]===]return",
+    "result": [
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 3,
+        "lnumStartIndex": 29,
+        "range": [
+          34,
+          40
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 3,
+        "lnumStartIndex": 29,
+        "range": [
+          40,
+          40
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--[[comment\nline two]]",
+    "result": [
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 2,
+        "lnumStartIndex": 12,
+        "range": [
+          22,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--[[\ncomment\nline two\n]]",
+    "result": [
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 4,
+        "lnumStartIndex": 22,
+        "range": [
+          24,
+          24
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--[==\nreturn --]]",
+    "result": [
+      {
+        "type": 4,
+        "value": "return",
+        "lnum": 2,
+        "lnumStartIndex": 6,
+        "range": [
+          6,
+          12
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 2,
+        "lnumStartIndex": 6,
+        "range": [
+          17,
+          17
+        ]
+      }
+    ]
+  },
+  {
+    "source": "if true -- comment\nthen end",
+    "result": [
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 64,
+        "value": "true",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 2,
+        "lnumStartIndex": 19,
+        "range": [
+          19,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 2,
+        "lnumStartIndex": 19,
+        "range": [
+          24,
+          27
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 2,
+        "lnumStartIndex": 19,
+        "range": [
+          27,
+          27
+        ]
+      }
+    ]
+  },
+  {
+    "source": "--[=[x]x",
+    "result": "[1:9] unfinished long comment (starting at line 1) near '<eof>'"
+  }
+]

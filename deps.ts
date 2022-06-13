@@ -7,6 +7,7 @@ export {
   assert,
   assertEquals,
   assertObjectMatch,
+  assertStrictEquals,
   assertThrows,
 } from "https://deno.land/std@0.143.0/testing/asserts.ts";
 export { exec } from "https://deno.land/x/exec@0.0.5/mod.ts";

@@ -9,10 +9,6 @@ import {
   walkSync,
 } from "../../deps.ts";
 
-function makeRelativePath(path: string) {
-  return relative(`${Deno.cwd()}/test/fixture`, path);
-}
-
 function getRepositories() {
   return [
     "https://github.com/tanvirtin/vgit.nvim.git",
@@ -26,6 +22,10 @@ function getRepositories() {
   ];
 }
 
+function getTestdataPath() {
+  return `${Deno.cwd()}/test/smoke/testdata`;
+}
+
 function getRepoName(link: string) {
   const fragments = link.split("/");
 
@@ -33,7 +33,7 @@ function getRepoName(link: string) {
 }
 
 function getDerivedProjectPath(repoName: string) {
-  return `${Deno.cwd()}/test/fixture/${getRepoName(repoName)}`;
+  return `${getTestdataPath()}/${getRepoName(repoName)}`;
 }
 
 function cloneGitRepository(link: string) {
@@ -53,7 +53,7 @@ async function fetchLuaSources() {
     }),
   );
 
-  const files = walkSync(`${Deno.cwd()}/test/fixture/`, {
+  const files = walkSync(getTestdataPath(), {
     match: [globToRegExp("*/**/*.lua")],
   });
 
@@ -76,7 +76,7 @@ describe("Tokenizer", () => {
   });
 
   for (const { path } of ls()) {
-    it(makeRelativePath(path), async () => {
+    it(relative(getTestdataPath(), path), async () => {
       let token;
       const text = await Deno.readTextFile(path);
       const tokenizer = new Tokenizer(text);

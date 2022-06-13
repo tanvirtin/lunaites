@@ -229,10 +229,26 @@ describe("Tokenizer", () => {
         '"': "[1:2] unfinished string near '\"'",
         "'": "[1:2] unfinished string near '''",
         "'\\": "[1:4] unfinished string near ''\\'",
-        "[[": "[1:3] unfinished long string near '[['",
-        "[[]": "[1:4] unfinished long string near '[[]'",
+        "[[": "[1:3] unfinished long string (starting at line 1) near '[['",
+        "[[]": "[1:4] unfinished long string (starting at line 1) near '[[]'",
         "[==============================sup":
-          "[1:32] unfinished long string near '[=============================='",
+          "[1:32] unfinished long string (starting at line 1) near '[=============================='",
+      };
+
+      Object.entries(testTable).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          assertThrows(
+            () => (new Tokenizer(source)).tokenize(),
+            SyntaxError,
+            result,
+          );
+        });
+      });
+    });
+
+    describe("throws errors when unexpected characters appear while parsing string literals", () => {
+      const testTable = {
+        "Дождь": "[1:1] unfinished character near '",
       };
 
       Object.entries(testTable).forEach(([source, result]) => {

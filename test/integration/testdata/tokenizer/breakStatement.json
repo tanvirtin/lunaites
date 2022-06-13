@@ -1,0 +1,3412 @@
+[
+  {
+    "source": "break",
+    "result": [
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "source": "do break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          8
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          12
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "source": "if 0 then break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          4
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          19
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          19
+        ]
+      }
+    ]
+  },
+  {
+    "source": "if 0 then else break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          4
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "else",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          14
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          24
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          24
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do function x() break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          19
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          21
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          22
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          29
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          33
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          34,
+          37
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          37,
+          37
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat function x() break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          15
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          25
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          29
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          35
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          36,
+          37
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          37,
+          37
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat x = function() break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          19
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          21
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          27
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          31
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          37
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          38,
+          39
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          39,
+          39
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat break until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat do break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          25
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          27
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          27
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat if 0 then break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          9
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          11
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          22
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          26
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          32
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          33,
+          34
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          34,
+          34
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat if 0 then else break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          9
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          11
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "else",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          21
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          27
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          31
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          37
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          38,
+          39
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          39,
+          39
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do break; end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          21
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          21
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do break;; end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          22
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do do break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          27
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          27
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do if 0 then break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          26
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          30
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          31,
+          34
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          34,
+          34
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do if 0 then else break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "else",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          25
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          31
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          35
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          36,
+          39
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          39,
+          39
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for i = 1, 2 do break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "i",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          21
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          25
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          25
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for i = 1, 2 do do break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "i",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          24
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          28
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          29,
+          32
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          32
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for i = 1, 2 do if 0 then break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "i",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          18
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          25
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          31
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          35
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          36,
+          39
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          39,
+          39
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for i = 1, 2 do if 0 then else break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "i",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 16,
+        "value": "1",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          9
+        ]
+      },
+      {
+        "type": 32,
+        "value": ",",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 16,
+        "value": "2",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          18
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          25
+        ]
+      },
+      {
+        "type": 4,
+        "value": "else",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          30
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          31,
+          36
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          37,
+          40
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          41,
+          44
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          44,
+          44
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for a in b do break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 4,
+        "value": "in",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          8
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          23
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          23
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for a in b do do break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 4,
+        "value": "in",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          8
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          16
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          22
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          23,
+          26
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          30
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          30
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for a in b do if 0 then break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 4,
+        "value": "in",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          8
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          16
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          29
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          33
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          34,
+          37
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          37,
+          37
+        ]
+      }
+    ]
+  },
+  {
+    "source": "for a in b do if 0 then else break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "for",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          3
+        ]
+      },
+      {
+        "type": 8,
+        "value": "a",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          5
+        ]
+      },
+      {
+        "type": 4,
+        "value": "in",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          8
+        ]
+      },
+      {
+        "type": 8,
+        "value": "b",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          13
+        ]
+      },
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          14,
+          16
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "else",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          28
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          29,
+          34
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          35,
+          38
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          39,
+          42
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          42,
+          42
+        ]
+      }
+    ]
+  },
+  {
+    "source": "function x() break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          8
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          11
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          22
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "source": "local function x() break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "local",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          14
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          24
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          25,
+          28
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          28
+        ]
+      }
+    ]
+  },
+  {
+    "source": "function x() repeat break until 0 end",
+    "result": [
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          8
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          11
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          25
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          31
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          33
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          34,
+          37
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          37,
+          37
+        ]
+      }
+    ]
+  },
+  {
+    "source": "break",
+    "result": [
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "source": "do break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          8
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          12
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "source": "if 0 then break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          4
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          19
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          19
+        ]
+      }
+    ]
+  },
+  {
+    "source": "if 0 then else break end",
+    "result": [
+      {
+        "type": 4,
+        "value": "if",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          2
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          3,
+          4
+        ]
+      },
+      {
+        "type": 4,
+        "value": "then",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          5,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "else",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          14
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          15,
+          20
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          24
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          24
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do break;; end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          16
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 32,
+        "value": ";",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          22
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "source": "while 0 do function x() break end end",
+    "result": [
+      {
+        "type": 4,
+        "value": "while",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          6,
+          7
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          19
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          21
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          21,
+          22
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          23
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          24,
+          29
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          33
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          34,
+          37
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          37,
+          37
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat function x() break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          15
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          17
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          17,
+          18
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          18,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          25
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          29
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          30,
+          35
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          36,
+          37
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          37,
+          37
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat x = function() break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 8,
+        "value": "x",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          8
+        ]
+      },
+      {
+        "type": 32,
+        "value": "=",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          9,
+          10
+        ]
+      },
+      {
+        "type": 4,
+        "value": "function",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          11,
+          19
+        ]
+      },
+      {
+        "type": 32,
+        "value": "(",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 32,
+        "value": ")",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          21
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          22,
+          27
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          28,
+          31
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          32,
+          37
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          38,
+          39
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          39,
+          39
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat break until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          12
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          13,
+          18
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          19,
+          20
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "source": "repeat do break end until 0",
+    "result": [
+      {
+        "type": 4,
+        "value": "repeat",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          6
+        ]
+      },
+      {
+        "type": 4,
+        "value": "do",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          9
+        ]
+      },
+      {
+        "type": 4,
+        "value": "break",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          10,
+          15
+        ]
+      },
+      {
+        "type": 4,
+        "value": "end",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          16,
+          19
+        ]
+      },
+      {
+        "type": 4,
+        "value": "until",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          20,
+          25
+        ]
+      },
+      {
+        "type": 16,
+        "value": "0",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          26,
+          27
+        ]
+      },
+      {
+        "type": 1,
+        "value": "<eof>",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          27,
+          27
+        ]
+      }
+    ]
+  }
+]

@@ -1,3 +1,3 @@
-export { Scanner } from "./scanner.ts";
-export { Tokenizer, TokenType } from "./tokenizer.ts";
-export { ErrorReporter } from "./error_reporter.ts";
+export * from "./scanner.ts";
+export * from "./tokenizer.ts";
+export * from "./error_reporter.ts";
