@@ -2724,21 +2724,11 @@
       },
       {
         "type": 32,
-        "value": "/",
+        "value": "//",
         "lnum": 1,
         "lnumStartIndex": 0,
         "range": [
           6,
-          7
-        ]
-      },
-      {
-        "type": 32,
-        "value": "/",
-        "lnum": 1,
-        "lnumStartIndex": 0,
-        "range": [
-          7,
           8
         ]
       },

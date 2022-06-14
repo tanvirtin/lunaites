@@ -288,12 +288,12 @@ class Tokenizer {
         errorReporter.reportUnfinishedLongComment();
       }
 
-      scanner.scan();
-
-      // NOTE: EOL consumption should be done at the end of the loop, so that our while loop
-      //       condition and error check statements are the first things to be ran in the new loop.
-      // Multi line comments may contain \n, so we consume them to increment line number.
-      scanner.consumeEOL();
+      // If we successfully consume an end of line then we don't need to scan again.
+      // NOTE: scanner.consumeEOL progresses the scanner, which means we don't need
+      // to progress it we have already consumed a token within this loop.
+      if (!scanner.consumeEOL()) {
+        scanner.scan();
+      }
     }
 
     // scan over "]]"
@@ -410,11 +410,12 @@ class Tokenizer {
         }
       }
 
-      scanner.scan();
-
-      // NOTE: EOL consumption should be done at the end of the loop, so that our while loop
-      //       condition and error check statements are the first things to be ran in the new loop.
-      scanner.consumeEOL();
+      // If we successfully consume an end of line then we don't need to scan again.
+      // NOTE: scanner.consumeEOL progresses the scanner, which means we don't need
+      // to progress it we have already consumed a token within this loop.
+      if (!scanner.consumeEOL()) {
+        scanner.scan();
+      }
     }
 
     return {
@@ -465,6 +466,11 @@ class Tokenizer {
     // Since we are in this function, we know we are dealing with hexadecimal numeric literals.
     // This means we can successfully acknowledge 0 and "x".
     scanner.scan().scan();
+
+    // Next character must either be a hexadecimal or a ".", if not it's an error.
+    if (!scanner.match(".") && !scanner.isHexDigit()) {
+      this.errorReporter.reportMalformedNumber();
+    }
 
     // Hexadecimal numbers can be represented as 0x.34
     let isDecimal = this.consumeDotNotation();

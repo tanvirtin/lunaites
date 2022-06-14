@@ -1,6 +1,6 @@
 import { Tokenizer } from "../../mod.ts";
 import { SpecGenerator, Suite } from "./spec_generator.ts";
-import { assertEquals, describe, it } from "../../deps.ts";
+import { assertEquals, describe } from "../../deps.ts";
 
 function getTestdataPath() {
   return `${Deno.cwd()}/test/integration/testdata/tokenizer`;

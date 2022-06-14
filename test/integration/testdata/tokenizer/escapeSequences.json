@@ -46,7 +46,48 @@
   },
   {
     "source": "a = \"bar\rbaz\"",
-    "result": "[1:10] unfinished string near '\"bar'"
+    "result": [
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          1
+        ],
+        "type": 8,
+        "value": "a"
+      },
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          2,
+          3
+        ],
+        "type": 32,
+        "value": "="
+      },
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          4,
+          13
+        ],
+        "type": 2,
+        "value": "\"bar\rbaz\""
+      },
+      {
+        "lnum": 2,
+        "lnumStartIndex": 9,
+        "range": [
+          13,
+          13
+        ],
+        "type": 1,
+        "value": "<eof>"
+      }
+    ]
   },
   {
     "source": "a = \"bar\\n\\r\\t\tbaz\"",
@@ -388,7 +429,7 @@
       },
       {
         "type": 2,
-        "value": null,
+        "value": "'\\123'",
         "lnum": 1,
         "lnumStartIndex": 0,
         "range": [
@@ -677,8 +718,6 @@
         "value": "\"bar\\z    baz\"",
         "lnum": 1,
         "lnumStartIndex": 0,
-        "lastLine": 1,
-        "lastLineStart": 0,
         "range": [
           4,
           18

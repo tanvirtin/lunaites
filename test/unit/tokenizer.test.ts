@@ -420,6 +420,7 @@ describe("Tokenizer", () => {
       const testTable = {
         "1..1": "[1:3] malformed number near '1.'",
         "1.1.1": "[1:4] malformed number near '1.1'",
+        "0x": "[1:3] malformed number near '0x'",
         "0x..": "[1:4] malformed number near '0x.'",
         "0x3..3": "[1:5] malformed number near '0x3.'",
         "0x3...3": "[1:5] malformed number near '0x3.'",
@@ -781,7 +782,7 @@ describe("Tokenizer", () => {
 
   describe("punctuators", () => {
     it("should correctly tokenize single char punctuator", () => {
-      const source = "*^%,{}]();#-+|&:/~><=";
+      const source = "*^%,{}]();#-+|&:=/~><";
       tokenizer = new Tokenizer(source);
 
       for (const value of source) {
