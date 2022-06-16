@@ -149,17 +149,19 @@ class Tokenizer {
     return false;
   }
 
-  private consumeBackslash() {
+  private consumeBackslash(): boolean {
     const { scanner } = this;
 
     if (scanner.match("\\")) {
       scanner.scan();
+
+      return true;
     }
 
     return false;
   }
 
-  private consumeImaginaryUnitSuffix() {
+  private consumeImaginaryUnitSuffix(): boolean {
     const { options, scanner } = this;
 
     if (!options.imaginaryNumbers) {
@@ -179,7 +181,7 @@ class Tokenizer {
   // Rules: Integer suffix should not work if the literal the suffix is
   // part of  has fractions ("." notation). Integer suffix will also
   // not work if there is an imaginary suffix before it as well.
-  private consumeInt64Suffix() {
+  private consumeInt64Suffix(): boolean {
     const { errorReporter, options, scanner } = this;
 
     if (!options.integerSuffixes) {
@@ -222,7 +224,7 @@ class Tokenizer {
     return false;
   }
 
-  private consumeDotNotation() {
+  private consumeDotNotation(): boolean {
     const { scanner } = this;
 
     if (scanner.match(".")) {
@@ -381,11 +383,11 @@ class Tokenizer {
         errorReporter.reportUnfinishedString();
       }
 
+      // TODO: handle escape sequences.
       this.consumeBackslash();
 
       // If we successfully consume an end of line then we don't need to scan again.
-      // NOTE: scanner.consumeEOL progresses the scanner, which means we don't need
-      // to progress it we have already consumed a token within this loop.
+      // NOTE: scanner.consume* progresses the scanner.
       if (!scanner.consumeEOL()) {
         scanner.scan();
       }

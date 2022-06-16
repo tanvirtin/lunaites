@@ -294,7 +294,7 @@
       },
       {
         "type": 2,
-        "value": "\\\\",
+        "value": "'\\\\'",
         "lnum": 1,
         "lnumStartIndex": 0,
         "range": [
@@ -495,10 +495,6 @@
     ]
   },
   {
-    "source": "a = '\\300'",
-    "result": "[1:10] decimal escape too large near '\\300'"
-  },
-  {
     "source": "a = [[bar\\f\\v\\bbaz]]",
     "result": [
       {
@@ -677,18 +673,6 @@
         ]
       }
     ]
-  },
-  {
-    "source": "a = '\\x0'",
-    "result": "[1:7] hexadecimal digit expected near '\\x0'"
-  },
-  {
-    "source": "a = '\\x0x'",
-    "result": "[1:7] hexadecimal digit expected near '\\x0'"
-  },
-  {
-    "source": "a = '\\xx'",
-    "result": "[1:7] hexadecimal digit expected near '\\xx'"
   },
   {
     "source": "a = \"bar\\z    baz\"",
@@ -1081,5 +1065,21 @@
   {
     "source": "a = '\\u{0g}'",
     "result": "[1:11] hexadecimal digit expected near '\\u{0g'"
+  },
+  {
+    "source": "a = '\\x0'",
+    "result": "[1:7] hexadecimal digit expected near '\\x0'"
+  },
+  {
+    "source": "a = '\\x0x'",
+    "result": "[1:7] hexadecimal digit expected near '\\x0'"
+  },
+  {
+    "source": "a = '\\xx'",
+    "result": "[1:7] hexadecimal digit expected near '\\xx'"
+  },
+  {
+    "source": "a = '\\300'",
+    "result": "[1:10] decimal escape too large near '\\300'"
   }
 ]
