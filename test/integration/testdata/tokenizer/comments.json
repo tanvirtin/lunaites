@@ -3,6 +3,16 @@
     "source": "-- comment",
     "result": [
       {
+        "type": 512,
+        "value": "-- comment",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          10
+        ]
+      },
+      {
         "type": 1,
         "value": "<eof>",
         "lnum": 1,
@@ -17,6 +27,26 @@
   {
     "source": "-- comment\n-- comment",
     "result": [
+      {
+        "type": 512,
+        "value": "-- comment",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          10
+        ]
+      },
+      {
+        "type": 512,
+        "value": "-- comment",
+        "lnum": 2,
+        "lnumStartIndex": 11,
+        "range": [
+          11,
+          21
+        ]
+      },
       {
         "type": 1,
         "value": "<eof>",
@@ -33,6 +63,16 @@
     "source": "--coment",
     "result": [
       {
+        "type": 512,
+        "value": "--coment",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          8
+        ]
+      },
+      {
         "type": 1,
         "value": "<eof>",
         "lnum": 1,
@@ -47,6 +87,16 @@
   {
     "source": "-- comment\nreturn",
     "result": [
+      {
+        "type": 512,
+        "value": "-- comment",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          10
+        ]
+      },
       {
         "type": 4,
         "value": "return",
@@ -83,6 +133,16 @@
         ]
       },
       {
+        "type": 512,
+        "value": "--comment ",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          17
+        ]
+      },
+      {
         "type": 1,
         "value": "<eof>",
         "lnum": 2,
@@ -97,6 +157,16 @@
   {
     "source": "--[[comment]]",
     "result": [
+      {
+        "type": 512,
+        "value": "--[[comment]]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          13
+        ]
+      },
       {
         "type": 1,
         "value": "<eof>",
@@ -130,6 +200,16 @@
         "range": [
           3,
           7
+        ]
+      },
+      {
+        "type": 512,
+        "value": "--[[comment]]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          7,
+          20
         ]
       },
       {
@@ -168,6 +248,16 @@
     "source": "--[=[comment]=] return",
     "result": [
       {
+        "type": 512,
+        "value": "--[=[comment]=]",
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          15
+        ]
+      },
+      {
         "type": 4,
         "value": "return",
         "lnum": 1,
@@ -192,6 +282,16 @@
   {
     "source": "--[===[comment\n--[=[sub]=]--\n]===]return",
     "result": [
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          34
+        ],
+        "type": 512,
+        "value": "--[===[comment\n--[=[sub]=]--\n]===]"
+      },
       {
         "type": 4,
         "value": "return",
@@ -218,6 +318,16 @@
     "source": "--[[comment\nline two]]",
     "result": [
       {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          22
+        ],
+        "type": 512,
+        "value": "--[[comment\nline two]]"
+      },
+      {
         "type": 1,
         "value": "<eof>",
         "lnum": 2,
@@ -232,6 +342,16 @@
   {
     "source": "--[[\ncomment\nline two\n]]",
     "result": [
+      {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          24
+        ],
+        "type": 512,
+        "value": "--[[\ncomment\nline two\n]]"
+      },
       {
         "type": 1,
         "value": "<eof>",
@@ -248,6 +368,16 @@
     "source": "--[==\nreturn --]]",
     "result": [
       {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          0,
+          5
+        ],
+        "type": 512,
+        "value": "--[=="
+      },
+      {
         "type": 4,
         "value": "return",
         "lnum": 2,
@@ -256,6 +386,16 @@
           6,
           12
         ]
+      },
+      {
+        "lnum": 2,
+        "lnumStartIndex": 6,
+        "range": [
+          13,
+          17
+        ],
+        "type": 512,
+        "value": "--]]"
       },
       {
         "type": 1,
@@ -293,6 +433,16 @@
         ]
       },
       {
+        "lnum": 1,
+        "lnumStartIndex": 0,
+        "range": [
+          8,
+          18
+        ],
+        "type": 512,
+        "value": "-- comment"
+      },
+      {
         "type": 4,
         "value": "then",
         "lnum": 2,
@@ -326,6 +476,6 @@
   },
   {
     "source": "--[=[x]x",
-    "result": "[1:9] unfinished long comment (starting at line 1) near '<eof>'"
+    "result": "[1:9] unfinished long comment (starting at line 1) near '--[=[x]x'"
   }
 ]

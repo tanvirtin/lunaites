@@ -111,7 +111,7 @@ describe("ErrorReporter", () => {
       assertThrows(
         computation,
         SyntaxError,
-        "[1:5] unfinished long comment near '--[['",
+        "[1:5] unfinished long comment (starting at line 1) near '--[['",
       );
     });
   });

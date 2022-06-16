@@ -1,18 +1,12 @@
 import { Tokenizer, TokenType } from "../../mod.ts";
-import {
-  assertEquals,
-  assertObjectMatch,
-  assertThrows,
-  describe,
-  it,
-} from "../../deps.ts";
+import { assertObjectMatch, assertThrows, describe, it } from "../../deps.ts";
 
 describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
 
   describe("tokenize", () => {
     describe("correctly ignores whitespace", () => {
-      const testTable = {
+      Object.entries({
         "  \r  \n      foo  \r\n  \n\r    bar  baz ": [
           {
             type: TokenType.Identifier,
@@ -51,9 +45,7 @@ describe("Tokenizer", () => {
             value: "<eof>",
           },
         ],
-      };
-
-      Object.entries(testTable).forEach(([source, results]) => {
+      }).forEach(([source, results]) => {
         it(`when source is "${source}"`, () => {
           tokenizer = new Tokenizer(source);
 
@@ -108,15 +100,13 @@ describe("Tokenizer", () => {
     });
 
     describe("correctly tokenizes ambigious identifiers", () => {
-      const testTable = {
+      Object.entries({
         "foo": "foo",
         "bar": "bar",
         "p": "p",
         "hello_world": "hello_world",
         "helloWorld": "helloWorld",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = new Tokenizer(source);
 
@@ -129,7 +119,7 @@ describe("Tokenizer", () => {
     });
 
     describe("correctly tokenizes keywords", () => {
-      const testTable = {
+      Object.entries({
         "if": "if",
         "in": "in",
         "or": "or",
@@ -147,9 +137,7 @@ describe("Tokenizer", () => {
         "repeat": "repeat",
         "return": "return",
         "function": "function",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = new Tokenizer(source, {
             contextualGoto: false,
@@ -164,12 +152,10 @@ describe("Tokenizer", () => {
     });
 
     describe("correctly tokenizes booleans", () => {
-      const testTable = {
+      Object.entries({
         "true": "true",
         "false": "false",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = new Tokenizer(source);
 
@@ -182,7 +168,7 @@ describe("Tokenizer", () => {
     });
 
     describe("correctly tokenizes string literals", () => {
-      const testTable = {
+      Object.entries({
         "''": "''",
         '""': '""',
         "'foo'": "'foo'",
@@ -201,9 +187,7 @@ describe("Tokenizer", () => {
         "[==[]==]": "[==[]==]",
         "[[**Hello**, &_world_&.]] &_*Won#der#ful* day_&, **-don't- you** #th*in*k?#":
           "[[**Hello**, &_world_&.]]",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = new Tokenizer(source);
 
@@ -214,18 +198,62 @@ describe("Tokenizer", () => {
         });
       });
 
-      it("should handle lnum when string contains new lines", () => {
-        const source = '"hello \n world"';
-        tokenizer = new Tokenizer(source);
+      Object.entries({
+        'a = "\\\n"': [
+          {
+            "type": 8,
+            "value": "a",
+            "lnum": 1,
+            "lnumStartIndex": 0,
+            "range": [
+              0,
+              1,
+            ],
+          },
+          {
+            "type": 32,
+            "value": "=",
+            "lnum": 1,
+            "lnumStartIndex": 0,
+            "range": [
+              2,
+              3,
+            ],
+          },
+          {
+            "type": 2,
+            "value": '"\\\n"',
+            "lnum": 1,
+            "lnumStartIndex": 0,
+            "range": [
+              4,
+              8,
+            ],
+          },
+          {
+            "type": 1,
+            "value": "<eof>",
+            "lnum": 2,
+            "lnumStartIndex": 7,
+            "range": [
+              8,
+              8,
+            ],
+          },
+        ],
+      }).forEach(([source, results]) => {
+        it(`when source is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
 
-        tokenizer.tokenize();
-
-        assertEquals(tokenizer.scanner.lnum, 2);
+          results.forEach((result) =>
+            assertObjectMatch(tokenizer.tokenize(), result)
+          );
+        });
       });
     });
 
     describe("throws errors when unexpected characters appear while parsing string literals", () => {
-      const testTable = {
+      Object.entries({
         '"': "[1:2] unfinished string near '\"'",
         "'": "[1:2] unfinished string near '''",
         "'\\": "[1:4] unfinished string near ''\\'",
@@ -233,9 +261,7 @@ describe("Tokenizer", () => {
         "[[]": "[1:4] unfinished long string (starting at line 1) near '[[]'",
         "[==============================sup":
           "[1:32] unfinished long string (starting at line 1) near '[=============================='",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (new Tokenizer(source)).tokenize(),
@@ -247,11 +273,9 @@ describe("Tokenizer", () => {
     });
 
     describe("throws errors when unexpected characters appear while parsing string literals", () => {
-      const testTable = {
+      Object.entries({
         "Дождь": "[1:1] unfinished character near '",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (new Tokenizer(source)).tokenize(),
@@ -263,7 +287,7 @@ describe("Tokenizer", () => {
     });
 
     describe("correctly tokenizes numeric literals", () => {
-      const testTable = {
+      Object.entries({
         "1": "1",
         ".9": ".9",
         "3.3": "3.3",
@@ -283,9 +307,7 @@ describe("Tokenizer", () => {
         "0xfp+1": "0xfp+1",
         "0xfp-1": "0xfp-1",
         "0xFP+9": "0xFP+9",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = new Tokenizer(source);
 
@@ -297,16 +319,14 @@ describe("Tokenizer", () => {
       });
 
       describe("with imaginary suffix feature on", () => {
-        const testTable = {
+        Object.entries({
           "3.333I": "3.333I",
           "3i": "3i",
           "0.9I": "0.9I",
           "0x.3fI": "0x.3fI",
           "0x.3I": "0x.3I",
           "0x3i": "0x3i",
-        };
-
-        Object.entries(testTable).forEach(([source, result]) => {
+        }).forEach(([source, result]) => {
           it(`"${source}" is tokenized as numeric identifier`, () => {
             tokenizer = new Tokenizer(source);
 
@@ -319,15 +339,13 @@ describe("Tokenizer", () => {
       });
 
       describe("with int64 suffix when feature is on", () => {
-        const testTable = {
+        Object.entries({
           "1uLL": "1uLL",
           "3ulL": "3ulL",
           "4uLl": "4uLl",
           "5ULL": "5ULL",
           "6UlL": "6UlL",
-        };
-
-        Object.entries(testTable).forEach(([source, result]) => {
+        }).forEach(([source, result]) => {
           it(`"${source}" is tokenized as numeric identifier`, () => {
             tokenizer = new Tokenizer(source);
 
@@ -340,16 +358,14 @@ describe("Tokenizer", () => {
       });
 
       describe("with imaginary suffix feature off", () => {
-        const testTable = {
+        Object.entries({
           "3.333I": "3.333",
           "3i": "3",
           "0.9I": "0.9",
           "0x.3fI": "0x.3f",
           "0x.3I": "0x.3",
           "0x3i": "0x3",
-        };
-
-        Object.entries(testTable).forEach(([source, result]) => {
+        }).forEach(([source, result]) => {
           it(`"i" suffix is ignored when ${source}" numeric identifier`, () => {
             tokenizer = new Tokenizer(source, {
               imaginaryNumbers: false,
@@ -364,7 +380,7 @@ describe("Tokenizer", () => {
       });
 
       describe("with int64 suffix when feature is on", () => {
-        const testTable = {
+        Object.entries({
           "1uLL": "1uLL",
           "3ulL": "3ulL",
           "4uLl": "4uLl",
@@ -374,9 +390,7 @@ describe("Tokenizer", () => {
           "53Ll": "53Ll",
           "100ll": "100ll",
           "101LL": "101LL",
-        };
-
-        Object.entries(testTable).forEach(([source, result]) => {
+        }).forEach(([source, result]) => {
           it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
             tokenizer = new Tokenizer(source);
 
@@ -389,7 +403,7 @@ describe("Tokenizer", () => {
       });
 
       describe("with int64 suffix when feature is off", () => {
-        const testTable = {
+        Object.entries({
           "1uLL": "1",
           "3ulL": "3",
           "4uLl": "4",
@@ -399,9 +413,7 @@ describe("Tokenizer", () => {
           "53Ll": "53",
           "100ll": "100",
           "101LL": "101",
-        };
-
-        Object.entries(testTable).forEach(([source, result]) => {
+        }).forEach(([source, result]) => {
           it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
             tokenizer = new Tokenizer(source, {
               integerSuffixes: false,
@@ -417,7 +429,7 @@ describe("Tokenizer", () => {
     });
 
     describe("throws errors when unexpected characters appear while parsing numeric literals", () => {
-      const testTable = {
+      Object.entries({
         "1..1": "[1:3] malformed number near '1.'",
         "1.1.1": "[1:4] malformed number near '1.1'",
         "0x": "[1:3] malformed number near '0x'",
@@ -461,9 +473,7 @@ describe("Tokenizer", () => {
         // Numbers with exponent cannot be followed by integer suffix.
         "333e3ULL": "[1:9] malformed number near '333e3ULL'",
         "0x4p3ULL": "[1:9] malformed number near '0x4p3ULL'",
-      };
-
-      Object.entries(testTable).forEach(([source, result]) => {
+      }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (new Tokenizer(source)).tokenize(),
@@ -476,7 +486,7 @@ describe("Tokenizer", () => {
   });
 
   describe("correctly tokenizes single comments", () => {
-    const testTable = {
+    Object.entries({
       "-- comment": [
         {
           type: TokenType.Comment,
@@ -593,9 +603,13 @@ describe("Tokenizer", () => {
           value: "<eof>",
         },
       ],
-    };
-
-    Object.entries(testTable).forEach(([source, results]) => {
+      "--[1] = lp.V'Message',": [
+        {
+          type: TokenType.Comment,
+          value: "--[1] = lp.V'Message',",
+        },
+      ],
+    }).forEach(([source, results]) => {
       it(`when source is "${source}"`, () => {
         tokenizer = new Tokenizer(source);
 
@@ -607,7 +621,7 @@ describe("Tokenizer", () => {
   });
 
   describe("correctly tokenizes long comments", () => {
-    const testTable = {
+    Object.entries({
       "--[[ hello world ]]": [
         {
           type: TokenType.Comment,
@@ -748,9 +762,7 @@ describe("Tokenizer", () => {
           value: "<eof>",
         },
       ],
-    };
-
-    Object.entries(testTable).forEach(([source, results]) => {
+    }).forEach(([source, results]) => {
       it(`when source is "${source}"`, () => {
         tokenizer = new Tokenizer(source);
 
@@ -762,13 +774,11 @@ describe("Tokenizer", () => {
   });
 
   describe("correctly tokenizes vararg literal", () => {
-    const testTable = {
+    Object.entries({
       "...": "...",
       "... .": "...",
       "... ..": "...",
-    };
-
-    Object.entries(testTable).forEach(([source, result]) => {
+    }).forEach(([source, result]) => {
       it(`when identifier is "${source}"`, () => {
         tokenizer = new Tokenizer(source);
 
@@ -793,7 +803,7 @@ describe("Tokenizer", () => {
       }
     });
 
-    const testTable = {
+    Object.entries({
       "::": "::",
       "//": "//",
       "~=": "~=",
@@ -801,9 +811,7 @@ describe("Tokenizer", () => {
       ">>": ">>",
       "==": "==",
       "..": "..",
-    };
-
-    Object.entries(testTable).forEach(([source, result]) => {
+    }).forEach(([source, result]) => {
       it(`should tokenize punctuators with double chars when identifier is "${source}"`, () => {
         tokenizer = new Tokenizer(source);
 

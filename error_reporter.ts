@@ -60,7 +60,9 @@ class ErrorReporter {
   }
 
   reportUnfinishedLongComment(): never {
-    this.reportError("unfinished long comment near '%s'");
+    this.reportError(
+      `unfinished long comment (starting at line ${this.scanner.lnum}) near '%s'`,
+    );
   }
 }
 

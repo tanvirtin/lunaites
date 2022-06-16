@@ -234,6 +234,76 @@ class Tokenizer {
     return false;
   }
 
+  private scanLongString(isComment: boolean): boolean {
+    let depth = 0;
+    let encounteredDelimeter = false;
+    const { scanner, errorReporter } = this;
+    const reportError = () =>
+      isComment
+        ? errorReporter.reportUnfinishedLongComment()
+        : errorReporter.reportUnfinishedLongString();
+
+    // if we keep encountering "=" we scan it and increment depth count.
+    while (scanner.match("=")) {
+      scanner.scan();
+      ++depth;
+    }
+
+    // If we encounter a bunch of "=" and we already have a sequence such as [====
+    // or something and the next character is not a "[" then we know it's an unfinished string.
+    // This expression holds true for the following cases: "[[" or "[====["
+    if (!scanner.match("[")) {
+      return isComment ? false : reportError();
+    }
+
+    while (!encounteredDelimeter) {
+      let runningDepth = 0;
+
+      // If we hit out of bounds we have an unfinished
+      // long string that never met the matching delimiter.
+      if (scanner.isOutOfBounds()) {
+        reportError();
+      }
+
+      // If we encounter equal characters.
+      while (scanner.match("=")) {
+        // We increment our running depth and check if it equals the real depth.
+        // If it does and current char and next char equals "=]" we encountered
+        // our delimeter.
+        if (++runningDepth === depth && scanner.match("=]")) {
+          encounteredDelimeter = true;
+          depth = 0;
+
+          scanner.scan();
+
+          break;
+        }
+
+        scanner.scan();
+      }
+
+      // The long string itself could have no depth if it starts with [[.
+      // Another instance could be there was a depth and we found a delimiter.
+      if (depth === 0) {
+        if (scanner.match("]]")) {
+          encounteredDelimeter = true;
+
+          // Scan over this delimeter.
+          scanner.scan();
+        }
+      }
+
+      // If we successfully consume an end of line then we don't need to scan again.
+      // NOTE: scanner.consumeEOL progresses the scanner, which means we don't need
+      // to progress it we have already consumed a token within this loop.
+      if (!scanner.consumeEOL()) {
+        scanner.scan();
+      }
+    }
+
+    return true;
+  }
+
   private tokenizeEOF(): Token {
     const { scanner } = this;
 
@@ -273,31 +343,16 @@ class Tokenizer {
   }
 
   private tokenizeLongComment(): Token {
-    const { errorReporter, scanner } = this;
+    const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
 
     // Mark the spot in the scanner for us to remember the start.
     scanner.mark();
 
-    // scan over "--[["
-    scanner.scan("--[[".length);
+    // scan over "--["
+    scanner.scan("--[".length);
 
-    while (!scanner.match("]]")) {
-      // If we hit out of bounds it's an error
-      if (scanner.isOutOfBounds()) {
-        errorReporter.reportUnfinishedLongComment();
-      }
-
-      // If we successfully consume an end of line then we don't need to scan again.
-      // NOTE: scanner.consumeEOL progresses the scanner, which means we don't need
-      // to progress it we have already consumed a token within this loop.
-      if (!scanner.consumeEOL()) {
-        scanner.scan();
-      }
-    }
-
-    // scan over "]]"
-    scanner.scan().scan();
+    this.scanLongString(true);
 
     return {
       type: TokenType.Comment,
@@ -326,14 +381,14 @@ class Tokenizer {
         errorReporter.reportUnfinishedString();
       }
 
-      // We skip the next character after the backslash character.
       this.consumeBackslash();
 
-      scanner.scan();
-
-      // NOTE: EOL consumption should be done at the end of the loop, so that our while loop
-      //       condition and error check statements are the first things to be ran in the new loop.
-      scanner.consumeEOL();
+      // If we successfully consume an end of line then we don't need to scan again.
+      // NOTE: scanner.consumeEOL progresses the scanner, which means we don't need
+      // to progress it we have already consumed a token within this loop.
+      if (!scanner.consumeEOL()) {
+        scanner.scan();
+      }
     }
 
     // Scan over the ending string delimiter (", ')
@@ -349,9 +404,7 @@ class Tokenizer {
   }
 
   private tokenizeLongStringLiteral(): Token {
-    let depth = 0;
-    let encounteredDelimeter = false;
-    const { scanner, errorReporter } = this;
+    const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
 
     // Mark the spot in the scanner for us to remember the start.
@@ -360,63 +413,7 @@ class Tokenizer {
     // Skip over "["
     scanner.scan();
 
-    // if we keep encountering "=" we scan it and increment depth count.
-    while (scanner.match("=")) {
-      scanner.scan();
-      ++depth;
-    }
-
-    // If we encounter a bunch of "=" and we already have a string sequence such as [====
-    // or something and the next character is not a "[" then we know it's an unfinished string.
-    // This expression holds true for the following cases: "[[" or "[====["
-    if (!scanner.match("[")) {
-      errorReporter.reportUnfinishedLongString();
-    }
-
-    while (!encounteredDelimeter) {
-      let runningDepth = 0;
-
-      // If we hit out of bounds we have an unfinished
-      // long string that never met the matching delimiter.
-      if (scanner.isOutOfBounds()) {
-        errorReporter.reportUnfinishedLongString();
-      }
-
-      // If we encounter equal characters.
-      while (scanner.match("=")) {
-        // We increment our running depth and check if it equals the real depth.
-        // If it does and current char and next char equals "=]" we encountered
-        // our delimeter.
-        if (++runningDepth === depth && scanner.match("=]")) {
-          encounteredDelimeter = true;
-          depth = 0;
-
-          scanner.scan();
-
-          break;
-        }
-
-        scanner.scan();
-      }
-
-      // The long string itself could have no depth if it starts with [[.
-      // Another instance could be there was a depth and we found a delimiter.
-      if (depth === 0) {
-        if (scanner.match("]]")) {
-          encounteredDelimeter = true;
-
-          // Scan over this delimeter.
-          scanner.scan();
-        }
-      }
-
-      // If we successfully consume an end of line then we don't need to scan again.
-      // NOTE: scanner.consumeEOL progresses the scanner, which means we don't need
-      // to progress it we have already consumed a token within this loop.
-      if (!scanner.consumeEOL()) {
-        scanner.scan();
-      }
-    }
+    this.scanLongString(false);
 
     return {
       type: TokenType.StringLiteral,
@@ -622,7 +619,9 @@ class Tokenizer {
     }
 
     if (scanner.match("--")) {
-      if (scanner.match("--[[")) {
+      // We check for these two conditions because you can also have
+      // comments such as --[hello world which is valid.
+      if (scanner.match("--[[") || scanner.match("--[=")) {
         return this.tokenizeLongComment();
       }
 

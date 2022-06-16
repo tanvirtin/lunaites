@@ -19,6 +19,8 @@ function getRepositories() {
     "https://github.com/lua/lua",
     "https://github.com/Neopallium/llvm-lua.git",
     "https://github.com/moteus/lua-path.git",
+    "https://github.com/Alloyed/lua-lsp.git",
+    "https://github.com/sumneko/lua-language-server.git",
   ];
 }
 
@@ -43,6 +45,10 @@ function cloneGitRepository(link: string) {
 function deleteGitRepository(link: string) {
   return exec(["rm", "-rf", getDerivedProjectPath(link)].join(" "));
 }
+
+const isDir = (filename: string): boolean => {
+  return Deno.statSync(filename).isDirectory;
+};
 
 async function fetchLuaSources() {
   await Promise.all(
@@ -76,6 +82,10 @@ describe("Tokenizer", () => {
   });
 
   for (const { path } of ls()) {
+    if (isDir(path)) {
+      continue;
+    }
+
     it(relative(getTestdataPath(), path), async () => {
       let token;
       const text = await Deno.readTextFile(path);
