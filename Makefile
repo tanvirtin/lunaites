@@ -21,5 +21,7 @@ fmt:
 
 check: lint fmt tests
 
-build: check
-  deno compile --allow-read mod.ts
+compile: 
+	deno compile mod.ts
+
+build: check compile
