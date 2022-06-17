@@ -10,6 +10,9 @@ smoke-tests:
 integration-tests:
 	deno test -A --unstable ./test/integration/
 
+graphiql:
+	deno run --watch --allow-net graphiql.ts
+
 lint:
 	deno lint
 
@@ -18,5 +21,5 @@ fmt:
 
 check: lint fmt tests
 
-graphiql:
-	deno run --watch --allow-net graphiql.ts
+build: check
+  deno compile --allow-read mod.ts
