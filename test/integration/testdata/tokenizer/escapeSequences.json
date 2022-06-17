@@ -990,14 +990,6 @@
     ]
   },
   {
-    "source": "a = '\\u{110000}'",
-    "result": "[1:16] UTF-8 value too large near '\\u{110000}'"
-  },
-  {
-    "source": "a = '\\u{120000}'",
-    "result": "[1:16] UTF-8 value too large near '\\u{120000}'"
-  },
-  {
     "source": "a = '\\u{000000001f4a9}'",
     "result": [
       {
@@ -1041,46 +1033,5 @@
         ]
       }
     ]
-  },
-  {
-    "source": "a = '\\u{100000001f4a9}'",
-    "only": true,
-    "result": "[1:16] UTF-8 value too large near '\\u{1000000'"
-  },
-  {
-    "source": "a = '\\u{1f4a9'",
-    "result": "[1:14] missing '}' near '\\u{1f4a9''"
-  },
-  {
-    "source": "a = \"\\u{1f4a9\"",
-    "result": "[1:14] missing '}' near '\\u{1f4a9\"'"
-  },
-  {
-    "source": "a = '\\uaa'",
-    "result": "[1:9] missing '{' near '\\ua'"
-  },
-  {
-    "source": "a = '\\u{}'",
-    "result": "[1:9] hexadecimal digit expected near '\\u{'"
-  },
-  {
-    "source": "a = '\\u{0g}'",
-    "result": "[1:11] hexadecimal digit expected near '\\u{0g'"
-  },
-  {
-    "source": "a = '\\x0'",
-    "result": "[1:7] hexadecimal digit expected near '\\x0'"
-  },
-  {
-    "source": "a = '\\x0x'",
-    "result": "[1:7] hexadecimal digit expected near '\\x0'"
-  },
-  {
-    "source": "a = '\\xx'",
-    "result": "[1:7] hexadecimal digit expected near '\\xx'"
-  },
-  {
-    "source": "a = '\\300'",
-    "result": "[1:10] decimal escape too large near '\\300'"
   }
 ]

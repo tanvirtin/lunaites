@@ -306,11 +306,6 @@ class Tokenizer {
     return true;
   }
 
-  private scanEscapeSequence(value: string): string {
-    // TODO: Implement this and tests should pass!
-    return value;
-  }
-
   private tokenizeEOF(): Token {
     const { scanner } = this;
 
@@ -371,7 +366,6 @@ class Tokenizer {
   }
 
   private tokenizeStringLiteral(): Token {
-    let value = "";
     const { scanner, errorReporter } = this;
     const { lnum, lnumStartIndex } = scanner;
     const delimeterCharCode = scanner.getCharCode();
@@ -389,22 +383,7 @@ class Tokenizer {
         errorReporter.reportUnfinishedString();
       }
 
-      if (scanner.match("\\")) {
-        const startIndex = this.scanner.index;
-        value = this.scanner.getText(
-          undefined,
-          startIndex,
-        );
-
-        this.consumeBackslash();
-
-        value = this.scanEscapeSequence(value);
-
-        // Remark the spot to get the rest of the non sequence string.
-        // Loop helps us repeat all this logic if we encounter more
-        // escape sequences.
-        scanner.mark();
-      }
+      this.consumeBackslash();
 
       // If we successfully consume an end of line then we don't need to scan again.
       // NOTE: scanner.consume* progresses the scanner.
@@ -418,7 +397,7 @@ class Tokenizer {
 
     return {
       type: TokenType.StringLiteral,
-      value: `${value}${scanner.getText()}`,
+      value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
