@@ -16,7 +16,7 @@ lint:
 fmt:
 	deno fmt --check
 
-bench:
-	deno run bench/Tokenizer.bench.ts
-
 check: lint fmt tests
+
+graphiql:
+	deno run --watch --allow-net graphiql.ts
