@@ -77,6 +77,4 @@ class Graphiql {
   }
 }
 
-Graphiql.start();
-
 export { Graphiql };

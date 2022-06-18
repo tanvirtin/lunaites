@@ -736,7 +736,7 @@ class Tokenizer {
     this.errorReporter.reportUnexpectedCharacter();
   }
 
-  getTokens(): Token[] | never {
+  getTokens(): Token[] {
     while (true) {
       const token = this.tokenize();
       this.tokens.push(token);
