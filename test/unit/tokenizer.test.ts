@@ -122,8 +122,6 @@ describe("Tokenizer", () => {
       Object.entries({
         "if": "if",
         "in": "in",
-        "or": "or",
-        "and": "and",
         "for": "for",
         "not": "not",
         "goto": "goto",
@@ -147,6 +145,25 @@ describe("Tokenizer", () => {
             type: TokenType.Keyword,
             value: result,
           });
+        });
+      });
+    });
+
+    describe("correctly tokenizes conditionals", () => {
+      Object.entries({
+        "or": {
+          type: TokenType.Or,
+          value: "or",
+        },
+        "and": {
+          type: TokenType.And,
+          value: "and",
+        },
+      }).forEach(([source, result]) => {
+        it(`when identifier is "${source}"`, () => {
+          tokenizer = new Tokenizer(source);
+
+          assertObjectMatch(tokenizer.tokenize(), result);
         });
       });
     });
@@ -201,41 +218,41 @@ describe("Tokenizer", () => {
       Object.entries({
         'a = "\\\n"': [
           {
-            "type": 8,
-            "value": "a",
-            "lnum": 1,
-            "lnumStartIndex": 0,
-            "range": [
+            type: TokenType.Identifier,
+            value: "a",
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
               0,
               1,
             ],
           },
           {
-            "type": 32,
-            "value": "=",
-            "lnum": 1,
-            "lnumStartIndex": 0,
-            "range": [
+            type: TokenType.Equal,
+            value: "=",
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
               2,
               3,
             ],
           },
           {
-            "type": 2,
-            "value": '"\\\n"',
-            "lnum": 1,
-            "lnumStartIndex": 0,
-            "range": [
+            type: TokenType.StringLiteral,
+            value: '"\\\n"',
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
               4,
               8,
             ],
           },
           {
-            "type": 1,
-            "value": "<eof>",
-            "lnum": 2,
-            "lnumStartIndex": 7,
-            "range": [
+            type: TokenType.EOF,
+            value: "<eof>",
+            lnum: 2,
+            lnumStartIndex: 7,
+            range: [
               8,
               8,
             ],
@@ -489,7 +506,7 @@ describe("Tokenizer", () => {
     Object.entries({
       "-- comment": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- comment",
         },
         {
@@ -499,7 +516,7 @@ describe("Tokenizer", () => {
       ],
       "--comment": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--comment",
         },
         {
@@ -509,11 +526,11 @@ describe("Tokenizer", () => {
       ],
       "-- comment\n-- comment": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- comment",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- comment",
         },
         {
@@ -523,7 +540,7 @@ describe("Tokenizer", () => {
       ],
       "-- comment\nreturn": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- comment",
         },
         {
@@ -541,7 +558,7 @@ describe("Tokenizer", () => {
           value: "return",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--comment ",
         },
         {
@@ -551,7 +568,7 @@ describe("Tokenizer", () => {
       ],
       "--=[comment]=] return": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--=[comment]=] return",
         },
         {
@@ -569,7 +586,7 @@ describe("Tokenizer", () => {
           value: "true",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- comment",
         },
         {
@@ -587,7 +604,7 @@ describe("Tokenizer", () => {
       ],
       "-- [[ hello world ]]\n local a": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- [[ hello world ]]",
         },
         {
@@ -605,7 +622,7 @@ describe("Tokenizer", () => {
       ],
       "--[1] = lp.V'Message',": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[1] = lp.V'Message',",
         },
       ],
@@ -624,7 +641,7 @@ describe("Tokenizer", () => {
     Object.entries({
       "--[[ hello world ]]": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[ hello world ]]",
         },
         {
@@ -634,11 +651,11 @@ describe("Tokenizer", () => {
       ],
       "--[[]]--[[]]": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[]]",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[]]",
         },
         {
@@ -648,7 +665,7 @@ describe("Tokenizer", () => {
       ],
       "--[[ hello world \n ]]": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
@@ -658,11 +675,11 @@ describe("Tokenizer", () => {
       ],
       "--[[ hello world \n ]] --": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--",
         },
         {
@@ -672,11 +689,11 @@ describe("Tokenizer", () => {
       ],
       "--[[ hello world \n ]] -- ": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- ",
         },
         {
@@ -686,11 +703,11 @@ describe("Tokenizer", () => {
       ],
       "--[[ hello world \n ]] -- \n foo": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "-- ",
         },
         {
@@ -712,7 +729,7 @@ describe("Tokenizer", () => {
           value: "true",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[comment]]",
         },
         {
@@ -730,7 +747,7 @@ describe("Tokenizer", () => {
       ],
       "--[[comment\nline two]]": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[comment\nline two]]",
         },
         {
@@ -740,7 +757,7 @@ describe("Tokenizer", () => {
       ],
       "--[[\ncomment\nline two\n]]": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[\ncomment\nline two\n]]",
         },
         {
@@ -750,11 +767,11 @@ describe("Tokenizer", () => {
       ],
       "--[[\ncomment\nline two\n]]--[[\n\n\ncomment\n\n\n]]": [
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[\ncomment\nline two\n]]",
         },
         {
-          type: TokenType.Comment,
+          type: TokenType.CommentLiteral,
           value: "--[[\n\n\ncomment\n\n\n]]",
         },
         {
@@ -792,33 +809,159 @@ describe("Tokenizer", () => {
 
   describe("punctuators", () => {
     it("should correctly tokenize single char punctuator", () => {
-      const source = "*^%,{}]();#-+|&:=/~><";
+      const source = "*^%,{}[]();#-+|&:=/~><";
       tokenizer = new Tokenizer(source);
 
-      for (const value of source) {
-        assertObjectMatch(tokenizer.tokenize(), {
-          type: TokenType.Punctuator,
-          value,
-        });
-      }
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Star,
+        value: "*",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Carrot,
+        value: "^",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Percentage,
+        value: "%",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Comma,
+        value: ",",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.OpenBrace,
+        value: "{",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.ClosedBrace,
+        value: "}",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.OpenBracket,
+        value: "[",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.ClosedBracket,
+        value: "]",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.OpenParenthesis,
+        value: "(",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.ClosedParenthesis,
+        value: ")",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.SemiColon,
+        value: ";",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.HashTag,
+        value: "#",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Minus,
+        value: "-",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Plus,
+        value: "+",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Pipe,
+        value: "|",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Ampersand,
+        value: "&",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Colon,
+        value: ":",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Equal,
+        value: "=",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Divide,
+        value: "/",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.Tilda,
+        value: "~",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.GreaterThan,
+        value: ">",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.LessThan,
+        value: "<",
+      });
+
+      assertObjectMatch(tokenizer.tokenize(), {
+        type: TokenType.EOF,
+        value: "<eof>",
+      });
     });
 
     Object.entries({
-      "::": "::",
-      "//": "//",
-      "~=": "~=",
-      "<<": "<<",
-      ">>": ">>",
-      "==": "==",
-      "..": "..",
+      "::": {
+        type: TokenType.DoubleColon,
+        value: "::",
+      },
+      "//": {
+        type: TokenType.DoubleDivide,
+        value: "//",
+      },
+      "~=": {
+        type: TokenType.TildaEqual,
+        value: "~=",
+      },
+      "<<": {
+        type: TokenType.DoubleLessThan,
+        value: "<<",
+      },
+      ">>": {
+        type: TokenType.DoubleGreaterThan,
+        value: ">>",
+      },
+      "==": {
+        type: TokenType.DoubleEqual,
+        value: "==",
+      },
+      "..": {
+        type: TokenType.DoubleDot,
+        value: "..",
+      },
     }).forEach(([source, result]) => {
       it(`should tokenize punctuators with double chars when identifier is "${source}"`, () => {
         tokenizer = new Tokenizer(source);
 
-        assertObjectMatch(tokenizer.tokenize(), {
-          type: TokenType.Punctuator,
-          value: result,
-        });
+        assertObjectMatch(tokenizer.tokenize(), result);
       });
     });
   });

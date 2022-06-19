@@ -3,7 +3,7 @@
     "source": "a",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -13,7 +13,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -28,7 +28,7 @@
     "source": "a = 1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -38,7 +38,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -48,7 +48,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -73,7 +73,7 @@
     "source": "a = .1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -83,7 +83,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -93,7 +93,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": ".1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -103,7 +103,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -118,7 +118,7 @@
     "source": "a = 1.1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -128,7 +128,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -138,7 +138,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1.1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -148,7 +148,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -163,7 +163,7 @@
     "source": "a = 10.1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -173,7 +173,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -183,7 +183,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "10.1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -193,7 +193,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -212,7 +212,7 @@
     "source": "a = 1e1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -222,7 +222,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -232,7 +232,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1e1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -242,7 +242,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -257,7 +257,7 @@
     "source": "a = 1E1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -267,7 +267,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -277,7 +277,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1E1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -287,7 +287,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -302,7 +302,7 @@
     "source": "a = 1e+9",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -312,7 +312,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -322,7 +322,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1e+9",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -332,7 +332,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -347,7 +347,7 @@
     "source": "a = 1e-1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -357,7 +357,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -367,7 +367,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1e-1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -377,7 +377,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -396,7 +396,7 @@
     "source": "a = 0xf",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -406,7 +406,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -416,7 +416,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xf",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -426,7 +426,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -441,7 +441,7 @@
     "source": "a = 0xf.",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -451,7 +451,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -461,7 +461,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xf.",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -471,7 +471,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -486,7 +486,7 @@
     "source": "a = 0xf.3",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -496,7 +496,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -506,7 +506,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xf.3",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -516,7 +516,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -535,7 +535,7 @@
     "source": "a = 0xfp1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -545,7 +545,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -555,7 +555,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xfp1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -565,7 +565,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -580,7 +580,7 @@
     "source": "a = 0xfp+1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -590,7 +590,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -600,7 +600,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xfp+1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -610,7 +610,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -625,7 +625,7 @@
     "source": "a = 0xfp-1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -635,7 +635,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -645,7 +645,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xfp-1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -655,7 +655,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -670,7 +670,7 @@
     "source": "a = 0xFP+9",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -680,7 +680,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -690,7 +690,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xFP+9",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -700,7 +700,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -715,7 +715,7 @@
     "source": "a = 1 .. 3 .. -2",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -725,7 +725,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -735,7 +735,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -745,7 +745,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "DoubleDot",
         "value": "..",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -755,7 +755,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "3",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -765,7 +765,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "DoubleDot",
         "value": "..",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -775,7 +775,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Minus",
         "value": "-",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -785,7 +785,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "2",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -795,7 +795,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -810,7 +810,7 @@
     "source": "a = 1 .. \"bar\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -820,7 +820,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -830,7 +830,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -840,7 +840,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "DoubleDot",
         "value": "..",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -850,7 +850,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"bar\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -860,7 +860,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -895,7 +895,7 @@
     "source": "a = [[\n]]",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -905,7 +905,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -915,7 +915,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "[[\n]]",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -925,7 +925,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 7,
@@ -944,7 +944,7 @@
     "source": "a = 'bar'",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -954,7 +954,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -964,7 +964,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "'bar'",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -974,7 +974,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -989,7 +989,7 @@
     "source": "a = \"bar\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -999,7 +999,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1009,7 +1009,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"bar\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1019,7 +1019,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1034,7 +1034,7 @@
     "source": "a = nil",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1044,7 +1044,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1054,7 +1054,7 @@
         ]
       },
       {
-        "type": 128,
+        "type": "NilLiteral",
         "value": "nil",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1064,7 +1064,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1079,7 +1079,7 @@
     "source": "a = true",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1089,7 +1089,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1099,7 +1099,7 @@
         ]
       },
       {
-        "type": 64,
+        "type": "BooleanLiteral",
         "value": "true",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1109,7 +1109,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1124,7 +1124,7 @@
     "source": "a = false",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1134,7 +1134,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1144,7 +1144,7 @@
         ]
       },
       {
-        "type": 64,
+        "type": "BooleanLiteral",
         "value": "false",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1154,7 +1154,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1169,7 +1169,7 @@
     "source": "a = ...",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1179,7 +1179,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1189,7 +1189,7 @@
         ]
       },
       {
-        "type": 256,
+        "type": "VarargLiteral",
         "value": "...",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1199,7 +1199,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1214,7 +1214,7 @@
     "source": "a = [[hello\nworld]]",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1224,7 +1224,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1234,7 +1234,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "[[hello\nworld]]",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1244,7 +1244,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 12,
@@ -1259,7 +1259,7 @@
     "source": "a = { 1, 2, [[hello\n\nworld]], \n 3 }",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1269,7 +1269,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1279,7 +1279,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "OpenBrace",
         "value": "{",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1289,7 +1289,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1299,7 +1299,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Comma",
         "value": ",",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1309,7 +1309,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "2",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1319,7 +1319,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Comma",
         "value": ",",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1329,7 +1329,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "[[hello\n\nworld]]",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1339,7 +1339,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Comma",
         "value": ",",
         "lnum": 3,
         "lnumStartIndex": 21,
@@ -1349,7 +1349,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "3",
         "lnum": 4,
         "lnumStartIndex": 31,
@@ -1359,7 +1359,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "ClosedBrace",
         "value": "}",
         "lnum": 4,
         "lnumStartIndex": 31,
@@ -1369,7 +1369,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 4,
         "lnumStartIndex": 31,
@@ -1384,7 +1384,7 @@
     "source": "a = \"\\\r\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1394,7 +1394,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1404,7 +1404,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"\\\r\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1414,7 +1414,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 7,
@@ -1429,7 +1429,7 @@
     "source": "a = \"\\\n\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1439,7 +1439,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1449,7 +1449,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"\\\n\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1459,7 +1459,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 7,
@@ -1474,7 +1474,7 @@
     "source": "a = \"\\\r\n\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1484,7 +1484,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1494,7 +1494,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"\\\r\n\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1504,7 +1504,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 8,
@@ -1519,7 +1519,7 @@
     "source": "a = \"\\\n\r\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1529,7 +1529,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1539,7 +1539,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"\\\n\r\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1549,7 +1549,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 8,
@@ -1564,7 +1564,7 @@
     "source": "a = \"\\u\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1574,7 +1574,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1584,7 +1584,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"\\u\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1594,7 +1594,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1609,7 +1609,7 @@
     "source": "a = \"\\?\"",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1619,7 +1619,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1629,7 +1629,7 @@
         ]
       },
       {
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"\\?\"",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1639,7 +1639,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1666,7 +1666,7 @@
     "source": "a = 1",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1676,7 +1676,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1686,7 +1686,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1696,7 +1696,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1715,7 +1715,7 @@
     "source": "a = 1LL",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1725,7 +1725,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1735,7 +1735,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1LL",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1745,7 +1745,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1772,7 +1772,7 @@
     "source": "a = 1ll",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1782,7 +1782,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1792,7 +1792,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1ll",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1802,7 +1802,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1833,7 +1833,7 @@
     "source": "a = 1ULL",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1843,7 +1843,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1853,7 +1853,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1ULL",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1863,7 +1863,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1898,7 +1898,7 @@
     "source": "a = 1ull",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1908,7 +1908,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1918,7 +1918,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1ull",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1928,7 +1928,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1955,7 +1955,7 @@
     "source": "a = 1i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1965,7 +1965,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1975,7 +1975,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1985,7 +1985,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2000,7 +2000,7 @@
     "source": "a = 1.1i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2010,7 +2010,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2020,7 +2020,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1.1i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2030,7 +2030,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2045,7 +2045,7 @@
     "source": "a = 1I",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2055,7 +2055,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2065,7 +2065,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1I",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2075,7 +2075,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2090,7 +2090,7 @@
     "source": "a = 1.1I",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2100,7 +2100,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2110,7 +2110,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1.1I",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2120,7 +2120,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2135,7 +2135,7 @@
     "source": "a = 1e1i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2145,7 +2145,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2155,7 +2155,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1e1i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2165,7 +2165,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2180,7 +2180,7 @@
     "source": "a = 1.1e1i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2190,7 +2190,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2200,7 +2200,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1.1e1i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2210,7 +2210,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2225,7 +2225,7 @@
     "source": "a = 1e1I",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2235,7 +2235,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2245,7 +2245,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1e1I",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2255,7 +2255,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2270,7 +2270,7 @@
     "source": "a = 1.1e1I",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2280,7 +2280,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2290,7 +2290,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "1.1e1I",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2300,7 +2300,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2315,7 +2315,7 @@
     "source": "a = 0xfi",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2325,7 +2325,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2335,7 +2335,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xfi",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2345,7 +2345,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2360,7 +2360,7 @@
     "source": "a = 0xf.i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2370,7 +2370,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2380,7 +2380,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xf.i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2390,7 +2390,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2405,7 +2405,7 @@
     "source": "a = 0xf.3i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2415,7 +2415,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2425,7 +2425,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xf.3i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2435,7 +2435,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2450,7 +2450,7 @@
     "source": "a = 0xfp1i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2460,7 +2460,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2470,7 +2470,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xfp1i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2480,7 +2480,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2495,7 +2495,7 @@
     "source": "a = 0xf.p1i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2505,7 +2505,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2515,7 +2515,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xf.p1i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2525,7 +2525,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2540,7 +2540,7 @@
     "source": "a = 0xf.3p+1i",
     "result": [
       {
-        "type": 8,
+        "type": "Identifier",
         "value": "a",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2550,7 +2550,7 @@
         ]
       },
       {
-        "type": 32,
+        "type": "Equal",
         "value": "=",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2560,7 +2560,7 @@
         ]
       },
       {
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "0xf.3p+1i",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2570,7 +2570,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,

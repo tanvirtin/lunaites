@@ -3,7 +3,7 @@
     "source": "-- comment",
     "result": [
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "-- comment",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -13,7 +13,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -28,7 +28,7 @@
     "source": "-- comment\n-- comment",
     "result": [
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "-- comment",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -38,7 +38,7 @@
         ]
       },
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "-- comment",
         "lnum": 2,
         "lnumStartIndex": 11,
@@ -48,7 +48,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 11,
@@ -63,7 +63,7 @@
     "source": "--coment",
     "result": [
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--coment",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -73,7 +73,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -88,7 +88,7 @@
     "source": "-- comment\nreturn",
     "result": [
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "-- comment",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -98,7 +98,7 @@
         ]
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "return",
         "lnum": 2,
         "lnumStartIndex": 11,
@@ -108,7 +108,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 11,
@@ -123,7 +123,7 @@
     "source": "return --comment \n",
     "result": [
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -133,7 +133,7 @@
         ]
       },
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--comment ",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -143,7 +143,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 18,
@@ -158,7 +158,7 @@
     "source": "--[[comment]]",
     "result": [
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--[[comment]]",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -168,7 +168,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -183,7 +183,7 @@
     "source": "if true--[[comment]]then end",
     "result": [
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "if",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -193,7 +193,7 @@
         ]
       },
       {
-        "type": 64,
+        "type": "BooleanLiteral",
         "value": "true",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -203,7 +203,7 @@
         ]
       },
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--[[comment]]",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -213,7 +213,7 @@
         ]
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "then",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -223,7 +223,7 @@
         ]
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -233,7 +233,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -248,7 +248,7 @@
     "source": "--[=[comment]=] return",
     "result": [
       {
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--[=[comment]=]",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -258,7 +258,7 @@
         ]
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -268,7 +268,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -289,11 +289,11 @@
           0,
           34
         ],
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--[===[comment\n--[=[sub]=]--\n]===]"
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "return",
         "lnum": 3,
         "lnumStartIndex": 29,
@@ -303,7 +303,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 3,
         "lnumStartIndex": 29,
@@ -324,11 +324,11 @@
           0,
           22
         ],
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--[[comment\nline two]]"
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 12,
@@ -349,11 +349,11 @@
           0,
           24
         ],
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--[[\ncomment\nline two\n]]"
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 4,
         "lnumStartIndex": 22,
@@ -374,11 +374,11 @@
           0,
           5
         ],
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--[=="
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "return",
         "lnum": 2,
         "lnumStartIndex": 6,
@@ -394,11 +394,11 @@
           13,
           17
         ],
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "--]]"
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 6,
@@ -413,7 +413,7 @@
     "source": "if true -- comment\nthen end",
     "result": [
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "if",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -423,7 +423,7 @@
         ]
       },
       {
-        "type": 64,
+        "type": "BooleanLiteral",
         "value": "true",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -439,11 +439,11 @@
           8,
           18
         ],
-        "type": 512,
+        "type": "CommentLiteral",
         "value": "-- comment"
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "then",
         "lnum": 2,
         "lnumStartIndex": 19,
@@ -453,7 +453,7 @@
         ]
       },
       {
-        "type": 4,
+        "type": "Keyword",
         "value": "end",
         "lnum": 2,
         "lnumStartIndex": 19,
@@ -463,7 +463,7 @@
         ]
       },
       {
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>",
         "lnum": 2,
         "lnumStartIndex": 19,

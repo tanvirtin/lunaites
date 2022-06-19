@@ -1,19 +1,21 @@
-import { ast, Token, TokenCursor, TokenType } from "./mod.ts";
+import { ast, TokenCursor, TokenType } from "./mod.ts";
 
-// Null denotation tokens will not contain a left expression associated with it.
-type NudParselet = () => Token | ast.Expression;
+// Null denotation tokens will not contain any left expression associated with it.
+type NullDenotationParselet = () => ast.Expression;
 // Left denotation tokens will contain a left expression associated with it.
-type LedParselet = (leftExpression: ast.Expression) => ast.Expression;
+type LeftDenotationParselet = (
+  leftExpression: ast.Expression,
+) => ast.Expression;
 
-type Parselet = NudParselet | LedParselet;
-
-type ParseletMap = Partial<Record<TokenType, Parselet>>;
+type ParseletTable<T> = Partial<Record<TokenType, T>>;
 
 // Pratt parser.
 class Parser {
   private cursor: TokenCursor;
-  private nudParseletMap: ParseletMap = {};
-  private ledParseletMap: ParseletMap = {};
+  private nullDenotationParseletTable: ParseletTable<NullDenotationParselet> =
+    {};
+  private LeftDenotationParseletTable: ParseletTable<LeftDenotationParselet> =
+    {};
 
   constructor(source: string) {
     this.cursor = new TokenCursor(source);
@@ -21,52 +23,113 @@ class Parser {
     this.registerParselets();
   }
 
-  private registerNudParselet(
-    token: TokenType,
-    nudParselet: NudParselet,
+  private registerNullDenotationParselet(
+    tokenType: TokenType,
+    nullDenotationParselet: NullDenotationParselet,
   ): Parser {
-    this.nudParseletMap[token] = nudParselet.bind(this);
+    this.nullDenotationParseletTable[tokenType] = nullDenotationParselet.bind(
+      this,
+    );
 
     return this;
   }
 
-  private registerLedParselet(
-    token: TokenType,
-    ledParselet: LedParselet,
-  ): Parser {
-    this.ledParseletMap[token] = ledParselet.bind(this);
-
-    return this;
-  }
-
-  private registerParselets() {
-    this.registerNudParselet(
-      TokenType.Keyword,
-      this.keywordParselet,
-    );
-    this.registerNudParselet(
-      TokenType.Identifier,
-      this.identifierParselet,
-    );
-    this.registerNudParselet(
+  private registerNullDenotationParselets(): Parser {
+    this.registerNullDenotationParselet(
       TokenType.NumericLiteral,
       this.numericLiteralParselet,
     );
+
+    this.registerNullDenotationParselet(
+      TokenType.StringLiteral,
+      this.stringLiteralParselet,
+    );
+
+    this.registerNullDenotationParselet(
+      TokenType.BooleanLiteral,
+      this.booleanLiteralParselet,
+    );
+
+    this.registerNullDenotationParselet(
+      TokenType.NilLiteral,
+      this.nilLiteralParselet,
+    );
+
+    this.registerNullDenotationParselet(
+      TokenType.VarargLiteral,
+      this.VarargLiteralParselet,
+    );
+
+    this.registerNullDenotationParselet(
+      TokenType.CommentLiteral,
+      this.commentLiteralParselet,
+    );
+
+    return this;
   }
 
-  private keywordParselet(): Token {
-    return this.cursor.current;
+  private registerLeftDenotationParselets(): Parser {
+    return this;
   }
 
-  private numericLiteralParselet(): Token {
-    return this.cursor.current;
+  private registerParselets(): Parser {
+    return this
+      .registerNullDenotationParselets()
+      .registerLeftDenotationParselets();
   }
 
-  private identifierParselet(): Token {
-    return this.cursor.current;
+  private numericLiteralParselet(): ast.Expression {
+    return new ast.NumericLiteral(this.cursor.current);
   }
 
-  advance() {}
+  private stringLiteralParselet(): ast.Expression {
+    return new ast.StringLiteral(this.cursor.current);
+  }
+
+  private booleanLiteralParselet(): ast.Expression {
+    return new ast.BooleanLiteral(this.cursor.current);
+  }
+
+  private nilLiteralParselet(): ast.Expression {
+    return new ast.NilLiteral(this.cursor.current);
+  }
+
+  private VarargLiteralParselet(): ast.Expression {
+    return new ast.VarargLiteral(this.cursor.current);
+  }
+
+  private commentLiteralParselet(): ast.Expression {
+    return new ast.CommentLiteral(this.cursor.current);
+  }
+
+  private parseExpression(precedence: number): ast.Expression {
+    const { cursor, nullDenotationParseletTable, LeftDenotationParseletTable } =
+      this;
+
+    const nullDenotationParselet =
+      nullDenotationParseletTable[cursor.current.type];
+
+    if (!nullDenotationParselet) {
+      throw new Error();
+    }
+
+    let leftExpression = nullDenotationParselet();
+
+    while (!cursor.eofToken && precedence < cursor.next.precedence) {
+      cursor.advance();
+
+      const LeftDenotationParselet =
+        LeftDenotationParseletTable[cursor.current.type];
+
+      if (!LeftDenotationParselet) {
+        throw new Error();
+      }
+
+      leftExpression = LeftDenotationParselet(leftExpression);
+    }
+
+    return leftExpression;
+  }
 
   parse() {}
 }

@@ -88,7 +88,7 @@ describe("TokenCursor", () => {
         .advance();
 
       assertObjectMatch(cursor.lookahead(6), {
-        type: TokenType.Punctuator,
+        type: TokenType.Equal,
         value: "=",
       });
 
@@ -98,7 +98,7 @@ describe("TokenCursor", () => {
       });
 
       assertObjectMatch(cursor.lookahead(6), {
-        type: TokenType.Punctuator,
+        type: TokenType.Equal,
         value: "=",
       });
 
@@ -106,7 +106,7 @@ describe("TokenCursor", () => {
         .advance();
 
       assertObjectMatch(cursor.lookahead(5), {
-        type: TokenType.Punctuator,
+        type: TokenType.Equal,
         value: "=",
       });
 
@@ -173,7 +173,7 @@ describe("TokenCursor", () => {
       assert(cursor.consume(TokenType.Keyword));
       assert(cursor.consume(TokenType.Identifier));
       assert(!cursor.consume(TokenType.Keyword));
-      assert(cursor.consume(TokenType.Punctuator));
+      assert(cursor.consume(TokenType.OpenParenthesis));
     });
   });
 });

@@ -1,6 +1,11 @@
 import { Tokenizer } from "../../mod.ts";
 import { SpecGenerator, Suite } from "./spec_generator.ts";
-import { assertEquals, describe, it } from "../../deps.ts";
+import {
+  assertObjectMatch,
+  assertStrictEquals,
+  describe,
+  it,
+} from "../../deps.ts";
 
 function getTestdataPath() {
   return `${Deno.cwd()}/test/integration/testdata/tokenizer`;
@@ -33,7 +38,11 @@ function computation(suite: Suite) {
     expectedResult = err.message;
   }
 
-  assertEquals(expectedResult, suite.result);
+  if (typeof suite.result === "string") {
+    assertStrictEquals(expectedResult, suite.result);
+  } else {
+    assertObjectMatch(expectedResult, suite.result);
+  }
 }
 
 const specs = await new SpecGenerator(getTestdataPath()).generate();

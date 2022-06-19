@@ -1,25 +1,128 @@
-import { Scanner } from "./scanner.ts";
-import { ErrorReporter } from "./error_reporter.ts";
+import { ErrorReporter, Scanner } from "./mod.ts";
 
 enum TokenType {
-  EOF = 1,
-  StringLiteral = 2,
-  Keyword = 4,
-  Identifier = 8,
-  NumericLiteral = 16,
-  Punctuator = 32,
-  BooleanLiteral = 64,
-  NilLiteral = 128,
-  VarargLiteral = 256,
-  Comment = 512,
+  Keyword = "Keyword", // Keywords
+  Identifier = "Identifier", // User defined identifiers within the language
+
+  StringLiteral = "StringLiteral", // " or '
+  NumericLiteral = "NumericLiteral", // 1, 2, 3, 4, etc.
+  BooleanLiteral = "BooleanLiteral", // true or false
+  NilLiteral = "NilLiteral", // nil
+  VarargLiteral = "VarargLiteral", // ...
+  CommentLiteral = "CommentLiteral", // -- or --[[]]
+
+  Or = "Or", // or
+  And = "And", // and
+
+  // Punctuators
+  Dot = "Dot", // .
+  Comma = "Comma", // ,
+  Equal = "Equal", // =
+  GreaterThan = "GreaterThan", // >
+  LessThan = "LessThan", // <
+  Divide = "Divide", // /
+  Colon = "Colon", // :
+  Tilda = "Tilda", // ~
+  Ampersand = "Ampersand", // &
+  Pipe = "Pipe", // |
+  Star = "Star", // *
+  Carrot = "Carrot", // ^
+  Percentage = "Percentage", // %
+  OpenBrace = "OpenBrace", // {
+  ClosedBrace = "ClosedBrace", // }
+  OpenParenthesis = "OpenParenthesis", // (
+  ClosedParenthesis = "ClosedParenthesis", // )
+  OpenBracket = "OpenBracket", // [
+  ClosedBracket = "ClosedBracket", // ]
+  SemiColon = "SemiColon", // ;
+  HashTag = "HashTag", // #
+  Minus = "Minus", // -
+  Plus = "Plus", // +
+  DoubleDot = "DoubleDot", // ..
+  DoubleEqual = "DoubleEqual", // ==
+  TildaEqual = "TildaEqual", // ~=
+  GreaterThanEqual = "GreaterThanEqual", // >=
+  LessThanEqual = "LessThanEqual", // <=
+  DoubleDivide = "DoubleDivide", // //
+  DoubleColon = "DoubleColon", // ::
+  DoubleGreaterThan = "DoubleGreaterThan", // >>
+  DoubleLessThan = "DoubleLessThan", // <<
+
+  EOF = "EOF", // <eof>
 }
 
-interface Token {
+interface TokenOptions {
   type: TokenType;
-  value: boolean | number | string;
+  value: string;
   range: number[];
   lnum: number;
   lnumStartIndex: number;
+}
+
+class Token {
+  type: TokenType;
+  value: string;
+  range: number[];
+  lnum: number;
+  lnumStartIndex: number;
+
+  constructor({ type, value, range, lnum, lnumStartIndex }: TokenOptions) {
+    this.type = type;
+    this.value = value;
+    this.range = range;
+    this.lnum = lnum;
+    this.lnumStartIndex = lnumStartIndex;
+  }
+
+  // Each token will have a precedence associated with it.
+  get precedence(): number {
+    switch (this.type) {
+      default:
+        return 1;
+      case TokenType.Or:
+        return 2;
+      case TokenType.And:
+        return 3;
+      case TokenType.GreaterThan:
+        return 4;
+      case TokenType.LessThan:
+        return 4;
+      case TokenType.GreaterThanEqual:
+        return 4;
+      case TokenType.LessThanEqual:
+        return 4;
+      case TokenType.DoubleEqual:
+        return 4;
+      case TokenType.TildaEqual:
+        return 4;
+      case TokenType.Pipe:
+        return 5;
+      case TokenType.Tilda:
+        return 6;
+      case TokenType.Ampersand:
+        return 7;
+      case TokenType.DoubleGreaterThan:
+        return 8;
+      case TokenType.DoubleLessThan:
+        return 8;
+      case TokenType.DoubleDot:
+        return 9;
+      case TokenType.Plus:
+        return 10;
+      case TokenType.Minus:
+        return 10;
+      case TokenType.Percentage:
+        return 11;
+      case TokenType.Star:
+        return 11;
+      case TokenType.Divide:
+        return 11;
+      case TokenType.DoubleDivide:
+        return 11;
+      case TokenType.Carrot:
+        return 12;
+    }
+  }
 }
 
 interface TokenizerOptions {
@@ -67,8 +170,6 @@ class Tokenizer {
       "do",
       "if",
       "in",
-      "or",
-      "and",
       "end",
       "for",
       "not",
@@ -312,13 +413,13 @@ class Tokenizer {
     // Mark the spot in the scanner for us to remember the start.
     scanner.mark();
 
-    return {
+    return new Token({
       type: TokenType.EOF,
       value: "<eof>",
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeComment(): Token {
@@ -335,13 +436,13 @@ class Tokenizer {
       scanner.scan();
     }
 
-    return {
-      type: TokenType.Comment,
+    return new Token({
+      type: TokenType.CommentLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeLongComment(): Token {
@@ -356,13 +457,13 @@ class Tokenizer {
 
     this.scanLongString(true);
 
-    return {
-      type: TokenType.Comment,
+    return new Token({
+      type: TokenType.CommentLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeStringLiteral(): Token {
@@ -395,13 +496,13 @@ class Tokenizer {
     // Scan over the ending string delimiter (", ')
     scanner.scan();
 
-    return {
+    return new Token({
       type: TokenType.StringLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeLongStringLiteral(): Token {
@@ -416,13 +517,13 @@ class Tokenizer {
 
     this.scanLongString(false);
 
-    return {
+    return new Token({
       type: TokenType.StringLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeIdentifier(): Token {
@@ -440,19 +541,21 @@ class Tokenizer {
     // Type and value depends on what type of identifier we are dealing with.
     if (this.isKeyword(value)) {
       type = TokenType.Keyword;
+    } else if (value === "or" || value === "and") {
+      type = value === "or" ? TokenType.Or : TokenType.And;
     } else if (value === "true" || value === "false") {
       type = TokenType.BooleanLiteral;
     } else if (value === "nil") {
       type = TokenType.NilLiteral;
     }
 
-    return {
+    return new Token({
       type,
       value,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeHexadecimalNumericLiteral(): Token {
@@ -501,13 +604,13 @@ class Tokenizer {
       this.errorReporter.reportMalformedNumber();
     }
 
-    return {
+    return new Token({
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeDecimalNumericLiteral(): Token {
@@ -540,13 +643,13 @@ class Tokenizer {
       this.errorReporter.reportMalformedNumber();
     }
 
-    return {
+    return new Token({
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizeNumericLiteral(): Token {
@@ -569,30 +672,64 @@ class Tokenizer {
     // skip over "...".
     scanner.scan().scan().scan();
 
-    return {
+    return new Token({
       type: TokenType.VarargLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   private tokenizePunctuator(punctuator: string): Token {
     const { scanner } = this;
+    const punctuatorTable: Record<string, TokenType> = {
+      [".."]: TokenType.DoubleDot,
+      ["."]: TokenType.Dot,
+      [","]: TokenType.Comma,
+      ["=="]: TokenType.DoubleEqual,
+      ["="]: TokenType.Equal,
+      [">="]: TokenType.GreaterThanEqual,
+      [">>"]: TokenType.DoubleGreaterThan,
+      [">"]: TokenType.GreaterThan,
+      ["<="]: TokenType.LessThanEqual,
+      ["<<"]: TokenType.DoubleLessThan,
+      ["<"]: TokenType.LessThan,
+      ["~="]: TokenType.TildaEqual,
+      ["~"]: TokenType.Tilda,
+      ["//"]: TokenType.DoubleDivide,
+      ["/"]: TokenType.Divide,
+      [":"]: TokenType.Colon,
+      ["::"]: TokenType.DoubleColon,
+      ["&"]: TokenType.Ampersand,
+      ["|"]: TokenType.Pipe,
+      ["*"]: TokenType.Star,
+      ["^"]: TokenType.Carrot,
+      ["%"]: TokenType.Percentage,
+      ["{"]: TokenType.OpenBrace,
+      ["}"]: TokenType.ClosedBrace,
+      ["["]: TokenType.OpenBracket,
+      ["]"]: TokenType.ClosedBracket,
+      ["("]: TokenType.OpenParenthesis,
+      [")"]: TokenType.ClosedParenthesis,
+      [";"]: TokenType.SemiColon,
+      ["#"]: TokenType.HashTag,
+      ["-"]: TokenType.Minus,
+      ["+"]: TokenType.Plus,
+    };
 
     // Put a mark on the scanner before we progress it.
     scanner.mark();
 
     scanner.scan(punctuator.length);
 
-    return {
-      type: TokenType.Punctuator,
+    return new Token({
+      type: punctuatorTable[punctuator],
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    };
+    });
   }
 
   tokenize(): Token {
@@ -750,5 +887,5 @@ class Tokenizer {
   }
 }
 
-export { Tokenizer, TokenType };
-export type { Token, TokenizerOptions };
+export { Token, Tokenizer, TokenType };
+export type { TokenizerOptions };

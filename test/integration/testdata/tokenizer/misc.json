@@ -33,7 +33,7 @@
           0,
           5
         ],
-        "type": 2,
+        "type": "StringLiteral",
         "value": "'bar'"
       },
       {
@@ -43,7 +43,7 @@
           5,
           5
         ],
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>"
       }
     ]
@@ -58,7 +58,7 @@
           0,
           5
         ],
-        "type": 2,
+        "type": "StringLiteral",
         "value": "\"bar\""
       },
       {
@@ -68,7 +68,7 @@
           5,
           5
         ],
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>"
       }
     ]
@@ -87,7 +87,7 @@
           0,
           5
         ],
-        "type": 4,
+        "type": "Keyword",
         "value": "local"
       },
       {
@@ -97,7 +97,7 @@
           6,
           7
         ],
-        "type": 16,
+        "type": "NumericLiteral",
         "value": "3"
       },
       {
@@ -107,7 +107,7 @@
           8,
           12
         ],
-        "type": 64,
+        "type": "BooleanLiteral",
         "value": "true"
       },
       {
@@ -117,7 +117,7 @@
           13,
           13
         ],
-        "type": 1,
+        "type": "EOF",
         "value": "<eof>"
       }
     ]
