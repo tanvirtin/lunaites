@@ -1,4 +1,4 @@
-import { ast, TokenCursor, TokenType } from "./mod.ts";
+import { ast, Precedence, TokenCursor, TokenType } from "./mod.ts";
 
 // Null denotation tokens will not contain any left expression associated with it.
 type NullDenotationParselet = () => ast.Expression;
@@ -65,6 +65,16 @@ class Parser {
       this.commentLiteralParselet,
     );
 
+    this.registerNullDenotationParselet(
+      TokenType.Not,
+      this.unaryParselet,
+    );
+
+    this.registerNullDenotationParselet(
+      TokenType.Minus,
+      this.unaryParselet,
+    );
+
     return this;
   }
 
@@ -100,6 +110,16 @@ class Parser {
 
   private commentLiteralParselet(): ast.Expression {
     return new ast.CommentLiteral(this.cursor.current);
+  }
+
+  private unaryParselet(): ast.Expression {
+    const operatorToken = this.cursor.current;
+
+    this.cursor.advance();
+
+    const rightExpression = this.parseExpression(Precedence.Unary);
+
+    return new ast.UnaryExpression(operatorToken, rightExpression);
   }
 
   private parseExpression(precedence: number): ast.Expression {

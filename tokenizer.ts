@@ -13,6 +13,7 @@ enum TokenType {
 
   Or = "Or", // or
   And = "And", // and
+  Not = "Not", // not
 
   // Punctuators
   Dot = "Dot", // .
@@ -51,6 +52,22 @@ enum TokenType {
   EOF = "EOF", // <eof>
 }
 
+enum Precedence {
+  Lowest = 1,
+  Or = 2, // or
+  And = 3, // and
+  Comparison = 4, // <, >, <=, >=, ~= or ==
+  BitwiseOr = 5, // |
+  BitwiseExclusiveOr = 6, // ~
+  BitwiseAnd = 7, // &
+  BitwiseShift = 8, // >> or <<
+  StringConcat = 9, // ..
+  Term = 10, // + or -
+  Factor = 11, // *, /, //
+  Unary = 12, // -, ~ or not
+  Exponent = 13, // ^
+}
+
 interface TokenOptions {
   type: TokenType;
   value: string;
@@ -75,52 +92,60 @@ class Token {
   }
 
   // Each token will have a precedence associated with it.
+  // https://www.lua.org/pil/3.5.html
   get precedence(): number {
     switch (this.type) {
       default:
-        return 1;
+        return Precedence.Lowest;
+
       case TokenType.Or:
-        return 2;
+        return Precedence.Or;
       case TokenType.And:
-        return 3;
+        return Precedence.And;
+
       case TokenType.GreaterThan:
-        return 4;
+        return Precedence.Comparison;
       case TokenType.LessThan:
-        return 4;
+        return Precedence.Comparison;
       case TokenType.GreaterThanEqual:
-        return 4;
+        return Precedence.Comparison;
       case TokenType.LessThanEqual:
-        return 4;
+        return Precedence.Comparison;
       case TokenType.DoubleEqual:
-        return 4;
+        return Precedence.Comparison;
       case TokenType.TildaEqual:
-        return 4;
+        return Precedence.Comparison;
+
       case TokenType.Pipe:
-        return 5;
+        return Precedence.BitwiseOr;
       case TokenType.Tilda:
-        return 6;
+        return Precedence.BitwiseExclusiveOr;
       case TokenType.Ampersand:
-        return 7;
+        return Precedence.BitwiseAnd;
       case TokenType.DoubleGreaterThan:
-        return 8;
+        return Precedence.BitwiseShift;
       case TokenType.DoubleLessThan:
-        return 8;
+        return Precedence.BitwiseShift;
+
       case TokenType.DoubleDot:
-        return 9;
+        return Precedence.StringConcat;
+
       case TokenType.Plus:
-        return 10;
+        return Precedence.Term;
       case TokenType.Minus:
-        return 10;
+        return Precedence.Term;
+
       case TokenType.Percentage:
-        return 11;
+        return Precedence.Factor;
       case TokenType.Star:
-        return 11;
+        return Precedence.Factor;
       case TokenType.Divide:
-        return 11;
+        return Precedence.Factor;
       case TokenType.DoubleDivide:
-        return 11;
+        return Precedence.Factor;
+
       case TokenType.Carrot:
-        return 12;
+        return Precedence.Exponent;
     }
   }
 }
@@ -172,7 +197,6 @@ class Tokenizer {
       "in",
       "end",
       "for",
-      "not",
       "else",
       "then",
       "break",
@@ -541,8 +565,12 @@ class Tokenizer {
     // Type and value depends on what type of identifier we are dealing with.
     if (this.isKeyword(value)) {
       type = TokenType.Keyword;
-    } else if (value === "or" || value === "and") {
-      type = value === "or" ? TokenType.Or : TokenType.And;
+    } else if (value === "or") {
+      type = TokenType.Or;
+    } else if (value === "and") {
+      type = TokenType.And;
+    } else if (value === "not") {
+      type = TokenType.Not;
     } else if (value === "true" || value === "false") {
       type = TokenType.BooleanLiteral;
     } else if (value === "nil") {
@@ -887,5 +915,5 @@ class Tokenizer {
   }
 }
 
-export { Token, Tokenizer, TokenType };
+export { Precedence, Token, Tokenizer, TokenType };
 export type { TokenizerOptions };

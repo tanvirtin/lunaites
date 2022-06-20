@@ -123,7 +123,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Not",
         "value": "not",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -178,7 +178,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Not",
         "value": "not",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -628,7 +628,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Not",
         "value": "not",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -698,7 +698,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Not",
         "value": "not",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -773,7 +773,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Not",
         "value": "not",
         "lnum": 1,
         "lnumStartIndex": 0,

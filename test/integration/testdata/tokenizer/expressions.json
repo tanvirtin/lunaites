@@ -2888,7 +2888,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Not",
         "value": "not",
         "lnum": 1,
         "lnumStartIndex": 0,

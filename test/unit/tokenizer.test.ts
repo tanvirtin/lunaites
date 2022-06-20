@@ -123,7 +123,6 @@ describe("Tokenizer", () => {
         "if": "if",
         "in": "in",
         "for": "for",
-        "not": "not",
         "goto": "goto",
         "else": "else",
         "then": "then",
