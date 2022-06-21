@@ -1,9 +1,7 @@
 import { Token } from "./mod.ts";
 
 interface Expression {
-  token: Token;
-  left?: Expression;
-  right?: Expression;
+  toString(): void;
 }
 
 class Literal implements Expression {
@@ -35,18 +33,35 @@ class Identifier implements Expression {
 }
 
 class UnaryExpression implements Expression {
-  token: Token;
+  operator: Token;
   right: Expression;
 
   constructor(operator: Token, right: Expression) {
-    this.token = operator;
+    this.operator = operator;
     this.right = right;
+  }
+}
+
+class GroupingExpression implements Expression {
+  openParenthesis: Token;
+  expression: Expression;
+  closedParenthesis: Token;
+
+  constructor(
+    openParenthesis: Token,
+    expression: Expression,
+    closedParenthesis: Token,
+  ) {
+    this.openParenthesis = openParenthesis;
+    this.expression = expression;
+    this.closedParenthesis = closedParenthesis;
   }
 }
 
 export {
   BooleanLiteral,
   CommentLiteral,
+  GroupingExpression,
   Identifier,
   NilLiteral,
   NumericLiteral,

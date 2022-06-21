@@ -66,6 +66,11 @@ class Parser {
     );
 
     this.registerNullDenotationParselet(
+      TokenType.OpenParenthesis,
+      this.groupingParselet,
+    );
+
+    this.registerNullDenotationParselet(
       TokenType.Not,
       this.unaryParselet,
     );
@@ -113,16 +118,43 @@ class Parser {
   }
 
   private unaryParselet(): ast.Expression {
-    const operatorToken = this.cursor.current;
+    const { cursor } = this;
 
-    this.cursor.advance();
+    const operatorToken = cursor.current;
 
+    // Skip over the operator.
+    cursor.advance();
+
+    // Get the right expression to attach to the operator.
     const rightExpression = this.parseExpression(Precedence.Unary);
 
     return new ast.UnaryExpression(operatorToken, rightExpression);
   }
 
-  private parseExpression(precedence: number): ast.Expression {
+  private groupingParselet(): ast.Expression {
+    const { cursor } = this;
+
+    const openParenthesisToken = this.cursor.current;
+
+    // Skipping over the "("
+    cursor.advance();
+
+    // We gather the expression that can be found within the parenthesis.
+    const expression = this.parseExpression();
+
+    const closedParenthesisToken = this.cursor.current;
+
+    // Expecting over the ")"
+    cursor.advance();
+
+    return new ast.GroupingExpression(
+      openParenthesisToken,
+      expression,
+      closedParenthesisToken,
+    );
+  }
+
+  private parseExpression(precedence = Precedence.Lowest): ast.Expression {
     const { cursor, nullDenotationParseletTable, LeftDenotationParseletTable } =
       this;
 
@@ -151,7 +183,11 @@ class Parser {
     return leftExpression;
   }
 
-  parse() {}
+  parse(): ast.Expression {
+    this.cursor.advance();
+
+    return this.parseExpression();
+  }
 }
 
 export { Parser };
