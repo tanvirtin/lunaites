@@ -1,5 +1,17 @@
-import { Tokenizer, TokenType } from "../../mod.ts";
+import {
+  ErrorReporter,
+  Scanner,
+  Tokenizer,
+  TokenizerOptions,
+  TokenType,
+} from "../../mod.ts";
 import { assertObjectMatch, assertThrows, describe, it } from "../../deps.ts";
+
+function createTokenizer(source: string, tokenizerOptions?: TokenizerOptions) {
+  const scanner = new Scanner(source);
+
+  return new Tokenizer(scanner, new ErrorReporter(scanner), tokenizerOptions);
+}
 
 describe("Tokenizer", () => {
   let tokenizer: Tokenizer;
@@ -47,7 +59,7 @@ describe("Tokenizer", () => {
         ],
       }).forEach(([source, results]) => {
         it(`when source is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+          tokenizer = createTokenizer(source);
 
           results.forEach((result) => {
             assertObjectMatch(tokenizer.tokenize(), result);
@@ -57,7 +69,7 @@ describe("Tokenizer", () => {
     });
 
     it("correctly tokenizes end of file", () => {
-      tokenizer = new Tokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
+      tokenizer = createTokenizer("  \r  \n      foo  \r\n  \n\r    bar  baz ");
 
       tokenizer.tokenize();
       tokenizer.tokenize();
@@ -72,7 +84,7 @@ describe("Tokenizer", () => {
     });
 
     it("does not recognize identifiers that start with digits", () => {
-      tokenizer = new Tokenizer("          3foo      bar  3baz ");
+      tokenizer = createTokenizer("          3foo      bar  3baz ");
 
       tokenizer.tokenize();
 
@@ -91,7 +103,7 @@ describe("Tokenizer", () => {
     });
 
     it("correctly tokenizes nil keyword", () => {
-      tokenizer = new Tokenizer("nil");
+      tokenizer = createTokenizer("nil");
 
       assertObjectMatch(tokenizer.tokenize(), {
         type: TokenType.NilLiteral,
@@ -108,7 +120,7 @@ describe("Tokenizer", () => {
         "helloWorld": "helloWorld",
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+          tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
             type: TokenType.Identifier,
@@ -136,7 +148,7 @@ describe("Tokenizer", () => {
         "function": "function",
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source, {
+          tokenizer = createTokenizer(source, {
             contextualGoto: false,
           });
 
@@ -160,7 +172,7 @@ describe("Tokenizer", () => {
         },
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+          tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), result);
         });
@@ -173,7 +185,7 @@ describe("Tokenizer", () => {
         "false": "false",
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+          tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
             type: TokenType.BooleanLiteral,
@@ -205,7 +217,7 @@ describe("Tokenizer", () => {
           "[[**Hello**, &_world_&.]]",
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+          tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
             type: TokenType.StringLiteral,
@@ -259,7 +271,7 @@ describe("Tokenizer", () => {
         ],
       }).forEach(([source, results]) => {
         it(`when source is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+          tokenizer = createTokenizer(source);
 
           results.forEach((result) =>
             assertObjectMatch(tokenizer.tokenize(), result)
@@ -280,7 +292,7 @@ describe("Tokenizer", () => {
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
-            () => (new Tokenizer(source)).tokenize(),
+            () => (createTokenizer(source)).tokenize(),
             SyntaxError,
             result,
           );
@@ -294,7 +306,7 @@ describe("Tokenizer", () => {
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
-            () => (new Tokenizer(source)).tokenize(),
+            () => (createTokenizer(source)).tokenize(),
             SyntaxError,
             result,
           );
@@ -325,7 +337,7 @@ describe("Tokenizer", () => {
         "0xFP+9": "0xFP+9",
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
-          tokenizer = new Tokenizer(source);
+          tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
             type: TokenType.NumericLiteral,
@@ -344,7 +356,7 @@ describe("Tokenizer", () => {
           "0x3i": "0x3i",
         }).forEach(([source, result]) => {
           it(`"${source}" is tokenized as numeric identifier`, () => {
-            tokenizer = new Tokenizer(source);
+            tokenizer = createTokenizer(source);
 
             assertObjectMatch(tokenizer.tokenize(), {
               type: TokenType.NumericLiteral,
@@ -363,7 +375,7 @@ describe("Tokenizer", () => {
           "6UlL": "6UlL",
         }).forEach(([source, result]) => {
           it(`"${source}" is tokenized as numeric identifier`, () => {
-            tokenizer = new Tokenizer(source);
+            tokenizer = createTokenizer(source);
 
             assertObjectMatch(tokenizer.tokenize(), {
               type: TokenType.NumericLiteral,
@@ -383,7 +395,7 @@ describe("Tokenizer", () => {
           "0x3i": "0x3",
         }).forEach(([source, result]) => {
           it(`"i" suffix is ignored when ${source}" numeric identifier`, () => {
-            tokenizer = new Tokenizer(source, {
+            tokenizer = createTokenizer(source, {
               imaginaryNumbers: false,
             });
 
@@ -408,7 +420,7 @@ describe("Tokenizer", () => {
           "101LL": "101LL",
         }).forEach(([source, result]) => {
           it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
-            tokenizer = new Tokenizer(source);
+            tokenizer = createTokenizer(source);
 
             assertObjectMatch(tokenizer.tokenize(), {
               type: TokenType.NumericLiteral,
@@ -431,7 +443,7 @@ describe("Tokenizer", () => {
           "101LL": "101",
         }).forEach(([source, result]) => {
           it(`"ull" or "ll" suffix is ignored when ${source}" numeric identifier`, () => {
-            tokenizer = new Tokenizer(source, {
+            tokenizer = createTokenizer(source, {
               integerSuffixes: false,
             });
 
@@ -492,7 +504,7 @@ describe("Tokenizer", () => {
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
-            () => (new Tokenizer(source)).tokenize(),
+            () => (createTokenizer(source)).tokenize(),
             SyntaxError,
             result,
           );
@@ -627,7 +639,7 @@ describe("Tokenizer", () => {
       ],
     }).forEach(([source, results]) => {
       it(`when source is "${source}"`, () => {
-        tokenizer = new Tokenizer(source);
+        tokenizer = createTokenizer(source);
 
         results.forEach((result) =>
           assertObjectMatch(tokenizer.tokenize(), result)
@@ -780,7 +792,7 @@ describe("Tokenizer", () => {
       ],
     }).forEach(([source, results]) => {
       it(`when source is "${source}"`, () => {
-        tokenizer = new Tokenizer(source);
+        tokenizer = createTokenizer(source);
 
         results.forEach((result) =>
           assertObjectMatch(tokenizer.tokenize(), result)
@@ -796,7 +808,7 @@ describe("Tokenizer", () => {
       "... ..": "...",
     }).forEach(([source, result]) => {
       it(`when identifier is "${source}"`, () => {
-        tokenizer = new Tokenizer(source);
+        tokenizer = createTokenizer(source);
 
         assertObjectMatch(tokenizer.tokenize(), {
           type: TokenType.VarargLiteral,
@@ -809,7 +821,7 @@ describe("Tokenizer", () => {
   describe("punctuators", () => {
     it("should correctly tokenize single char punctuator", () => {
       const source = "*^%,{}[]();#-+|&:=/~><";
-      tokenizer = new Tokenizer(source);
+      tokenizer = createTokenizer(source);
 
       assertObjectMatch(tokenizer.tokenize(), {
         type: TokenType.Star,
@@ -958,7 +970,7 @@ describe("Tokenizer", () => {
       },
     }).forEach(([source, result]) => {
       it(`should tokenize punctuators with double chars when identifier is "${source}"`, () => {
-        tokenizer = new Tokenizer(source);
+        tokenizer = createTokenizer(source);
 
         assertObjectMatch(tokenizer.tokenize(), result);
       });

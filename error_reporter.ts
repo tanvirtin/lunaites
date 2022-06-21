@@ -1,4 +1,4 @@
-import { Scanner } from "./scanner.ts";
+import { Scanner } from "./mod.ts";
 
 class ErrorReporter {
   scanner: Scanner;
@@ -14,7 +14,9 @@ class ErrorReporter {
   }
 
   private createErrorMessage(message: string) {
-    return `[${this.scanner.lnum}:${this.scanner.getCol()}] ${message}`;
+    const { scanner } = this;
+
+    return `[${scanner.lnum}:${scanner.getCol()}] ${message}`;
   }
 
   private createError(templateMessage: string, ...args: string[]): SyntaxError {
@@ -63,6 +65,10 @@ class ErrorReporter {
     this.reportError(
       `unfinished long comment (starting at line ${this.scanner.lnum}) near '%s'`,
     );
+  }
+
+  reportExpectedCharacter(expected: string, nearbyText: string) {
+    this.reportError(`'${expected}' expected near %s`, nearbyText);
   }
 }
 

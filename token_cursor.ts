@@ -8,8 +8,8 @@ class TokenCursor {
   private tokenizer: Tokenizer;
   public eofToken: Token | void = undefined;
 
-  constructor(source: string) {
-    this.tokenizer = new Tokenizer(source);
+  constructor(tokenizer: Tokenizer) {
+    this.tokenizer = tokenizer;
   }
 
   private tokenize(moveCursor = true): TokenCursor {
@@ -73,15 +73,15 @@ class TokenCursor {
   }
 
   lookahead(to: number): Token {
-    if (this.eofToken) {
-      return this.eofToken;
-    }
-
     return this.at(this.index + to);
   }
 
   match(tokenType: TokenType): boolean {
     return this.current?.type === tokenType;
+  }
+
+  matchNext(tokenType: TokenType): boolean {
+    return this.next?.type === tokenType;
   }
 
   advance(): TokenCursor {

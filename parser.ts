@@ -1,4 +1,13 @@
-import { ast, Precedence, TokenCursor, TokenType } from "./mod.ts";
+import {
+  ast,
+  ErrorReporter,
+  Precedence,
+  Scanner,
+  TokenCursor,
+  Tokenizer,
+  TokenizerOptions,
+  TokenType,
+} from "./mod.ts";
 
 // Null denotation tokens will not contain any left expression associated with it.
 type NullDenotationParselet = () => ast.Expression;
@@ -12,13 +21,24 @@ type ParseletTable<T> = Partial<Record<TokenType, T>>;
 // Pratt parser.
 class Parser {
   private cursor: TokenCursor;
+  private errorReporter: ErrorReporter;
   private nullDenotationParseletTable: ParseletTable<NullDenotationParselet> =
     {};
   private LeftDenotationParseletTable: ParseletTable<LeftDenotationParselet> =
     {};
 
-  constructor(source: string) {
-    this.cursor = new TokenCursor(source);
+  constructor(source: string, tokenizerOptions?: TokenizerOptions) {
+    const scanner = new Scanner(source);
+    const errorReporter = new ErrorReporter(scanner);
+
+    this.cursor = new TokenCursor(
+      new Tokenizer(
+        scanner,
+        errorReporter,
+        tokenizerOptions,
+      ),
+    );
+    this.errorReporter = errorReporter;
 
     this.registerParselets();
   }
@@ -134,7 +154,7 @@ class Parser {
   private groupingParselet(): ast.Expression {
     const { cursor } = this;
 
-    const openParenthesisToken = this.cursor.current;
+    const openParenthesisToken = cursor.current;
 
     // Skipping over the "("
     cursor.advance();
@@ -142,9 +162,13 @@ class Parser {
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression();
 
-    const closedParenthesisToken = this.cursor.current;
+    // Expecting a ")"
+    if (!cursor.matchNext(TokenType.ClosedParenthesis)) {
+      this.errorReporter.reportExpectedCharacter(")", cursor.next.value);
+    }
 
-    // Expecting over the ")"
+    const closedParenthesisToken = cursor.current;
+
     cursor.advance();
 
     return new ast.GroupingExpression(
@@ -184,6 +208,7 @@ class Parser {
   }
 
   parse(): ast.Expression {
+    // We start the cursor first.
     this.cursor.advance();
 
     return this.parseExpression();

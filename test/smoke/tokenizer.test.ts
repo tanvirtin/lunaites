@@ -1,4 +1,4 @@
-import { Tokenizer, TokenType } from "../../mod.ts";
+import { ErrorReporter, Scanner, Tokenizer, TokenType } from "../../mod.ts";
 import {
   afterAll,
   describe,
@@ -88,8 +88,9 @@ describe("Tokenizer", () => {
 
     it(relative(getTestdataPath(), path), async () => {
       let token;
-      const text = await Deno.readTextFile(path);
-      const tokenizer = new Tokenizer(text);
+      const source = await Deno.readTextFile(path);
+      const scanner = new Scanner(source);
+      const tokenizer = new Tokenizer(scanner, new ErrorReporter(scanner));
 
       while (token?.type !== TokenType.EOF) {
         token = tokenizer.tokenize();

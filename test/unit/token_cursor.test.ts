@@ -1,7 +1,14 @@
-import { TokenCursor, TokenType } from "../../mod.ts";
+import {
+  ErrorReporter,
+  Scanner,
+  TokenCursor,
+  Tokenizer,
+  TokenType,
+} from "../../mod.ts";
 import { assert, assertObjectMatch, describe, it } from "../../deps.ts";
 
-const source = `
+function createTokenCursor() {
+  const source = `
 local function main()
   local foo = 100;
   local bar = "Future";
@@ -10,11 +17,15 @@ local function main()
   return string.format('%s, %s years from the %s', baz, foo, bar)
 end
 `;
+  const scanner = new Scanner(source);
+
+  return new TokenCursor(new Tokenizer(scanner, new ErrorReporter(scanner)));
+}
 
 describe("TokenCursor", () => {
   describe("advance", () => {
     it("advances the cursor to the next token", () => {
-      const cursor = new TokenCursor(source);
+      const cursor = createTokenCursor();
 
       cursor.advance();
 
@@ -34,7 +45,7 @@ describe("TokenCursor", () => {
 
   describe("at", () => {
     it("should return the token at the given arbitary index", () => {
-      const cursor = new TokenCursor(source);
+      const cursor = createTokenCursor();
 
       assertObjectMatch(cursor.at(2), {
         type: TokenType.Identifier,
@@ -65,7 +76,7 @@ describe("TokenCursor", () => {
 
   describe("current", () => {
     it("should return the current token being pointed at", () => {
-      const cursor = new TokenCursor(source);
+      const cursor = createTokenCursor();
 
       cursor
         .advance()
@@ -81,7 +92,7 @@ describe("TokenCursor", () => {
 
   describe("lookahead", () => {
     it("should skip number of tokens provided and point the token without moving the cursor", () => {
-      const cursor = new TokenCursor(source);
+      const cursor = createTokenCursor();
 
       cursor
         .advance()
@@ -119,7 +130,7 @@ describe("TokenCursor", () => {
 
   describe("next", () => {
     it("should return the next token without moving the cursor", () => {
-      const cursor = new TokenCursor(source);
+      const cursor = createTokenCursor();
 
       assertObjectMatch(cursor.next, {
         type: TokenType.Keyword,
@@ -141,12 +152,22 @@ describe("TokenCursor", () => {
         type: TokenType.Identifier,
         value: "main",
       });
+
+      assertObjectMatch(cursor.lookahead(1000), {
+        type: TokenType.EOF,
+        value: "<eof>",
+      });
+
+      assertObjectMatch(cursor.next, {
+        type: TokenType.Identifier,
+        value: "main",
+      });
     });
   });
 
   describe("match", () => {
     it("should return true if the current token is the token type provided, false otherwise", () => {
-      const cursor = new TokenCursor(source);
+      const cursor = createTokenCursor();
 
       assert(!cursor.match(TokenType.Identifier));
 
@@ -164,7 +185,7 @@ describe("TokenCursor", () => {
 
   describe("consume", () => {
     it("should automatically advance the cursor if a token match is found", () => {
-      const cursor = new TokenCursor(source);
+      const cursor = createTokenCursor();
 
       cursor
         .advance();

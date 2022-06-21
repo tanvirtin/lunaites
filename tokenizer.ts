@@ -177,15 +177,17 @@ class Tokenizer {
     extendedIdentifiers: true,
   };
 
-  constructor(source: string, options?: TokenizerOptions) {
+  constructor(
+    scanner: Scanner,
+    errorReporter: ErrorReporter,
+    options?: TokenizerOptions,
+  ) {
     this.options = {
       ...this.options,
       ...(options ?? {}),
     };
-    this.scanner = new Scanner(source, {
-      extendedIdentifiers: this.options.extendedIdentifiers ?? true,
-    });
-    this.errorReporter = new ErrorReporter(this.scanner);
+    this.scanner = scanner;
+    this.errorReporter = errorReporter;
   }
 
   // All lua keywords

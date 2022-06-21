@@ -8,7 +8,11 @@ describe("Scanner", () => {
     it("should parse an expression", () => {
       parser = new Parser("(not 3)");
 
-      console.log(parser.parse());
+      parser.parse();
     });
   });
 });
+
+const parser = new Parser("(not 3)");
+
+parser.parse();
