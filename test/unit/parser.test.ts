@@ -13,6 +13,6 @@ describe("Scanner", () => {
   });
 });
 
-const parser = new Parser("(not 3)");
+const parser = new Parser("(3 + 3) * 4");
 
 console.log(parser.parse());

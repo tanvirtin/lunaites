@@ -64,7 +64,7 @@ enum Precedence {
   StringConcat = 9, // ..
   Term = 10, // + or -
   Factor = 11, // *, /, //
-  Unary = 12, // -, ~ or not
+  Unary = 12, // -, #, ~ or not
   Exponent = 13, // ^
 }
 

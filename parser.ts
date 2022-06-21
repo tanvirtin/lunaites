@@ -24,7 +24,7 @@ class Parser {
   private errorReporter: ErrorReporter;
   private nullDenotationParseletTable: ParseletTable<NullDenotationParselet> =
     {};
-  private LeftDenotationParseletTable: ParseletTable<LeftDenotationParselet> =
+  private leftDenotationParseletTable: ParseletTable<LeftDenotationParselet> =
     {};
 
   constructor(source: string, tokenizerOptions?: TokenizerOptions) {
@@ -48,6 +48,17 @@ class Parser {
     nullDenotationParselet: NullDenotationParselet,
   ): Parser {
     this.nullDenotationParseletTable[tokenType] = nullDenotationParselet.bind(
+      this,
+    );
+
+    return this;
+  }
+
+  private registerLeftDenotationParselet(
+    tokenType: TokenType,
+    leftDenotationParselet: LeftDenotationParselet,
+  ): Parser {
+    this.leftDenotationParseletTable[tokenType] = leftDenotationParselet.bind(
       this,
     );
 
@@ -110,10 +121,114 @@ class Parser {
       this.unaryParselet,
     );
 
+    // TODO: Will need to register keyword led parselets.
+
     return this;
   }
 
   private registerLeftDenotationParselets(): Parser {
+    this.registerLeftDenotationParselet(
+      TokenType.Plus,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.Minus,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.Star,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.Divide,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.DoubleDivide,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.And,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.Or,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.GreaterThan,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.LessThan,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.GreaterThanEqual,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.LessThanEqual,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.DoubleEqual,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.TildaEqual,
+      this.binaryParselet,
+    );
+
+    ///////// Bitwise operators ////////
+    this.registerLeftDenotationParselet(
+      TokenType.Pipe,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.Tilda,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.Ampersand,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.DoubleGreaterThan,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.DoubleLessThan,
+      this.binaryParselet,
+    );
+
+    this.registerLeftDenotationParselet(
+      TokenType.Carrot,
+      this.binaryParselet,
+    );
+    ////////////////////////////////////
+
+    this.registerLeftDenotationParselet(
+      TokenType.DoubleDot,
+      this.binaryParselet,
+    );
+
     return this;
   }
 
@@ -161,6 +276,24 @@ class Parser {
     return new ast.UnaryExpression(operatorToken, rightExpression);
   }
 
+  private binaryParselet(leftExpression: ast.Expression): ast.Expression {
+    const { cursor } = this;
+
+    const operatorToken = cursor.current;
+
+    // Skip over the operator.
+    cursor.advance();
+
+    // Retrieve the right expression.
+    const rightExpression = this.parseExpression(operatorToken.precedence);
+
+    return new ast.BinaryExpression(
+      leftExpression,
+      operatorToken,
+      rightExpression,
+    );
+  }
+
   private groupingParselet(): ast.Expression {
     const { cursor } = this;
 
@@ -170,7 +303,7 @@ class Parser {
     cursor.advance();
 
     // We gather the expression that can be found within the parenthesis.
-    const expression = this.parseExpression();
+    const expression = this.parseExpression(Precedence.Lowest);
 
     // Expecting a ")" so we consume, if consumption is futile throw an error.
     if (!cursor.consumeNext(TokenType.ClosedParenthesis)) {
@@ -188,15 +321,23 @@ class Parser {
     );
   }
 
-  private parseExpression(precedence = Precedence.Lowest): ast.Expression {
-    const { cursor, nullDenotationParseletTable, LeftDenotationParseletTable } =
-      this;
+  // Main powerhouse for generating expressions.
+  private parseExpression(precedence: Precedence): ast.Expression {
+    const {
+      cursor,
+      errorReporter,
+      nullDenotationParseletTable,
+      leftDenotationParseletTable,
+    } = this;
 
     const nullDenotationParselet =
       nullDenotationParseletTable[cursor.current.type];
 
     if (!nullDenotationParselet) {
-      throw new Error();
+      throw errorReporter.createError(
+        "No null denotation parselet registered for %s",
+        cursor.current.value,
+      );
     }
 
     let leftExpression = nullDenotationParselet();
@@ -204,14 +345,17 @@ class Parser {
     while (!cursor.eofToken && precedence < cursor.next.precedence) {
       cursor.advance();
 
-      const LeftDenotationParselet =
-        LeftDenotationParseletTable[cursor.current.type];
+      const leftDenotationParselet =
+        leftDenotationParseletTable[cursor.current.type];
 
-      if (!LeftDenotationParselet) {
-        throw new Error();
+      if (!leftDenotationParselet) {
+        throw errorReporter.createError(
+          "No left denotation parselet registered for %s",
+          cursor.current.value,
+        );
       }
 
-      leftExpression = LeftDenotationParselet(leftExpression);
+      leftExpression = leftDenotationParselet(leftExpression);
     }
 
     return leftExpression;
@@ -221,7 +365,7 @@ class Parser {
     // We start the cursor first.
     this.cursor.advance();
 
-    return this.parseExpression();
+    return this.parseExpression(Precedence.Lowest);
   }
 }
 

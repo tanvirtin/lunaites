@@ -19,7 +19,7 @@ class ErrorReporter {
     return `[${scanner.lnum}:${scanner.getCol()}] ${message}`;
   }
 
-  private createError(templateMessage: string, ...args: string[]): SyntaxError {
+  createError(templateMessage: string, ...args: string[]): SyntaxError {
     return new SyntaxError(
       this.createErrorMessage(
         this.deriveTemplate(
@@ -30,40 +30,42 @@ class ErrorReporter {
     );
   }
 
-  reportError(message: string, nearbyText?: string): never {
+  reportError(message: string, ...args: string[]): never {
     const error = this.createError(
       message,
-      nearbyText ?? this.scanner.getText(),
+      ...args,
     );
 
     throw error;
   }
 
   reportMalformedNumber(): never {
-    this.reportError("malformed number near '%s'");
+    this.reportError("malformed number near '%s'", this.scanner.getText());
   }
 
   reportUnfinishedString(): never {
-    this.reportError("unfinished string near '%s'");
+    this.reportError("unfinished string near '%s'", this.scanner.getText());
   }
 
   reportUnfinishedLongString(): never {
     this.reportError(
       `unfinished long string (starting at line ${this.scanner.lnum}) near '%s'`,
+      this.scanner.getText(),
     );
   }
 
   reportUnexpectedCharacter(): never {
-    this.reportError("unfinished character near '%s'");
+    this.reportError("unfinished character near '%s'", this.scanner.getText());
   }
 
   reportUnfinishedComment(): never {
-    this.reportError("unfinished comment near '%s'");
+    this.reportError("unfinished comment near '%s'", this.scanner.getText());
   }
 
   reportUnfinishedLongComment(): never {
     this.reportError(
       `unfinished long comment (starting at line ${this.scanner.lnum}) near '%s'`,
+      this.scanner.getText(),
     );
   }
 

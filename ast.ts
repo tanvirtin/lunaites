@@ -32,16 +32,6 @@ class Identifier implements Expression {
   }
 }
 
-class UnaryExpression implements Expression {
-  operator: Token;
-  right: Expression;
-
-  constructor(operator: Token, right: Expression) {
-    this.operator = operator;
-    this.right = right;
-  }
-}
-
 class GroupingExpression implements Expression {
   openParenthesis: Token;
   expression: Expression;
@@ -58,7 +48,30 @@ class GroupingExpression implements Expression {
   }
 }
 
+class UnaryExpression implements Expression {
+  operator: Token;
+  right: Expression;
+
+  constructor(operator: Token, right: Expression) {
+    this.operator = operator;
+    this.right = right;
+  }
+}
+
+class BinaryExpression implements Expression {
+  left: Expression;
+  operator: Token;
+  right: Expression;
+
+  constructor(left: Expression, operator: Token, right: Expression) {
+    this.left = left;
+    this.operator = operator;
+    this.right = right;
+  }
+}
+
 export {
+  BinaryExpression,
   BooleanLiteral,
   CommentLiteral,
   GroupingExpression,
