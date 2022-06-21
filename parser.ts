@@ -96,6 +96,16 @@ class Parser {
     );
 
     this.registerNullDenotationParselet(
+      TokenType.HashTag,
+      this.unaryParselet,
+    );
+
+    this.registerNullDenotationParselet(
+      TokenType.Tilda,
+      this.unaryParselet,
+    );
+
+    this.registerNullDenotationParselet(
       TokenType.Minus,
       this.unaryParselet,
     );
@@ -162,8 +172,8 @@ class Parser {
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression();
 
-    // Expecting a ")"
-    if (!cursor.matchNext(TokenType.ClosedParenthesis)) {
+    // Expecting a ")" so we consume, if consumption is futile throw an error.
+    if (!cursor.consumeNext(TokenType.ClosedParenthesis)) {
       this.errorReporter.reportExpectedCharacter(")", cursor.next.value);
     }
 

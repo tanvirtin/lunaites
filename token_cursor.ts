@@ -97,6 +97,16 @@ class TokenCursor {
 
     return isMatchFound;
   }
+
+  consumeNext(tokenType: TokenType): boolean {
+    const isMatchFound = this.matchNext(tokenType);
+
+    if (isMatchFound) {
+      this.advance();
+    }
+
+    return isMatchFound;
+  }
 }
 
 export { TokenCursor };

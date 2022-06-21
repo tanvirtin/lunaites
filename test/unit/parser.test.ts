@@ -15,4 +15,4 @@ describe("Scanner", () => {
 
 const parser = new Parser("(not 3)");
 
-parser.parse();
+console.log(parser.parse());
