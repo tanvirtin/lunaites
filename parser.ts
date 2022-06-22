@@ -432,7 +432,7 @@ class Parser {
     }
   }
 
-  isBlockFollow(token: Token) {
+  isBlockFollow(token: Token): boolean {
     if (token.type === TokenType.EOF) {
       return true;
     }
@@ -441,9 +441,18 @@ class Parser {
       return false;
     }
 
-    return ["else", "elseif", "end", "until"].some((keyword) =>
-      keyword === token.value
-    );
+    switch (token.value) {
+      case "else":
+        return true;
+      case "elseif":
+        return true;
+      case "end":
+        return true;
+      case "until":
+        return true;
+      default:
+        return false;
+    }
   }
 
   parseChunk(): ast.Chunk {
