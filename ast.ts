@@ -1,7 +1,11 @@
 import { Token } from "./mod.ts";
 
 interface Expression {
-  toString(): void;
+  toString(): string;
+}
+
+interface Statement {
+  toString(): string;
 }
 
 class Literal implements Expression {
@@ -12,15 +16,15 @@ class Literal implements Expression {
   }
 }
 
+class NilLiteral extends Literal {}
+
+class VarargLiteral extends Literal {}
+
 class StringLiteral extends Literal {}
 
 class NumericLiteral extends Literal {}
 
 class BooleanLiteral extends Literal {}
-
-class NilLiteral extends Literal {}
-
-class VarargLiteral extends Literal {}
 
 class CommentLiteral extends Literal {}
 
@@ -70,9 +74,18 @@ class BinaryExpression implements Expression {
   }
 }
 
+class Chunk {
+  body: Statement[];
+
+  constructor(body: Statement[]) {
+    this.body = body;
+  }
+}
+
 export {
   BinaryExpression,
   BooleanLiteral,
+  Chunk,
   CommentLiteral,
   GroupingExpression,
   Identifier,
@@ -82,4 +95,4 @@ export {
   UnaryExpression,
   VarargLiteral,
 };
-export type { Expression };
+export type { Expression, Statement };

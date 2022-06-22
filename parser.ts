@@ -3,9 +3,9 @@ import {
   ErrorReporter,
   Precedence,
   Scanner,
+  Token,
   TokenCursor,
   Tokenizer,
-  TokenizerOptions,
   TokenType,
 } from "./mod.ts";
 
@@ -17,27 +17,23 @@ type LeftDenotationParselet = (
 ) => ast.Expression;
 
 type ParseletTable<T> = Partial<Record<TokenType, T>>;
+type NullDenotationParseletTable = ParseletTable<NullDenotationParselet>;
+type LeftDenotationParseletTable = ParseletTable<LeftDenotationParselet>;
 
 // Pratt parser.
 class Parser {
-  private cursor: TokenCursor;
+  private token_cursor: TokenCursor;
   private errorReporter: ErrorReporter;
-  private nullDenotationParseletTable: ParseletTable<NullDenotationParselet> =
-    {};
-  private leftDenotationParseletTable: ParseletTable<LeftDenotationParselet> =
-    {};
+  private nullDenotationParseletTable: NullDenotationParseletTable = {};
+  private leftDenotationParseletTable: LeftDenotationParseletTable = {};
 
-  constructor(source: string, tokenizerOptions?: TokenizerOptions) {
+  constructor(source: string) {
     const scanner = new Scanner(source);
     const errorReporter = new ErrorReporter(scanner);
+    const tokenizer = new Tokenizer(scanner, errorReporter);
+    const token_cursor = new TokenCursor(tokenizer);
 
-    this.cursor = new TokenCursor(
-      new Tokenizer(
-        scanner,
-        errorReporter,
-        tokenizerOptions,
-      ),
-    );
+    this.token_cursor = token_cursor;
     this.errorReporter = errorReporter;
 
     this.registerParselets();
@@ -239,36 +235,36 @@ class Parser {
   }
 
   private numericLiteralParselet(): ast.Expression {
-    return new ast.NumericLiteral(this.cursor.current);
+    return new ast.NumericLiteral(this.token_cursor.current);
   }
 
   private stringLiteralParselet(): ast.Expression {
-    return new ast.StringLiteral(this.cursor.current);
+    return new ast.StringLiteral(this.token_cursor.current);
   }
 
   private booleanLiteralParselet(): ast.Expression {
-    return new ast.BooleanLiteral(this.cursor.current);
+    return new ast.BooleanLiteral(this.token_cursor.current);
   }
 
   private nilLiteralParselet(): ast.Expression {
-    return new ast.NilLiteral(this.cursor.current);
+    return new ast.NilLiteral(this.token_cursor.current);
   }
 
   private VarargLiteralParselet(): ast.Expression {
-    return new ast.VarargLiteral(this.cursor.current);
+    return new ast.VarargLiteral(this.token_cursor.current);
   }
 
   private commentLiteralParselet(): ast.Expression {
-    return new ast.CommentLiteral(this.cursor.current);
+    return new ast.CommentLiteral(this.token_cursor.current);
   }
 
   private unaryParselet(): ast.Expression {
-    const { cursor } = this;
+    const { token_cursor } = this;
 
-    const operatorToken = cursor.current;
+    const operatorToken = token_cursor.current;
 
     // Skip over the operator.
-    cursor.advance();
+    token_cursor.advance();
 
     // Get the right expression to attach to the operator.
     const rightExpression = this.parseExpression(Precedence.Unary);
@@ -277,12 +273,12 @@ class Parser {
   }
 
   private binaryParselet(leftExpression: ast.Expression): ast.Expression {
-    const { cursor } = this;
+    const { token_cursor } = this;
 
-    const operatorToken = cursor.current;
+    const operatorToken = token_cursor.current;
 
     // Skip over the operator.
-    cursor.advance();
+    token_cursor.advance();
 
     // Retrieve the right expression.
     const rightExpression = this.parseExpression(operatorToken.precedence);
@@ -295,24 +291,24 @@ class Parser {
   }
 
   private groupingParselet(): ast.Expression {
-    const { cursor } = this;
+    const { token_cursor } = this;
 
-    const openParenthesisToken = cursor.current;
+    const openParenthesisToken = token_cursor.current;
 
     // Skipping over the "("
-    cursor.advance();
+    token_cursor.advance();
 
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression(Precedence.Lowest);
 
     // Expecting a ")" so we consume, if consumption is futile throw an error.
-    if (!cursor.consumeNext(TokenType.ClosedParenthesis)) {
-      this.errorReporter.reportExpectedCharacter(")", cursor.next.value);
+    if (!token_cursor.consumeNext(TokenType.ClosedParenthesis)) {
+      this.errorReporter.reportExpectedCharacter(")", token_cursor.next.value);
     }
 
-    const closedParenthesisToken = cursor.current;
+    const closedParenthesisToken = token_cursor.current;
 
-    cursor.advance();
+    token_cursor.advance();
 
     return new ast.GroupingExpression(
       openParenthesisToken,
@@ -321,37 +317,39 @@ class Parser {
     );
   }
 
-  // Main powerhouse for generating expressions.
+  // Main powerhouse for parsing expressions.
   private parseExpression(precedence: Precedence): ast.Expression {
     const {
-      cursor,
+      token_cursor,
       errorReporter,
       nullDenotationParseletTable,
       leftDenotationParseletTable,
     } = this;
 
     const nullDenotationParselet =
-      nullDenotationParseletTable[cursor.current.type];
+      nullDenotationParseletTable[token_cursor.current.type];
 
     if (!nullDenotationParselet) {
       throw errorReporter.createError(
         "No null denotation parselet registered for %s",
-        cursor.current.value,
+        token_cursor.current.value,
       );
     }
 
     let leftExpression = nullDenotationParselet();
 
-    while (!cursor.eofToken && precedence < cursor.next.precedence) {
-      cursor.advance();
+    while (
+      !token_cursor.eofToken && precedence < token_cursor.next.precedence
+    ) {
+      token_cursor.advance();
 
       const leftDenotationParselet =
-        leftDenotationParseletTable[cursor.current.type];
+        leftDenotationParseletTable[token_cursor.current.type];
 
       if (!leftDenotationParselet) {
         throw errorReporter.createError(
           "No left denotation parselet registered for %s",
-          cursor.current.value,
+          token_cursor.current.value,
         );
       }
 
@@ -361,11 +359,119 @@ class Parser {
     return leftExpression;
   }
 
-  parse(): ast.Expression {
-    // We start the cursor first.
-    this.cursor.advance();
+  parseLocalStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
 
-    return this.parseExpression(Precedence.Lowest);
+  parseIfStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseReturnStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseFunctionDeclaration(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseWhileStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseForStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseRepeatStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseBreakStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseDoStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseGotoStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseAssignmentOrCallStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
+  parseStatement(): ast.Statement {
+    const token = this.token_cursor.current;
+
+    switch (token.value) {
+      case "local":
+        return this.parseLocalStatement();
+      case "if":
+        return this.parseIfStatement();
+      case "return":
+        return this.parseReturnStatement();
+      case "function":
+        return this.parseFunctionDeclaration();
+      case "while":
+        return this.parseWhileStatement();
+      case "for":
+        return this.parseForStatement();
+      case "repeat":
+        return this.parseRepeatStatement();
+      case "break":
+        return this.parseBreakStatement();
+      case "do":
+        return this.parseDoStatement();
+      case "goto":
+        return this.parseGotoStatement();
+      default:
+        return this.parseAssignmentOrCallStatement();
+    }
+  }
+
+  isBlockFollow(token: Token) {
+    if (token.type === TokenType.EOF) {
+      return true;
+    }
+
+    if (token.type !== TokenType.Keyword) {
+      return false;
+    }
+
+    return ["else", "elseif", "end", "until"].some((keyword) =>
+      keyword === token.value
+    );
+  }
+
+  parseChunk(): ast.Chunk {
+    const { token_cursor } = this;
+    const statements: ast.Statement[] = [];
+
+    while (!this.isBlockFollow(token_cursor.current)) {
+      if (token_cursor.current.value === "return") {
+        statements.push(this.parseStatement());
+        break;
+      }
+
+      const statement = this.parseStatement();
+
+      // We ignore any random semicolons.
+      token_cursor.consume(TokenType.SemiColon);
+
+      statements.push(statement);
+    }
+
+    return new ast.Chunk(statements);
+  }
+
+  parse(): ast.Chunk {
+    // We start the cursor first.
+    this.token_cursor.advance();
+
+    return this.parseChunk();
   }
 }
 
