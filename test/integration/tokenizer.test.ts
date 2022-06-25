@@ -1,4 +1,4 @@
-import { ErrorReporter, Scanner, Tokenizer } from "../../mod.ts";
+import { Scanner, Tokenizer } from "../../mod.ts";
 import { SpecGenerator, Suite } from "./spec_generator.ts";
 import {
   assertObjectMatch,
@@ -31,7 +31,7 @@ function runTests(
 function computation(suite: Suite) {
   let expectedResult;
   const scanner = new Scanner(suite.source);
-  const tokenizer = new Tokenizer(scanner, new ErrorReporter(scanner));
+  const tokenizer = new Tokenizer(scanner);
 
   try {
     expectedResult = tokenizer.getTokens();

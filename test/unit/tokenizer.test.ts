@@ -1,16 +1,10 @@
-import {
-  ErrorReporter,
-  Scanner,
-  Tokenizer,
-  TokenizerOptions,
-  TokenType,
-} from "../../mod.ts";
+import { Scanner, Tokenizer, TokenizerOptions, TokenType } from "../../mod.ts";
 import { assertObjectMatch, assertThrows, describe, it } from "../../deps.ts";
 
 function createTokenizer(source: string, tokenizerOptions?: TokenizerOptions) {
   const scanner = new Scanner(source);
 
-  return new Tokenizer(scanner, new ErrorReporter(scanner), tokenizerOptions);
+  return new Tokenizer(scanner, tokenizerOptions);
 }
 
 describe("Tokenizer", () => {

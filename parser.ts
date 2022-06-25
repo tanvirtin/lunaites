@@ -22,21 +22,28 @@ type LeftDenotationParseletTable = ParseletTable<LeftDenotationParselet>;
 
 // Pratt parser.
 class Parser {
+  private scanner: Scanner;
   private token_cursor: TokenCursor;
-  private errorReporter: ErrorReporter;
   private nullDenotationParseletTable: NullDenotationParseletTable = {};
   private leftDenotationParseletTable: LeftDenotationParseletTable = {};
 
   constructor(source: string) {
     const scanner = new Scanner(source);
-    const errorReporter = new ErrorReporter(scanner);
-    const tokenizer = new Tokenizer(scanner, errorReporter);
+    const tokenizer = new Tokenizer(scanner);
     const token_cursor = new TokenCursor(tokenizer);
 
+    this.scanner = scanner;
     this.token_cursor = token_cursor;
-    this.errorReporter = errorReporter;
 
     this.registerParselets();
+  }
+
+  private reportExpectedCharacter(expected: string, nearbyText: string) {
+    ErrorReporter.report(
+      this.scanner,
+      `'${expected}' expected near %s`,
+      nearbyText,
+    );
   }
 
   private registerNullDenotationParselet(
@@ -303,7 +310,7 @@ class Parser {
 
     // Expecting a ")" so we consume, if consumption is futile throw an error.
     if (!token_cursor.consumeNext(TokenType.ClosedParenthesis)) {
-      this.errorReporter.reportExpectedCharacter(")", token_cursor.next.value);
+      this.reportExpectedCharacter(")", token_cursor.next.value);
     }
 
     const closedParenthesisToken = token_cursor.current;
@@ -321,7 +328,6 @@ class Parser {
   private parseExpression(precedence: Precedence): ast.Expression {
     const {
       token_cursor,
-      errorReporter,
       nullDenotationParseletTable,
       leftDenotationParseletTable,
     } = this;
@@ -330,7 +336,8 @@ class Parser {
       nullDenotationParseletTable[token_cursor.current.type];
 
     if (!nullDenotationParselet) {
-      throw errorReporter.createError(
+      throw ErrorReporter.createError(
+        this.scanner,
         "No null denotation parselet registered for %s",
         token_cursor.current.value,
       );
@@ -347,7 +354,8 @@ class Parser {
         leftDenotationParseletTable[token_cursor.current.type];
 
       if (!leftDenotationParselet) {
-        throw errorReporter.createError(
+        throw ErrorReporter.createError(
+          this.scanner,
           "No left denotation parselet registered for %s",
           token_cursor.current.value,
         );

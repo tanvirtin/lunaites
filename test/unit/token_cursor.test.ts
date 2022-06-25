@@ -1,10 +1,4 @@
-import {
-  ErrorReporter,
-  Scanner,
-  TokenCursor,
-  Tokenizer,
-  TokenType,
-} from "../../mod.ts";
+import { Scanner, TokenCursor, Tokenizer, TokenType } from "../../mod.ts";
 import { assert, assertObjectMatch, describe, it } from "../../deps.ts";
 
 function createTokenCursor() {
@@ -19,7 +13,7 @@ end
 `;
   const scanner = new Scanner(source);
 
-  return new TokenCursor(new Tokenizer(scanner, new ErrorReporter(scanner)));
+  return new TokenCursor(new Tokenizer(scanner));
 }
 
 describe("TokenCursor", () => {
