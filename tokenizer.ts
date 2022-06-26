@@ -263,7 +263,13 @@ class Tokenizer {
     return keywords.some((keyword) => text === keyword);
   }
 
-  // Eats away all whitespace characters and progresses the index.
+  // Lua should progress the index and ignore:
+  //   - characters space
+  //   - form feed
+  //   - newline
+  //   - carriage return
+  //   - horizontal tab
+  //   - vertical tab
   private consumeWhitespace(): boolean {
     const { scanner } = this;
 
@@ -653,6 +659,8 @@ class Tokenizer {
     // Hexadecimal numbers can be represented as 0x.34
     let isDecimal = this.consumeDotNotation();
 
+    // When dealing with hexadecimal numeric literals, only hexadecimal digits are valid.
+    // For example, Letters can be either between 0-9 or A-F.
     scanner.scanWhile(scanner.isHexDigit);
 
     // If we already encountered a "." it cannot appear again, so incase we didn't encounter
@@ -699,6 +707,7 @@ class Tokenizer {
     // We check for dot notation to check if we are dealing with decimal numbers.
     const isDecimal = this.consumeDotNotation();
 
+    // When dealing with decimal numeric literal, only digits are valid.
     scanner.scanWhile(scanner.isDigit);
 
     // If we encounter another dot notation it's an error, e.g "3..3" or "3.3.4".
