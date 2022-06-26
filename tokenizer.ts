@@ -350,8 +350,10 @@ class Tokenizer {
     return false;
   }
 
-  // Rules: Integer suffix should not work if the literal the suffix is
-  // part of  has fractions ("." notation). Integer suffix will also
+  // Rules:
+  // ------
+  // Integer suffix should not work if the literal being processed
+  // has fractions ("." notation). Integer suffix will also
   // not work if there is an imaginary suffix before it as well.
   private consumeInt64Suffix(): boolean {
     const { options, scanner } = this;
@@ -662,7 +664,7 @@ class Tokenizer {
 
     scanner.scanWhile(scanner.isHexDigit);
 
-    // if we encounter another dot notation it's an error, e.g "0x3..3".
+    // If we encounter another dot notation it's an error, e.g "0x3..3".
     if (isDecimal && scanner.match(".")) {
       this.reportMalformedNumber();
     }
@@ -671,8 +673,8 @@ class Tokenizer {
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
     const hasInt64Suffix = this.consumeInt64Suffix();
 
-    // If either the number is a decimal, has exponent or has imaginary suffix,
-    // if we find integer suffix as well, we throw an error.
+    // If either the number is a decimal or has exponent or has imaginary suffix
+    // and if we find integer suffix it's a syntax error that should be thrown.
     if (
       (isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix
     ) {

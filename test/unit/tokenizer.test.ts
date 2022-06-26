@@ -311,9 +311,11 @@ describe("Tokenizer", () => {
     describe("correctly tokenizes numeric literals", () => {
       Object.entries({
         "1": "1",
+        "345": "345",
         ".9": ".9",
         "3.3": "3.3",
         "10.3": "10.3",
+        "3.1416": "3.1416",
         "3.14159265359": "3.14159265359",
         "314159265359.": "314159265359.",
         "3.3e103e3": "3.3e103",
@@ -322,13 +324,21 @@ describe("Tokenizer", () => {
         "1e+9": "1e+9",
         "1e-1": "1e-1",
         "34.3e10": "34.3e10",
+        "314.16e-2": "314.16e-2",
+        "0.31416E1": "0.31416E1",
+        "34e1": "34e1",
         "0xf": "0xf",
+        "0xff": "0xff",
         "0xf.": "0xf.",
         "0xf.3": "0xf.3",
         "0xfp1": "0xfp1",
         "0xfp+1": "0xfp+1",
         "0xfp-1": "0xfp-1",
         "0xFP+9": "0xFP+9",
+        "0x0.1E": "0x0.1E",
+        "0xA23p-4": "0xA23p-4",
+        "0xBEBADA": "0xBEBADA",
+        "0X1.921FB54442D18P+1": "0X1.921FB54442D18P+1",
       }).forEach(([source, result]) => {
         it(`when identifier is "${source}"`, () => {
           tokenizer = createTokenizer(source);
