@@ -371,6 +371,10 @@ class Parser {
     throw new Error("Not yet implemented");
   }
 
+  parseLabelStatement(): ast.Statement {
+    throw new Error("Not yet implemented");
+  }
+
   parseIfStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
@@ -411,30 +415,35 @@ class Parser {
     throw new Error("Not yet implemented");
   }
 
+  // There are two types of statements, simple and compound (connected via and/or, etc).
+  // statement ::= break | goto | do | while | repeat | return | if | for | function |
+  //               local | label | assignment | functioncall | ;
   parseStatement(): ast.Statement {
     const token = this.token_cursor.current;
 
     switch (token.value) {
-      case "local":
-        return this.parseLocalStatement();
-      case "if":
-        return this.parseIfStatement();
-      case "return":
-        return this.parseReturnStatement();
-      case "function":
-        return this.parseFunctionDeclaration();
-      case "while":
-        return this.parseWhileStatement();
-      case "for":
-        return this.parseForStatement();
-      case "repeat":
-        return this.parseRepeatStatement();
       case "break":
         return this.parseBreakStatement();
-      case "do":
-        return this.parseDoStatement();
       case "goto":
         return this.parseGotoStatement();
+      case "do":
+        return this.parseDoStatement();
+      case "while":
+        return this.parseWhileStatement();
+      case "repeat":
+        return this.parseRepeatStatement();
+      case "return":
+        return this.parseReturnStatement();
+      case "if":
+        return this.parseIfStatement();
+      case "for":
+        return this.parseForStatement();
+      case "function":
+        return this.parseFunctionDeclaration();
+      case "local":
+        return this.parseLocalStatement();
+      case "::":
+        return this.parseLabelStatement();
       default:
         return this.parseAssignmentOrCallStatement();
     }
