@@ -76,20 +76,28 @@ class TokenCursor {
     return this.at(this.index + to);
   }
 
-  match(tokenType: TokenType): boolean {
-    return this.current?.type === tokenType;
+  match(query: string | TokenType): boolean {
+    if (query in TokenType) {
+      return this.current?.type === query;
+    }
+
+    return this.current?.value === query;
   }
 
-  matchNext(tokenType: TokenType): boolean {
-    return this.next?.type === tokenType;
+  matchNext(query: string | TokenType): boolean {
+    if (query in TokenType) {
+      return this.next?.type === query;
+    }
+
+    return this.next?.value === query;
   }
 
   advance(): TokenCursor {
     return this.tokenize();
   }
 
-  consume(tokenType: TokenType): boolean {
-    const isMatchFound = this.match(tokenType);
+  consume(query: string | TokenType): boolean {
+    const isMatchFound = this.match(query);
 
     if (isMatchFound) {
       this.advance();
@@ -98,8 +106,8 @@ class TokenCursor {
     return isMatchFound;
   }
 
-  consumeNext(tokenType: TokenType): boolean {
-    const isMatchFound = this.matchNext(tokenType);
+  consumeNext(query: string | TokenType): boolean {
+    const isMatchFound = this.matchNext(query);
 
     if (isMatchFound) {
       this.advance();
