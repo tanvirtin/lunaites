@@ -111,6 +111,7 @@ class TokenCursor {
 
     if (isMatchFound) {
       this.advance();
+      this.advance();
     }
 
     return isMatchFound;

@@ -74,6 +74,16 @@ class BinaryExpression implements Expression {
   }
 }
 
+class LocalStatement implements Statement {
+  variables: Identifier[];
+  initializations: Expression[];
+
+  constructor(variables: Identifier[], initializations: Expression[]) {
+    this.variables = variables;
+    this.initializations = initializations;
+  }
+}
+
 class Chunk {
   body: Statement[];
 
@@ -89,6 +99,7 @@ export {
   CommentLiteral,
   GroupingExpression,
   Identifier,
+  LocalStatement,
   NilLiteral,
   NumericLiteral,
   StringLiteral,

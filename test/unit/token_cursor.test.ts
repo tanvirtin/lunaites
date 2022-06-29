@@ -191,4 +191,18 @@ describe("TokenCursor", () => {
       assert(cursor.consume(TokenType.OpenParenthesis));
     });
   });
+
+  describe("consumeNext", () => {
+    it("should automatically advance the cursor if next token match is found", () => {
+      const cursor = createTokenCursor();
+
+      cursor
+        .advance();
+
+      assert(cursor.consumeNext(TokenType.Keyword));
+      assert(cursor.consumeNext(TokenType.OpenParenthesis));
+      assert(cursor.consumeNext(TokenType.Keyword));
+      assert(cursor.consumeNext(TokenType.Equal));
+    });
+  });
 });

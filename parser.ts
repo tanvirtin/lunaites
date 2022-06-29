@@ -9,6 +9,11 @@ import {
   TokenType,
 } from "./mod.ts";
 
+// References:
+// - https://www.lua.org/manual/5.4/manual.html#9
+
+// Please refer to Backus-Naur Form
+
 // Null denotation tokens will not contain any left expression associated with it.
 type NullDenotationParselet = () => ast.Expression;
 // Left denotation tokens will contain a left expression associated with it.
@@ -36,14 +41,6 @@ class Parser {
     this.token_cursor = token_cursor;
 
     this.registerParselets();
-  }
-
-  private reportExpectedCharacter(expected: string, nearbyText: string) {
-    ErrorReporter.report(
-      this.scanner,
-      `'${expected}' expected near %s`,
-      nearbyText,
-    );
   }
 
   private registerNullDenotationParselet(
@@ -91,7 +88,12 @@ class Parser {
 
     this.registerNullDenotationParselet(
       TokenType.VarargLiteral,
-      this.VarargLiteralParselet,
+      this.varargLiteralParselet,
+    );
+
+    this.registerNullDenotationParselet(
+      TokenType.Identifier,
+      this.identifierParselet,
     );
 
     this.registerNullDenotationParselet(
@@ -123,8 +125,6 @@ class Parser {
       TokenType.Minus,
       this.unaryParselet,
     );
-
-    // TODO: Will need to register keyword led parselets.
 
     return this;
   }
@@ -235,10 +235,48 @@ class Parser {
     return this;
   }
 
+  private reportUnexpectedToken(expected: string, near: string): never {
+    ErrorReporter.report(this.scanner, "%s expected near '%s'", expected, near);
+  }
+
+  private expect(
+    value: string | TokenType,
+    expected?: string,
+    near?: string,
+  ): void | never {
+    if (this.token_cursor.consume(value)) {
+      return;
+    }
+
+    this.reportUnexpectedToken(
+      expected ?? value,
+      near ?? this.token_cursor.next.value,
+    );
+  }
+
+  private expectNext(
+    value: string | TokenType,
+    expected?: string,
+    near?: string,
+  ): void | never {
+    if (this.token_cursor.consumeNext(value)) {
+      return;
+    }
+
+    this.reportUnexpectedToken(
+      expected ?? value,
+      near ?? this.token_cursor.next.value,
+    );
+  }
+
   private registerParselets(): Parser {
     return this
       .registerNullDenotationParselets()
       .registerLeftDenotationParselets();
+  }
+
+  private identifierParselet(): ast.Identifier {
+    return new ast.Identifier(this.token_cursor.current);
   }
 
   private numericLiteralParselet(): ast.Expression {
@@ -257,7 +295,7 @@ class Parser {
     return new ast.NilLiteral(this.token_cursor.current);
   }
 
-  private VarargLiteralParselet(): ast.Expression {
+  private varargLiteralParselet(): ast.Expression {
     return new ast.VarargLiteral(this.token_cursor.current);
   }
 
@@ -308,10 +346,7 @@ class Parser {
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression(Precedence.Lowest);
 
-    // Expecting a ")" so we consume, if consumption is futile throw an error.
-    if (!token_cursor.consumeNext(TokenType.ClosedParenthesis)) {
-      this.reportExpectedCharacter(")", token_cursor.next.value);
-    }
+    this.expectNext(")");
 
     const closedParenthesisToken = token_cursor.current;
 
@@ -367,8 +402,39 @@ class Parser {
     return leftExpression;
   }
 
+  // local ::= `local` `function` <name> <function declration> |
+  //           `local` <name> {',' <name>} [ `=` <expression> {`,` <expression>} ]
   parseLocalStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    const { token_cursor } = this;
+
+    this.expect("local");
+
+    const token = token_cursor.current;
+
+    if (token.type === TokenType.Identifier) {
+      const variables = [];
+      const initializations = [];
+
+      // Good use of the do statement. We parse identifiers, while we
+      // keep encountering more identifiers we keep repeating.
+      do {
+        variables.push(this.identifierParselet());
+        token_cursor.advance();
+      } while (token_cursor.consume(","));
+
+      // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
+      if (token_cursor.consume("=")) {
+        do {
+          initializations.push(this.parseExpression(Precedence.Lowest));
+          token_cursor.advance();
+        } while (token_cursor.consume(","));
+      }
+
+      return new ast.LocalStatement(variables, initializations);
+    }
+
+    // Replicating the lua REPL error.
+    this.reportUnexpectedToken("<name>", token_cursor.next.value);
   }
 
   parseLabelStatement(): ast.Statement {
@@ -416,8 +482,8 @@ class Parser {
   }
 
   // There are two types of statements, simple and compound (connected via and/or, etc).
-  // statement ::= break | goto | do | while | repeat | return | if | for | function |
-  //               local | label | assignment | functioncall | ;
+  // <statement> ::= `break` | `goto` | `do` | `while` | `repeat` | `return` | `if` | `for` | `function` |
+  //               `local` | `label` | `assignment` | functioncall | ;
   parseStatement(): ast.Statement {
     const token = this.token_cursor.current;
 

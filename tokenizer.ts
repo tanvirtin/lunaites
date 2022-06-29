@@ -219,14 +219,6 @@ class Tokenizer {
     );
   }
 
-  private reportUnfinishedComment(): never {
-    ErrorReporter.report(
-      this.scanner,
-      "unfinished comment near '%s'",
-      this.scanner.getText(),
-    );
-  }
-
   private reportUnfinishedLongComment(): never {
     ErrorReporter.report(
       this.scanner,

@@ -13,13 +13,13 @@ class ErrorReporter {
 
   static createError(
     scanner: Scanner,
-    templateMessage: string,
+    message: string,
     ...args: string[]
   ): SyntaxError {
     return new SyntaxError(this.createErrorMessage(
       scanner,
       this.deriveTemplate(
-        templateMessage,
+        message,
         ...args,
       ),
     ));
@@ -30,13 +30,11 @@ class ErrorReporter {
     message: string,
     ...args: string[]
   ): never {
-    const error = this.createError(
+    throw this.createError(
       scanner,
       message,
       ...args,
     );
-
-    throw error;
   }
 }
 
