@@ -9,7 +9,11 @@ describe("Parser", () => {
   });
 });
 
-const parser = new Parser("local a,b,c = 3,4,5");
-const ast = parser.parse();
+const parser = new Parser(`else`);
 
-console.log(JSON.stringify(ast, null, 2));
+try {
+  const ast = parser.parse();
+  console.log(ast);
+} catch (err) {
+  console.log(err.scanner);
+}

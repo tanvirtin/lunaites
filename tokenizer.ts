@@ -1,4 +1,4 @@
-import { ErrorReporter, Scanner } from "./mod.ts";
+import { Scanner, TokenizerException } from "./mod.ts";
 
 enum TokenType {
   Keyword = "Keyword", // Keywords
@@ -187,46 +187,6 @@ class Tokenizer {
     this.scanner = scanner;
   }
 
-  private reportMalformedNumber(): never {
-    ErrorReporter.report(
-      this.scanner,
-      "malformed number near '%s'",
-      this.scanner.getText(),
-    );
-  }
-
-  private reportUnfinishedString(): never {
-    ErrorReporter.report(
-      this.scanner,
-      "unfinished string near '%s'",
-      this.scanner.getText(),
-    );
-  }
-
-  private reportUnfinishedLongString(): never {
-    ErrorReporter.report(
-      this.scanner,
-      `unfinished long string (starting at line ${this.scanner.lnum}) near '%s'`,
-      this.scanner.getText(),
-    );
-  }
-
-  private reportUnexpectedCharacter(): never {
-    ErrorReporter.report(
-      this.scanner,
-      "unfinished character near '%s'",
-      this.scanner.getText(),
-    );
-  }
-
-  private reportUnfinishedLongComment(): never {
-    ErrorReporter.report(
-      this.scanner,
-      `unfinished long comment (starting at line ${this.scanner.lnum}) near '%s'`,
-      this.scanner.getText(),
-    );
-  }
-
   // All lua keywords
   private isKeyword(text: string) {
     const { options } = this;
@@ -308,7 +268,7 @@ class Tokenizer {
 
       // If we encounter a digit after the exponent it's an error.
       if (!scanner.isDigit()) {
-        this.reportMalformedNumber();
+        TokenizerException.raiseMalformedNumberError(scanner);
       }
 
       scanner.scanWhile(scanner.isDigit);
@@ -375,10 +335,10 @@ class Tokenizer {
           return true;
         }
         // UL but no L
-        this.reportMalformedNumber();
+        TokenizerException.raiseMalformedNumberError(scanner);
       }
       // U but no L
-      this.reportMalformedNumber();
+      TokenizerException.raiseMalformedNumberError(scanner);
       // L or l
     } else if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
       scanner.scan();
@@ -390,7 +350,7 @@ class Tokenizer {
         return true;
       }
       // First L but no second L
-      this.reportMalformedNumber();
+      TokenizerException.raiseMalformedNumberError(scanner);
     }
 
     return false;
@@ -412,10 +372,10 @@ class Tokenizer {
     let depth = 0;
     let encounteredDelimeter = false;
     const { scanner } = this;
-    const reportError = () =>
+    const raiseError = () =>
       isComment
-        ? this.reportUnfinishedLongComment()
-        : this.reportUnfinishedLongString();
+        ? TokenizerException.raiseUnfinishedLongCommentError(scanner)
+        : TokenizerException.raiseUnfinishedLongStringError(scanner);
 
     // if we keep encountering "=" we scan it and increment depth count.
     while (scanner.match("=")) {
@@ -427,7 +387,7 @@ class Tokenizer {
     // or something and the next character is not a "[" then we know it's an unfinished string.
     // This expression holds true for the following cases: "[[" or "[====["
     if (!scanner.match("[")) {
-      return isComment ? false : reportError();
+      return isComment ? false : raiseError();
     }
 
     while (!encounteredDelimeter) {
@@ -436,7 +396,7 @@ class Tokenizer {
       // If we hit out of bounds we have an unfinished
       // long string that never met the matching delimiter.
       if (scanner.isOutOfBounds()) {
-        reportError();
+        raiseError();
       }
 
       // If we encounter equal characters.
@@ -552,7 +512,7 @@ class Tokenizer {
       // If we hit out of bounds we have an unfinished string that
       // never met the matching delimiter.
       if (scanner.isOutOfBounds()) {
-        this.reportUnfinishedString();
+        TokenizerException.raiseUnfinishedStringError(scanner);
       }
 
       this.consumeBackslash();
@@ -645,7 +605,7 @@ class Tokenizer {
 
     // Next character must either be a hexadecimal or a ".", if not it's an error.
     if (!scanner.match(".") && !scanner.isHexDigit()) {
-      this.reportMalformedNumber();
+      TokenizerException.raiseMalformedNumberError(scanner);
     }
 
     // Hexadecimal numbers can be represented as 0x.34
@@ -666,7 +626,7 @@ class Tokenizer {
 
     // If we encounter another dot notation it's an error, e.g "0x3..3".
     if (isDecimal && scanner.match(".")) {
-      this.reportMalformedNumber();
+      TokenizerException.raiseMalformedNumberError(scanner);
     }
 
     const hasExponent = this.consumeExponent({ isBinary: false });
@@ -678,7 +638,7 @@ class Tokenizer {
     if (
       (isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix
     ) {
-      this.reportMalformedNumber();
+      TokenizerException.raiseMalformedNumberError(scanner);
     }
 
     return new Token({
@@ -704,7 +664,7 @@ class Tokenizer {
 
     // If we encounter another dot notation it's an error, e.g "3..3" or "3.3.4".
     if (isDecimal && scanner.match(".")) {
-      this.reportMalformedNumber();
+      TokenizerException.raiseMalformedNumberError(scanner);
     }
 
     // After we are done with the code above we may have something like 3 or 3.14159265359.
@@ -718,7 +678,7 @@ class Tokenizer {
     if (
       (isDecimal || hasExponent || hasImaginaryUnitSuffix) && hasInt64Suffix
     ) {
-      this.reportMalformedNumber();
+      TokenizerException.raiseMalformedNumberError(scanner);
     }
 
     return new Token({
@@ -948,7 +908,7 @@ class Tokenizer {
       return this.tokenizePunctuator(scanner.getChar());
     }
 
-    this.reportUnexpectedCharacter();
+    TokenizerException.raiseUnexpectedCharacterError(scanner);
   }
 
   getTokens(): Token[] {

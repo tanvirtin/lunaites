@@ -1,18 +1,17 @@
 import {
   ast,
-  ErrorReporter,
+  ParserException,
   Precedence,
   Scanner,
-  Token,
   TokenCursor,
   Tokenizer,
   TokenType,
 } from "./mod.ts";
 
+// Prerequisites: Backus-Naur Form
 // References:
 // - https://www.lua.org/manual/5.4/manual.html#9
-
-// Please refer to Backus-Naur Form
+// - https://craftinginterpreters.com/
 
 // Null denotation tokens will not contain any left expression associated with it.
 type NullDenotationParselet = () => ast.Expression;
@@ -235,10 +234,6 @@ class Parser {
     return this;
   }
 
-  private reportUnexpectedToken(expected: string, near: string): never {
-    ErrorReporter.report(this.scanner, "%s expected near '%s'", expected, near);
-  }
-
   private expect(
     value: string | TokenType,
     expected?: string,
@@ -248,7 +243,8 @@ class Parser {
       return;
     }
 
-    this.reportUnexpectedToken(
+    ParserException.raiseExpectedToken(
+      this.scanner,
       expected ?? value,
       near ?? this.token_cursor.next.value,
     );
@@ -263,7 +259,8 @@ class Parser {
       return;
     }
 
-    this.reportUnexpectedToken(
+    ParserException.raiseExpectedToken(
+      this.scanner,
       expected ?? value,
       near ?? this.token_cursor.next.value,
     );
@@ -359,9 +356,14 @@ class Parser {
     );
   }
 
-  // Main powerhouse for parsing expressions.
+  // exp ::= (unop exp | primary | prefixexp ) { binop exp }
+  // primary ::= nil | false | true | Number | String | '...' |
+  //             functiondef | tableconstructor
+  // prefixexp ::= (Name | '(' exp ')' ) { '[' exp ']' |
+  //          '.' Name | ':' Name args | args }
   private parseExpression(precedence: Precedence): ast.Expression {
     const {
+      scanner,
       token_cursor,
       nullDenotationParseletTable,
       leftDenotationParseletTable,
@@ -371,10 +373,10 @@ class Parser {
       nullDenotationParseletTable[token_cursor.current.type];
 
     if (!nullDenotationParselet) {
-      throw ErrorReporter.createError(
-        this.scanner,
-        "No null denotation parselet registered for %s",
-        token_cursor.current.value,
+      ParserException.raiseExpectedToken(
+        scanner,
+        "<expression>",
+        token_cursor.next.value,
       );
     }
 
@@ -389,10 +391,10 @@ class Parser {
         leftDenotationParseletTable[token_cursor.current.type];
 
       if (!leftDenotationParselet) {
-        throw ErrorReporter.createError(
-          this.scanner,
-          "No left denotation parselet registered for %s",
-          token_cursor.current.value,
+        ParserException.raiseExpectedToken(
+          scanner,
+          "<expression>",
+          token_cursor.next.value,
         );
       }
 
@@ -402,10 +404,10 @@ class Parser {
     return leftExpression;
   }
 
-  // local ::= `local` `function` <name> <function declration> |
-  //           `local` <name> {',' <name>} [ `=` <expression> {`,` <expression>} ]
+  // local ::= 'local' 'function' Name funcdecl |
+  //           'local' Name {',' Name} ['=' exp {',' exp}]
   parseLocalStatement(): ast.Statement {
-    const { token_cursor } = this;
+    const { scanner, token_cursor } = this;
 
     this.expect("local");
 
@@ -434,56 +436,101 @@ class Parser {
     }
 
     // Replicating the lua REPL error.
-    this.reportUnexpectedToken("<name>", token_cursor.next.value);
+    ParserException.raiseExpectedToken(
+      scanner,
+      "<name>",
+      token_cursor.next.value,
+    );
   }
 
+  // label ::= '::' Name '::'
   parseLabelStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("::");
+
+    const name = this.identifierParselet();
+
+    this.expectNext("::");
+
+    return new ast.LabelStatement(name);
   }
 
+  // if ::= 'if' exp 'then' block {elif} ['else' block] 'end'
+  // elif ::= 'elseif' exp 'then' block
   parseIfStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // retstat ::= 'return' [exp {',' exp}] [';']
   parseReturnStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    const { token_cursor } = this;
+    const expressions: ast.Expression[] = [];
+
+    token_cursor.advance();
+
+    if (!token_cursor.eofToken) {
+      do {
+        expressions.push(this.parseExpression(Precedence.Lowest));
+        token_cursor.advance();
+      } while (token_cursor.consume(","));
+    }
+
+    token_cursor.consume(";");
+
+    return new ast.ReturnStatement(expressions);
   }
 
+  // funcdecl ::= '(' [parlist] ')' block 'end'
+  // parlist ::= Name {',' Name} | [',' '...'] | '...'
   parseFunctionDeclaration(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // while ::= 'while' exp 'do' block 'end'
   parseWhileStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // for ::= Name '=' exp ',' exp [',' exp] 'do' block 'end'
+  // for ::= namelist 'in' explist 'do' block 'end'
+  // namelist ::= Name {',' Name}
+  // explist ::= exp {',' exp}
   parseForStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // repeat ::= 'repeat' block 'until' exp
   parseRepeatStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // break ::= 'break'
   parseBreakStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // do ::= 'do' block 'end'
   parseDoStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // goto ::= 'goto' Name
   parseGotoStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
+  // assignment ::= varlist '=' explist
+  // var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
+  // varlist ::= var {',' var}
+  // explist ::= exp {',' exp}
+  // call ::= callexp
+  // callexp ::= prefixexp args | prefixexp ':' Name args
   parseAssignmentOrCallStatement(): ast.Statement {
     throw new Error("Not yet implemented");
   }
 
-  // There are two types of statements, simple and compound (connected via and/or, etc).
-  // <statement> ::= `break` | `goto` | `do` | `while` | `repeat` | `return` | `if` | `for` | `function` |
-  //               `local` | `label` | `assignment` | functioncall | ;
+  // statement ::= break | goto | do | while | repeat | return |
+  //               if | for | function | local | label | assignment |
+  //               functioncall | ';'
   parseStatement(): ast.Statement {
     const token = this.token_cursor.current;
 
@@ -515,34 +562,17 @@ class Parser {
     }
   }
 
-  isBlockFollow(token: Token): boolean {
-    if (token.type === TokenType.EOF) {
-      return true;
-    }
+  // block ::= {stat} [retstat]
+  parseBlock() {
+    // A lua source file should essentially contain an array of statements.
 
-    if (token.type !== TokenType.Keyword) {
-      return false;
-    }
-
-    switch (token.value) {
-      case "else":
-        return true;
-      case "elseif":
-        return true;
-      case "end":
-        return true;
-      case "until":
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  parseChunk(): ast.Chunk {
     const { token_cursor } = this;
     const statements: ast.Statement[] = [];
 
-    while (!this.isBlockFollow(token_cursor.current)) {
+    // Only continue this loop if:
+    //  - We don't encounter an EOF token.
+    //  - And we don't encounter a block that is a follow.
+    while (!token_cursor.eofToken && !token_cursor.isBlockFollow()) {
       if (token_cursor.current.value === "return") {
         statements.push(this.parseStatement());
         break;
@@ -551,12 +581,30 @@ class Parser {
       const statement = this.parseStatement();
 
       // We ignore any random semicolons.
-      token_cursor.consume(TokenType.SemiColon);
+      token_cursor.consume(";");
 
       statements.push(statement);
     }
 
-    return new ast.Chunk(statements);
+    return new ast.Block(statements);
+  }
+
+  // chunk ::= block
+  parseChunk(): ast.Chunk {
+    const { scanner, token_cursor } = this;
+    const block = this.parseBlock();
+
+    // A chunk must end on an EOF token, if any other token is there
+    // after we are done with parsing a chunk other than EOF it's invalid.
+    if (!this.token_cursor.match(TokenType.EOF)) {
+      ParserException.raiseUnexpectedToken(
+        scanner,
+        token_cursor.current,
+        token_cursor.next.value,
+      );
+    }
+
+    return new ast.Chunk(block);
   }
 
   parse(): ast.Chunk {

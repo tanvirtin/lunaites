@@ -1,4 +1,10 @@
-import { Scanner, Tokenizer, TokenizerOptions, TokenType } from "../../mod.ts";
+import {
+  Scanner,
+  Tokenizer,
+  TokenizerError,
+  TokenizerOptions,
+  TokenType,
+} from "../../mod.ts";
 import { assertObjectMatch, assertThrows, describe, it } from "../../deps.ts";
 
 function createTokenizer(source: string, tokenizerOptions?: TokenizerOptions) {
@@ -287,7 +293,7 @@ describe("Tokenizer", () => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (createTokenizer(source)).tokenize(),
-            SyntaxError,
+            TokenizerError,
             result,
           );
         });
@@ -301,7 +307,7 @@ describe("Tokenizer", () => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (createTokenizer(source)).tokenize(),
-            SyntaxError,
+            TokenizerError,
             result,
           );
         });
@@ -509,7 +515,7 @@ describe("Tokenizer", () => {
         it(`when identifier is "${source}"`, () => {
           assertThrows(
             () => (createTokenizer(source)).tokenize(),
-            SyntaxError,
+            TokenizerError,
             result,
           );
         });

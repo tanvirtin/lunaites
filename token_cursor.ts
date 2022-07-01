@@ -72,6 +72,23 @@ class TokenCursor {
     return this.lookahead(1);
   }
 
+  isBlockFollow(): boolean {
+    const token = this.current;
+
+    switch (token.value) {
+      case "else":
+        return true;
+      case "elseif":
+        return true;
+      case "end":
+        return true;
+      case "until":
+        return true;
+      default:
+        return false;
+    }
+  }
+
   lookahead(to: number): Token {
     return this.at(this.index + to);
   }

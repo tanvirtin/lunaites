@@ -84,24 +84,51 @@ class LocalStatement implements Statement {
   }
 }
 
-class Chunk {
-  body: Statement[];
+class ReturnStatement implements Statement {
+  expressions: Expression[];
 
-  constructor(body: Statement[]) {
-    this.body = body;
+  constructor(expressions: Expression[]) {
+    this.expressions = expressions;
+  }
+}
+
+class LabelStatement implements Statement {
+  name: Identifier;
+
+  constructor(name: Identifier) {
+    this.name = name;
+  }
+}
+
+class Block {
+  statements: Statement[];
+
+  constructor(statements: Statement[]) {
+    this.statements = statements;
+  }
+}
+
+class Chunk {
+  block: Block;
+
+  constructor(block: Block) {
+    this.block = block;
   }
 }
 
 export {
   BinaryExpression,
+  Block,
   BooleanLiteral,
   Chunk,
   CommentLiteral,
   GroupingExpression,
   Identifier,
+  LabelStatement,
   LocalStatement,
   NilLiteral,
   NumericLiteral,
+  ReturnStatement,
   StringLiteral,
   UnaryExpression,
   VarargLiteral,
