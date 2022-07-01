@@ -5,6 +5,7 @@ import {
   exec,
   globToRegExp,
   it,
+  path,
   relative,
   walkSync,
 } from "../../deps.ts";
@@ -24,8 +25,12 @@ function getRepositories() {
   ];
 }
 
+function getModuleDir(importMeta: ImportMeta): string {
+  return path.resolve(path.dirname(path.fromFileUrl(importMeta.url)));
+}
+
 function getTestdataPath() {
-  return `${Deno.cwd()}/test/smoke/testdata`;
+  return `${getModuleDir(import.meta)}/testdata/`;
 }
 
 function getRepoName(link: string) {

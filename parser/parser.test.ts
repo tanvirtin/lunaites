@@ -1,5 +1,5 @@
-import { Parser } from "../../mod.ts";
-import { assertStrictEquals, describe, it } from "../../deps.ts";
+import { Parser } from "./mod.ts";
+import { assertStrictEquals, describe, it } from "./deps.ts";
 
 describe("Parser", () => {
   describe("parse", () => {

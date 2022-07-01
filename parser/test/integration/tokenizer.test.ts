@@ -5,10 +5,15 @@ import {
   assertStrictEquals,
   describe,
   it,
+  path,
 } from "../../deps.ts";
 
+function getModuleDir(importMeta: ImportMeta): string {
+  return path.resolve(path.dirname(path.fromFileUrl(importMeta.url)));
+}
+
 function getTestdataPath() {
-  return `${Deno.cwd()}/test/integration/testdata/tokenizer`;
+  return `${getModuleDir(import.meta)}/testdata/`;
 }
 
 function runTest(suite: Suite, computation: (suite: Suite) => void) {

@@ -1,5 +1,5 @@
-import { Scanner, TokenCursor, Tokenizer, TokenType } from "../../mod.ts";
-import { assert, assertObjectMatch, describe, it } from "../../deps.ts";
+import { Scanner, TokenCursor, Tokenizer, TokenType } from "./mod.ts";
+import { assert, assertObjectMatch, describe, it } from "./deps.ts";
 
 function createTokenCursor() {
   const source = `

@@ -4,8 +4,8 @@ import {
   TokenizerError,
   TokenizerOptions,
   TokenType,
-} from "../../mod.ts";
-import { assertObjectMatch, assertThrows, describe, it } from "../../deps.ts";
+} from "./mod.ts";
+import { assertObjectMatch, assertThrows, describe, it } from "./deps.ts";
 
 function createTokenizer(source: string, tokenizerOptions?: TokenizerOptions) {
   const scanner = new Scanner(source);

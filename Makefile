@@ -2,16 +2,13 @@ tests:
 	deno test -A --unstable
 
 unit-tests:
-	deno test -A --unstable ./test/unit/
+	deno test -A --unstable ./*/*.test.ts
 
 smoke-tests:
-	deno test -A --unstable ./test/smoke/
+	deno test -A --unstable ./*/test/smoke/
 
 integration-tests:
-	deno test -A --unstable ./test/integration/
-
-graphiql:
-	deno run --watch --allow-net graphiql.ts
+	deno test -A --unstable ./*/test/integration/
 
 lint:
 	deno lint

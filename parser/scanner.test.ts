@@ -1,11 +1,11 @@
-import { Scanner } from "../../mod.ts";
+import { Scanner } from "./mod.ts";
 import {
   assert,
   assertEquals,
   assertObjectMatch,
   describe,
   it,
-} from "../../deps.ts";
+} from "./deps.ts";
 
 describe("Scanner", () => {
   let scanner: Scanner;
