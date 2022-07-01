@@ -11,7 +11,7 @@ async function main() {
   });
 
   await test
-    .register((suite: Suite) => {
+    .registerIntegration((suite: Suite) => {
       let expectedResult;
       const scanner = new Scanner(suite.source);
       const tokenizer = new Tokenizer(scanner);
