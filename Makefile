@@ -18,6 +18,6 @@ tests: smoke-tests unit-tests integration-tests
 check: lint fmt tests
 
 compile: 
-	deno compile mod.ts
+	deno compile -A -o ./bin/lunaites mod.ts
 
 build: check compile
