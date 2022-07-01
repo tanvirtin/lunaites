@@ -1,1 +1,1 @@
-export * from "./spec_generator.ts";
+export * from "./test/mod.ts";

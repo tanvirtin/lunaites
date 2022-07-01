@@ -1,5 +1,8 @@
-tests:
-	deno test -A --unstable
+lint:
+	deno lint
+
+fmt:
+	deno fmt --check
 
 unit-tests:
 	deno test -A --unstable ./*/*.test.unit.ts
@@ -10,11 +13,7 @@ smoke-tests:
 integration-tests:
 	deno test -A --unstable ./*/*.test.integration.ts
 
-lint:
-	deno lint
-
-fmt:
-	deno fmt --check
+tests: smoke-tests unit-tests integration-tests
 
 check: lint fmt tests
 

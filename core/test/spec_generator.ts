@@ -1,4 +1,4 @@
-interface Option {
+interface Options {
   wait?: boolean;
   comments?: boolean;
   scope?: boolean;
@@ -13,7 +13,12 @@ interface Suite {
   only?: boolean;
   source: string;
   result: string | Record<string, unknown>;
-  options?: Option;
+  options?: Options;
+}
+
+interface Specs {
+  priority: Record<string, Suite[]>;
+  regular: Record<string, Suite[]>;
 }
 
 class SpecGenerator {
@@ -36,10 +41,7 @@ class SpecGenerator {
     return names;
   }
 
-  async generate(): Promise<{
-    priority: Record<string, Suite[]>;
-    regular: Record<string, Suite[]>;
-  }> {
+  async generate(): Promise<Specs> {
     const priority: Record<string, Suite[]> = {};
     const regular: Record<string, Suite[]> = {};
 
@@ -75,4 +77,4 @@ class SpecGenerator {
 }
 
 export { SpecGenerator };
-export type { Suite };
+export type { Specs, Suite };
