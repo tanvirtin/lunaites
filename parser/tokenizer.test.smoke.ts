@@ -1,4 +1,4 @@
-import { Scanner, Tokenizer, TokenType } from "../../mod.ts";
+import { Scanner, Tokenizer, TokenType } from "./mod.ts";
 import {
   afterAll,
   describe,
@@ -8,7 +8,7 @@ import {
   path,
   relative,
   walkSync,
-} from "../../deps.ts";
+} from "./deps.ts";
 
 function getRepositories() {
   return [
@@ -30,7 +30,7 @@ function getModuleDir(importMeta: ImportMeta): string {
 }
 
 function getTestdataPath() {
-  return `${getModuleDir(import.meta)}/testdata/`;
+  return `${getModuleDir(import.meta)}/testdata/smoke/tokenizer`;
 }
 
 function getRepoName(link: string) {

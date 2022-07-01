@@ -1,19 +1,19 @@
-import { Scanner, Tokenizer } from "../../mod.ts";
-import { SpecGenerator, Suite } from "./spec_generator.ts";
+import { Scanner, Tokenizer } from "./mod.ts";
+import { SpecGenerator, Suite } from "../core/mod.ts";
 import {
   assertObjectMatch,
   assertStrictEquals,
   describe,
   it,
   path,
-} from "../../deps.ts";
+} from "./deps.ts";
 
 function getModuleDir(importMeta: ImportMeta): string {
   return path.resolve(path.dirname(path.fromFileUrl(importMeta.url)));
 }
 
 function getTestdataPath() {
-  return `${getModuleDir(import.meta)}/testdata/`;
+  return `${getModuleDir(import.meta)}/testdata/integration/tokenizer`;
 }
 
 function runTest(suite: Suite, computation: (suite: Suite) => void) {
