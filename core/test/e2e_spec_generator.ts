@@ -32,38 +32,41 @@ class E2ESpecGenerator {
       name = basename(name);
       const lines = text.split("\n");
 
-      lines.shift(); // "source"
-      lines.shift(); // "------"
+      lines.shift(); // source
+      lines.shift(); // ------
 
-      let source = "";
-      let currentLine = lines[0];
-      let index = 0;
-      while (currentLine !== "result") {
-        ++index;
-        const newline = lines.shift();
-        if (newline != null) {
-          currentLine = newline;
-          source += currentLine;
-        }
-      }
-
-      lines.shift();
-
-      let result = "";
-      currentLine = lines[index];
-      while (currentLine !== "") {
-        const newline = lines.shift();
-        if (!newline) {
+      const source = [];
+      while (true) {
+        const line = lines.shift();
+        if (line == null) {
           break;
         }
 
-        currentLine = newline;
-        result += currentLine;
+        if (line === "result") {
+          source.pop(); //
+          lines.shift(); // ------
+          break;
+        }
+
+        source.push(line);
       }
 
+      const result = [];
+      while (true) {
+        const line = lines.shift();
+
+        if (line == null) {
+          break;
+        }
+
+        result.push(line);
+      }
+
+      const stringResult = result.join("\n");
+
       const suite = {
-        source,
-        result: result && JSON.parse(result) || result,
+        source: source.join("\n"),
+        result: stringResult && JSON.parse(stringResult) || stringResult,
       };
 
       if (name.startsWith("+")) {

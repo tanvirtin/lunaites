@@ -2,10 +2,12 @@ import { Token } from "./mod.ts";
 
 interface Expression {
   toString(): string;
+  toJSON(): unknown;
 }
 
 interface Statement {
   toString(): string;
+  toJSON(): unknown;
 }
 
 class Literal implements Expression {
@@ -14,25 +16,81 @@ class Literal implements Expression {
   constructor(token: Token) {
     this.token = token;
   }
+
+  toJSON() {
+    return {
+      type: "Literal",
+      value: this.token.value,
+    };
+  }
 }
 
-class NilLiteral extends Literal {}
+class NilLiteral extends Literal {
+  toJSON() {
+    return {
+      type: "NilLiteral",
+      value: this.token.value,
+    };
+  }
+}
 
-class VarargLiteral extends Literal {}
+class VarargLiteral extends Literal {
+  toJSON() {
+    return {
+      type: "VarargLiteral",
+      value: this.token.value,
+    };
+  }
+}
 
-class StringLiteral extends Literal {}
+class StringLiteral extends Literal {
+  toJSON() {
+    return {
+      type: "StringLiteral",
+      value: this.token.value,
+    };
+  }
+}
 
-class NumericLiteral extends Literal {}
+class NumericLiteral extends Literal {
+  toJSON() {
+    return {
+      type: "NumericLiteral",
+      value: this.token.value,
+    };
+  }
+}
 
-class BooleanLiteral extends Literal {}
+class BooleanLiteral extends Literal {
+  toJSON() {
+    return {
+      type: "BooleanLiteral",
+      value: this.token.value,
+    };
+  }
+}
 
-class CommentLiteral extends Literal {}
+class CommentLiteral extends Literal {
+  toJSON() {
+    return {
+      type: "CommentLiteral",
+      value: this.token.value,
+    };
+  }
+}
 
 class Identifier implements Expression {
   token: Token;
 
   constructor(token: Token) {
     this.token = token;
+  }
+
+  toJSON() {
+    return {
+      type: "Identifier",
+      name: this.token.value,
+    };
   }
 }
 
@@ -50,15 +108,30 @@ class GroupingExpression implements Expression {
     this.expression = expression;
     this.closedParenthesis = closedParenthesis;
   }
+
+  toJSON() {
+    return {
+      type: "GroupingExpression",
+      expression: this.expression.toJSON(),
+    };
+  }
 }
 
 class UnaryExpression implements Expression {
   operator: Token;
-  right: Expression;
+  argument: Expression;
 
-  constructor(operator: Token, right: Expression) {
+  constructor(operator: Token, argument: Expression) {
     this.operator = operator;
-    this.right = right;
+    this.argument = argument;
+  }
+
+  toJSON() {
+    return {
+      type: "UnaryExpression",
+      operator: this.operator.value,
+      argument: this.argument.toJSON(),
+    };
   }
 }
 
@@ -72,23 +145,47 @@ class BinaryExpression implements Expression {
     this.operator = operator;
     this.right = right;
   }
+
+  toJSON() {
+    return {
+      type: "BinaryExpression",
+      left: this.left.toJSON(),
+      operator: this.operator.value,
+      right: this.right.toJSON(),
+    };
+  }
 }
 
 class LocalStatement implements Statement {
   variables: Identifier[];
-  initializations: Expression[];
+  init: Expression[];
 
-  constructor(variables: Identifier[], initializations: Expression[]) {
+  constructor(variables: Identifier[], init: Expression[]) {
     this.variables = variables;
-    this.initializations = initializations;
+    this.init = init;
+  }
+
+  toJSON() {
+    return {
+      type: "LocalStatement",
+      variables: this.variables.map((variable) => variable.toJSON()),
+      init: this.init.map((expression) => expression.toJSON()),
+    };
   }
 }
 
 class ReturnStatement implements Statement {
-  expressions: Expression[];
+  arguments: Expression[];
 
   constructor(expressions: Expression[]) {
-    this.expressions = expressions;
+    this.arguments = expressions;
+  }
+
+  toJSON() {
+    return {
+      type: "ReturnStatement",
+      expressions: this.arguments.map((argument) => argument.toJSON()),
+    };
   }
 }
 
@@ -98,6 +195,13 @@ class LabelStatement implements Statement {
   constructor(name: Identifier) {
     this.name = name;
   }
+
+  toJSON() {
+    return {
+      type: "LabelStatement",
+      name: this.name,
+    };
+  }
 }
 
 class Block {
@@ -106,6 +210,10 @@ class Block {
   constructor(statements: Statement[]) {
     this.statements = statements;
   }
+
+  toJSON() {
+    return this.statements.map((statement) => statement.toJSON());
+  }
 }
 
 class Chunk {
@@ -113,6 +221,13 @@ class Chunk {
 
   constructor(block: Block) {
     this.block = block;
+  }
+
+  toJSON() {
+    return {
+      type: "Chunk",
+      block: this.block.toJSON(),
+    };
   }
 }
 

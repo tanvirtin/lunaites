@@ -7,7 +7,7 @@ result
 ------
 {
   "type": "Chunk",
-  "body": [
+  "block": [
     {
       "type": "ReturnStatement",
       "arguments": []

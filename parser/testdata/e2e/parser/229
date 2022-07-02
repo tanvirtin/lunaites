@@ -6,5 +6,5 @@ result
 ------
 {
   "type": "Chunk",
-  "body": []
+  "block": []
 }

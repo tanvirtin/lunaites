@@ -9,7 +9,7 @@ result
 ------
 {
   "type": "Chunk",
-  "body": [
+  "block": [
     {
       "type": "AssignmentStatement",
       "variables": [

@@ -12,19 +12,19 @@ async function main() {
 
   await test
     .registerE2E((suite: Suite) => {
-      let ast;
+      let result;
       const parser = new Parser(suite.source);
 
       try {
-        ast = parser.parse();
+        result = parser.parse();
       } catch (err) {
-        ast = err.message;
+        result = err.message;
       }
 
       if (typeof suite.result === "string") {
-        assertStrictEquals(ast, "");
+        assertStrictEquals(result, "");
       } else {
-        assertObjectMatch(ast, suite.result);
+        assertObjectMatch(result.toJSON(), suite.result);
       }
     });
 

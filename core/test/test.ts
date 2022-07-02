@@ -167,7 +167,7 @@ class Test {
 
     const runTests = (suites: Suite[], computation: (suite: Suite) => void) => {
       return suites.forEach((suite: Suite) =>
-        it(`${suite.source}`, computation.bind(null, suite))
+        Deno.test(`${suite.source}`, computation.bind(null, suite))
       );
     };
 
@@ -177,9 +177,7 @@ class Test {
 
     const { suites, computation } = this.e2eSuite;
 
-    describe(this.name, () => {
-      runTests(suites, computation);
-    });
+    runTests(suites, computation);
   }
 
   private runIntegrationTests() {

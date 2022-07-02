@@ -12,20 +12,20 @@ async function main() {
 
   await test
     .registerIntegration((suite: Suite) => {
-      let expectedResult;
+      let result;
       const scanner = new Scanner(suite.source);
       const tokenizer = new Tokenizer(scanner);
 
       try {
-        expectedResult = tokenizer.getTokens();
+        result = tokenizer.getTokens();
       } catch (err) {
-        expectedResult = err.message;
+        result = err.message;
       }
 
       if (typeof suite.result === "string") {
-        assertStrictEquals(expectedResult, suite.result);
+        assertStrictEquals(result, suite.result);
       } else {
-        assertObjectMatch(expectedResult, suite.result);
+        assertObjectMatch(result, suite.result);
       }
     });
 
