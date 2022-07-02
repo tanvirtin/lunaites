@@ -1,0 +1,39 @@
+source
+------
+while 1 do local a; local b; end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "condition": {
+        "type": "NumericLiteral"
+      },
+      "body": [
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "init": []
+        },
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "b"
+            }
+          ],
+          "init": []
+        }
+      ]
+    }
+  ]
+}

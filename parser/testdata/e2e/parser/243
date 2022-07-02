@@ -1,0 +1,32 @@
+source
+------
+return a,b,c,d
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ReturnStatement",
+      "arguments": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        },
+        {
+          "type": "Identifier",
+          "name": "b"
+        },
+        {
+          "type": "Identifier",
+          "name": "c"
+        },
+        {
+          "type": "Identifier",
+          "name": "d"
+        }
+      ]
+    }
+  ]
+}

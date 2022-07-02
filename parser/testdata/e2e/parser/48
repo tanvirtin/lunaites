@@ -1,0 +1,47 @@
+source
+------
+({{}})[a][b] = 1
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "IndexExpression",
+          "base": {
+            "type": "IndexExpression",
+            "base": {
+              "type": "TableConstructorExpression",
+              "fields": [
+                {
+                  "type": "TableValue",
+                  "value": {
+                    "type": "TableConstructorExpression",
+                    "fields": []
+                  }
+                }
+              ]
+            },
+            "index": {
+              "type": "Identifier",
+              "name": "a"
+            }
+          },
+          "index": {
+            "type": "Identifier",
+            "name": "b"
+          }
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        }
+      ]
+    }
+  ]
+}

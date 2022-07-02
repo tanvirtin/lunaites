@@ -1,0 +1,25 @@
+source
+------
+return 1,2,3
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ReturnStatement",
+      "arguments": [
+        {
+          "type": "NumericLiteral"
+        },
+        {
+          "type": "NumericLiteral"
+        },
+        {
+          "type": "NumericLiteral"
+        }
+      ]
+    }
+  ]
+}

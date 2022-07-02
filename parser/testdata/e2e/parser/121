@@ -1,0 +1,52 @@
+source
+------
+if 1 then local a; elseif 2 then local b; end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "IfStatement",
+      "clauses": [
+        {
+          "type": "IfClause",
+          "condition": {
+            "type": "NumericLiteral"
+          },
+          "body": [
+            {
+              "type": "LocalStatement",
+              "variables": [
+                {
+                  "type": "Identifier",
+                  "name": "a"
+                }
+              ],
+              "init": []
+            }
+          ]
+        },
+        {
+          "type": "ElseifClause",
+          "condition": {
+            "type": "NumericLiteral"
+          },
+          "body": [
+            {
+              "type": "LocalStatement",
+              "variables": [
+                {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              ],
+              "init": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

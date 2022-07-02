@@ -1,0 +1,30 @@
+source
+------
+if 1 then elseif 2 then end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "IfStatement",
+      "clauses": [
+        {
+          "type": "IfClause",
+          "condition": {
+            "type": "NumericLiteral"
+          },
+          "body": []
+        },
+        {
+          "type": "ElseifClause",
+          "condition": {
+            "type": "NumericLiteral"
+          },
+          "body": []
+        }
+      ]
+    }
+  ]
+}

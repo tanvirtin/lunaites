@@ -1,0 +1,6 @@
+source
+------
+while 0 do function x() break end end
+
+result
+------

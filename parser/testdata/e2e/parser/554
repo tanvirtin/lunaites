@@ -1,0 +1,30 @@
+source
+------
+function a(p) return end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "parameters": [
+        {
+          "type": "Identifier",
+          "name": "p"
+        }
+      ],
+      "body": [
+        {
+          "type": "ReturnStatement",
+          "arguments": []
+        }
+      ]
+    }
+  ]
+}

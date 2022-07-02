@@ -1,27 +1,6 @@
-interface Options {
-  wait?: boolean;
-  comments?: boolean;
-  scope?: boolean;
-  locations?: boolean;
-  ranges?: boolean;
-  luaVersion?: string;
-  encodingMode?: string;
-  extendedIdentifiers?: boolean;
-}
+import type { Specs, Suite } from "./mod.ts";
 
-interface Suite {
-  only?: boolean;
-  source: string;
-  result: string | Record<string, unknown>;
-  options?: Options;
-}
-
-interface Specs {
-  priority: Record<string, Suite[]>;
-  regular: Record<string, Suite[]>;
-}
-
-class SpecGenerator {
+class IntegrationSpecGenerator {
   private path: string;
 
   constructor(path: string) {
@@ -76,5 +55,4 @@ class SpecGenerator {
   }
 }
 
-export { SpecGenerator };
-export type { Specs, Suite };
+export { IntegrationSpecGenerator };

@@ -1,0 +1,38 @@
+source
+------
+a = function() end / function() end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "/",
+          "left": {
+            "type": "FunctionDeclaration",
+            "identifier": null,
+            "parameters": [],
+            "body": []
+          },
+          "right": {
+            "type": "FunctionDeclaration",
+            "identifier": null,
+            "parameters": [],
+            "body": []
+          }
+        }
+      ]
+    }
+  ]
+}

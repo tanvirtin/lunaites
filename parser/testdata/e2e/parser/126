@@ -1,0 +1,6 @@
+source
+------
+if 1 then return return end
+
+result
+------

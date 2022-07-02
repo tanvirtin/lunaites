@@ -1,0 +1,39 @@
+source
+------
+repeat local a local b until 0
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "RepeatStatement",
+      "condition": {
+        "type": "NumericLiteral"
+      },
+      "body": [
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "init": []
+        },
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "b"
+            }
+          ],
+          "init": []
+        }
+      ]
+    }
+  ]
+}

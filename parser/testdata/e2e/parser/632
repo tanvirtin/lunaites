@@ -1,0 +1,24 @@
+source
+------
+local function a(...) end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "parameters": [
+        {
+          "type": "VarargLiteral"
+        }
+      ],
+      "body": []
+    }
+  ]
+}

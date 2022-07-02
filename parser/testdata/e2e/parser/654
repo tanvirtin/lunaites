@@ -1,0 +1,6 @@
+source
+------
+while 0 do break;; end
+
+result
+------

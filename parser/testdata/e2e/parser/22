@@ -1,0 +1,6 @@
+source
+------
+do do goto x end do ::x:: end end
+
+result
+------

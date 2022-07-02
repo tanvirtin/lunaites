@@ -1,0 +1,49 @@
+source
+------
+local a = { b = { z = 1 } }
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LocalStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "TableConstructorExpression",
+          "fields": [
+            {
+              "type": "TableKeyString",
+              "key": {
+                "type": "Identifier",
+                "name": "b"
+              },
+              "value": {
+                "type": "TableConstructorExpression",
+                "fields": [
+                  {
+                    "type": "TableKeyString",
+                    "key": {
+                      "type": "Identifier",
+                      "name": "z"
+                    },
+                    "value": {
+                      "type": "NumericLiteral"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+source
+------
+for a = p, q do do break end end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForNumericStatement",
+      "variable": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "start": {
+        "type": "Identifier",
+        "name": "p"
+      },
+      "end": {
+        "type": "Identifier",
+        "name": "q"
+      },
+      "step": null,
+      "body": [
+        {
+          "type": "DoStatement",
+          "body": [
+            {
+              "type": "BreakStatement"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

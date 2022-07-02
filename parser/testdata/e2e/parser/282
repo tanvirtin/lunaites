@@ -1,0 +1,50 @@
+source
+------
+a = p ~ q >> r | s
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "|",
+          "left": {
+            "type": "BinaryExpression",
+            "operator": "~",
+            "left": {
+              "type": "Identifier",
+              "name": "p"
+            },
+            "right": {
+              "type": "BinaryExpression",
+              "operator": ">>",
+              "left": {
+                "type": "Identifier",
+                "name": "q"
+              },
+              "right": {
+                "type": "Identifier",
+                "name": "r"
+              }
+            }
+          },
+          "right": {
+            "type": "Identifier",
+            "name": "s"
+          }
+        }
+      ]
+    }
+  ]
+}

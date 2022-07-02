@@ -1,0 +1,20 @@
+source
+------
+function a() end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "parameters": [],
+      "body": []
+    }
+  ]
+}

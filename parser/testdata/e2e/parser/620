@@ -1,0 +1,29 @@
+source
+------
+local function a(p,q) end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "parameters": [
+        {
+          "type": "Identifier",
+          "name": "p"
+        },
+        {
+          "type": "Identifier",
+          "name": "q"
+        }
+      ],
+      "body": []
+    }
+  ]
+}

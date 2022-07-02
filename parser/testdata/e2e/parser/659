@@ -1,0 +1,35 @@
+source
+------
+for i = 1, 2 do do break end end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForNumericStatement",
+      "variable": {
+        "type": "Identifier",
+        "name": "i"
+      },
+      "start": {
+        "type": "NumericLiteral"
+      },
+      "end": {
+        "type": "NumericLiteral"
+      },
+      "step": null,
+      "body": [
+        {
+          "type": "DoStatement",
+          "body": [
+            {
+              "type": "BreakStatement"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

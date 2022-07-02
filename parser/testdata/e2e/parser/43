@@ -1,0 +1,43 @@
+source
+------
+a[b], a[c] = 1
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "IndexExpression",
+          "base": {
+            "type": "Identifier",
+            "name": "a"
+          },
+          "index": {
+            "type": "Identifier",
+            "name": "b"
+          }
+        },
+        {
+          "type": "IndexExpression",
+          "base": {
+            "type": "Identifier",
+            "name": "a"
+          },
+          "index": {
+            "type": "Identifier",
+            "name": "c"
+          }
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+source
+------
+do end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "DoStatement",
+      "body": []
+    }
+  ]
+}

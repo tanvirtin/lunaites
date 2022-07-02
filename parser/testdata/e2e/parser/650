@@ -1,0 +1,35 @@
+source
+------
+repeat if 0 then break end until 0
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "RepeatStatement",
+      "condition": {
+        "type": "NumericLiteral"
+      },
+      "body": [
+        {
+          "type": "IfStatement",
+          "clauses": [
+            {
+              "type": "IfClause",
+              "condition": {
+                "type": "NumericLiteral"
+              },
+              "body": [
+                {
+                  "type": "BreakStatement"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

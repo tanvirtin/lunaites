@@ -1,0 +1,25 @@
+source
+------
+a = 0xf.i
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+source
+------
+function a(...) function b() return ... end end
+
+result
+------

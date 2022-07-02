@@ -1,0 +1,42 @@
+source
+------
+a = {} and {} or {}
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "or",
+          "left": {
+            "type": "BinaryExpression",
+            "operator": "and",
+            "left": {
+              "type": "TableConstructorExpression",
+              "fields": []
+            },
+            "right": {
+              "type": "TableConstructorExpression",
+              "fields": []
+            }
+          },
+          "right": {
+            "type": "TableConstructorExpression",
+            "fields": []
+          }
+        }
+      ]
+    }
+  ]
+}

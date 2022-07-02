@@ -1,0 +1,24 @@
+source
+------
+if true -- comment
+then end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "IfStatement",
+      "clauses": [
+        {
+          "type": "IfClause",
+          "condition": {
+            "type": "BooleanLiteral"
+          },
+          "body": []
+        }
+      ]
+    }
+  ]
+}

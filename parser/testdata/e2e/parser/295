@@ -1,0 +1,33 @@
+source
+------
+local a, b = 1, a
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LocalStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        },
+        {
+          "type": "Identifier",
+          "name": "b"
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        },
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ]
+    }
+  ]
+}

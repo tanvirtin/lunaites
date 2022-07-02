@@ -1,0 +1,28 @@
+source
+------
+for a = p, q do end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForNumericStatement",
+      "variable": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "start": {
+        "type": "Identifier",
+        "name": "p"
+      },
+      "end": {
+        "type": "Identifier",
+        "name": "q"
+      },
+      "step": null,
+      "body": []
+    }
+  ]
+}

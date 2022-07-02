@@ -1,0 +1,25 @@
+source
+------
+::foo:: goto foo
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LabelStatement",
+      "label": {
+        "type": "Identifier",
+        "name": "foo"
+      }
+    },
+    {
+      "type": "GotoStatement",
+      "label": {
+        "type": "Identifier",
+        "name": "foo"
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+source
+------
+goto x local a, b ::x:: f()
+
+result
+------

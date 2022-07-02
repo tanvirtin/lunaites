@@ -1,0 +1,6 @@
+source
+------
+local "foo"
+
+result
+------

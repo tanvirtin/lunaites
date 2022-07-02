@@ -1,0 +1,20 @@
+source
+------
+do return end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "DoStatement",
+      "body": [
+        {
+          "type": "ReturnStatement",
+          "arguments": []
+        }
+      ]
+    }
+  ]
+}

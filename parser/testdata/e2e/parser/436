@@ -1,0 +1,6 @@
+source
+------
+do "foo" end
+
+result
+------

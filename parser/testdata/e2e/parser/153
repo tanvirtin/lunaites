@@ -1,0 +1,28 @@
+source
+------
+a = function() end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "FunctionDeclaration",
+          "identifier": null,
+          "parameters": [],
+          "body": []
+        }
+      ]
+    }
+  ]
+}

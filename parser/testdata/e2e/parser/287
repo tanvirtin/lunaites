@@ -1,0 +1,49 @@
+source
+------
+do local foo = 1 end do foo = 2 end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "DoStatement",
+      "body": [
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "foo"
+            }
+          ],
+          "init": [
+            {
+              "type": "NumericLiteral"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "DoStatement",
+      "body": [
+        {
+          "type": "AssignmentStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "foo"
+            }
+          ],
+          "init": [
+            {
+              "type": "NumericLiteral"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

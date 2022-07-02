@@ -1,0 +1,11 @@
+source
+------
+--[[comment
+line two]]
+
+result
+------
+{
+  "type": "Chunk",
+  "body": []
+}

@@ -1,0 +1,6 @@
+source
+------
+local a, b = , local
+
+result
+------

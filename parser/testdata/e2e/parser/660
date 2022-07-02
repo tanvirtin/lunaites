@@ -1,0 +1,43 @@
+source
+------
+for i = 1, 2 do if 0 then break end end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForNumericStatement",
+      "variable": {
+        "type": "Identifier",
+        "name": "i"
+      },
+      "start": {
+        "type": "NumericLiteral"
+      },
+      "end": {
+        "type": "NumericLiteral"
+      },
+      "step": null,
+      "body": [
+        {
+          "type": "IfStatement",
+          "clauses": [
+            {
+              "type": "IfClause",
+              "condition": {
+                "type": "NumericLiteral"
+              },
+              "body": [
+                {
+                  "type": "BreakStatement"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

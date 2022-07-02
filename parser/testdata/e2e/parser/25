@@ -1,0 +1,24 @@
+source
+------
+goto "foo"
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "CallStatement",
+      "expression": {
+        "type": "StringCallExpression",
+        "base": {
+          "type": "Identifier",
+          "name": "goto"
+        },
+        "argument": {
+          "type": "StringLiteral"
+        }
+      }
+    }
+  ]
+}

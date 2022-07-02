@@ -1,0 +1,6 @@
+source
+------
+repeat x = function() break end until 0
+
+result
+------

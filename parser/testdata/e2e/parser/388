@@ -1,0 +1,28 @@
+source
+------
+function a.b() end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "MemberExpression",
+        "indexer": ".",
+        "identifier": {
+          "type": "Identifier",
+          "name": "b"
+        },
+        "base": {
+          "type": "Identifier",
+          "name": "a"
+        }
+      },
+      "parameters": [],
+      "body": []
+    }
+  ]
+}

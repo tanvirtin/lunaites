@@ -1,0 +1,31 @@
+source
+------
+for a = 1, 2 do return end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForNumericStatement",
+      "variable": {
+        "type": "Identifier",
+        "name": "a"
+      },
+      "start": {
+        "type": "NumericLiteral"
+      },
+      "end": {
+        "type": "NumericLiteral"
+      },
+      "step": null,
+      "body": [
+        {
+          "type": "ReturnStatement",
+          "arguments": []
+        }
+      ]
+    }
+  ]
+}

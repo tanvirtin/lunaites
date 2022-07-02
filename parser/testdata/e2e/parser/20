@@ -1,0 +1,54 @@
+source
+------
+do goto x local a ::x:: ::y:: ::z:: end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "DoStatement",
+      "body": [
+        {
+          "type": "GotoStatement",
+          "label": {
+            "type": "Identifier",
+            "name": "x"
+          }
+        },
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "init": []
+        },
+        {
+          "type": "LabelStatement",
+          "label": {
+            "type": "Identifier",
+            "name": "x"
+          }
+        },
+        {
+          "type": "LabelStatement",
+          "label": {
+            "type": "Identifier",
+            "name": "y"
+          }
+        },
+        {
+          "type": "LabelStatement",
+          "label": {
+            "type": "Identifier",
+            "name": "z"
+          }
+        }
+      ]
+    }
+  ]
+}

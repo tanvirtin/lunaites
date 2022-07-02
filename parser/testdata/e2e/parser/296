@@ -1,0 +1,50 @@
+source
+------
+local a, b = 1, function() b = 2 end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LocalStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        },
+        {
+          "type": "Identifier",
+          "name": "b"
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        },
+        {
+          "type": "FunctionDeclaration",
+          "identifier": null,
+          "parameters": [],
+          "body": [
+            {
+              "type": "AssignmentStatement",
+              "variables": [
+                {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              ],
+              "init": [
+                {
+                  "type": "NumericLiteral"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

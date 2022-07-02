@@ -1,0 +1,36 @@
+source
+------
+a = { ["foo"]="bar" }
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "TableConstructorExpression",
+          "fields": [
+            {
+              "type": "TableKey",
+              "key": {
+                "type": "StringLiteral"
+              },
+              "value": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

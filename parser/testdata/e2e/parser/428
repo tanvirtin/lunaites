@@ -1,0 +1,28 @@
+source
+------
+repeat do return end until 0
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "RepeatStatement",
+      "condition": {
+        "type": "NumericLiteral"
+      },
+      "body": [
+        {
+          "type": "DoStatement",
+          "body": [
+            {
+              "type": "ReturnStatement",
+              "arguments": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

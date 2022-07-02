@@ -1,0 +1,25 @@
+source
+------
+a = '\u{7ff}\u{800}'
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "StringLiteral"
+        }
+      ]
+    }
+  ]
+}

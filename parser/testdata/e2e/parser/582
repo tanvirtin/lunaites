@@ -1,0 +1,15 @@
+source
+------
+return;
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ReturnStatement",
+      "arguments": []
+    }
+  ]
+}

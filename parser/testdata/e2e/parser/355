@@ -1,0 +1,23 @@
+source
+------
+while 1 do return end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "WhileStatement",
+      "condition": {
+        "type": "NumericLiteral"
+      },
+      "body": [
+        {
+          "type": "ReturnStatement",
+          "arguments": []
+        }
+      ]
+    }
+  ]
+}

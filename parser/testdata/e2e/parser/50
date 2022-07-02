@@ -1,0 +1,32 @@
+source
+------
+(1).a = 0
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "MemberExpression",
+          "indexer": ".",
+          "identifier": {
+            "type": "Identifier",
+            "name": "a"
+          },
+          "base": {
+            "type": "NumericLiteral"
+          }
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        }
+      ]
+    }
+  ]
+}

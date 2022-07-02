@@ -1,0 +1,42 @@
+source
+------
+a = a.b.c
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "MemberExpression",
+          "indexer": ".",
+          "identifier": {
+            "type": "Identifier",
+            "name": "c"
+          },
+          "base": {
+            "type": "MemberExpression",
+            "indexer": ".",
+            "identifier": {
+              "type": "Identifier",
+              "name": "b"
+            },
+            "base": {
+              "type": "Identifier",
+              "name": "a"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+source
+------
+-- comment
+return
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ReturnStatement",
+      "arguments": []
+    }
+  ]
+}

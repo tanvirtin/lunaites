@@ -1,0 +1,18 @@
+source
+------
+::goto:: -- sic!
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LabelStatement",
+      "label": {
+        "type": "Identifier",
+        "name": "goto"
+      }
+    }
+  ]
+}

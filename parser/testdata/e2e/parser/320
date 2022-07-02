@@ -1,0 +1,37 @@
+source
+------
+a = { a=1, }
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "TableConstructorExpression",
+          "fields": [
+            {
+              "type": "TableKeyString",
+              "key": {
+                "type": "Identifier",
+                "name": "a"
+              },
+              "value": {
+                "type": "NumericLiteral"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+source
+------
+a""[b] = 1
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "IndexExpression",
+          "base": {
+            "type": "StringCallExpression",
+            "base": {
+              "type": "Identifier",
+              "name": "a"
+            },
+            "argument": {
+              "type": "StringLiteral"
+            }
+          },
+          "index": {
+            "type": "Identifier",
+            "name": "b"
+          }
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+source
+------
+a = { a.b, a[b]; a:c(), }
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "TableConstructorExpression",
+          "fields": [
+            {
+              "type": "TableValue",
+              "value": {
+                "type": "MemberExpression",
+                "indexer": ".",
+                "identifier": {
+                  "type": "Identifier",
+                  "name": "b"
+                },
+                "base": {
+                  "type": "Identifier",
+                  "name": "a"
+                }
+              }
+            },
+            {
+              "type": "TableValue",
+              "value": {
+                "type": "IndexExpression",
+                "base": {
+                  "type": "Identifier",
+                  "name": "a"
+                },
+                "index": {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              }
+            },
+            {
+              "type": "TableValue",
+              "value": {
+                "type": "CallExpression",
+                "base": {
+                  "type": "MemberExpression",
+                  "indexer": ":",
+                  "identifier": {
+                    "type": "Identifier",
+                    "name": "c"
+                  },
+                  "base": {
+                    "type": "Identifier",
+                    "name": "a"
+                  }
+                },
+                "arguments": []
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

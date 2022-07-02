@@ -1,0 +1,25 @@
+source
+------
+do do do end; end; end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "DoStatement",
+      "body": [
+        {
+          "type": "DoStatement",
+          "body": [
+            {
+              "type": "DoStatement",
+              "body": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

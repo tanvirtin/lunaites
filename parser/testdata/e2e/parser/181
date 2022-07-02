@@ -1,0 +1,27 @@
+source
+------
+for a in b do end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForGenericStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "iterators": [
+        {
+          "type": "Identifier",
+          "name": "b"
+        }
+      ],
+      "body": []
+    }
+  ]
+}

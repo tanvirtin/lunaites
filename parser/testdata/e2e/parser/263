@@ -1,0 +1,34 @@
+source
+------
+a = {} * {}
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "*",
+          "left": {
+            "type": "TableConstructorExpression",
+            "fields": []
+          },
+          "right": {
+            "type": "TableConstructorExpression",
+            "fields": []
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+source
+------
+if 1 then end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "IfStatement",
+      "clauses": [
+        {
+          "type": "IfClause",
+          "condition": {
+            "type": "NumericLiteral"
+          },
+          "body": []
+        }
+      ]
+    }
+  ]
+}

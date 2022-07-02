@@ -1,0 +1,49 @@
+source
+------
+if 1 then local a else local b end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "IfStatement",
+      "clauses": [
+        {
+          "type": "IfClause",
+          "condition": {
+            "type": "NumericLiteral"
+          },
+          "body": [
+            {
+              "type": "LocalStatement",
+              "variables": [
+                {
+                  "type": "Identifier",
+                  "name": "a"
+                }
+              ],
+              "init": []
+            }
+          ]
+        },
+        {
+          "type": "ElseClause",
+          "body": [
+            {
+              "type": "LocalStatement",
+              "variables": [
+                {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              ],
+              "init": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

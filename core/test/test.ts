@@ -1,4 +1,9 @@
-import { SpecGenerator, Specs, Suite } from "./spec_generator.ts";
+import {
+  E2ESpecGenerator,
+  IntegrationSpecGenerator,
+  Specs,
+  Suite,
+} from "./mod.ts";
 import {
   afterAll,
   describe,
@@ -12,6 +17,7 @@ import {
 } from "../deps.ts";
 
 enum TestType {
+  E2E = "E2E",
   Integration = "Integration",
   Unit = "Unit",
   Smoke = "Smoke",
@@ -34,12 +40,18 @@ interface SmokeSuite {
   repositories: string[];
 }
 
+interface E2ESuite {
+  computation: (suite: Suite) => void;
+  suites: Suite[];
+}
+
 class Test {
   private name: string;
   private type: TestType;
   private importMeta: ImportMeta;
   private integrationSuite?: IntegrationSuite;
   private smokeSuite?: SmokeSuite;
+  private e2eSuite?: E2ESuite;
 
   constructor({ type, name, importMeta }: TestOptions) {
     this.type = type;
@@ -114,10 +126,20 @@ class Test {
     return `${this.getTestdataPath()}/${getRepoName(repoName)}`;
   }
 
+  async registerE2E(computation: (suite: Suite) => void) {
+    this.assertType(TestType.E2E);
+
+    const specGenerator = new E2ESpecGenerator(this.getTestdataPath());
+    this.e2eSuite = {
+      computation: computation,
+      suites: await specGenerator.generate(),
+    };
+  }
+
   async registerIntegration(computation: (suite: Suite) => void) {
     this.assertType(TestType.Integration);
 
-    const specGenerator = new SpecGenerator(this.getTestdataPath());
+    const specGenerator = new IntegrationSpecGenerator(this.getTestdataPath());
     this.integrationSuite = {
       computation: computation,
       specs: await specGenerator.generate(),
@@ -138,6 +160,26 @@ class Test {
       computation: computation,
       repositories: repositories,
     };
+  }
+
+  private runE2ETests() {
+    this.assertType(TestType.E2E);
+
+    const runTests = (suites: Suite[], computation: (suite: Suite) => void) => {
+      return suites.forEach((suite: Suite) =>
+        it(`${suite.source}`, computation.bind(null, suite))
+      );
+    };
+
+    if (!this.e2eSuite) {
+      return;
+    }
+
+    const { suites, computation } = this.e2eSuite;
+
+    describe(this.name, () => {
+      runTests(suites, computation);
+    });
   }
 
   private runIntegrationTests() {
@@ -213,6 +255,8 @@ class Test {
         return this.runIntegrationTests();
       case TestType.Smoke:
         return this.runSmokeTests();
+      case TestType.E2E:
+        return this.runE2ETests();
     }
   }
 }

@@ -1,0 +1,42 @@
+source
+------
+a = a() ^ b()
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "^",
+          "left": {
+            "type": "CallExpression",
+            "base": {
+              "type": "Identifier",
+              "name": "a"
+            },
+            "arguments": []
+          },
+          "right": {
+            "type": "CallExpression",
+            "base": {
+              "type": "Identifier",
+              "name": "b"
+            },
+            "arguments": []
+          }
+        }
+      ]
+    }
+  ]
+}

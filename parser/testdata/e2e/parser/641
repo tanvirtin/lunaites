@@ -1,0 +1,26 @@
+source
+------
+local Дождь = {}
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LocalStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "Дождь"
+        }
+      ],
+      "init": [
+        {
+          "type": "TableConstructorExpression",
+          "fields": []
+        }
+      ]
+    }
+  ]
+}

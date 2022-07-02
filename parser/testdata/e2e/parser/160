@@ -1,0 +1,41 @@
+source
+------
+a = function(p,q,r) end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "FunctionDeclaration",
+          "identifier": null,
+          "parameters": [
+            {
+              "type": "Identifier",
+              "name": "p"
+            },
+            {
+              "type": "Identifier",
+              "name": "q"
+            },
+            {
+              "type": "Identifier",
+              "name": "r"
+            }
+          ],
+          "body": []
+        }
+      ]
+    }
+  ]
+}

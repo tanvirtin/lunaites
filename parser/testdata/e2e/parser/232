@@ -1,0 +1,17 @@
+source
+------
+--[===[comment
+--[=[sub]=]--
+]===]return
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ReturnStatement",
+      "arguments": []
+    }
+  ]
+}

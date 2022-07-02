@@ -1,0 +1,34 @@
+source
+------
+local a = { a }
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LocalStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "TableConstructorExpression",
+          "fields": [
+            {
+              "type": "TableValue",
+              "value": {
+                "type": "Identifier",
+                "name": "a"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+source
+------
+a = 1 * not 2; a = 1 / not 2
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "*",
+          "left": {
+            "type": "NumericLiteral"
+          },
+          "right": {
+            "type": "UnaryExpression",
+            "operator": "not",
+            "argument": {
+              "type": "NumericLiteral"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "/",
+          "left": {
+            "type": "NumericLiteral"
+          },
+          "right": {
+            "type": "UnaryExpression",
+            "operator": "not",
+            "argument": {
+              "type": "NumericLiteral"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

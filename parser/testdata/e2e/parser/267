@@ -1,0 +1,60 @@
+source
+------
+a = 1 < 2 <= 2 > 2 >= 2 == 2
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "BinaryExpression",
+            "operator": ">=",
+            "left": {
+              "type": "BinaryExpression",
+              "operator": ">",
+              "left": {
+                "type": "BinaryExpression",
+                "operator": "<=",
+                "left": {
+                  "type": "BinaryExpression",
+                  "operator": "<",
+                  "left": {
+                    "type": "NumericLiteral"
+                  },
+                  "right": {
+                    "type": "NumericLiteral"
+                  }
+                },
+                "right": {
+                  "type": "NumericLiteral"
+                }
+              },
+              "right": {
+                "type": "NumericLiteral"
+              }
+            },
+            "right": {
+              "type": "NumericLiteral"
+            }
+          },
+          "right": {
+            "type": "NumericLiteral"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+source
+------
+a = 1,2,3
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral"
+        },
+        {
+          "type": "NumericLiteral"
+        },
+        {
+          "type": "NumericLiteral"
+        }
+      ]
+    }
+  ]
+}

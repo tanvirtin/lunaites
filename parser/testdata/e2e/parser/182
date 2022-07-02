@@ -1,0 +1,48 @@
+source
+------
+for a in b do local a local b end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForGenericStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "iterators": [
+        {
+          "type": "Identifier",
+          "name": "b"
+        }
+      ],
+      "body": [
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "init": []
+        },
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "b"
+            }
+          ],
+          "init": []
+        }
+      ]
+    }
+  ]
+}

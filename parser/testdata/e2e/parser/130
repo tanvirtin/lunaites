@@ -1,0 +1,25 @@
+source
+------
+a = [[foo]]
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "StringLiteral"
+        }
+      ]
+    }
+  ]
+}

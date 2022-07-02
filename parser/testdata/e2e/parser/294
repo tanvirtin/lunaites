@@ -1,0 +1,39 @@
+source
+------
+local a = function() end a()
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LocalStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "FunctionDeclaration",
+          "identifier": null,
+          "parameters": [],
+          "body": []
+        }
+      ]
+    },
+    {
+      "type": "CallStatement",
+      "expression": {
+        "type": "CallExpression",
+        "base": {
+          "type": "Identifier",
+          "name": "a"
+        },
+        "arguments": []
+      }
+    }
+  ]
+}

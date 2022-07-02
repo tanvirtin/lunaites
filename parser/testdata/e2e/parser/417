@@ -1,0 +1,29 @@
+source
+------
+repeat local a until 1
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "RepeatStatement",
+      "condition": {
+        "type": "NumericLiteral"
+      },
+      "body": [
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "init": []
+        }
+      ]
+    }
+  ]
+}

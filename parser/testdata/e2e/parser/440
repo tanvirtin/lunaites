@@ -1,0 +1,30 @@
+source
+------
+do local a = 1 end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "DoStatement",
+      "body": [
+        {
+          "type": "LocalStatement",
+          "variables": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "init": [
+            {
+              "type": "NumericLiteral"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

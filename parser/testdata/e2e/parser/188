@@ -1,0 +1,43 @@
+source
+------
+for a, b, c in p, q, r do end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "ForGenericStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        },
+        {
+          "type": "Identifier",
+          "name": "b"
+        },
+        {
+          "type": "Identifier",
+          "name": "c"
+        }
+      ],
+      "iterators": [
+        {
+          "type": "Identifier",
+          "name": "p"
+        },
+        {
+          "type": "Identifier",
+          "name": "q"
+        },
+        {
+          "type": "Identifier",
+          "name": "r"
+        }
+      ],
+      "body": []
+    }
+  ]
+}

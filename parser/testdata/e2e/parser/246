@@ -1,0 +1,29 @@
+source
+------
+a = not 10
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "UnaryExpression",
+          "operator": "not",
+          "argument": {
+            "type": "NumericLiteral"
+          }
+        }
+      ]
+    }
+  ]
+}

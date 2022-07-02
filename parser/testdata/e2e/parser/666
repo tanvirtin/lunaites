@@ -1,0 +1,6 @@
+source
+------
+function x() break end
+
+result
+------

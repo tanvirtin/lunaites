@@ -1,0 +1,32 @@
+source
+------
+function x() repeat break until 0 end
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "name": "x"
+      },
+      "parameters": [],
+      "body": [
+        {
+          "type": "RepeatStatement",
+          "condition": {
+            "type": "NumericLiteral"
+          },
+          "body": [
+            {
+              "type": "BreakStatement"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

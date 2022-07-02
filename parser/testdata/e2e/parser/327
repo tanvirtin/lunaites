@@ -1,0 +1,64 @@
+source
+------
+a = { 1, a="foo"; b={}, d=true; }
+
+result
+------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "TableConstructorExpression",
+          "fields": [
+            {
+              "type": "TableValue",
+              "value": {
+                "type": "NumericLiteral"
+              }
+            },
+            {
+              "type": "TableKeyString",
+              "key": {
+                "type": "Identifier",
+                "name": "a"
+              },
+              "value": {
+                "type": "StringLiteral"
+              }
+            },
+            {
+              "type": "TableKeyString",
+              "key": {
+                "type": "Identifier",
+                "name": "b"
+              },
+              "value": {
+                "type": "TableConstructorExpression",
+                "fields": []
+              }
+            },
+            {
+              "type": "TableKeyString",
+              "key": {
+                "type": "Identifier",
+                "name": "d"
+              },
+              "value": {
+                "type": "BooleanLiteral"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

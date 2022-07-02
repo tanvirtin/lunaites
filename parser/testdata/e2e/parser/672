@@ -1,0 +1,6 @@
+source
+------
+if 0 then else break end
+
+result
+------
