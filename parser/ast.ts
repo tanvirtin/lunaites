@@ -1,14 +1,11 @@
-import { Token } from "./mod.ts";
+import { Token, Visitor } from "./mod.ts";
 
-interface Expression {
-  toString(): string;
-  toJSON(): unknown;
+interface Node {
+  accept(visitor: Visitor): unknown;
 }
 
-interface Statement {
-  toString(): string;
-  toJSON(): unknown;
-}
+type Expression = Node;
+type Statement = Node;
 
 class Literal implements Expression {
   token: Token;
@@ -17,65 +14,44 @@ class Literal implements Expression {
     this.token = token;
   }
 
-  toJSON() {
-    return {
-      type: "Literal",
-      value: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitLiteral(this);
   }
 }
 
 class NilLiteral extends Literal {
-  toJSON() {
-    return {
-      type: "NilLiteral",
-      value: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitNilLiteral(this);
   }
 }
 
 class VarargLiteral extends Literal {
-  toJSON() {
-    return {
-      type: "VarargLiteral",
-      value: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitVarargLiteral(this);
   }
 }
 
 class StringLiteral extends Literal {
-  toJSON() {
-    return {
-      type: "StringLiteral",
-      value: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitStringLiteral(this);
   }
 }
 
 class NumericLiteral extends Literal {
-  toJSON() {
-    return {
-      type: "NumericLiteral",
-      value: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitNumericLiteral(this);
   }
 }
 
 class BooleanLiteral extends Literal {
-  toJSON() {
-    return {
-      type: "BooleanLiteral",
-      value: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitBooleanLiteral(this);
   }
 }
 
 class CommentLiteral extends Literal {
-  toJSON() {
-    return {
-      type: "CommentLiteral",
-      value: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitCommentLiteral(this);
   }
 }
 
@@ -86,11 +62,8 @@ class Identifier implements Expression {
     this.token = token;
   }
 
-  toJSON() {
-    return {
-      type: "Identifier",
-      name: this.token.value,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitIdentifier(this);
   }
 }
 
@@ -109,11 +82,8 @@ class GroupingExpression implements Expression {
     this.closedParenthesis = closedParenthesis;
   }
 
-  toJSON() {
-    return {
-      type: "GroupingExpression",
-      expression: this.expression.toJSON(),
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitGroupingExpression(this);
   }
 }
 
@@ -126,12 +96,8 @@ class UnaryExpression implements Expression {
     this.argument = argument;
   }
 
-  toJSON() {
-    return {
-      type: "UnaryExpression",
-      operator: this.operator.value,
-      argument: this.argument.toJSON(),
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitUnaryExpression(this);
   }
 }
 
@@ -146,13 +112,8 @@ class BinaryExpression implements Expression {
     this.right = right;
   }
 
-  toJSON() {
-    return {
-      type: "BinaryExpression",
-      left: this.left.toJSON(),
-      operator: this.operator.value,
-      right: this.right.toJSON(),
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitBinaryExpression(this);
   }
 }
 
@@ -165,12 +126,8 @@ class LocalStatement implements Statement {
     this.init = init;
   }
 
-  toJSON() {
-    return {
-      type: "LocalStatement",
-      variables: this.variables.map((variable) => variable.toJSON()),
-      init: this.init.map((expression) => expression.toJSON()),
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitLocalStatement(this);
   }
 }
 
@@ -181,11 +138,8 @@ class ReturnStatement implements Statement {
     this.arguments = expressions;
   }
 
-  toJSON() {
-    return {
-      type: "ReturnStatement",
-      expressions: this.arguments.map((argument) => argument.toJSON()),
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitReturnStatement(this);
   }
 }
 
@@ -196,38 +150,32 @@ class LabelStatement implements Statement {
     this.name = name;
   }
 
-  toJSON() {
-    return {
-      type: "LabelStatement",
-      name: this.name,
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitLabelStatement(this);
   }
 }
 
-class Block {
+class Block implements Node {
   statements: Statement[];
 
   constructor(statements: Statement[]) {
     this.statements = statements;
   }
 
-  toJSON() {
-    return this.statements.map((statement) => statement.toJSON());
+  accept(visitor: Visitor): unknown {
+    return visitor.visitBlock(this);
   }
 }
 
-class Chunk {
+class Chunk implements Node {
   block: Block;
 
   constructor(block: Block) {
     this.block = block;
   }
 
-  toJSON() {
-    return {
-      type: "Chunk",
-      block: this.block.toJSON(),
-    };
+  accept(visitor: Visitor): unknown {
+    return visitor.visitChunk(this);
   }
 }
 
@@ -240,6 +188,7 @@ export {
   GroupingExpression,
   Identifier,
   LabelStatement,
+  Literal,
   LocalStatement,
   NilLiteral,
   NumericLiteral,
@@ -248,4 +197,4 @@ export {
   UnaryExpression,
   VarargLiteral,
 };
-export type { Expression, Statement };
+export type { Expression, Node, Statement, Visitor };
