@@ -1,4 +1,4 @@
-import { basename } from "./deps.ts";
+import { path } from "./deps.ts";
 import type { Suite } from "./mod.ts";
 
 class E2ESpecGenerator {
@@ -29,7 +29,7 @@ class E2ESpecGenerator {
 
     for await (let name of specPaths) {
       const text = await Deno.readTextFile(name);
-      name = basename(name);
+      name = path.basename(name);
       const lines = text.split("\n");
 
       lines.shift(); // source

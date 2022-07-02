@@ -4,17 +4,7 @@ import {
   Specs,
   Suite,
 } from "./mod.ts";
-import {
-  afterAll,
-  describe,
-  exec,
-  globToRegExp,
-  it,
-  path,
-  relative,
-  WalkEntry,
-  walkSync,
-} from "./deps.ts";
+import { afterAll, describe, exec, fs, it, path } from "./deps.ts";
 
 enum TestType {
   E2E = "E2E",
@@ -36,7 +26,7 @@ interface IntegrationSuite {
 
 interface SmokeSuite {
   computation: (path: string) => void;
-  ls: () => IterableIterator<WalkEntry>;
+  ls: () => IterableIterator<fs.WalkEntry>;
   repositories: string[];
 }
 
@@ -94,8 +84,8 @@ class Test {
       }),
     );
 
-    const files = walkSync(this.getTestdataPath(), {
-      match: [globToRegExp("*/**/*.lua")],
+    const files = fs.walkSync(this.getTestdataPath(), {
+      match: [path.globToRegExp("*/**/*.lua")],
     });
 
     // files are bound by closure, in other words the closure acts as a getter for the private variable files.
@@ -227,14 +217,14 @@ class Test {
           await this.deleteLuaSources(repositories);
         });
 
-        for (const { path } of ls()) {
-          if (this.isDir(path)) {
+        for (const { path: p } of ls()) {
+          if (this.isDir(p)) {
             continue;
           }
 
           it(
-            relative(this.getTestdataPath(), path),
-            computation.bind(null, path),
+            path.relative(this.getTestdataPath(), p),
+            computation.bind(null, p),
           );
         }
       });
