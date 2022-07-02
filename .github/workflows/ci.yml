@@ -15,7 +15,7 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Run tests
+      - name: Run unit tests
         run: make unit-tests
 
   integration-tests:
@@ -30,8 +30,23 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Run tests
+      - name: Run integration tests
         run: make integration-tests
+
+  fmt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@004814556e37c54a2f6e31384c9e18e983317366
+        with:
+          deno-version: v1.x
+
+      - name: Run e2e tests
+        run: make e2e-tests
 
   smoke-tests:
     runs-on: ubuntu-latest
@@ -45,7 +60,7 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Run tests
+      - name: Run smoke tests
         run: make smoke-tests
 
   lint:
@@ -90,5 +105,5 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Check code formatting
+      - name: Create a working build
         run: make build

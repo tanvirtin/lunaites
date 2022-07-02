@@ -16,7 +16,8 @@ integration-tests:
 e2e-tests:
 	deno test -A --unstable ./*/*.test.e2e.ts
 
-tests: smoke-tests unit-tests integration-tests e2e-tests
+tests:
+	deno test -A --unstable ./*/*.test.*.ts
 
 check: lint fmt tests
 
