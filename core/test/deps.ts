@@ -9,3 +9,4 @@ export { globToRegExp } from "https://deno.land/x/std@0.143.0/path/glob.ts";
 export { relative } from "https://deno.land/std@0.143.0/path/mod.ts";
 export { walkSync } from "https://deno.land/std@0.143.0/fs/mod.ts";
 export type { WalkEntry } from "https://deno.land/std@0.143.0/fs/mod.ts";
+export { basename } from "https://deno.land/std@0.144.0/path/mod.ts";

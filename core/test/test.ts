@@ -14,7 +14,7 @@ import {
   relative,
   WalkEntry,
   walkSync,
-} from "../deps.ts";
+} from "./deps.ts";
 
 enum TestType {
   E2E = "E2E",

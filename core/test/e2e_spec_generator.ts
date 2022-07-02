@@ -1,3 +1,4 @@
+import { basename } from "./deps.ts";
 import type { Suite } from "./mod.ts";
 
 class E2ESpecGenerator {
@@ -21,12 +22,14 @@ class E2ESpecGenerator {
   }
 
   async generate(): Promise<Suite[]> {
-    const suites: Suite[] = [];
-
     const specPaths = await this.getSpecPaths();
 
-    for await (const name of specPaths) {
+    const onlies = [];
+    const rest = [];
+
+    for await (let name of specPaths) {
       const text = await Deno.readTextFile(name);
+      name = basename(name);
       const lines = text.split("\n");
 
       lines.shift(); // "source"
@@ -44,8 +47,7 @@ class E2ESpecGenerator {
         }
       }
 
-      lines.shift(); // "result"
-      // lines.shift(); // "------"
+      lines.shift();
 
       let result = "";
       currentLine = lines[index];
@@ -59,13 +61,19 @@ class E2ESpecGenerator {
         result += currentLine;
       }
 
-      suites.push({
+      const suite = {
         source,
         result: result && JSON.parse(result) || result,
-      });
+      };
+
+      if (name.startsWith("+")) {
+        onlies.push(suite);
+      } else if (!name.startsWith("-")) {
+        rest.push(suite);
+      }
     }
 
-    return suites;
+    return onlies.length > 0 ? onlies : rest;
   }
 }
 
