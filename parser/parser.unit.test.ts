@@ -9,7 +9,7 @@ describe("Parser", () => {
   });
 });
 
-const parser = new Parser(`else`);
+const parser = new Parser(`local a = 3`);
 
 try {
   const ast = parser.parse();
