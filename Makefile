@@ -5,19 +5,19 @@ fmt:
 	deno fmt --check
 
 unit-tests:
-	deno test -A --unstable ./*/*.test.unit.ts
+	deno test -A --unstable ./*/*.unit.test.ts
 
 smoke-tests:
-	deno test -A --unstable ./*/*.test.smoke.ts
+	deno test -A --unstable ./*/*.smoke.test.ts
 
 integration-tests:
 	deno test -A --unstable ./*/*.test.integration.ts
 
 e2e-tests:
-	deno test -A --unstable ./*/*.test.e2e.ts
+	deno test -A --unstable ./*/*.e2e.test.ts
 
 tests:
-	deno test -A --unstable ./*/*.test.*.ts
+	deno test -A --unstable ./*/*.*.test.ts
 
 check: lint fmt tests
 
