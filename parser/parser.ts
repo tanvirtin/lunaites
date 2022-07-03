@@ -542,7 +542,7 @@ class Parser {
   }
 
   // block ::= {stat} [retstat]
-  parseBlock() {
+  parseBlock(): ast.Block {
     // A lua source file should essentially contain an array of statements.
 
     const statements: ast.Statement[] = [];

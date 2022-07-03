@@ -7,4 +7,4 @@ export * as ast from "./ast.ts";
 export * from "./parser.ts";
 export * from "./token_cursor.ts";
 export * from "./visitor.ts";
-export * from "./tojson_visitor.ts";
+export * from "./serializer_visitor.ts";

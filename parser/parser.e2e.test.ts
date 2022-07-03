@@ -1,4 +1,4 @@
-import { Parser, ToJSONVisitor } from "./mod.ts";
+import { Parser, SerializerVisitor } from "./mod.ts";
 import { Suite, Test, TestType } from "../core/mod.ts";
 
 import { assertObjectMatch, assertStrictEquals } from "./deps.ts";
@@ -25,18 +25,18 @@ async function main() {
         return assertStrictEquals(result, suite.result);
       }
 
-      const toJSONVisitor = new ToJSONVisitor();
-      const parsedResult = toJSONVisitor.visit(result) as Record<
+      const serializerVisitor = new SerializerVisitor();
+      const serializedResult = serializerVisitor.visit(result) as Record<
         string,
         unknown
       >;
 
       if (typeof suite.result === "string") {
-        return assertStrictEquals(parsedResult, suite.result);
+        return assertStrictEquals(serializedResult, suite.result);
       }
 
       assertObjectMatch(
-        parsedResult,
+        serializedResult,
         suite.result,
       );
     });

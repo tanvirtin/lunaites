@@ -1,6 +1,6 @@
 import { ast, Visitor } from "./mod.ts";
 
-class ToJSONVisitor implements Visitor {
+class SerializerVisitor implements Visitor {
   visitLiteral(node: ast.Literal) {
     return {
       type: "Literal",
@@ -87,6 +87,7 @@ class ToJSONVisitor implements Visitor {
       right: node.right.accept(this),
     };
   }
+
   visitLocalStatement(node: ast.LocalStatement): unknown {
     return {
       type: "LocalStatement",
@@ -94,6 +95,7 @@ class ToJSONVisitor implements Visitor {
       init: node.init.map((expression) => expression.accept(this)),
     };
   }
+
   visitReturnStatement(node: ast.ReturnStatement): unknown {
     return {
       type: "ReturnStatement",
@@ -192,4 +194,4 @@ class ToJSONVisitor implements Visitor {
   }
 }
 
-export { ToJSONVisitor };
+export { SerializerVisitor };
