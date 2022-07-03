@@ -57,6 +57,13 @@ class ToJSONVisitor implements Visitor {
     };
   }
 
+  visitGotoStatement(node: ast.GotoStatement): unknown {
+    return {
+      type: "GotoStatement",
+      label: node.label.accept(this),
+    };
+  }
+
   visitGroupingExpression(node: ast.GroupingExpression): unknown {
     return {
       type: "GroupingExpression",
@@ -108,7 +115,7 @@ class ToJSONVisitor implements Visitor {
   visitChunk(node: ast.Chunk): unknown {
     return {
       type: "Chunk",
-      block: node.block.accept(this),
+      body: node.block.accept(this),
     };
   }
 
@@ -123,6 +130,10 @@ class ToJSONVisitor implements Visitor {
 
     if (node instanceof ast.LabelStatement) {
       return this.visitLabelStatement(node);
+    }
+
+    if (node instanceof ast.GotoStatement) {
+      return this.visitGotoStatement(node);
     }
 
     if (node instanceof ast.ReturnStatement) {
@@ -176,6 +187,8 @@ class ToJSONVisitor implements Visitor {
     if (node instanceof ast.Literal) {
       return this.visitLiteral(node);
     }
+
+    throw new Error("no node found for visitor");
   }
 }
 

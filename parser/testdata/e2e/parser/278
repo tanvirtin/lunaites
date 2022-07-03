@@ -4,3 +4,29 @@ a = 1 // 0
 
 result
 ------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "AssignmentStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a"
+        }
+      ],
+      "init": [
+        {
+          "type": "BinaryExpression",
+          "operator": "//",
+          "left": {
+            "type": "NumericLiteral"
+          },
+          "right": {
+            "type": "NumericLiteral"
+          }
+        }
+      ]
+    }
+  ]
+}

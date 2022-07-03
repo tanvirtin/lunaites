@@ -4,23 +4,3 @@ local Дождь = {}
 
 result
 ------
-{
-  "type": "Chunk",
-  "block": [
-    {
-      "type": "LocalStatement",
-      "variables": [
-        {
-          "type": "Identifier",
-          "name": "Дождь"
-        }
-      ],
-      "init": [
-        {
-          "type": "TableConstructorExpression",
-          "fields": []
-        }
-      ]
-    }
-  ]
-}

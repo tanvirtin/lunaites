@@ -4,22 +4,3 @@ a = 0xfi
 
 result
 ------
-{
-  "type": "Chunk",
-  "block": [
-    {
-      "type": "AssignmentStatement",
-      "variables": [
-        {
-          "type": "Identifier",
-          "name": "a"
-        }
-      ],
-      "init": [
-        {
-          "type": "NumericLiteral"
-        }
-      ]
-    }
-  ]
-}

@@ -4,21 +4,3 @@ goto "foo"
 
 result
 ------
-{
-  "type": "Chunk",
-  "block": [
-    {
-      "type": "CallStatement",
-      "expression": {
-        "type": "StringCallExpression",
-        "base": {
-          "type": "Identifier",
-          "name": "goto"
-        },
-        "argument": {
-          "type": "StringLiteral"
-        }
-      }
-    }
-  ]
-}

@@ -4,3 +4,15 @@ source
 
 result
 ------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "LabelStatement",
+      "label": {
+        "type": "Identifier",
+        "name": "foo"
+      }
+    }
+  ]
+}

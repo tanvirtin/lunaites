@@ -4,3 +4,15 @@ repeat ; until 1
 
 result
 ------
+{
+  "type": "Chunk",
+  "body": [
+    {
+      "type": "RepeatStatement",
+      "condition": {
+        "type": "NumericLiteral"
+      },
+      "body": []
+    }
+  ]
+}

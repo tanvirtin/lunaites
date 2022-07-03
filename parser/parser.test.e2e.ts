@@ -21,13 +21,22 @@ async function main() {
         result = err.message;
       }
 
-      if (typeof suite.result === "string") {
-        return assertStrictEquals(result, "");
+      if (typeof result === "string") {
+        return assertStrictEquals(result, suite.result);
       }
 
       const toJSONVisitor = new ToJSONVisitor();
+      const parsedResult = toJSONVisitor.visit(result) as Record<
+        string,
+        unknown
+      >;
+
+      if (typeof suite.result === "string") {
+        return assertStrictEquals(parsedResult, suite.result);
+      }
+
       assertObjectMatch(
-        toJSONVisitor.visit(result) as Record<string, unknown>,
+        parsedResult,
         suite.result,
       );
     });

@@ -7,7 +7,7 @@ result
 ------
 {
   "type": "Chunk",
-  "block": [
+  "body": [
     {
       "type": "IfStatement",
       "clauses": [

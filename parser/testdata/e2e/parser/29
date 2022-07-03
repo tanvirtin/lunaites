@@ -4,15 +4,3 @@ source
 
 result
 ------
-{
-  "type": "Chunk",
-  "block": [
-    {
-      "type": "LabelStatement",
-      "label": {
-        "type": "Identifier",
-        "name": "goto"
-      }
-    }
-  ]
-}

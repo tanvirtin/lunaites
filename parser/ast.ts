@@ -155,6 +155,18 @@ class LabelStatement implements Statement {
   }
 }
 
+class GotoStatement implements Statement {
+  label: Identifier;
+
+  constructor(label: Identifier) {
+    this.label = label;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitGotoStatement(this);
+  }
+}
+
 class Block implements Node {
   statements: Statement[];
 
@@ -185,6 +197,7 @@ export {
   BooleanLiteral,
   Chunk,
   CommentLiteral,
+  GotoStatement,
   GroupingExpression,
   Identifier,
   LabelStatement,

@@ -6,7 +6,7 @@ result
 ------
 {
   "type": "Chunk",
-  "block": [
+  "body": [
     {
       "type": "RepeatStatement",
       "condition": {

@@ -10,6 +10,7 @@ interface Visitor {
   visitCommentLiteral(node: ast.Node): unknown;
   visitIdentifier(node: ast.Node): unknown;
   visitGroupingExpression(node: ast.Node): unknown;
+  visitGotoStatement(node: ast.Node): unknown;
   visitUnaryExpression(node: ast.Node): unknown;
   visitBinaryExpression(node: ast.Node): unknown;
   visitLocalStatement(node: ast.Node): unknown;

@@ -6,7 +6,7 @@ result
 ------
 {
   "type": "Chunk",
-  "block": [
+  "body": [
     {
       "type": "AssignmentStatement",
       "variables": [
@@ -17,10 +17,10 @@ result
       ],
       "init": [
         {
-          "type": "BinaryExpression",
+          "type": "LogicalExpression",
           "operator": "or",
           "left": {
-            "type": "BinaryExpression",
+            "type": "LogicalExpression",
             "operator": "and",
             "left": {
               "type": "NumericLiteral"

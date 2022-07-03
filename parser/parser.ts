@@ -33,7 +33,9 @@ class Parser {
 
   constructor(source: string) {
     const scanner = new Scanner(source);
-    const tokenizer = new Tokenizer(scanner);
+    const tokenizer = new Tokenizer(scanner, {
+      contextualGoto: false,
+    });
     const token_cursor = new TokenCursor(tokenizer);
 
     this.scanner = scanner;
@@ -347,8 +349,6 @@ class Parser {
 
     const closedParenthesisToken = token_cursor.current;
 
-    token_cursor.advance();
-
     return new ast.GroupingExpression(
       openParenthesisToken,
       expression,
@@ -465,7 +465,7 @@ class Parser {
     const { token_cursor } = this;
     const expressions: ast.Expression[] = [];
 
-    token_cursor.advance();
+    this.expect("return");
 
     if (!token_cursor.eofToken) {
       do {
@@ -515,7 +515,13 @@ class Parser {
 
   // goto ::= 'goto' Name
   parseGotoStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("goto");
+
+    const identifier = this.identifierParselet();
+
+    this.expect(TokenType.Identifier);
+
+    return new ast.GotoStatement(identifier);
   }
 
   // assignment ::= varlist '=' explist
@@ -591,18 +597,11 @@ class Parser {
 
   // chunk ::= block
   parseChunk(): ast.Chunk {
-    const { scanner, token_cursor } = this;
     const block = this.parseBlock();
 
     // A chunk must end on an EOF token, if any other token is there
     // after we are done with parsing a chunk other than EOF it's invalid.
-    if (!this.token_cursor.match(TokenType.EOF)) {
-      ParserException.raiseUnexpectedToken(
-        scanner,
-        token_cursor.current,
-        token_cursor.next.value,
-      );
-    }
+    this.expect(TokenType.EOF);
 
     return new ast.Chunk(block);
   }
