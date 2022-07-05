@@ -119,6 +119,15 @@ class SerializerVisitor implements Visitor {
   visitRepeatStatement(node: ast.RepeatStatement): unknown {
     return {
       type: "BreakStatement",
+      condition: node.condition.accept(this),
+      body: node.block.accept(this),
+    };
+  }
+
+  visitWhileStatement(node: ast.WhileStatement): unknown {
+    return {
+      type: "WhileStatement",
+      condition: node.condition.accept(this),
       body: node.block.accept(this),
     };
   }

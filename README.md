@@ -32,7 +32,7 @@ make lint
 - [x] parseBreakStatement
 - [x] parseRepeatStatement
 - [ ] parseForStatement
-- [ ] parseWhileStatement
+- [x] parseWhileStatement
 - [ ] parseFunctionDeclaration
 - [x] parseReturnStatement
 - [ ] parseifStatement

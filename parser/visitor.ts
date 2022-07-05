@@ -1,27 +1,28 @@
 import { ast } from "./mod.ts";
 
 interface Visitor {
-  visitLiteral(node: ast.Node): unknown;
-  visitNilLiteral(node: ast.Node): unknown;
-  visitVarargLiteral(node: ast.Node): unknown;
-  visitStringLiteral(node: ast.Node): unknown;
-  visitNumericLiteral(node: ast.Node): unknown;
-  visitBooleanLiteral(node: ast.Node): unknown;
-  visitCommentLiteral(node: ast.Node): unknown;
-  visitIdentifier(node: ast.Node): unknown;
-  visitGroupingExpression(node: ast.Node): unknown;
-  visitGotoStatement(node: ast.Node): unknown;
-  visitUnaryExpression(node: ast.Node): unknown;
-  visitBinaryExpression(node: ast.Node): unknown;
-  visitLocalStatement(node: ast.Node): unknown;
-  visitReturnStatement(node: ast.Node): unknown;
-  visitLabelStatement(node: ast.Node): unknown;
-  visitDoStatement(node: ast.Node): unknown;
-  visitBreakStatement(node: ast.Node): unknown;
-  visitRepeatStatement(node: ast.Node): unknown;
-  visitBlock(node: ast.Node): unknown;
-  visitChunk(node: ast.Node): unknown;
-  visit(node: ast.Node): unknown;
+  visitLiteral(node: ast.Node): void;
+  visitNilLiteral(node: ast.Node): void;
+  visitVarargLiteral(node: ast.Node): void;
+  visitStringLiteral(node: ast.Node): void;
+  visitNumericLiteral(node: ast.Node): void;
+  visitBooleanLiteral(node: ast.Node): void;
+  visitCommentLiteral(node: ast.Node): void;
+  visitIdentifier(node: ast.Node): void;
+  visitGroupingExpression(node: ast.Node): void;
+  visitGotoStatement(node: ast.Node): void;
+  visitUnaryExpression(node: ast.Node): void;
+  visitBinaryExpression(node: ast.Node): void;
+  visitLocalStatement(node: ast.Node): void;
+  visitReturnStatement(node: ast.Node): void;
+  visitLabelStatement(node: ast.Node): void;
+  visitDoStatement(node: ast.Node): void;
+  visitBreakStatement(node: ast.Node): void;
+  visitRepeatStatement(node: ast.Node): void;
+  visitWhileStatement(node: ast.Node): void;
+  visitBlock(node: ast.Node): void;
+  visitChunk(node: ast.Node): void;
+  visit(node: ast.Node): void;
 }
 
 export type { Visitor };

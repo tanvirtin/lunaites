@@ -460,7 +460,17 @@ class Parser {
 
   // while ::= 'while' exp 'do' block 'end'
   parseWhileStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("while").advance();
+
+    const condition = this.parseExpression(Precedence.Lowest);
+
+    this.expect("do").advance();
+
+    const block = this.parseBlock();
+
+    this.expect("end");
+
+    return new ast.WhileStatement(block, condition);
   }
 
   // for ::= Name '=' exp ',' exp [',' exp] 'do' block 'end'

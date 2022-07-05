@@ -199,6 +199,20 @@ class RepeatStatement implements Statement {
   }
 }
 
+class WhileStatement implements Statement {
+  block: Block;
+  condition: Expression;
+
+  constructor(block: Block, condition: Expression) {
+    this.block = block;
+    this.condition = condition;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitWhileStatement(this);
+  }
+}
+
 class Block implements Node {
   statements: Statement[];
 
@@ -244,5 +258,6 @@ export {
   StringLiteral,
   UnaryExpression,
   VarargLiteral,
+  WhileStatement,
 };
 export type { Expression, Node, Statement, Visitor };
