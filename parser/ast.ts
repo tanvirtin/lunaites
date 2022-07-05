@@ -185,6 +185,20 @@ class DoStatement implements Statement {
   }
 }
 
+class RepeatStatement implements Statement {
+  block: Block;
+  condition: Expression;
+
+  constructor(block: Block, condition: Expression) {
+    this.block = block;
+    this.condition = condition;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitRepeatStatement(this);
+  }
+}
+
 class Block implements Node {
   statements: Statement[];
 
@@ -225,6 +239,7 @@ export {
   LocalStatement,
   NilLiteral,
   NumericLiteral,
+  RepeatStatement,
   ReturnStatement,
   StringLiteral,
   UnaryExpression,

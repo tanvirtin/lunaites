@@ -473,7 +473,15 @@ class Parser {
 
   // repeat ::= 'repeat' block 'until' exp
   parseRepeatStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("repeat").advance();
+
+    const block = this.parseBlock();
+
+    this.expect("until").advance();
+
+    const condition = this.parseExpression(Precedence.Lowest);
+
+    return new ast.RepeatStatement(block, condition);
   }
 
   // break ::= 'break' [';']

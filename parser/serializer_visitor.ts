@@ -116,6 +116,13 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitRepeatStatement(node: ast.RepeatStatement): unknown {
+    return {
+      type: "BreakStatement",
+      body: node.block.accept(this),
+    };
+  }
+
   visitDoStatement(node: ast.DoStatement): unknown {
     return {
       type: "DoStatement",
@@ -142,6 +149,8 @@ class SerializerVisitor implements Visitor {
         return this.visitBlock(node as ast.Block);
       case ast.LabelStatement:
         return this.visitLabelStatement(node as ast.LabelStatement);
+      case ast.RepeatStatement:
+        return this.visitRepeatStatement(node as ast.RepeatStatement);
       case ast.GotoStatement:
         return this.visitGotoStatement(node as ast.GotoStatement);
       case ast.ReturnStatement:

@@ -27,10 +27,10 @@ make lint
 - [x] parseBlock
 - [x] parseStatement
 - [ ] parseAssighmentOrCallStatement
-- [ ] parseGotoStatement
+- [x] parseGotoStatement
 - [x] parseDoStatement
 - [x] parseBreakStatement
-- [ ] parseRepeatStatement
+- [x] parseRepeatStatement
 - [ ] parseForStatement
 - [ ] parseWhileStatement
 - [ ] parseFunctionDeclaration
