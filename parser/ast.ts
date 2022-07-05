@@ -167,6 +167,24 @@ class GotoStatement implements Statement {
   }
 }
 
+class BreakStatement implements Statement {
+  accept(visitor: Visitor): unknown {
+    return visitor.visitBreakStatement(this);
+  }
+}
+
+class DoStatement implements Statement {
+  block: Block;
+
+  constructor(block: Block) {
+    this.block = block;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitDoStatement(this);
+  }
+}
+
 class Block implements Node {
   statements: Statement[];
 
@@ -195,8 +213,10 @@ export {
   BinaryExpression,
   Block,
   BooleanLiteral,
+  BreakStatement,
   Chunk,
   CommentLiteral,
+  DoStatement,
   GotoStatement,
   GroupingExpression,
   Identifier,

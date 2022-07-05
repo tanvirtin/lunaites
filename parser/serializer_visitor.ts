@@ -110,6 +110,19 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitBreakStatement(_node: ast.BreakStatement): unknown {
+    return {
+      type: "BreakStatement",
+    };
+  }
+
+  visitDoStatement(node: ast.DoStatement): unknown {
+    return {
+      type: "DoStatement",
+      body: node.block.accept(this),
+    };
+  }
+
   visitBlock(node: ast.Block): unknown {
     return node.statements.map((statement) => statement.accept(this));
   }
@@ -122,75 +135,48 @@ class SerializerVisitor implements Visitor {
   }
 
   visit(node: ast.Node): unknown {
-    if (node instanceof ast.Chunk) {
-      return this.visitChunk(node);
+    switch (node.constructor) {
+      case ast.Chunk:
+        return this.visitChunk(node as ast.Chunk);
+      case ast.Block:
+        return this.visitBlock(node as ast.Block);
+      case ast.LabelStatement:
+        return this.visitLabelStatement(node as ast.LabelStatement);
+      case ast.GotoStatement:
+        return this.visitGotoStatement(node as ast.GotoStatement);
+      case ast.ReturnStatement:
+        return this.visitReturnStatement(node as ast.ReturnStatement);
+      case ast.LocalStatement:
+        return this.visitLocalStatement(node as ast.LocalStatement);
+      case ast.DoStatement:
+        return this.visitDoStatement(node as ast.DoStatement);
+      case ast.BreakStatement:
+        return this.visitBreakStatement(node as ast.BreakStatement);
+      case ast.BinaryExpression:
+        return this.visitBinaryExpression(node as ast.BinaryExpression);
+      case ast.UnaryExpression:
+        return this.visitUnaryExpression(node as ast.UnaryExpression);
+      case ast.GroupingExpression:
+        return this.visitGroupingExpression(node as ast.GroupingExpression);
+      case ast.Identifier:
+        return this.visitIdentifier(node as ast.Identifier);
+      case ast.CommentLiteral:
+        return this.visitCommentLiteral(node as ast.CommentLiteral);
+      case ast.BooleanLiteral:
+        return this.visitBooleanLiteral(node as ast.BooleanLiteral);
+      case ast.NumericLiteral:
+        return this.visitNumericLiteral(node as ast.NumericLiteral);
+      case ast.StringLiteral:
+        return this.visitStringLiteral(node as ast.StringLiteral);
+      case ast.VarargLiteral:
+        return this.visitVarargLiteral(node as ast.VarargLiteral);
+      case ast.NilLiteral:
+        return this.visitNilLiteral(node as ast.NilLiteral);
+      case ast.Literal:
+        return this.visitLiteral(node as ast.Literal);
+      default:
+        throw new Error("no node found for visitor");
     }
-
-    if (node instanceof ast.Block) {
-      return this.visitBlock(node);
-    }
-
-    if (node instanceof ast.LabelStatement) {
-      return this.visitLabelStatement(node);
-    }
-
-    if (node instanceof ast.GotoStatement) {
-      return this.visitGotoStatement(node);
-    }
-
-    if (node instanceof ast.ReturnStatement) {
-      return this.visitReturnStatement(node);
-    }
-
-    if (node instanceof ast.LocalStatement) {
-      return this.visitLocalStatement(node);
-    }
-
-    if (node instanceof ast.BinaryExpression) {
-      return this.visitBinaryExpression(node);
-    }
-
-    if (node instanceof ast.UnaryExpression) {
-      return this.visitUnaryExpression(node);
-    }
-
-    if (node instanceof ast.GroupingExpression) {
-      return this.visitGroupingExpression(node);
-    }
-
-    if (node instanceof ast.Identifier) {
-      return this.visitIdentifier(node);
-    }
-
-    if (node instanceof ast.CommentLiteral) {
-      return this.visitCommentLiteral(node);
-    }
-
-    if (node instanceof ast.BooleanLiteral) {
-      return this.visitBooleanLiteral(node);
-    }
-
-    if (node instanceof ast.NumericLiteral) {
-      return this.visitNumericLiteral(node);
-    }
-
-    if (node instanceof ast.StringLiteral) {
-      return this.visitStringLiteral(node);
-    }
-
-    if (node instanceof ast.VarargLiteral) {
-      return this.visitVarargLiteral(node);
-    }
-
-    if (node instanceof ast.NilLiteral) {
-      return this.visitNilLiteral(node);
-    }
-
-    if (node instanceof ast.Literal) {
-      return this.visitLiteral(node);
-    }
-
-    throw new Error("no node found for visitor");
   }
 }
 

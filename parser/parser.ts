@@ -476,14 +476,24 @@ class Parser {
     throw new Error("Not yet implemented");
   }
 
-  // break ::= 'break'
+  // break ::= 'break' [';']
   parseBreakStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("break").advance();
+
+    this.token_cursor.consume(";");
+
+    return new ast.BreakStatement();
   }
 
   // do ::= 'do' block 'end'
   parseDoStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("goto").advance();
+
+    const block = this.parseBlock();
+
+    this.expect("end");
+
+    return new ast.DoStatement(block);
   }
 
   // goto ::= 'goto' Name

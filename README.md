@@ -28,8 +28,8 @@ make lint
 - [x] parseStatement
 - [ ] parseAssighmentOrCallStatement
 - [ ] parseGotoStatement
-- [ ] parseDoStatement
-- [ ] parseBreakStatement
+- [x] parseDoStatement
+- [x] parseBreakStatement
 - [ ] parseRepeatStatement
 - [ ] parseForStatement
 - [ ] parseWhileStatement

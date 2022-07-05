@@ -16,6 +16,8 @@ interface Visitor {
   visitLocalStatement(node: ast.Node): unknown;
   visitReturnStatement(node: ast.Node): unknown;
   visitLabelStatement(node: ast.Node): unknown;
+  visitDoStatement(node: ast.Node): unknown;
+  visitBreakStatement(node: ast.Node): unknown;
   visitBlock(node: ast.Node): unknown;
   visitChunk(node: ast.Node): unknown;
   visit(node: ast.Node): unknown;
