@@ -8,3 +8,4 @@ export * from "./parser.ts";
 export * from "./token_cursor.ts";
 export * from "./visitor.ts";
 export * from "./serializer_visitor.ts";
+export * from "./reducer_visitor.ts";

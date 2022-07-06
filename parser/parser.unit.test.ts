@@ -1,5 +1,16 @@
-import { Parser, SerializerVisitor } from "./mod.ts";
-import { assertObjectMatch, describe, it } from "./deps.ts";
+import { NodeType, Parser, ReducerVisitor } from "./mod.ts";
+import { assertObjectMatch, assertStrictEquals, describe, it } from "./deps.ts";
+
+const {
+  BinaryExpression,
+  LocalStatement,
+  Identifier,
+  ReturnStatement,
+  UnaryExpression,
+  NumericLiteral,
+  GroupingExpression,
+  BreakStatement,
+} = NodeType;
 
 function createParser(source: string) {
   return new Parser(source);
@@ -25,82 +36,28 @@ describe("Parser", () => {
 
   test("parseLocalStatement", {
     "local a = 3": {
-      "type": "LocalStatement",
-      "variables": [
-        {
-          "type": "Identifier",
-          "name": "a",
-        },
-      ],
-      "init": [
-        {
-          "type": "NumericLiteral",
-          "value": "3",
-        },
-      ],
+      type: "LocalStatement",
+      variables: [Identifier],
+      init: [NumericLiteral],
     },
     "local a, b, c = 3": {
-      "type": "LocalStatement",
-      "variables": [
-        {
-          "type": "Identifier",
-          "name": "a",
-        },
-        {
-          "type": "Identifier",
-          "name": "b",
-        },
-        {
-          "type": "Identifier",
-          "name": "c",
-        },
-      ],
-      "init": [
-        {
-          "type": "NumericLiteral",
-          "value": "3",
-        },
-      ],
+      type: LocalStatement,
+      variables: [Identifier, Identifier, Identifier],
+      init: [NumericLiteral],
     },
     "local a, b, c = 1, 2, 3": {
-      "type": "LocalStatement",
-      "variables": [
-        {
-          "type": "Identifier",
-          "name": "a",
-        },
-        {
-          "type": "Identifier",
-          "name": "b",
-        },
-        {
-          "type": "Identifier",
-          "name": "c",
-        },
-      ],
-      "init": [
-        {
-          "type": "NumericLiteral",
-          "value": "1",
-        },
-        {
-          "type": "NumericLiteral",
-          "value": "2",
-        },
-        {
-          "type": "NumericLiteral",
-          "value": "3",
-        },
-      ],
+      type: LocalStatement,
+      variables: [Identifier, Identifier, Identifier],
+      init: [NumericLiteral, NumericLiteral, NumericLiteral],
     },
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const ast = parser.parse();
     const localStatement = ast.block.statements[0];
-    const serializerVisitor = new SerializerVisitor();
+    const reducerVisitor = new ReducerVisitor();
 
     assertObjectMatch(
-      serializerVisitor.visit(localStatement) as Record<
+      reducerVisitor.visit(localStatement) as Record<
         string,
         unknown
       >,
@@ -112,17 +69,15 @@ describe("Parser", () => {
   });
 
   test("parseBreakStatement", {
-    "break": {
-      "type": "BreakStatement",
-    },
+    "break": BreakStatement,
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const ast = parser.parse();
     const breakStatement = ast.block.statements[0];
-    const serializerVisitor = new SerializerVisitor();
+    const reducerVisitor = new ReducerVisitor();
 
-    assertObjectMatch(
-      serializerVisitor.visit(breakStatement) as Record<
+    assertStrictEquals(
+      reducerVisitor.visit(breakStatement) as Record<
         string,
         unknown
       >,
@@ -135,21 +90,52 @@ describe("Parser", () => {
 
   test("parseReturnStatement", {
     "return": {
-      "type": "ReturnStatement",
-      "expressions": [],
+      type: ReturnStatement,
+      expressions: [],
     },
     "return;": {
-      "type": "ReturnStatement",
-      "expressions": [],
+      type: ReturnStatement,
+      expressions: [],
+    },
+    "return 3 + 3;": {
+      type: ReturnStatement,
+      expressions: [
+        {
+          type: BinaryExpression,
+        },
+      ],
+    },
+    "return -3;": {
+      type: ReturnStatement,
+      expressions: [
+        {
+          type: UnaryExpression,
+        },
+      ],
+    },
+    "return (-3 + 3);": {
+      type: ReturnStatement,
+      expressions: [
+        {
+          type: GroupingExpression,
+          expression: {
+            type: BinaryExpression,
+            left: {
+              type: UnaryExpression,
+            },
+            right: NumericLiteral,
+          },
+        },
+      ],
     },
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const ast = parser.parse();
     const returnStatement = ast.block.statements[0];
-    const serializerVisitor = new SerializerVisitor();
+    const reducerVisitor = new ReducerVisitor();
 
     assertObjectMatch(
-      serializerVisitor.visit(returnStatement) as Record<
+      reducerVisitor.visit(returnStatement) as Record<
         string,
         unknown
       >,

@@ -459,6 +459,8 @@ class Parser {
       }
     }
 
+    this.token_cursor.consume(";");
+
     return new ast.ReturnStatement(expressions);
   }
 
