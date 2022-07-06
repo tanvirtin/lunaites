@@ -62,6 +62,37 @@ describe("Parser", () => {
         },
       ],
     },
+    "local a, b, c = 1, 2, 3": {
+      "type": "LocalStatement",
+      "variables": [
+        {
+          "type": "Identifier",
+          "name": "a",
+        },
+        {
+          "type": "Identifier",
+          "name": "b",
+        },
+        {
+          "type": "Identifier",
+          "name": "c",
+        },
+      ],
+      "init": [
+        {
+          "type": "NumericLiteral",
+          "value": "1",
+        },
+        {
+          "type": "NumericLiteral",
+          "value": "2",
+        },
+        {
+          "type": "NumericLiteral",
+          "value": "3",
+        },
+      ],
+    },
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const ast = parser.parse();
@@ -92,6 +123,33 @@ describe("Parser", () => {
 
     assertObjectMatch(
       serializerVisitor.visit(breakStatement) as Record<
+        string,
+        unknown
+      >,
+      result as Record<
+        string,
+        unknown
+      >,
+    );
+  });
+
+  test("parseReturnStatement", {
+    "return": {
+      "type": "ReturnStatement",
+      "expressions": [],
+    },
+    "return;": {
+      "type": "ReturnStatement",
+      "expressions": [],
+    },
+  }, (source: string, result: unknown) => {
+    parser = createParser(source);
+    const ast = parser.parse();
+    const returnStatement = ast.block.statements[0];
+    const serializerVisitor = new SerializerVisitor();
+
+    assertObjectMatch(
+      serializerVisitor.visit(returnStatement) as Record<
         string,
         unknown
       >,

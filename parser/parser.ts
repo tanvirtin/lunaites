@@ -236,19 +236,27 @@ class Parser {
     return this;
   }
 
-  private expect(
-    value: string | TokenType,
-    expected?: string,
-    near?: string,
-  ): TokenCursor | never {
+  private assertToken(tokenType: TokenType): Parser | never {
+    if (!this.token_cursor.consume(tokenType)) {
+      ParserException.raiseUnexpectedTokenError(
+        this.scanner,
+        this.token_cursor.current,
+        this.token_cursor.next,
+      );
+    }
+
+    return this;
+  }
+
+  private expect(value: string | TokenType): TokenCursor | never {
     if (this.token_cursor.match(value)) {
       return this.token_cursor;
     }
 
-    ParserException.raiseExpectedToken(
+    ParserException.raiseExpectedError(
       this.scanner,
-      expected ?? value,
-      near ?? this.token_cursor.next.value,
+      value,
+      this.token_cursor.next,
     );
   }
 
@@ -346,10 +354,10 @@ class Parser {
       this.nullDenotationParseletTable[this.token_cursor.current.type];
 
     if (!nullDenotationParselet) {
-      ParserException.raiseExpectedToken(
+      ParserException.raiseExpectedError(
         this.scanner,
         "<expression>",
-        this.token_cursor.next.value,
+        this.token_cursor.next,
       );
     }
 
@@ -365,10 +373,10 @@ class Parser {
         this.leftDenotationParseletTable[this.token_cursor.current.type];
 
       if (!leftDenotationParselet) {
-        ParserException.raiseExpectedToken(
+        ParserException.raiseExpectedError(
           this.scanner,
           "<expression>",
-          this.token_cursor.next.value,
+          this.token_cursor.next,
         );
       }
 
@@ -408,10 +416,10 @@ class Parser {
     }
 
     // Replicating the lua REPL error.
-    ParserException.raiseExpectedToken(
+    ParserException.raiseExpectedError(
       this.scanner,
       "<name>",
-      this.token_cursor.next.value,
+      this.token_cursor.next,
     );
   }
 
@@ -440,14 +448,16 @@ class Parser {
 
     this.expect("return").advance();
 
-    if (!this.token_cursor.eofToken) {
-      do {
-        expressions.push(this.parseExpression(Precedence.Lowest));
-        this.token_cursor.advance();
-      } while (this.token_cursor.consume(","));
-    }
+    while (!this.token_cursor.consume(";") && !this.token_cursor.eofToken) {
+      const expression = this.parseExpression(Precedence.Lowest);
 
-    this.token_cursor.consume(";");
+      expressions.push(expression);
+      this.token_cursor.advance();
+
+      if (!this.token_cursor.consume(",")) {
+        break;
+      }
+    }
 
     return new ast.ReturnStatement(expressions);
   }
@@ -601,7 +611,7 @@ class Parser {
 
     // A chunk must end on an EOF token, if any other token is there
     // after we are done with parsing a chunk other than EOF it's invalid.
-    this.expect(TokenType.EOF);
+    this.assertToken(TokenType.EOF);
 
     return new ast.Chunk(block);
   }

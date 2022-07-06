@@ -1,25 +1,25 @@
 import { Exception, Scanner, Token } from "./mod.ts";
 
 class ParserException {
-  static raiseExpectedToken(
+  static raiseExpectedError(
     scanner: Scanner,
     expected: string,
-    near: string,
+    nearToken: Token,
   ): never {
     Exception.raiseParserError(
       scanner,
-      `${expected} expected near '${near}'`,
+      `${expected} expected near '${nearToken.value}'`,
     );
   }
 
-  static raiseUnexpectedToken(
+  static raiseUnexpectedTokenError(
     scanner: Scanner,
-    token: Token,
-    near: string,
+    unexpectedToken: Token,
+    nearToken: Token,
   ): never {
     Exception.raiseParserError(
       scanner,
-      `unexpected ${token.type} '${token.value}' near '${near}'`,
+      `unexpected ${unexpectedToken.type} '${unexpectedToken.value}' near '${nearToken.value}'`,
     );
   }
 }
