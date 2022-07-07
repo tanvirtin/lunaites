@@ -1,99 +1,97 @@
-import { ast, Visitor } from "./mod.ts";
+import { ast } from "../mod.ts";
+import { Visitor } from "./mod.ts";
 
-enum NodeType {
-  Literal = "Literal",
-  NilLiteral = "NilLiteral",
-  VarargLiteral = "VarargLiteral",
-  StringLiteral = "StringLiteral",
-  NumericLiteral = "NumericLiteral",
-  BooleanLiteral = "BooleanLiteral",
-  CommentLiteral = "CommentLiteral",
-  Identifier = "Identifier",
-  GroupingExpression = "GroupingExpression",
-  UnaryExpression = "UnaryExpression",
-  BinaryExpression = "BinaryExpression",
-  LocalStatement = "LocalStatement",
-  ReturnStatement = "ReturnStatement",
-  LabelStatement = "LabelStatement",
-  GotoStatement = "GotoStatement",
-  BreakStatement = "BreakStatement",
-  DoStatement = "DoStatement",
-  RepeatStatement = "RepeatStatement",
-  WhileStatement = "WhileStatement",
-  Block = "Block",
-  Chunk = "Chunk",
-}
-
-class ReducerVisitor implements Visitor {
-  visitLiteral(_node: ast.Literal) {
-    return NodeType.Literal;
+class SerializerVisitor implements Visitor {
+  visitLiteral(node: ast.Literal) {
+    return {
+      type: ast.NodeType.Literal,
+      value: node.token.value,
+    };
   }
 
-  visitNilLiteral(_node: ast.NilLiteral) {
-    return NodeType.NilLiteral;
+  visitNilLiteral(node: ast.NilLiteral) {
+    return {
+      type: ast.NodeType.NilLiteral,
+      value: node.token.value,
+    };
   }
 
-  visitVarargLiteral(_node: ast.VarargLiteral) {
-    return NodeType.VarargLiteral;
+  visitVarargLiteral(node: ast.VarargLiteral) {
+    return {
+      type: ast.NodeType.VarargLiteral,
+      value: node.token.value,
+    };
   }
 
-  visitStringLiteral(_node: ast.StringLiteral) {
-    return NodeType.StringLiteral;
+  visitStringLiteral(node: ast.StringLiteral) {
+    return {
+      type: ast.NodeType.StringLiteral,
+      value: node.token.value,
+    };
   }
 
-  visitNumericLiteral(_node: ast.NumericLiteral) {
-    return NodeType.NumericLiteral;
+  visitNumericLiteral(node: ast.NumericLiteral) {
+    return {
+      type: ast.NodeType.NumericLiteral,
+      value: node.token.value,
+    };
   }
 
-  visitBooleanLiteral(_node: ast.BooleanLiteral) {
-    return NodeType.BooleanLiteral;
+  visitBooleanLiteral(node: ast.BooleanLiteral) {
+    return {
+      type: ast.NodeType.BooleanLiteral,
+      value: node.token.value,
+    };
   }
 
-  visitCommentLiteral(_node: ast.CommentLiteral) {
-    return NodeType.CommentLiteral;
+  visitCommentLiteral(node: ast.CommentLiteral) {
+    return {
+      type: ast.NodeType.CommentLiteral,
+      value: node.token.value,
+    };
   }
 
-  visitIdentifier(_node: ast.Identifier) {
-    return NodeType.Identifier;
+  visitIdentifier(node: ast.Identifier) {
+    return {
+      type: ast.NodeType.Identifier,
+      name: node.token.value,
+    };
   }
 
-  visitGotoStatement(_node: ast.GotoStatement): unknown {
-    return NodeType.GotoStatement;
+  visitGotoStatement(node: ast.GotoStatement): unknown {
+    return {
+      type: ast.NodeType.GotoStatement,
+      label: node.label.accept(this),
+    };
   }
 
   visitGroupingExpression(node: ast.GroupingExpression): unknown {
     return {
-      type: NodeType.GroupingExpression,
+      type: ast.NodeType.GroupingExpression,
       expression: node.expression.accept(this),
     };
   }
 
   visitUnaryExpression(node: ast.UnaryExpression): unknown {
     return {
-      type: NodeType.UnaryExpression,
+      type: ast.NodeType.UnaryExpression,
+      operator: node.operator.value,
       argument: node.argument.accept(this),
     };
   }
 
   visitBinaryExpression(node: ast.BinaryExpression): unknown {
     return {
-      type: NodeType.BinaryExpression,
+      type: ast.NodeType.BinaryExpression,
       left: node.left.accept(this),
+      operator: node.operator.value,
       right: node.right.accept(this),
     };
   }
 
-  visitLabelStatement(_node: ast.LabelStatement) {
-    return NodeType.LabelStatement;
-  }
-
-  visitBreakStatement(_node: ast.BreakStatement): unknown {
-    return NodeType.BreakStatement;
-  }
-
   visitLocalStatement(node: ast.LocalStatement): unknown {
     return {
-      type: NodeType.LocalStatement,
+      type: ast.NodeType.LocalStatement,
       variables: node.variables.map((variable) => variable.accept(this)),
       init: node.init.map((expression) => expression.accept(this)),
     };
@@ -101,14 +99,27 @@ class ReducerVisitor implements Visitor {
 
   visitReturnStatement(node: ast.ReturnStatement): unknown {
     return {
-      type: NodeType.ReturnStatement,
+      type: ast.NodeType.ReturnStatement,
       expressions: node.arguments.map((argument) => argument.accept(this)),
+    };
+  }
+
+  visitLabelStatement(node: ast.LabelStatement) {
+    return {
+      type: ast.NodeType.LabelStatement,
+      name: node.name,
+    };
+  }
+
+  visitBreakStatement(_node: ast.BreakStatement): unknown {
+    return {
+      type: ast.NodeType.BreakStatement,
     };
   }
 
   visitRepeatStatement(node: ast.RepeatStatement): unknown {
     return {
-      type: NodeType.RepeatStatement,
+      type: ast.NodeType.BreakStatement,
       condition: node.condition.accept(this),
       body: node.block.accept(this),
     };
@@ -116,7 +127,7 @@ class ReducerVisitor implements Visitor {
 
   visitWhileStatement(node: ast.WhileStatement): unknown {
     return {
-      type: NodeType.WhileStatement,
+      type: ast.NodeType.WhileStatement,
       condition: node.condition.accept(this),
       body: node.block.accept(this),
     };
@@ -124,7 +135,7 @@ class ReducerVisitor implements Visitor {
 
   visitDoStatement(node: ast.DoStatement): unknown {
     return {
-      type: NodeType.DoStatement,
+      type: ast.NodeType.DoStatement,
       body: node.block.accept(this),
     };
   }
@@ -135,7 +146,7 @@ class ReducerVisitor implements Visitor {
 
   visitChunk(node: ast.Chunk): unknown {
     return {
-      type: NodeType.Chunk,
+      type: ast.NodeType.Chunk,
       body: node.block.accept(this),
     };
   }
@@ -188,4 +199,4 @@ class ReducerVisitor implements Visitor {
   }
 }
 
-export { NodeType, ReducerVisitor };
+export { SerializerVisitor };

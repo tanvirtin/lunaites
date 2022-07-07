@@ -1,96 +1,76 @@
-import { ast, Visitor } from "./mod.ts";
+import { ast } from "../mod.ts";
+import { Visitor } from "./mod.ts";
 
-class SerializerVisitor implements Visitor {
-  visitLiteral(node: ast.Literal) {
-    return {
-      type: "Literal",
-      value: node.token.value,
-    };
+class MinimizerVisitor implements Visitor {
+  visitLiteral(_node: ast.Literal) {
+    return ast.NodeType.Literal;
   }
 
-  visitNilLiteral(node: ast.NilLiteral) {
-    return {
-      type: "NilLiteral",
-      value: node.token.value,
-    };
+  visitNilLiteral(_node: ast.NilLiteral) {
+    return ast.NodeType.NilLiteral;
   }
 
-  visitVarargLiteral(node: ast.VarargLiteral) {
-    return {
-      type: "VarargLiteral",
-      value: node.token.value,
-    };
+  visitVarargLiteral(_node: ast.VarargLiteral) {
+    return ast.NodeType.VarargLiteral;
   }
 
-  visitStringLiteral(node: ast.StringLiteral) {
-    return {
-      type: "StringLiteral",
-      value: node.token.value,
-    };
+  visitStringLiteral(_node: ast.StringLiteral) {
+    return ast.NodeType.StringLiteral;
   }
 
-  visitNumericLiteral(node: ast.NumericLiteral) {
-    return {
-      type: "NumericLiteral",
-      value: node.token.value,
-    };
+  visitNumericLiteral(_node: ast.NumericLiteral) {
+    return ast.NodeType.NumericLiteral;
   }
 
-  visitBooleanLiteral(node: ast.BooleanLiteral) {
-    return {
-      type: "BooleanLiteral",
-      value: node.token.value,
-    };
+  visitBooleanLiteral(_node: ast.BooleanLiteral) {
+    return ast.NodeType.BooleanLiteral;
   }
 
-  visitCommentLiteral(node: ast.CommentLiteral) {
-    return {
-      type: "CommentLiteral",
-      value: node.token.value,
-    };
+  visitCommentLiteral(_node: ast.CommentLiteral) {
+    return ast.NodeType.CommentLiteral;
   }
 
-  visitIdentifier(node: ast.Identifier) {
-    return {
-      type: "Identifier",
-      name: node.token.value,
-    };
+  visitIdentifier(_node: ast.Identifier) {
+    return ast.NodeType.Identifier;
   }
 
-  visitGotoStatement(node: ast.GotoStatement): unknown {
-    return {
-      type: "GotoStatement",
-      label: node.label.accept(this),
-    };
+  visitGotoStatement(_node: ast.GotoStatement): unknown {
+    return ast.NodeType.GotoStatement;
   }
 
   visitGroupingExpression(node: ast.GroupingExpression): unknown {
     return {
-      type: "GroupingExpression",
+      type: ast.NodeType.GroupingExpression,
       expression: node.expression.accept(this),
     };
   }
 
   visitUnaryExpression(node: ast.UnaryExpression): unknown {
     return {
-      type: "UnaryExpression",
-      operator: node.operator.value,
+      type: ast.NodeType.UnaryExpression,
       argument: node.argument.accept(this),
     };
   }
 
   visitBinaryExpression(node: ast.BinaryExpression): unknown {
     return {
-      type: "BinaryExpression",
+      type: ast.NodeType.BinaryExpression,
       left: node.left.accept(this),
-      operator: node.operator.value,
       right: node.right.accept(this),
     };
   }
 
+  visitLabelStatement(_node: ast.LabelStatement) {
+    return ast.NodeType.LabelStatement;
+  }
+
+  visitBreakStatement(_node: ast.BreakStatement): unknown {
+    return ast.NodeType.BreakStatement;
+  }
+
   visitLocalStatement(node: ast.LocalStatement): unknown {
     return {
-      type: "LocalStatement",
+      type: ast.NodeType.LocalStatement,
       variables: node.variables.map((variable) => variable.accept(this)),
       init: node.init.map((expression) => expression.accept(this)),
     };
@@ -98,27 +78,14 @@ class SerializerVisitor implements Visitor {
 
   visitReturnStatement(node: ast.ReturnStatement): unknown {
     return {
-      type: "ReturnStatement",
+      type: ast.NodeType.ReturnStatement,
       expressions: node.arguments.map((argument) => argument.accept(this)),
-    };
-  }
-
-  visitLabelStatement(node: ast.LabelStatement) {
-    return {
-      type: "LabelStatement",
-      name: node.name,
-    };
-  }
-
-  visitBreakStatement(_node: ast.BreakStatement): unknown {
-    return {
-      type: "BreakStatement",
     };
   }
 
   visitRepeatStatement(node: ast.RepeatStatement): unknown {
     return {
-      type: "BreakStatement",
+      type: ast.NodeType.RepeatStatement,
       condition: node.condition.accept(this),
       body: node.block.accept(this),
     };
@@ -126,7 +93,7 @@ class SerializerVisitor implements Visitor {
 
   visitWhileStatement(node: ast.WhileStatement): unknown {
     return {
-      type: "WhileStatement",
+      type: ast.NodeType.WhileStatement,
       condition: node.condition.accept(this),
       body: node.block.accept(this),
     };
@@ -134,7 +101,7 @@ class SerializerVisitor implements Visitor {
 
   visitDoStatement(node: ast.DoStatement): unknown {
     return {
-      type: "DoStatement",
+      type: ast.NodeType.DoStatement,
       body: node.block.accept(this),
     };
   }
@@ -145,7 +112,7 @@ class SerializerVisitor implements Visitor {
 
   visitChunk(node: ast.Chunk): unknown {
     return {
-      type: "Chunk",
+      type: ast.NodeType.Chunk,
       body: node.block.accept(this),
     };
   }
@@ -198,4 +165,4 @@ class SerializerVisitor implements Visitor {
   }
 }
 
-export { SerializerVisitor };
+export { MinimizerVisitor };

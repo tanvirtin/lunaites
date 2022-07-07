@@ -1,4 +1,4 @@
-import { ast } from "./mod.ts";
+import { ast } from "../mod.ts";
 
 interface Visitor {
   visitLiteral(node: ast.Node): void;

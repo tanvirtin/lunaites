@@ -1,4 +1,4 @@
-import { NodeType, Parser, ReducerVisitor } from "./mod.ts";
+import { ast, MinimizerVisitor, Parser } from "./mod.ts";
 import { assertObjectMatch, assertStrictEquals, describe, it } from "./deps.ts";
 
 const {
@@ -10,7 +10,7 @@ const {
   NumericLiteral,
   GroupingExpression,
   BreakStatement,
-} = NodeType;
+} = ast.NodeType;
 
 function createParser(source: string) {
   return new Parser(source);
@@ -54,10 +54,10 @@ describe("Parser", () => {
     parser = createParser(source);
     const ast = parser.parse();
     const localStatement = ast.block.statements[0];
-    const reducerVisitor = new ReducerVisitor();
+    const minimizerVisitor = new MinimizerVisitor();
 
     assertObjectMatch(
-      reducerVisitor.visit(localStatement) as Record<
+      minimizerVisitor.visit(localStatement) as Record<
         string,
         unknown
       >,
@@ -74,10 +74,10 @@ describe("Parser", () => {
     parser = createParser(source);
     const ast = parser.parse();
     const breakStatement = ast.block.statements[0];
-    const reducerVisitor = new ReducerVisitor();
+    const minimizerVisitor = new MinimizerVisitor();
 
     assertStrictEquals(
-      reducerVisitor.visit(breakStatement) as Record<
+      minimizerVisitor.visit(breakStatement) as Record<
         string,
         unknown
       >,
@@ -132,10 +132,10 @@ describe("Parser", () => {
     parser = createParser(source);
     const ast = parser.parse();
     const returnStatement = ast.block.statements[0];
-    const reducerVisitor = new ReducerVisitor();
+    const minimizerVisitor = new MinimizerVisitor();
 
     assertObjectMatch(
-      reducerVisitor.visit(returnStatement) as Record<
+      minimizerVisitor.visit(returnStatement) as Record<
         string,
         unknown
       >,

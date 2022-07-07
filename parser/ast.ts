@@ -1,5 +1,29 @@
 import { Token, Visitor } from "./mod.ts";
 
+enum NodeType {
+  Literal = "Literal",
+  NilLiteral = "NilLiteral",
+  VarargLiteral = "VarargLiteral",
+  StringLiteral = "StringLiteral",
+  NumericLiteral = "NumericLiteral",
+  BooleanLiteral = "BooleanLiteral",
+  CommentLiteral = "CommentLiteral",
+  Identifier = "Identifier",
+  GroupingExpression = "GroupingExpression",
+  UnaryExpression = "UnaryExpression",
+  BinaryExpression = "BinaryExpression",
+  LocalStatement = "LocalStatement",
+  ReturnStatement = "ReturnStatement",
+  LabelStatement = "LabelStatement",
+  GotoStatement = "GotoStatement",
+  BreakStatement = "BreakStatement",
+  DoStatement = "DoStatement",
+  RepeatStatement = "RepeatStatement",
+  WhileStatement = "WhileStatement",
+  Block = "Block",
+  Chunk = "Chunk",
+}
+
 interface Node {
   accept(visitor: Visitor): unknown;
 }
@@ -252,6 +276,7 @@ export {
   Literal,
   LocalStatement,
   NilLiteral,
+  NodeType,
   NumericLiteral,
   RepeatStatement,
   ReturnStatement,
