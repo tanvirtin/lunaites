@@ -9,6 +9,7 @@ import {
 } from "./mod.ts";
 
 // Prerequisites: Backus-Naur Form
+// - http://marvin.cs.uidaho.edu/Teaching/CS445/grammar.pdf
 // References:
 // - https://www.lua.org/manual/5.4/manual.html#9
 // - https://craftinginterpreters.com/
@@ -329,7 +330,7 @@ class Parser {
     this.token_cursor.advance();
 
     // We gather the expression that can be found within the parenthesis.
-    const expression = this.parseExpression(Precedence.Lowest);
+    const expression = this.parseExpression();
 
     this.token_cursor.advance();
 
@@ -349,7 +350,9 @@ class Parser {
   //             functiondef | tableconstructor
   // prefixexp ::= (Name | '(' exp ')' ) { '[' exp ']' |
   //          '.' Name | ':' Name args | args }
-  private parseExpression(precedence: Precedence): ast.Expression {
+  parseExpression(
+    precedence: Precedence = Precedence.Lowest,
+  ): ast.Expression {
     const nullDenotationParselet =
       this.nullDenotationParseletTable[this.token_cursor.current.type];
 
@@ -407,7 +410,7 @@ class Parser {
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
       if (this.token_cursor.consume("=")) {
         do {
-          initializations.push(this.parseExpression(Precedence.Lowest));
+          initializations.push(this.parseExpression());
           this.token_cursor.advance();
         } while (this.token_cursor.consume(","));
       }
@@ -449,7 +452,7 @@ class Parser {
     this.expect("return").advance();
 
     while (!this.token_cursor.consume(";") && !this.token_cursor.eofToken) {
-      const expression = this.parseExpression(Precedence.Lowest);
+      const expression = this.parseExpression();
 
       expressions.push(expression);
       this.token_cursor.advance();
@@ -474,7 +477,7 @@ class Parser {
   parseWhileStatement(): ast.Statement {
     this.expect("while").advance();
 
-    const condition = this.parseExpression(Precedence.Lowest);
+    const condition = this.parseExpression();
 
     this.expect("do").advance();
 
@@ -501,7 +504,7 @@ class Parser {
 
     this.expect("until").advance();
 
-    const condition = this.parseExpression(Precedence.Lowest);
+    const condition = this.parseExpression();
 
     return new ast.RepeatStatement(block, condition);
   }
