@@ -1,5 +1,5 @@
 import { ast, MinimizerVisitor, Parser } from "./mod.ts";
-import { assertObjectMatch, assertStrictEquals, describe, it } from "./deps.ts";
+import { assertEquals, assertStrictEquals, describe, it } from "./deps.ts";
 
 const {
   BinaryExpression,
@@ -56,7 +56,7 @@ describe("Parser", () => {
     const localStatement = ast.block.statements[0];
     const minimizerVisitor = new MinimizerVisitor();
 
-    assertObjectMatch(
+    assertEquals(
       minimizerVisitor.visit(localStatement) as Record<
         string,
         unknown
@@ -102,6 +102,8 @@ describe("Parser", () => {
       expressions: [
         {
           type: BinaryExpression,
+          left: NumericLiteral,
+          right: NumericLiteral,
         },
       ],
     },
@@ -110,6 +112,7 @@ describe("Parser", () => {
       expressions: [
         {
           type: UnaryExpression,
+          argument: NumericLiteral,
         },
       ],
     },
@@ -122,6 +125,7 @@ describe("Parser", () => {
             type: BinaryExpression,
             left: {
               type: UnaryExpression,
+              argument: NumericLiteral,
             },
             right: NumericLiteral,
           },
@@ -134,7 +138,7 @@ describe("Parser", () => {
     const returnStatement = ast.block.statements[0];
     const minimizerVisitor = new MinimizerVisitor();
 
-    assertObjectMatch(
+    assertEquals(
       minimizerVisitor.visit(returnStatement) as Record<
         string,
         unknown
