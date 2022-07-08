@@ -1,4 +1,4 @@
-import { ast, MinimizerVisitor, Parser } from "./mod.ts";
+import { ast, MinimizerVisitor, Parser, SerializerVisitor } from "./mod.ts";
 import { assertEquals, assertStrictEquals, describe, it } from "./deps.ts";
 
 const {
@@ -10,6 +10,11 @@ const {
   NumericLiteral,
   GroupingExpression,
   BreakStatement,
+  StringLiteral,
+  BooleanLiteral,
+  NilLiteral,
+  VarargLiteral,
+  CommentLiteral,
 } = ast.NodeType;
 
 function createParser(source: string) {
@@ -34,9 +39,57 @@ function test(
 describe("Parser", () => {
   let parser: Parser;
 
+  test("parseExpression", {
+    "0": {
+      type: NumericLiteral,
+      value: "0",
+    },
+    "foo": {
+      type: Identifier,
+      name: "foo",
+    },
+    "'Hello, world!'": {
+      type: StringLiteral,
+      value: "'Hello, world!'",
+    },
+    '"Hello, world!"': {
+      type: StringLiteral,
+      value: '"Hello, world!"',
+    },
+    "true": {
+      type: BooleanLiteral,
+      value: "true",
+    },
+    "false": {
+      type: BooleanLiteral,
+      value: "false",
+    },
+    "nil": {
+      type: NilLiteral,
+      value: "nil",
+    },
+    "...": {
+      type: VarargLiteral,
+      value: "...",
+    },
+    "--\n": {
+      type: CommentLiteral,
+      value: "--",
+    },
+  }, (source: string, result: unknown) => {
+    parser = createParser(source);
+    const expressionNode = parser.parseExpression();
+    const serializerVisitor = new SerializerVisitor();
+
+    assertEquals(
+      serializerVisitor.visit(expressionNode) as unknown,
+      result as unknown,
+    );
+  });
+
   test("parseLocalStatement", {
     "local a = 3": {
-      type: "LocalStatement",
+      type: LocalStatement,
       variables: [Identifier],
       init: [NumericLiteral],
     },
@@ -57,14 +110,8 @@ describe("Parser", () => {
     const minimizerVisitor = new MinimizerVisitor();
 
     assertEquals(
-      minimizerVisitor.visit(localStatement) as Record<
-        string,
-        unknown
-      >,
-      result as Record<
-        string,
-        unknown
-      >,
+      minimizerVisitor.visit(localStatement) as unknown,
+      result as unknown,
     );
   });
 
@@ -77,14 +124,8 @@ describe("Parser", () => {
     const minimizerVisitor = new MinimizerVisitor();
 
     assertStrictEquals(
-      minimizerVisitor.visit(breakStatement) as Record<
-        string,
-        unknown
-      >,
-      result as Record<
-        string,
-        unknown
-      >,
+      minimizerVisitor.visit(breakStatement) as unknown,
+      result as unknown,
     );
   });
 
@@ -139,14 +180,8 @@ describe("Parser", () => {
     const minimizerVisitor = new MinimizerVisitor();
 
     assertEquals(
-      minimizerVisitor.visit(returnStatement) as Record<
-        string,
-        unknown
-      >,
-      result as Record<
-        string,
-        unknown
-      >,
+      minimizerVisitor.visit(returnStatement) as unknown,
+      result as unknown,
     );
   });
 });

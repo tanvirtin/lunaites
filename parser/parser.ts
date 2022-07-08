@@ -43,6 +43,9 @@ class Parser {
     this.token_cursor = token_cursor;
 
     this.registerParselets();
+
+    // We start the cursor.
+    this.token_cursor.advance();
   }
 
   private registerNullDenotationParselet(
@@ -353,6 +356,8 @@ class Parser {
   parseExpression(
     precedence: Precedence = Precedence.Lowest,
   ): ast.Expression {
+    // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
+    //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
     const nullDenotationParselet =
       this.nullDenotationParseletTable[this.token_cursor.current.type];
 
@@ -622,9 +627,6 @@ class Parser {
   }
 
   parse(): ast.Chunk {
-    // We start the cursor first.
-    this.token_cursor.advance();
-
     return this.parseChunk();
   }
 }
