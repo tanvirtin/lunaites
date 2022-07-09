@@ -344,7 +344,43 @@ describe("Parser", () => {
         },
       },
     },
-    // "(2 * (6 - (2 + 2)))": {},
+    "(2 * (6 - (2 + 2)))": {
+      type: GroupingExpression,
+      expression: {
+        type: BinaryExpression,
+        operator: "*",
+        left: {
+          type: NumericLiteral,
+          value: "2",
+        },
+        right: {
+          type: GroupingExpression,
+          expression: {
+            type: BinaryExpression,
+            operator: "-",
+            left: {
+              type: NumericLiteral,
+              value: "6",
+            },
+            right: {
+              type: GroupingExpression,
+              expression: {
+                type: BinaryExpression,
+                operator: "+",
+                left: {
+                  type: NumericLiteral,
+                  value: "2",
+                },
+                right: {
+                  type: NumericLiteral,
+                  value: "2",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     // -------------- PRECEDENCE -------------- //
   }, (source: string, result: unknown) => {
     parser = createParser(source);
