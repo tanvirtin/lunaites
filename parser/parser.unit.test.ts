@@ -76,6 +76,276 @@ describe("Parser", () => {
       type: CommentLiteral,
       value: "--",
     },
+    // -------------- PRECEDENCE -------------- //
+    // * has higher precedence than +.
+    "2 + 3 * 4": {
+      type: BinaryExpression,
+      operator: "+",
+      left: {
+        type: NumericLiteral,
+        value: "2",
+      },
+      right: {
+        type: BinaryExpression,
+        operator: "*",
+        left: {
+          type: NumericLiteral,
+          value: "3",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "4",
+        },
+      },
+    },
+    // * has higher precedence than -.
+    "20 - 3 * 4": {
+      type: BinaryExpression,
+      operator: "-",
+      left: {
+        type: NumericLiteral,
+        value: "20",
+      },
+      right: {
+        type: BinaryExpression,
+        operator: "*",
+        left: {
+          type: NumericLiteral,
+          value: "3",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "4",
+        },
+      },
+    },
+    // / has higher precedence than +.
+    "2 + 6 / 3": {
+      type: BinaryExpression,
+      operator: "+",
+      left: {
+        type: NumericLiteral,
+        value: "2",
+      },
+      right: {
+        type: BinaryExpression,
+        operator: "/",
+        left: {
+          type: NumericLiteral,
+          value: "6",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "3",
+        },
+      },
+    },
+    // / has higher precedence than -.
+    "2 - 6 / 3": {
+      type: BinaryExpression,
+      operator: "-",
+      left: {
+        type: NumericLiteral,
+        value: "2",
+      },
+      right: {
+        type: BinaryExpression,
+        operator: "/",
+        left: {
+          type: NumericLiteral,
+          value: "6",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "3",
+        },
+      },
+    },
+    // == has higher precedence than <
+    "false == 2 < 1": {
+      type: BinaryExpression,
+      operator: "<",
+      left: {
+        type: BinaryExpression,
+        operator: "==",
+        left: {
+          type: BooleanLiteral,
+          value: "false",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "2",
+        },
+      },
+      right: {
+        type: NumericLiteral,
+        value: "1",
+      },
+    },
+    // == has higher predence than >
+    "false == 1 > 2": {
+      type: BinaryExpression,
+      operator: ">",
+      left: {
+        type: BinaryExpression,
+        operator: "==",
+        left: {
+          type: BooleanLiteral,
+          value: "false",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "1",
+        },
+      },
+      right: {
+        type: NumericLiteral,
+        value: "2",
+      },
+    },
+    // == has higher precedence than <=
+    "false == 2 <= 1": {
+      type: BinaryExpression,
+      operator: "<=",
+      left: {
+        type: BinaryExpression,
+        operator: "==",
+        left: {
+          type: BooleanLiteral,
+          value: "false",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "2",
+        },
+      },
+      right: {
+        type: NumericLiteral,
+        value: "1",
+      },
+    },
+    // == has higher predence than >=
+    "false == 1 >= 2": {
+      type: BinaryExpression,
+      operator: ">=",
+      left: {
+        type: BinaryExpression,
+        operator: "==",
+        left: {
+          type: BooleanLiteral,
+          value: "false",
+        },
+        right: {
+          type: NumericLiteral,
+          value: "1",
+        },
+      },
+      right: {
+        type: NumericLiteral,
+        value: "2",
+      },
+    },
+    // 1 - 1 is not space-sensitive.
+    "1 - 1": {
+      type: BinaryExpression,
+      operator: "-",
+      left: {
+        type: NumericLiteral,
+        value: "1",
+      },
+      right: {
+        type: NumericLiteral,
+        value: "1",
+      },
+    },
+    "1 -1": {
+      type: BinaryExpression,
+      operator: "-",
+      left: {
+        type: NumericLiteral,
+        value: "1",
+      },
+      right: {
+        type: NumericLiteral,
+        value: "1",
+      },
+    },
+    "1- 1": {
+      type: BinaryExpression,
+      operator: "-",
+      left: {
+        type: NumericLiteral,
+        value: "1",
+      },
+      right: {
+        type: NumericLiteral,
+        value: "1",
+      },
+    },
+    "1-1": {
+      type: BinaryExpression,
+      operator: "-",
+      left: {
+        type: NumericLiteral,
+        value: "1",
+      },
+      right: {
+        type: NumericLiteral,
+        value: "1",
+      },
+    },
+    // () should have higher precedence over *
+    "2 * (2 + 2)": {
+      type: BinaryExpression,
+      operator: "*",
+      left: {
+        type: NumericLiteral,
+        value: "2",
+      },
+      right: {
+        type: GroupingExpression,
+        expression: {
+          type: BinaryExpression,
+          operator: "+",
+          left: {
+            type: NumericLiteral,
+            value: "2",
+          },
+          right: {
+            type: NumericLiteral,
+            value: "2",
+          },
+        },
+      },
+    },
+    "2 * ((2 + 2))": {
+      type: BinaryExpression,
+      operator: "*",
+      left: {
+        type: NumericLiteral,
+        value: "2",
+      },
+      right: {
+        type: GroupingExpression,
+        expression: {
+          type: GroupingExpression,
+          expression: {
+            type: BinaryExpression,
+            operator: "+",
+            left: {
+              type: NumericLiteral,
+              value: "2",
+            },
+            right: {
+              type: NumericLiteral,
+              value: "2",
+            },
+          },
+        },
+      },
+    },
+    // "(2 * (6 - (2 + 2)))": {},
+    // -------------- PRECEDENCE -------------- //
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const expressionNode = parser.parseExpression();
