@@ -92,18 +92,10 @@ class Identifier implements Expression {
 }
 
 class GroupingExpression implements Expression {
-  openParenthesis: Token;
   expression: Expression;
-  closedParenthesis: Token;
 
-  constructor(
-    openParenthesis: Token,
-    expression: Expression,
-    closedParenthesis: Token,
-  ) {
-    this.openParenthesis = openParenthesis;
+  constructor(expression: Expression) {
     this.expression = expression;
-    this.closedParenthesis = closedParenthesis;
   }
 
   accept(visitor: Visitor): unknown {

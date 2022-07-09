@@ -270,6 +270,20 @@ class Parser {
       .registerLeftDenotationParselets();
   }
 
+  // AST Node parsers.
+  // -----------------------------------------------------------------------
+  // Each method below will move the token cursor as necessary tokens are
+  // gathered to create a particular node in the ast.
+  //
+  // After parsing of a node is completed, the parser method should not move
+  // the token cursor any further.
+  //
+  // This means after an ast node has been parsed, the token cursor will be
+  // located in the last token that was part of the ast node that just got parsed.
+  //
+  // Since I am generating an ast through recursion it is important that each
+  // parser method keeps this behaviour consistent to avoid random bugs.
+
   private identifierParselet(): ast.Identifier {
     return new ast.Identifier(this.token_cursor.current);
   }
@@ -327,8 +341,6 @@ class Parser {
   }
 
   private groupingParselet(): ast.Expression {
-    const openParenthesisToken = this.token_cursor.current;
-
     // Skipping over the "("
     this.token_cursor.advance();
 
@@ -337,15 +349,9 @@ class Parser {
 
     this.token_cursor.advance();
 
-    this.expect(")").advance();
+    this.expect(")");
 
-    const closedParenthesisToken = this.token_cursor.current;
-
-    return new ast.GroupingExpression(
-      openParenthesisToken,
-      expression,
-      closedParenthesisToken,
-    );
+    return new ast.GroupingExpression(expression);
   }
 
   // exp ::= (unop exp | primary | prefixexp ) { binop exp }
