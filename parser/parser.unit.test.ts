@@ -409,6 +409,26 @@ describe("Parser", () => {
         value: "3",
       },
     },
+    // unary expression has a lower precedence than grouping expression.
+    "-(3 * 3)": {
+      type: UnaryExpression,
+      operator: "-",
+      argument: {
+        type: GroupingExpression,
+        expression: {
+          type: BinaryExpression,
+          operator: "*",
+          left: {
+            type: NumericLiteral,
+            value: "3",
+          },
+          right: {
+            type: NumericLiteral,
+            value: "3",
+          },
+        },
+      },
+    },
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const expressionNode = parser.parseExpression();
