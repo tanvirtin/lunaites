@@ -76,8 +76,19 @@ describe("Parser", () => {
       type: CommentLiteral,
       value: "--",
     },
-    // -------------- PRECEDENCE -------------- //
-    // * has higher precedence than +.
+  }, (source: string, result: unknown) => {
+    parser = createParser(source);
+    const expressionNode = parser.parseExpression();
+    const serializerVisitor = new SerializerVisitor();
+
+    assertEquals(
+      serializerVisitor.visit(expressionNode) as unknown,
+      result as unknown,
+    );
+  });
+
+  test("parseExpression - Precedence", {
+    // + has a lower predence than *
     "2 + 3 * 4": {
       type: BinaryExpression,
       operator: "+",
@@ -98,7 +109,7 @@ describe("Parser", () => {
         },
       },
     },
-    // * has higher precedence than -.
+    // - has a lower predence than *
     "20 - 3 * 4": {
       type: BinaryExpression,
       operator: "-",
@@ -119,7 +130,7 @@ describe("Parser", () => {
         },
       },
     },
-    // / has higher precedence than +.
+    // + has a lower predence than /
     "2 + 6 / 3": {
       type: BinaryExpression,
       operator: "+",
@@ -140,7 +151,7 @@ describe("Parser", () => {
         },
       },
     },
-    // / has higher precedence than -.
+    // - has a lower predence than /
     "2 - 6 / 3": {
       type: BinaryExpression,
       operator: "-",
@@ -161,7 +172,7 @@ describe("Parser", () => {
         },
       },
     },
-    // == has higher precedence than <
+    // < has a lower precedence than ==
     "false == 2 < 1": {
       type: BinaryExpression,
       operator: "<",
@@ -182,7 +193,7 @@ describe("Parser", () => {
         value: "1",
       },
     },
-    // == has higher predence than >
+    // > has a lower predecence than ==
     "false == 1 > 2": {
       type: BinaryExpression,
       operator: ">",
@@ -203,7 +214,7 @@ describe("Parser", () => {
         value: "2",
       },
     },
-    // == has higher precedence than <=
+    // <= has a lower predecence than ==
     "false == 2 <= 1": {
       type: BinaryExpression,
       operator: "<=",
@@ -224,7 +235,7 @@ describe("Parser", () => {
         value: "1",
       },
     },
-    // == has higher predence than >=
+    // >= has a lower predecence than ==
     "false == 1 >= 2": {
       type: BinaryExpression,
       operator: ">=",
@@ -245,7 +256,7 @@ describe("Parser", () => {
         value: "2",
       },
     },
-    // 1 - 1 is not space-sensitive.
+    // Case sensitivity.
     "1 - 1": {
       type: BinaryExpression,
       operator: "-",
@@ -294,7 +305,7 @@ describe("Parser", () => {
         value: "1",
       },
     },
-    // () should have higher precedence over *
+    // Grouping
     "2 * (2 + 2)": {
       type: BinaryExpression,
       operator: "*",
@@ -381,7 +392,23 @@ describe("Parser", () => {
         },
       },
     },
-    // -------------- PRECEDENCE -------------- //
+    // * has a lower precedence than unary expression.
+    "-3 * 3": {
+      type: BinaryExpression,
+      operator: "*",
+      left: {
+        type: UnaryExpression,
+        operator: "-",
+        argument: {
+          type: NumericLiteral,
+          value: "3",
+        },
+      },
+      right: {
+        type: NumericLiteral,
+        value: "3",
+      },
+    },
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const expressionNode = parser.parseExpression();
