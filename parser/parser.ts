@@ -377,6 +377,18 @@ class Parser {
 
     let leftExpression = nullDenotationParselet();
 
+    // If we encounter an operator whos precedence is greater than
+    // the last token's precedence, then the new operator will pull
+    // the previous operator's intentended right expression as it's left.
+    // This means that the last operator's right will be the expression
+    // tied to the new operator with higher precedence.
+    // Demonstrating what I mean for the expression: 1 + 2 * 3
+    //                   AST
+    //                    +
+    //                  /   \
+    //                 1     * <-- Operator precendece in action.
+    //                      / \
+    //                     2   3
     while (
       !this.token_cursor.eofToken &&
       precedence < this.token_cursor.next.precedence
