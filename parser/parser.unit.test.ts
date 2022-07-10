@@ -993,6 +993,7 @@ describe("Parser", () => {
 
   test("parseBreakStatement", {
     "break": BreakStatement,
+    "break;": BreakStatement,
   }, (source: string, result: unknown) => {
     parser = createParser(source);
     const ast = parser.parse();
