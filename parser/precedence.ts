@@ -1,18 +1,19 @@
 import { Token, TokenType } from "./mod.ts";
 
+// Precedence is a static class (enum with methods).
 class Precedence {
   static Lowest = 1;
   static Or = 2; // or
   static And = 3; // and
-  static Comparison = 4; // <, >, <=, >=, ~= or ==
+  static Comparison = 4; // <, >, <=, >=, ~=, ==
   static BitwiseOr = 5; // |
   static BitwiseExclusiveOr = 6; // ~
   static BitwiseAnd = 7; // &
-  static BitwiseShift = 8; // >> or <<
+  static BitwiseShift = 8; // >>, <<
   static StringConcat = 9; // ..
-  static Term = 10; // + or -
+  static Term = 10; // +, -
   static Factor = 11; // *, /, //
-  static Unary = 12; // -, #, ~ or not
+  static Unary = 12; // -, #, ~, not
   static Exponent = 13; // ^
 
   // Each token will have a precedence associated with it.

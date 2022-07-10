@@ -344,6 +344,7 @@ class Parser {
     );
   }
 
+  // NOTE: Grouping expression implicitly will have the highest precedence.
   private groupingParselet(): ast.Expression {
     // Skipping over the "("
     this.token_cursor.advance();

@@ -119,7 +119,7 @@ describe("Tokenizer", () => {
         "hello_world": "hello_world",
         "helloWorld": "helloWorld",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
@@ -147,7 +147,7 @@ describe("Tokenizer", () => {
         "return": "return",
         "function": "function",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           tokenizer = createTokenizer(source, {
             contextualGoto: false,
           });
@@ -171,7 +171,7 @@ describe("Tokenizer", () => {
           value: "and",
         },
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), result);
@@ -184,7 +184,7 @@ describe("Tokenizer", () => {
         "true": "true",
         "false": "false",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
@@ -216,7 +216,7 @@ describe("Tokenizer", () => {
         "[[**Hello**, &_world_&.]] &_*Won#der#ful* day_&, **-don't- you** #th*in*k?#":
           "[[**Hello**, &_world_&.]]",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
@@ -290,7 +290,7 @@ describe("Tokenizer", () => {
         "[==============================sup":
           "[1:32] unfinished long string (starting at line 1) near '[=============================='",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           assertThrows(
             () => (createTokenizer(source)).tokenize(),
             TokenizerError,
@@ -304,7 +304,7 @@ describe("Tokenizer", () => {
       Object.entries({
         "Дождь": "[1:1] unfinished character near '",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           assertThrows(
             () => (createTokenizer(source)).tokenize(),
             TokenizerError,
@@ -346,7 +346,7 @@ describe("Tokenizer", () => {
         "0xBEBADA": "0xBEBADA",
         "0X1.921FB54442D18P+1": "0X1.921FB54442D18P+1",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
@@ -512,7 +512,7 @@ describe("Tokenizer", () => {
         "333e3ULL": "[1:9] malformed number near '333e3ULL'",
         "0x4p3ULL": "[1:9] malformed number near '0x4p3ULL'",
       }).forEach(([source, result]) => {
-        it(`when identifier is "${source}"`, () => {
+        it(`when source is "${source}"`, () => {
           assertThrows(
             () => (createTokenizer(source)).tokenize(),
             TokenizerError,
@@ -817,7 +817,7 @@ describe("Tokenizer", () => {
       "... .": "...",
       "... ..": "...",
     }).forEach(([source, result]) => {
-      it(`when identifier is "${source}"`, () => {
+      it(`when source is "${source}"`, () => {
         tokenizer = createTokenizer(source);
 
         assertObjectMatch(tokenizer.tokenize(), {
@@ -979,7 +979,7 @@ describe("Tokenizer", () => {
         value: "..",
       },
     }).forEach(([source, result]) => {
-      it(`should tokenize punctuators with double chars when identifier is "${source}"`, () => {
+      it(`should tokenize punctuators with double chars when source is "${source}"`, () => {
         tokenizer = createTokenizer(source);
 
         assertObjectMatch(tokenizer.tokenize(), result);
