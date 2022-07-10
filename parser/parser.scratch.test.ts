@@ -1,7 +1,24 @@
 import { assertEquals } from "./deps.ts";
-import { MinimizerVisitor, Parser } from "./mod.ts";
+import { ast, MinimizerVisitor, Parser } from "./mod.ts";
+
+const {
+  Chunk,
+  NumericLiteral,
+  LocalStatement,
+  Identifier,
+  BreakStatement,
+  BinaryExpression,
+  ReturnStatement,
+  StringLiteral,
+  BooleanLiteral,
+} = ast.NodeType;
 
 const source = `
+  local foo
+  local bar
+  local x, y, z
+  local j, k, l = 1, 2, 3
+  local m, n, o = true, "hello", foo
   local a = 3;
   local b = 4;
 
@@ -23,6 +40,56 @@ ${source}
     const minimizerVisitor = new MinimizerVisitor();
     const minimizedAst = minimizerVisitor.visit(ast);
 
-    assertEquals(minimizedAst, {});
+    assertEquals(minimizedAst, {
+      body: [
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier, Identifier, Identifier],
+          init: [],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier, Identifier, Identifier],
+          init: [NumericLiteral, NumericLiteral, NumericLiteral],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier, Identifier, Identifier],
+          init: [BooleanLiteral, StringLiteral, Identifier],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [NumericLiteral],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [NumericLiteral],
+        },
+        BreakStatement,
+        {
+          expressions: [
+            {
+              left: NumericLiteral,
+              right: NumericLiteral,
+              type: BinaryExpression,
+            },
+          ],
+          type: ReturnStatement,
+        },
+      ],
+      type: Chunk,
+    });
   },
 );
