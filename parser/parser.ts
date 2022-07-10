@@ -1,12 +1,28 @@
 import {
   ast,
   ParserException,
-  Precedence,
   Scanner,
+  Token,
   TokenCursor,
   Tokenizer,
   TokenType,
 } from "./mod.ts";
+
+enum Precedence {
+  Lowest = 1,
+  Or = 2, // or
+  And = 3, // and
+  Comparison = 4, // <, >, <=, >=, ~= or ==
+  BitwiseOr = 5, // |
+  BitwiseExclusiveOr = 6, // ~
+  BitwiseAnd = 7, // &
+  BitwiseShift = 8, // >> or <<
+  StringConcat = 9, // ..
+  Term = 10, // + or -
+  Factor = 11, // *, /, //
+  Unary = 12, // -, #, ~ or not
+  Exponent = 13, // ^
+}
 
 // Prerequisites: Backus-Naur Form
 // - http://marvin.cs.uidaho.edu/Teaching/CS445/grammar.pdf
@@ -264,6 +280,72 @@ class Parser {
     );
   }
 
+  // Each token will have a precedence associated with it.
+  // https://www.lua.org/pil/3.5.html
+  private getPrecedence(operatorToken: Token) {
+    switch (operatorToken.type) {
+      default:
+        return Precedence.Lowest;
+
+      case TokenType.Or:
+        return Precedence.Or;
+      case TokenType.And:
+        return Precedence.And;
+
+      case TokenType.GreaterThan:
+        return Precedence.Comparison;
+      case TokenType.LessThan:
+        return Precedence.Comparison;
+      case TokenType.GreaterThanEqual:
+        return Precedence.Comparison;
+      case TokenType.LessThanEqual:
+        return Precedence.Comparison;
+      case TokenType.DoubleEqual:
+        return Precedence.Comparison;
+      case TokenType.TildaEqual:
+        return Precedence.Comparison;
+
+      case TokenType.Pipe:
+        return Precedence.BitwiseOr;
+      case TokenType.Tilda:
+        return Precedence.BitwiseExclusiveOr;
+      case TokenType.Ampersand:
+        return Precedence.BitwiseAnd;
+      case TokenType.DoubleGreaterThan:
+        return Precedence.BitwiseShift;
+      case TokenType.DoubleLessThan:
+        return Precedence.BitwiseShift;
+
+      case TokenType.DoubleDot:
+        return Precedence.StringConcat;
+
+      case TokenType.Plus:
+        return Precedence.Term;
+      case TokenType.Minus:
+        return Precedence.Term;
+
+      case TokenType.Percentage:
+        return Precedence.Factor;
+      case TokenType.Star:
+        return Precedence.Factor;
+      case TokenType.Divide:
+        return Precedence.Factor;
+      case TokenType.DoubleDivide:
+        return Precedence.Factor;
+
+      case TokenType.Carrot:
+        return Precedence.Exponent;
+    }
+  }
+
+  private getUnaryPrecedence(_operatorToken: Token) {
+    return Precedence.Unary;
+  }
+
+  private getBinaryPrecedence(operatorToken: Token) {
+    return this.getPrecedence(operatorToken);
+  }
+
   private registerParselets(): Parser {
     return this
       .registerNullDenotationParselets()
@@ -319,7 +401,9 @@ class Parser {
     this.token_cursor.advance();
 
     // Get the right expression to attach to the operator.
-    const rightExpression = this.parseExpression(Precedence.Unary);
+    const rightExpression = this.parseExpression(
+      this.getUnaryPrecedence(operatorToken),
+    );
 
     return new ast.UnaryExpression(operatorToken, rightExpression);
   }
@@ -331,7 +415,9 @@ class Parser {
     this.token_cursor.advance();
 
     // Retrieve the right expression.
-    const rightExpression = this.parseExpression(operatorToken.precedence);
+    const rightExpression = this.parseExpression(
+      this.getBinaryPrecedence(operatorToken),
+    );
 
     return new ast.BinaryExpression(
       leftExpression,
@@ -391,7 +477,7 @@ class Parser {
     //                     2   3
     while (
       !this.token_cursor.eofToken &&
-      precedence < this.token_cursor.next.precedence
+      precedence < this.getPrecedence(this.token_cursor.next)
     ) {
       this.token_cursor.advance();
 

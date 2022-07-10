@@ -52,102 +52,12 @@ enum TokenType {
   EOF = "EOF", // <eof>
 }
 
-enum Precedence {
-  Lowest = 1,
-  Or = 2, // or
-  And = 3, // and
-  Comparison = 4, // <, >, <=, >=, ~= or ==
-  BitwiseOr = 5, // |
-  BitwiseExclusiveOr = 6, // ~
-  BitwiseAnd = 7, // &
-  BitwiseShift = 8, // >> or <<
-  StringConcat = 9, // ..
-  Term = 10, // + or -
-  Factor = 11, // *, /, //
-  Unary = 12, // -, #, ~ or not
-  Exponent = 13, // ^
-}
-
-interface TokenOptions {
+interface Token {
   type: TokenType;
   value: string;
   range: number[];
   lnum: number;
   lnumStartIndex: number;
-}
-
-class Token {
-  type: TokenType;
-  value: string;
-  range: number[];
-  lnum: number;
-  lnumStartIndex: number;
-
-  constructor({ type, value, range, lnum, lnumStartIndex }: TokenOptions) {
-    this.type = type;
-    this.value = value;
-    this.range = range;
-    this.lnum = lnum;
-    this.lnumStartIndex = lnumStartIndex;
-  }
-
-  // Each token will have a precedence associated with it.
-  // https://www.lua.org/pil/3.5.html
-  get precedence(): number {
-    switch (this.type) {
-      default:
-        return Precedence.Lowest;
-
-      case TokenType.Or:
-        return Precedence.Or;
-      case TokenType.And:
-        return Precedence.And;
-
-      case TokenType.GreaterThan:
-        return Precedence.Comparison;
-      case TokenType.LessThan:
-        return Precedence.Comparison;
-      case TokenType.GreaterThanEqual:
-        return Precedence.Comparison;
-      case TokenType.LessThanEqual:
-        return Precedence.Comparison;
-      case TokenType.DoubleEqual:
-        return Precedence.Comparison;
-      case TokenType.TildaEqual:
-        return Precedence.Comparison;
-
-      case TokenType.Pipe:
-        return Precedence.BitwiseOr;
-      case TokenType.Tilda:
-        return Precedence.BitwiseExclusiveOr;
-      case TokenType.Ampersand:
-        return Precedence.BitwiseAnd;
-      case TokenType.DoubleGreaterThan:
-        return Precedence.BitwiseShift;
-      case TokenType.DoubleLessThan:
-        return Precedence.BitwiseShift;
-
-      case TokenType.DoubleDot:
-        return Precedence.StringConcat;
-
-      case TokenType.Plus:
-        return Precedence.Term;
-      case TokenType.Minus:
-        return Precedence.Term;
-
-      case TokenType.Percentage:
-        return Precedence.Factor;
-      case TokenType.Star:
-        return Precedence.Factor;
-      case TokenType.Divide:
-        return Precedence.Factor;
-      case TokenType.DoubleDivide:
-        return Precedence.Factor;
-
-      case TokenType.Carrot:
-        return Precedence.Exponent;
-    }
-  }
 }
 
 interface TokenizerOptions {
@@ -444,13 +354,13 @@ class Tokenizer {
     // Mark the spot in the scanner for us to remember the start.
     scanner.mark();
 
-    return new Token({
+    return {
       type: TokenType.EOF,
       value: "<eof>",
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeComment(): Token {
@@ -467,13 +377,13 @@ class Tokenizer {
       scanner.scan();
     }
 
-    return new Token({
+    return {
       type: TokenType.CommentLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeLongComment(): Token {
@@ -488,13 +398,13 @@ class Tokenizer {
 
     this.scanLongString(true);
 
-    return new Token({
+    return {
       type: TokenType.CommentLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeStringLiteral(): Token {
@@ -527,13 +437,13 @@ class Tokenizer {
     // Scan over the ending string delimiter (", ')
     scanner.scan();
 
-    return new Token({
+    return {
       type: TokenType.StringLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeLongStringLiteral(): Token {
@@ -548,13 +458,13 @@ class Tokenizer {
 
     this.scanLongString(false);
 
-    return new Token({
+    return {
       type: TokenType.StringLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeIdentifier(): Token {
@@ -584,13 +494,13 @@ class Tokenizer {
       type = TokenType.NilLiteral;
     }
 
-    return new Token({
+    return {
       type,
       value,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeHexadecimalNumericLiteral(): Token {
@@ -641,13 +551,13 @@ class Tokenizer {
       TokenizerException.raiseMalformedNumberError(scanner);
     }
 
-    return new Token({
+    return {
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeDecimalNumericLiteral(): Token {
@@ -681,13 +591,13 @@ class Tokenizer {
       TokenizerException.raiseMalformedNumberError(scanner);
     }
 
-    return new Token({
+    return {
       type: TokenType.NumericLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizeNumericLiteral(): Token {
@@ -710,13 +620,13 @@ class Tokenizer {
     // skip over "...".
     scanner.scan().scan().scan();
 
-    return new Token({
+    return {
       type: TokenType.VarargLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   private tokenizePunctuator(punctuator: string): Token {
@@ -761,13 +671,13 @@ class Tokenizer {
 
     scanner.scan(punctuator.length);
 
-    return new Token({
+    return {
       type: punctuatorTable[punctuator],
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-    });
+    };
   }
 
   tokenize(): Token {
@@ -925,5 +835,5 @@ class Tokenizer {
   }
 }
 
-export { Precedence, Token, Tokenizer, TokenType };
-export type { TokenizerOptions };
+export { Tokenizer, TokenType };
+export type { Token, TokenizerOptions };
