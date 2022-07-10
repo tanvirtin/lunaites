@@ -1061,3 +1061,14 @@ describe("Parser", () => {
     );
   });
 });
+
+const parser = new Parser(`
+  local a = 3;
+  local b = 4;
+
+  break;
+
+  return 4 + 5;
+`);
+
+console.log(parser.parse());

@@ -352,6 +352,7 @@ class Parser {
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression();
 
+    // Skip over the last token that the expression ended on.
     this.token_cursor.advance();
 
     this.expect(")");
@@ -428,19 +429,20 @@ class Parser {
       const variables = [];
       const initializations = [];
 
-      // Good use of the do statement. We parse identifiers, while we
+      variables.push(this.identifierParselet());
+
       // keep encountering more identifiers we keep repeating.
-      do {
+      while (this.token_cursor.consumeNext(",")) {
         variables.push(this.identifierParselet());
-        this.token_cursor.advance();
-      } while (this.token_cursor.consume(","));
+      }
 
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
-      if (this.token_cursor.consume("=")) {
-        do {
+      if (this.token_cursor.consumeNext("=")) {
+        initializations.push(this.parseExpression());
+
+        while (this.token_cursor.consumeNext(",")) {
           initializations.push(this.parseExpression());
-          this.token_cursor.advance();
-        } while (this.token_cursor.consume(","));
+        }
       }
 
       return new ast.LocalStatement(variables, initializations);
@@ -460,9 +462,10 @@ class Parser {
 
     const name = this.identifierParselet();
 
+    // We advance over identifier token.
     this.token_cursor.advance();
 
-    this.expect("::").advance();
+    this.expect("::");
 
     return new ast.LabelStatement(name);
   }
@@ -479,18 +482,18 @@ class Parser {
 
     this.expect("return").advance();
 
-    while (!this.token_cursor.consume(";") && !this.token_cursor.eofToken) {
-      const expression = this.parseExpression();
-
-      expressions.push(expression);
-      this.token_cursor.advance();
-
-      if (!this.token_cursor.consume(",")) {
-        break;
-      }
+    if (this.token_cursor.consume(";") || this.token_cursor.eofToken) {
+      return new ast.ReturnStatement(expressions);
     }
 
-    this.token_cursor.consume(";");
+    expressions.push(this.parseExpression());
+
+    while (
+      this.token_cursor.consumeNext(",") &&
+      !this.token_cursor.consumeNext(";")
+    ) {
+      expressions.push(this.parseExpression());
+    }
 
     return new ast.ReturnStatement(expressions);
   }
@@ -537,11 +540,9 @@ class Parser {
     return new ast.RepeatStatement(block, condition);
   }
 
-  // break ::= 'break' [';']
+  // break ::= 'break'
   parseBreakStatement(): ast.Statement {
-    this.expect("break").advance();
-
-    this.token_cursor.consume(";");
+    this.expect("break");
 
     return new ast.BreakStatement();
   }
@@ -618,21 +619,27 @@ class Parser {
 
     const statements: ast.Statement[] = [];
 
+    // After a statement has been consumed we advance the cursor.
+    // NOTE: Neither expression or statement parser methods should not advance
+    //       the token cursor any more than they should.
+
     // Only continue this loop if:
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
     while (!this.token_cursor.eofToken && !this.token_cursor.isBlockFollow()) {
       if (this.token_cursor.current.value === "return") {
         statements.push(this.parseStatement());
+
+        this.token_cursor.advance();
+        this.token_cursor.consume(";");
+
         break;
       }
 
-      const statement = this.parseStatement();
+      statements.push(this.parseStatement());
 
-      // We ignore any random semicolons.
+      this.token_cursor.advance();
       this.token_cursor.consume(";");
-
-      statements.push(statement);
     }
 
     return new ast.Block(statements);
