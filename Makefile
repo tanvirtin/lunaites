@@ -19,6 +19,9 @@ e2e-tests:
 tests:
 	deno test -A --unstable ./*/*.*.test.ts
 
+coverage: 
+	deno test -A --coverage=cov/; deno coverage --lcov cov/ > cov.lcov
+
 check: lint fmt tests
 
 compile: 
