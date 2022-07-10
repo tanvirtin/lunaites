@@ -20,7 +20,7 @@ tests:
 	deno test -A --unstable ./*/*.*.test.ts
 
 coverage: 
-	deno test -A --coverage=cov/; deno coverage --lcov cov/ > cov.lcov
+	deno test -A --coverage=cov/; deno coverage --lcov cov/
 
 check: lint fmt tests
 
