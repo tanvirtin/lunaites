@@ -10,10 +10,12 @@ const {
   BinaryExpression,
   ReturnStatement,
   StringLiteral,
+  DoStatement,
   BooleanLiteral,
 } = ast.NodeType;
 
 const source = `
+  break;
   local foo
   local bar
   local x, y, z
@@ -21,7 +23,12 @@ const source = `
   local m, n, o = true, "hello", foo
   local a = 3;
   local b = 4;
+  break;
 
+  break;
+  do
+    local a = 3;
+  end
   break;
 
   return 4 + 5;
@@ -42,6 +49,7 @@ ${source}
 
     assertEquals(minimizedAst, {
       body: [
+        BreakStatement,
         {
           type: LocalStatement,
           variables: [Identifier],
@@ -76,6 +84,18 @@ ${source}
           type: LocalStatement,
           variables: [Identifier],
           init: [NumericLiteral],
+        },
+        BreakStatement,
+        BreakStatement,
+        {
+          type: DoStatement,
+          body: [
+            {
+              type: LocalStatement,
+              variables: [Identifier],
+              init: [NumericLiteral],
+            },
+          ],
         },
         BreakStatement,
         {

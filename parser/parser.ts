@@ -549,7 +549,7 @@ class Parser {
 
   // do ::= 'do' block 'end'
   parseDoStatement(): ast.Statement {
-    this.expect("goto").advance();
+    this.expect("do").advance();
 
     const block = this.parseBlock();
 
