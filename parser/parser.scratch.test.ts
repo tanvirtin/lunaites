@@ -12,6 +12,7 @@ const {
   StringLiteral,
   DoStatement,
   BooleanLiteral,
+  IfStatement,
 } = ast.NodeType;
 
 const source = `
@@ -25,11 +26,17 @@ const source = `
   local b = 4;
   break;
 
-  break;
   do
     local a = 3;
   end
-  break;
+
+  if 3 == 4 then
+    local a = 3;
+  elseif 4 == 5 then
+    local b = 4;
+  else
+    local c = 5;
+  end
 
   return 4 + 5;
 `;
@@ -86,7 +93,6 @@ ${source}
           init: [NumericLiteral],
         },
         BreakStatement,
-        BreakStatement,
         {
           type: DoStatement,
           body: [
@@ -97,7 +103,44 @@ ${source}
             },
           ],
         },
-        BreakStatement,
+        {
+          type: IfStatement,
+          ifCondition: {
+            type: BinaryExpression,
+            left: NumericLiteral,
+            right: NumericLiteral,
+          },
+          ifBlock: [
+            {
+              init: [NumericLiteral],
+              type: LocalStatement,
+              variables: [Identifier],
+            },
+          ],
+          elseifConditions: [
+            {
+              type: BinaryExpression,
+              left: NumericLiteral,
+              right: NumericLiteral,
+            },
+          ],
+          elseifBlocks: [
+            [
+              {
+                type: LocalStatement,
+                init: [NumericLiteral],
+                variables: [Identifier],
+              },
+            ],
+          ],
+          elseBlock: [
+            {
+              type: LocalStatement,
+              init: [NumericLiteral],
+              variables: [Identifier],
+            },
+          ],
+        },
         {
           expressions: [
             {

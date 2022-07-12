@@ -470,10 +470,46 @@ class Parser {
     return new ast.LabelStatement(name);
   }
 
-  // if ::= 'if' exp 'then' block {elif} ['else' block] 'end'
-  // elif ::= 'elseif' exp 'then' block
+  // if ::= 'if' exp 'then' block {elseif} ['else' block] 'end'
+  // elseif ::= 'elseif' exp 'then' block
   parseIfStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("if").advance();
+
+    const ifCondition = this.parseExpression();
+
+    this.token_cursor.advance();
+
+    this.expect("then").advance();
+
+    const ifBlock = this.parseBlock();
+
+    const elifBlocks: ast.Block[] = [];
+    const elifConditions: ast.Expression[] = [];
+
+    while (this.token_cursor.consume("elseif")) {
+      elifConditions.push(this.parseExpression());
+      this.token_cursor.advance();
+
+      this.token_cursor.advance();
+
+      elifBlocks.push(this.parseBlock());
+    }
+
+    let elseBlock: ast.Block | null = null;
+
+    if (this.token_cursor.consume("else")) {
+      elseBlock = this.parseBlock();
+    }
+
+    this.expect("end");
+
+    return new ast.IfStatement(
+      ifCondition,
+      ifBlock,
+      elifConditions,
+      elifBlocks,
+      elseBlock,
+    );
   }
 
   // retstat ::= 'return' [exp {',' exp}] [';']

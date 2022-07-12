@@ -20,6 +20,7 @@ interface Visitor {
   visitBreakStatement(node: ast.Node): void;
   visitRepeatStatement(node: ast.Node): void;
   visitWhileStatement(node: ast.Node): void;
+  visitIfStatement(node: ast.Node): void;
   visitBlock(node: ast.Node): void;
   visitChunk(node: ast.Node): void;
   visit(node: ast.Node): void;

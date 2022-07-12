@@ -26,16 +26,16 @@ make lint
 - [x] parseChunk
 - [x] parseBlock
 - [x] parseStatement
-- [ ] parseAssighmentOrCallStatement
 - [x] parseGotoStatement
 - [x] parseDoStatement
 - [x] parseBreakStatement
 - [x] parseRepeatStatement
-- [ ] parseForStatement
 - [x] parseWhileStatement
-- [ ] parseFunctionDeclaration
 - [x] parseReturnStatement
-- [ ] parseifStatement
+- [x] parseifStatement
 - [x] parseLabelStatement
 - [x] parseLocalStatement
 - [x] parseExpression
+- [ ] parseForStatement
+- [ ] parseFunctionDeclaration
+- [ ] parseAssighmentOrCallStatement

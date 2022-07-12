@@ -20,6 +20,7 @@ enum NodeType {
   DoStatement = "DoStatement",
   RepeatStatement = "RepeatStatement",
   WhileStatement = "WhileStatement",
+  IfStatement = "IfStatement",
   Block = "Block",
   Chunk = "Chunk",
 }
@@ -229,6 +230,32 @@ class WhileStatement implements Statement {
   }
 }
 
+class IfStatement implements Statement {
+  ifCondition: Expression;
+  ifBlock: Block;
+  elseifConditions: Expression[];
+  elseifBlocks: Block[];
+  elseBlock: Block | null;
+
+  constructor(
+    ifCondition: Expression,
+    ifBlock: Block,
+    elseifConditions: Expression[],
+    elseifBlocks: Block[],
+    elseBlock: Block | null,
+  ) {
+    this.ifCondition = ifCondition;
+    this.ifBlock = ifBlock;
+    this.elseifConditions = elseifConditions;
+    this.elseifBlocks = elseifBlocks;
+    this.elseBlock = elseBlock;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitIfStatement(this);
+  }
+}
+
 class Block implements Node {
   statements: Statement[];
 
@@ -264,6 +291,7 @@ export {
   GotoStatement,
   GroupingExpression,
   Identifier,
+  IfStatement,
   LabelStatement,
   Literal,
   LocalStatement,

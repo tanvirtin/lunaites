@@ -99,6 +99,19 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitIfStatement(node: ast.IfStatement): unknown {
+    return {
+      type: ast.NodeType.IfStatement,
+      ifCondition: node.ifCondition.accept(this),
+      ifBlock: node.ifBlock.accept(this),
+      elseifConditions: node.elseifConditions.map((condition) =>
+        condition.accept(this)
+      ),
+      elseifBlocks: node.elseifBlocks.map((block) => block.accept(this)),
+      elseBlock: node.elseBlock?.accept(this),
+    };
+  }
+
   visitDoStatement(node: ast.DoStatement): unknown {
     return {
       type: ast.NodeType.DoStatement,
