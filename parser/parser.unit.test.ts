@@ -7,6 +7,7 @@ const {
   Identifier,
   ReturnStatement,
   UnaryExpression,
+  FunctionDeclaration,
   NumericLiteral,
   GroupingExpression,
   BreakStatement,
@@ -1089,6 +1090,13 @@ const source = `
     local c = 5;
   end
 
+  function foo(x, y, z, ...)
+    local a = x + y;
+  end
+
+  function()
+  end
+
   return 4 + 5;
 `;
 
@@ -1191,6 +1199,30 @@ ${source}
               variables: [Identifier],
             },
           ],
+        },
+        {
+          type: FunctionDeclaration,
+          name: Identifier,
+          arguments: [Identifier, Identifier, Identifier, VarargLiteral],
+          block: [
+            {
+              type: LocalStatement,
+              variables: [Identifier],
+              init: [
+                {
+                  type: BinaryExpression,
+                  left: Identifier,
+                  right: Identifier,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: FunctionDeclaration,
+          name: undefined,
+          arguments: [],
+          block: [],
         },
         {
           expressions: [

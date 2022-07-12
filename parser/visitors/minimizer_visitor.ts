@@ -112,6 +112,15 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitFunctionDeclaration(node: ast.FunctionDeclaration): unknown {
+    return {
+      type: ast.NodeType.FunctionDeclaration,
+      arguments: node.arguments.map((argument) => argument.accept(this)),
+      block: node.block.accept(this),
+      name: node.name?.accept(this),
+    };
+  }
+
   visitDoStatement(node: ast.DoStatement): unknown {
     return {
       type: ast.NodeType.DoStatement,
@@ -148,6 +157,12 @@ class MinimizerVisitor implements Visitor {
         return this.visitLocalStatement(node as ast.LocalStatement);
       case ast.DoStatement:
         return this.visitDoStatement(node as ast.DoStatement);
+      case ast.IfStatement:
+        return this.visitIfStatement(node as ast.IfStatement);
+      case ast.WhileStatement:
+        return this.visitWhileStatement(node as ast.WhileStatement);
+      case ast.FunctionDeclaration:
+        return this.visitFunctionDeclaration(node as ast.FunctionDeclaration);
       case ast.BreakStatement:
         return this.visitBreakStatement(node as ast.BreakStatement);
       case ast.BinaryExpression:

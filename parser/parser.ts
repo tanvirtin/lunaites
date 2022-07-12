@@ -285,30 +285,44 @@ class Parser {
   // parser method keeps this behaviour consistent to avoid random bugs.
 
   private identifierParselet(): ast.Identifier {
+    this.expect(TokenType.Identifier);
+
     return new ast.Identifier(this.token_cursor.current);
   }
 
   private numericLiteralParselet(): ast.Expression {
+    this.expect(TokenType.NumericLiteral);
+
     return new ast.NumericLiteral(this.token_cursor.current);
   }
 
   private stringLiteralParselet(): ast.Expression {
+    this.expect(TokenType.StringLiteral);
+
     return new ast.StringLiteral(this.token_cursor.current);
   }
 
   private booleanLiteralParselet(): ast.Expression {
+    this.expect(TokenType.BooleanLiteral);
+
     return new ast.BooleanLiteral(this.token_cursor.current);
   }
 
   private nilLiteralParselet(): ast.Expression {
+    this.expect(TokenType.NilLiteral);
+
     return new ast.NilLiteral(this.token_cursor.current);
   }
 
   private varargLiteralParselet(): ast.Expression {
+    this.expect(TokenType.VarargLiteral);
+
     return new ast.VarargLiteral(this.token_cursor.current);
   }
 
   private commentLiteralParselet(): ast.Expression {
+    this.expect(TokenType.CommentLiteral);
+
     return new ast.CommentLiteral(this.token_cursor.current);
   }
 
@@ -534,10 +548,46 @@ class Parser {
     return new ast.ReturnStatement(expressions);
   }
 
-  // funcdecl ::= '(' [parlist] ')' block 'end'
+  // funcdecl ::= {Name} '(' [parlist] ')' block 'end'
   // parlist ::= Name {',' Name} | [',' '...'] | '...'
   parseFunctionDeclaration(): ast.Statement {
-    throw new Error("Not yet implemented");
+    this.expect("function").advance();
+
+    let name: ast.Identifier | null = null;
+
+    if (this.token_cursor.match(TokenType.Identifier)) {
+      name = this.identifierParselet();
+      this.token_cursor.advance();
+    }
+
+    this.expect("(").advance();
+
+    const argList: ast.Expression[] = [];
+
+    if (this.token_cursor.match(TokenType.VarargLiteral)) {
+      argList.push(this.varargLiteralParselet());
+    } else if (this.token_cursor.match(TokenType.Identifier)) {
+      argList.push(this.identifierParselet());
+
+      while (this.token_cursor.consumeNext(",")) {
+        if (this.token_cursor.match(TokenType.VarargLiteral)) {
+          argList.push(this.varargLiteralParselet());
+          break;
+        }
+
+        argList.push(this.identifierParselet());
+      }
+
+      this.token_cursor.advance();
+    }
+
+    this.expect(")").advance();
+
+    const block = this.parseBlock();
+
+    this.expect("end");
+
+    return new ast.FunctionDeclaration(argList, block, name);
   }
 
   // while ::= 'while' exp 'do' block 'end'

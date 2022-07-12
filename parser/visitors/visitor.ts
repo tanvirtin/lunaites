@@ -21,6 +21,7 @@ interface Visitor {
   visitRepeatStatement(node: ast.Node): void;
   visitWhileStatement(node: ast.Node): void;
   visitIfStatement(node: ast.Node): void;
+  visitFunctionDeclaration(node: ast.Node): void;
   visitBlock(node: ast.Node): void;
   visitChunk(node: ast.Node): void;
   visit(node: ast.Node): void;

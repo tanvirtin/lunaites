@@ -36,6 +36,6 @@ make lint
 - [x] parseLabelStatement
 - [x] parseLocalStatement
 - [x] parseExpression
+- [x] parseFunctionDeclaration
 - [ ] parseForStatement
-- [ ] parseFunctionDeclaration
 - [ ] parseAssighmentOrCallStatement

@@ -21,6 +21,7 @@ enum NodeType {
   RepeatStatement = "RepeatStatement",
   WhileStatement = "WhileStatement",
   IfStatement = "IfStatement",
+  FunctionDeclaration = "FunctionDeclaration",
   Block = "Block",
   Chunk = "Chunk",
 }
@@ -256,6 +257,22 @@ class IfStatement implements Statement {
   }
 }
 
+class FunctionDeclaration implements Statement {
+  name: Identifier | null;
+  arguments: Expression[];
+  block: Block;
+
+  constructor(argList: Expression[], block: Block, name: Identifier | null) {
+    this.arguments = argList;
+    this.block = block;
+    this.name = name;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitFunctionDeclaration(this);
+  }
+}
+
 class Block implements Node {
   statements: Statement[];
 
@@ -288,6 +305,7 @@ export {
   Chunk,
   CommentLiteral,
   DoStatement,
+  FunctionDeclaration,
   GotoStatement,
   GroupingExpression,
   Identifier,

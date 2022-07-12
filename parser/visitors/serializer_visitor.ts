@@ -153,6 +153,15 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitFunctionDeclaration(node: ast.FunctionDeclaration): unknown {
+    return {
+      type: ast.NodeType.FunctionDeclaration,
+      arguments: node.arguments.map((argument) => argument.accept(this)),
+      block: node.block.accept(this),
+      name: node.name?.accept(this),
+    };
+  }
+
   visitBlock(node: ast.Block): unknown {
     return node.statements.map((statement) => statement.accept(this));
   }
@@ -184,6 +193,12 @@ class SerializerVisitor implements Visitor {
         return this.visitDoStatement(node as ast.DoStatement);
       case ast.BreakStatement:
         return this.visitBreakStatement(node as ast.BreakStatement);
+      case ast.WhileStatement:
+        return this.visitWhileStatement(node as ast.WhileStatement);
+      case ast.IfStatement:
+        return this.visitIfStatement(node as ast.IfStatement);
+      case ast.FunctionDeclaration:
+        return this.visitFunctionDeclaration(node as ast.FunctionDeclaration);
       case ast.BinaryExpression:
         return this.visitBinaryExpression(node as ast.BinaryExpression);
       case ast.UnaryExpression:
