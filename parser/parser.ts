@@ -437,9 +437,7 @@ class Parser {
   parseLocalStatement(): ast.Statement {
     this.expect("local").advance();
 
-    const token = this.token_cursor.current;
-
-    if (token.type === TokenType.Identifier) {
+    if (this.token_cursor.match(TokenType.Identifier)) {
       const variables = [];
       const initializations = [];
 
@@ -460,6 +458,10 @@ class Parser {
       }
 
       return new ast.LocalStatement(variables, initializations);
+    }
+
+    if (this.token_cursor.match("function")) {
+      return this.parseFunctionDeclaration(true);
     }
 
     // Replicating the lua REPL error.
@@ -550,7 +552,7 @@ class Parser {
 
   // funcdecl ::= {Name} '(' [parlist] ')' block 'end'
   // parlist ::= Name {',' Name} | [',' '...'] | '...'
-  parseFunctionDeclaration(): ast.Statement {
+  parseFunctionDeclaration(isLocal: boolean): ast.Statement {
     this.expect("function").advance();
 
     let name: ast.Identifier | null = null;
@@ -587,7 +589,7 @@ class Parser {
 
     this.expect("end");
 
-    return new ast.FunctionDeclaration(argList, block, name);
+    return new ast.FunctionDeclaration(isLocal, argList, block, name);
   }
 
   // while ::= 'while' exp 'do' block 'end'
@@ -689,7 +691,7 @@ class Parser {
       case "for":
         return this.parseForStatement();
       case "function":
-        return this.parseFunctionDeclaration();
+        return this.parseFunctionDeclaration(false);
       case "local":
         return this.parseLocalStatement();
       case "::":

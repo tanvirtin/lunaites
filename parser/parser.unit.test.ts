@@ -1097,6 +1097,9 @@ const source = `
   function()
   end
 
+  local function bar()
+  end
+
   return 4 + 5;
 `;
 
@@ -1202,6 +1205,7 @@ ${source}
         },
         {
           type: FunctionDeclaration,
+          isLocal: false,
           name: Identifier,
           arguments: [Identifier, Identifier, Identifier, VarargLiteral],
           block: [
@@ -1220,7 +1224,15 @@ ${source}
         },
         {
           type: FunctionDeclaration,
+          isLocal: false,
           name: undefined,
+          arguments: [],
+          block: [],
+        },
+        {
+          type: FunctionDeclaration,
+          isLocal: true,
+          name: Identifier,
           arguments: [],
           block: [],
         },

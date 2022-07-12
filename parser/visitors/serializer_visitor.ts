@@ -156,6 +156,7 @@ class SerializerVisitor implements Visitor {
   visitFunctionDeclaration(node: ast.FunctionDeclaration): unknown {
     return {
       type: ast.NodeType.FunctionDeclaration,
+      isLocal: node.isLocal,
       arguments: node.arguments.map((argument) => argument.accept(this)),
       block: node.block.accept(this),
       name: node.name?.accept(this),

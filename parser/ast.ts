@@ -258,11 +258,18 @@ class IfStatement implements Statement {
 }
 
 class FunctionDeclaration implements Statement {
+  isLocal: boolean;
   name: Identifier | null;
   arguments: Expression[];
   block: Block;
 
-  constructor(argList: Expression[], block: Block, name: Identifier | null) {
+  constructor(
+    isLocal: boolean,
+    argList: Expression[],
+    block: Block,
+    name: Identifier | null,
+  ) {
+    this.isLocal = isLocal;
     this.arguments = argList;
     this.block = block;
     this.name = name;
