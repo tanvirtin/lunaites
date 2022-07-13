@@ -28,7 +28,7 @@ type LeftDenotationParseletTable = ParseletTable<LeftDenotationParselet>;
 // Pratt parser.
 class Parser {
   private scanner: Scanner;
-  private token_cursor: TokenCursor;
+  private tokenCursor: TokenCursor;
   private nullDenotationParseletTable: NullDenotationParseletTable = {};
   private leftDenotationParseletTable: LeftDenotationParseletTable = {};
 
@@ -37,15 +37,15 @@ class Parser {
     const tokenizer = new Tokenizer(scanner, {
       contextualGoto: false,
     });
-    const token_cursor = new TokenCursor(tokenizer);
+    const tokenCursor = new TokenCursor(tokenizer);
 
     this.scanner = scanner;
-    this.token_cursor = token_cursor;
+    this.tokenCursor = tokenCursor;
 
     this.registerParselets();
 
     // We start the cursor.
-    this.token_cursor.advance();
+    this.tokenCursor.advance();
   }
 
   private registerNullDenotationParselet(
@@ -241,11 +241,11 @@ class Parser {
   }
 
   private assertToken(tokenType: TokenType): Parser | never {
-    if (!this.token_cursor.consume(tokenType)) {
+    if (!this.tokenCursor.consume(tokenType)) {
       ParserException.raiseUnexpectedTokenError(
         this.scanner,
-        this.token_cursor.current,
-        this.token_cursor.next,
+        this.tokenCursor.current,
+        this.tokenCursor.next,
       );
     }
 
@@ -253,14 +253,14 @@ class Parser {
   }
 
   private expect(value: string | TokenType): TokenCursor | never {
-    if (this.token_cursor.match(value)) {
-      return this.token_cursor;
+    if (this.tokenCursor.match(value)) {
+      return this.tokenCursor;
     }
 
     ParserException.raiseExpectedError(
       this.scanner,
       value,
-      this.token_cursor.next,
+      this.tokenCursor.next,
     );
   }
 
@@ -287,50 +287,50 @@ class Parser {
   private identifierParselet(): ast.Identifier {
     this.expect(TokenType.Identifier);
 
-    return new ast.Identifier(this.token_cursor.current);
+    return new ast.Identifier(this.tokenCursor.current);
   }
 
   private numericLiteralParselet(): ast.Expression {
     this.expect(TokenType.NumericLiteral);
 
-    return new ast.NumericLiteral(this.token_cursor.current);
+    return new ast.NumericLiteral(this.tokenCursor.current);
   }
 
   private stringLiteralParselet(): ast.Expression {
     this.expect(TokenType.StringLiteral);
 
-    return new ast.StringLiteral(this.token_cursor.current);
+    return new ast.StringLiteral(this.tokenCursor.current);
   }
 
   private booleanLiteralParselet(): ast.Expression {
     this.expect(TokenType.BooleanLiteral);
 
-    return new ast.BooleanLiteral(this.token_cursor.current);
+    return new ast.BooleanLiteral(this.tokenCursor.current);
   }
 
   private nilLiteralParselet(): ast.Expression {
     this.expect(TokenType.NilLiteral);
 
-    return new ast.NilLiteral(this.token_cursor.current);
+    return new ast.NilLiteral(this.tokenCursor.current);
   }
 
   private varargLiteralParselet(): ast.Expression {
     this.expect(TokenType.VarargLiteral);
 
-    return new ast.VarargLiteral(this.token_cursor.current);
+    return new ast.VarargLiteral(this.tokenCursor.current);
   }
 
   private commentLiteralParselet(): ast.Expression {
     this.expect(TokenType.CommentLiteral);
 
-    return new ast.CommentLiteral(this.token_cursor.current);
+    return new ast.CommentLiteral(this.tokenCursor.current);
   }
 
   private unaryParselet(): ast.Expression {
-    const operatorToken = this.token_cursor.current;
+    const operatorToken = this.tokenCursor.current;
 
     // Skip over the operator.
-    this.token_cursor.advance();
+    this.tokenCursor.advance();
 
     // Get the right expression to attach to the operator.
     const rightExpression = this.parseExpression(
@@ -341,10 +341,10 @@ class Parser {
   }
 
   private binaryParselet(leftExpression: ast.Expression): ast.Expression {
-    const operatorToken = this.token_cursor.current;
+    const operatorToken = this.tokenCursor.current;
 
     // Skip over the operator.
-    this.token_cursor.advance();
+    this.tokenCursor.advance();
 
     // Retrieve the right expression.
     const rightExpression = this.parseExpression(
@@ -361,13 +361,13 @@ class Parser {
   // NOTE: Grouping expression implicitly will have the highest precedence.
   private groupingParselet(): ast.Expression {
     // Skipping over the "("
-    this.token_cursor.advance();
+    this.tokenCursor.advance();
 
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression();
 
     // Skip over the last token that the expression ended on.
-    this.token_cursor.advance();
+    this.tokenCursor.advance();
 
     this.expect(")");
 
@@ -385,13 +385,13 @@ class Parser {
     // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
     //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
     const nullDenotationParselet =
-      this.nullDenotationParseletTable[this.token_cursor.current.type];
+      this.nullDenotationParseletTable[this.tokenCursor.current.type];
 
     if (!nullDenotationParselet) {
       ParserException.raiseExpectedError(
         this.scanner,
         "<expression>",
-        this.token_cursor.next,
+        this.tokenCursor.next,
       );
     }
 
@@ -410,19 +410,19 @@ class Parser {
     //                      / \
     //                     2   3
     while (
-      !this.token_cursor.eofToken &&
-      precedence < Precedence.getPrecedence(this.token_cursor.next)
+      !this.tokenCursor.eofToken &&
+      precedence < Precedence.getPrecedence(this.tokenCursor.next)
     ) {
-      this.token_cursor.advance();
+      this.tokenCursor.advance();
 
       const leftDenotationParselet =
-        this.leftDenotationParseletTable[this.token_cursor.current.type];
+        this.leftDenotationParseletTable[this.tokenCursor.current.type];
 
       if (!leftDenotationParselet) {
         ParserException.raiseExpectedError(
           this.scanner,
           "<expression>",
-          this.token_cursor.next,
+          this.tokenCursor.next,
         );
       }
 
@@ -437,22 +437,22 @@ class Parser {
   parseLocalStatement(): ast.Statement {
     this.expect("local").advance();
 
-    if (this.token_cursor.match(TokenType.Identifier)) {
+    if (this.tokenCursor.match(TokenType.Identifier)) {
       const variables = [];
       const initializations = [];
 
       variables.push(this.identifierParselet());
 
       // keep encountering more identifiers we keep repeating.
-      while (this.token_cursor.consumeNext(",")) {
+      while (this.tokenCursor.consumeNext(",")) {
         variables.push(this.identifierParselet());
       }
 
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
-      if (this.token_cursor.consumeNext("=")) {
+      if (this.tokenCursor.consumeNext("=")) {
         initializations.push(this.parseExpression());
 
-        while (this.token_cursor.consumeNext(",")) {
+        while (this.tokenCursor.consumeNext(",")) {
           initializations.push(this.parseExpression());
         }
       }
@@ -460,7 +460,7 @@ class Parser {
       return new ast.LocalStatement(variables, initializations);
     }
 
-    if (this.token_cursor.match("function")) {
+    if (this.tokenCursor.match("function")) {
       return this.parseFunctionDeclaration(true);
     }
 
@@ -468,7 +468,7 @@ class Parser {
     ParserException.raiseExpectedError(
       this.scanner,
       "<name>",
-      this.token_cursor.next,
+      this.tokenCursor.next,
     );
   }
 
@@ -479,7 +479,7 @@ class Parser {
     const name = this.identifierParselet();
 
     // We advance over identifier token.
-    this.token_cursor.advance();
+    this.tokenCursor.advance();
 
     this.expect("::");
 
@@ -493,7 +493,7 @@ class Parser {
 
     const ifCondition = this.parseExpression();
 
-    this.token_cursor.advance();
+    this.tokenCursor.advance();
 
     this.expect("then").advance();
 
@@ -502,18 +502,18 @@ class Parser {
     const elifBlocks: ast.Block[] = [];
     const elifConditions: ast.Expression[] = [];
 
-    while (this.token_cursor.consume("elseif")) {
+    while (this.tokenCursor.consume("elseif")) {
       elifConditions.push(this.parseExpression());
-      this.token_cursor.advance();
+      this.tokenCursor.advance();
 
-      this.token_cursor.advance();
+      this.tokenCursor.advance();
 
       elifBlocks.push(this.parseBlock());
     }
 
     let elseBlock: ast.Block | null = null;
 
-    if (this.token_cursor.consume("else")) {
+    if (this.tokenCursor.consume("else")) {
       elseBlock = this.parseBlock();
     }
 
@@ -534,15 +534,15 @@ class Parser {
 
     this.expect("return").advance();
 
-    if (this.token_cursor.consume(";") || this.token_cursor.eofToken) {
+    if (this.tokenCursor.consume(";") || this.tokenCursor.eofToken) {
       return new ast.ReturnStatement(expressions);
     }
 
     expressions.push(this.parseExpression());
 
     while (
-      this.token_cursor.consumeNext(",") &&
-      !this.token_cursor.consumeNext(";")
+      this.tokenCursor.consumeNext(",") &&
+      !this.tokenCursor.consumeNext(";")
     ) {
       expressions.push(this.parseExpression());
     }
@@ -557,22 +557,22 @@ class Parser {
 
     let name: ast.Identifier | null = null;
 
-    if (this.token_cursor.match(TokenType.Identifier)) {
+    if (this.tokenCursor.match(TokenType.Identifier)) {
       name = this.identifierParselet();
-      this.token_cursor.advance();
+      this.tokenCursor.advance();
     }
 
     this.expect("(").advance();
 
     const argList: ast.Expression[] = [];
 
-    if (this.token_cursor.match(TokenType.VarargLiteral)) {
+    if (this.tokenCursor.match(TokenType.VarargLiteral)) {
       argList.push(this.varargLiteralParselet());
-    } else if (this.token_cursor.match(TokenType.Identifier)) {
+    } else if (this.tokenCursor.match(TokenType.Identifier)) {
       argList.push(this.identifierParselet());
 
-      while (this.token_cursor.consumeNext(",")) {
-        if (this.token_cursor.match(TokenType.VarargLiteral)) {
+      while (this.tokenCursor.consumeNext(",")) {
+        if (this.tokenCursor.match(TokenType.VarargLiteral)) {
           argList.push(this.varargLiteralParselet());
           break;
         }
@@ -580,7 +580,7 @@ class Parser {
         argList.push(this.identifierParselet());
       }
 
-      this.token_cursor.advance();
+      this.tokenCursor.advance();
     }
 
     this.expect(")").advance();
@@ -675,7 +675,7 @@ class Parser {
   //               if | for | function | local | label | assignment |
   //               functioncall | ';'
   parseStatement(): ast.Statement {
-    const token = this.token_cursor.current;
+    const token = this.tokenCursor.current;
 
     switch (token.value) {
       case "break":
@@ -701,26 +701,26 @@ class Parser {
       case "::":
         return this.parseLabelStatement();
       default:
-        if (!this.token_cursor.match(TokenType.Identifier)) {
+        if (!this.tokenCursor.match(TokenType.Identifier)) {
           ParserException.raiseUnexpectedTokenError(
             this.scanner,
-            this.token_cursor.current,
-            this.token_cursor.next,
+            this.tokenCursor.current,
+            this.tokenCursor.next,
           );
         }
 
-        if (this.token_cursor.multiMatchNext("=", ",")) {
+        if (this.tokenCursor.multiMatchNext("=", ",")) {
           return this.parseAssignmentStatement();
         }
 
-        if (this.token_cursor.multiMatchNext("(", "[", ".", ":", "(", "{")) {
+        if (this.tokenCursor.multiMatchNext("(", "[", ".", ":", "(", "{")) {
           return this.parseCallStatement();
         }
 
         ParserException.raiseExpectedError(
           this.scanner,
           "=",
-          this.token_cursor.next,
+          this.tokenCursor.next,
         );
     }
   }
@@ -738,20 +738,20 @@ class Parser {
     // Only continue this loop if:
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
-    while (!this.token_cursor.eofToken && !this.token_cursor.isBlockFollow()) {
-      if (this.token_cursor.current.value === "return") {
+    while (!this.tokenCursor.eofToken && !this.tokenCursor.isBlockFollow()) {
+      if (this.tokenCursor.current.value === "return") {
         statements.push(this.parseStatement());
 
-        this.token_cursor.advance();
-        this.token_cursor.consume(";");
+        this.tokenCursor.advance();
+        this.tokenCursor.consume(";");
 
         break;
       }
 
       statements.push(this.parseStatement());
 
-      this.token_cursor.advance();
-      this.token_cursor.consume(";");
+      this.tokenCursor.advance();
+      this.tokenCursor.consume(";");
     }
 
     return new ast.Block(statements);
