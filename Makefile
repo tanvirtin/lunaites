@@ -13,9 +13,6 @@ smoke-tests:
 integration-tests:
 	deno test -A --unstable ./*/*.integration.test.ts
 
-e2e-tests:
-	deno test -A --unstable ./*/*.e2e.test.ts
-
 tests:
 	deno test -A --unstable ./*/*.*.test.ts
 
