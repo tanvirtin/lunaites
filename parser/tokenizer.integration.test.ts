@@ -1,16 +1,16 @@
 import { Scanner, Tokenizer } from "./mod.ts";
-import { Suite, Test, TestType } from "../core/mod.ts";
+import { Suite, TestRunner, TestType } from "../core/mod.ts";
 
 import { assertObjectMatch, assertStrictEquals } from "./deps.ts";
 
 async function main() {
-  const test = new Test({
+  const testRunner = new TestRunner({
     name: "tokenizer",
     type: TestType.Integration,
     importMeta: import.meta,
   });
 
-  await test
+  await testRunner
     .registerIntegration((suite: Suite) => {
       let result;
       const scanner = new Scanner(suite.source);
@@ -29,7 +29,7 @@ async function main() {
       }
     });
 
-  test.run();
+  testRunner.run();
 }
 
 await main();

@@ -1,14 +1,14 @@
 import { Scanner, Tokenizer, TokenType } from "./mod.ts";
-import { Test, TestType } from "../core/mod.ts";
+import { TestRunner, TestType } from "../core/mod.ts";
 
 async function main() {
-  const test = new Test({
+  const testRunner = new TestRunner({
     name: "tokenizer",
     type: TestType.Smoke,
     importMeta: import.meta,
   });
 
-  await test
+  await testRunner
     .registerSmoke([
       "https://github.com/tanvirtin/vgit.nvim.git",
       "https://github.com/koreader/koreader",
@@ -31,7 +31,7 @@ async function main() {
       }
     });
 
-  test.run();
+  testRunner.run();
 }
 
 await main();

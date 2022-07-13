@@ -1,6 +1,0 @@
-source
-------
-repeat function x() break end until 0
-
-result
-------

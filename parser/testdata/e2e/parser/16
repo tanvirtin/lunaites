@@ -1,6 +1,0 @@
-source
-------
-do local a goto x end local b ::x:: f()
-
-result
-------

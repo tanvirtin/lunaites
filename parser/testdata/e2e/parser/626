@@ -1,6 +1,0 @@
-source
-------
-local function a(p) 1 end
-
-result
-------

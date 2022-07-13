@@ -1,6 +1,0 @@
-source
-------
-for a = 1, 2 do return return end
-
-result
-------

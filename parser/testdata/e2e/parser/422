@@ -1,6 +1,0 @@
-source
-------
-repeat "foo" until 1
-
-result
-------

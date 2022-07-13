@@ -1,6 +1,0 @@
-source
-------
-repeat goto x local a ::x:: until 0
-
-result
-------

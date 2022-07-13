@@ -1,6 +1,0 @@
-source
-------
-local a, b = 1, local
-
-result
-------

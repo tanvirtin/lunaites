@@ -1,6 +1,0 @@
-source
-------
-goto x local a ::x:: f()
-
-result
-------

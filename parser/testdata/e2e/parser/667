@@ -1,6 +1,0 @@
-source
-------
-local function x() break end
-
-result
-------

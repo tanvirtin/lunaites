@@ -1,6 +1,0 @@
-source
-------
-goto x do ::x:: end
-
-result
-------
