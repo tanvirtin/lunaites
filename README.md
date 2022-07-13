@@ -106,4 +106,5 @@ unop ::= ‘-’ | not | ‘#’ | ‘~’
 - [x] parseExpression
 - [x] parseFunctionDeclaration
 - [ ] parseForStatement
-- [ ] parseAssighmentOrCallStatement
+- [ ] parseAssignmentStatement
+- [ ] parseCallStatement

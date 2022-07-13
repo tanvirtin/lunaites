@@ -612,7 +612,7 @@ class Parser {
   // namelist ::= Name {',' Name}
   // explist ::= exp {',' exp}
   parseForStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+    throw new Error("for statement parser not yet implemented");
   }
 
   // repeat ::= 'repeat' block 'until' exp
@@ -661,10 +661,14 @@ class Parser {
   // var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
   // varlist ::= var {',' var}
   // explist ::= exp {',' exp}
+  parseAssignmentStatement(): ast.Statement {
+    throw new Error("assignment statement parser not yet implemented");
+  }
+
   // call ::= callexp
   // callexp ::= prefixexp args | prefixexp ':' Name args
-  parseAssignmentOrCallStatement(): ast.Statement {
-    throw new Error("Not yet implemented");
+  parseCallStatement(): ast.Statement {
+    throw new Error("call statement parser not yet implemented");
   }
 
   // statement ::= break | goto | do | while | repeat | return |
@@ -697,7 +701,27 @@ class Parser {
       case "::":
         return this.parseLabelStatement();
       default:
-        return this.parseAssignmentOrCallStatement();
+        if (!this.token_cursor.match(TokenType.Identifier)) {
+          ParserException.raiseUnexpectedTokenError(
+            this.scanner,
+            this.token_cursor.current,
+            this.token_cursor.next,
+          );
+        }
+
+        if (this.token_cursor.multiMatchNext("=", ",")) {
+          return this.parseAssignmentStatement();
+        }
+
+        if (this.token_cursor.multiMatchNext("(", "[", ".", ":", "(", "{")) {
+          return this.parseCallStatement();
+        }
+
+        ParserException.raiseExpectedError(
+          this.scanner,
+          "=",
+          this.token_cursor.next,
+        );
     }
   }
 

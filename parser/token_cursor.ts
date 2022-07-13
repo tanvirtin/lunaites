@@ -109,6 +109,14 @@ class TokenCursor {
     return this.next?.value === query;
   }
 
+  multiMatch(...args: string[] | TokenType[]): boolean {
+    return args.some((arg) => this.match(arg));
+  }
+
+  multiMatchNext(...args: string[] | TokenType[]): boolean {
+    return args.some((arg) => this.matchNext(arg));
+  }
+
   advance(): TokenCursor {
     return this.tokenize();
   }
