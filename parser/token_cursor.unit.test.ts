@@ -160,7 +160,7 @@ describe("TokenCursor", () => {
   });
 
   describe("match", () => {
-    it("should return true if the current token is the token type provided, false otherwise", () => {
+    it("should return true if the current token is the token type provided", () => {
       const cursor = createTokenCursor();
 
       assert(!cursor.match(TokenType.Keyword));
@@ -181,7 +181,7 @@ describe("TokenCursor", () => {
   });
 
   describe("matchNext", () => {
-    it("should return true if the next token is the token type provided, false otherwise", () => {
+    it("should return true if the next token is the token type provided", () => {
       const cursor = createTokenCursor();
 
       assert(cursor.matchNext(TokenType.Keyword));
@@ -198,6 +198,46 @@ describe("TokenCursor", () => {
 
       assert(cursor.matchNext(TokenType.Identifier));
       assert(cursor.matchNext("main"));
+    });
+  });
+
+  describe("multiMatch", () => {
+    it("should return true if the current token is among one of the token types provided", () => {
+      const cursor = createTokenCursor();
+
+      cursor
+        .advance();
+
+      assert(
+        cursor.multiMatch(
+          TokenType.Ampersand,
+          TokenType.BooleanLiteral,
+          TokenType.Carrot,
+          TokenType.Keyword,
+        ),
+      );
+
+      assert(cursor.multiMatch("main", "a", "sup", "local"));
+    });
+  });
+
+  describe("multiMatchNext", () => {
+    it("should return true if the current token is among one of the token types provided", () => {
+      const cursor = createTokenCursor();
+
+      cursor
+        .advance();
+
+      assert(
+        cursor.multiMatchNext(
+          TokenType.Ampersand,
+          TokenType.BooleanLiteral,
+          TokenType.Carrot,
+          TokenType.Keyword,
+        ),
+      );
+
+      assert(cursor.multiMatchNext("main", "a", "sup", "function", "local"));
     });
   });
 
