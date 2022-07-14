@@ -1105,7 +1105,7 @@ const source = `
 
 Deno.test(
   `
-Scratch Source test:
+Scratch source test:
 -------------------
 ${source}
 -------------------

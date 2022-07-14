@@ -661,23 +661,40 @@ class Parser {
   // var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
   // varlist ::= var {',' var}
   // explist ::= exp {',' exp}
+  // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   parseAssignmentStatement(): ast.Statement {
     throw new Error("assignment statement parser not yet implemented");
   }
 
   // call ::= callexp
   // callexp ::= prefixexp args | prefixexp ':' Name args
+  // args ::=  ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   parseCallStatement(): ast.Statement {
     throw new Error("call statement parser not yet implemented");
   }
 
-  // statement ::= break | goto | do | while | repeat | return |
-  //               if | for | function | local | label | assignment |
-  //               functioncall | ';'
+  // stat ::=  ‘;’ |
+  //         varlist ‘=’ explist |
+  //         functioncall |
+  //         label |
+  //         break |
+  //         goto Name |
+  //         do block end |
+  //         while exp do block end |
+  //         repeat block until exp |
+  //         if exp then block {elseif exp then block} [else block] end |
+  //         for Name ‘=’ exp ‘,’ exp [‘,’ exp] do block end |
+  //         for namelist in explist do block end |
+  //         function funcname funcbody |
+  //         local function Name funcbody |
+  //         local namelist [‘=’ explist]
   parseStatement(): ast.Statement {
     const token = this.tokenCursor.current;
 
     switch (token.value) {
+      // @@ TODO: For a true lossless parser,
+      // I need to take this into consideration in the future.
+      case ";":
       case "break":
         return this.parseBreakStatement();
       case "goto":
