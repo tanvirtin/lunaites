@@ -163,17 +163,41 @@ describe("TokenCursor", () => {
     it("should return true if the current token is the token type provided, false otherwise", () => {
       const cursor = createTokenCursor();
 
-      assert(!cursor.match(TokenType.Identifier));
+      assert(!cursor.match(TokenType.Keyword));
+      assert(!cursor.match("local"));
 
       cursor
         .advance();
 
       assert(cursor.match(TokenType.Keyword));
+      assert(cursor.match("local"));
 
       cursor
         .advance();
 
       assert(cursor.match(TokenType.Keyword));
+      assert(cursor.match("function"));
+    });
+  });
+
+  describe("matchNext", () => {
+    it("should return true if the next token is the token type provided, false otherwise", () => {
+      const cursor = createTokenCursor();
+
+      assert(cursor.matchNext(TokenType.Keyword));
+      assert(cursor.matchNext("local"));
+
+      cursor
+        .advance();
+
+      assert(cursor.matchNext(TokenType.Keyword));
+      assert(cursor.matchNext("function"));
+
+      cursor
+        .advance();
+
+      assert(cursor.matchNext(TokenType.Identifier));
+      assert(cursor.matchNext("main"));
     });
   });
 
