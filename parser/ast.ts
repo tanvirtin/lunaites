@@ -93,6 +93,29 @@ class Identifier implements Expression {
   }
 }
 
+class FunctionDeclaration implements Expression {
+  isLocal: boolean;
+  identifier: Identifier | null;
+  arguments: Expression[];
+  block: Block;
+
+  constructor(
+    isLocal: boolean,
+    argList: Expression[],
+    block: Block,
+    identifier: Identifier | null,
+  ) {
+    this.isLocal = isLocal;
+    this.arguments = argList;
+    this.block = block;
+    this.identifier = identifier;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitFunctionDeclaration(this);
+  }
+}
+
 class GroupingExpression implements Expression {
   expression: Expression;
 
@@ -254,29 +277,6 @@ class IfStatement implements Statement {
 
   accept(visitor: Visitor): unknown {
     return visitor.visitIfStatement(this);
-  }
-}
-
-class FunctionDeclaration implements Statement {
-  isLocal: boolean;
-  name: Identifier | null;
-  arguments: Expression[];
-  block: Block;
-
-  constructor(
-    isLocal: boolean,
-    argList: Expression[],
-    block: Block,
-    name: Identifier | null,
-  ) {
-    this.isLocal = isLocal;
-    this.arguments = argList;
-    this.block = block;
-    this.name = name;
-  }
-
-  accept(visitor: Visitor): unknown {
-    return visitor.visitFunctionDeclaration(this);
   }
 }
 

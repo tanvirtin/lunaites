@@ -118,7 +118,7 @@ class MinimizerVisitor implements Visitor {
       isLocal: node.isLocal,
       arguments: node.arguments.map((argument) => argument.accept(this)),
       block: node.block.accept(this),
-      name: node.name?.accept(this),
+      identifier: node.identifier?.accept(this),
     };
   }
 

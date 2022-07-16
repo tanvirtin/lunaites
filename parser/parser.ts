@@ -498,7 +498,6 @@ class Parser {
     this.expect("then").advance();
 
     const ifBlock = this.parseBlock();
-
     const elifBlocks: ast.Block[] = [];
     const elifConditions: ast.Expression[] = [];
 
@@ -555,10 +554,10 @@ class Parser {
   parseFunctionDeclaration(isLocal: boolean): ast.Statement {
     this.expect("function").advance();
 
-    let name: ast.Identifier | null = null;
+    let identifier: ast.Identifier | null = null;
 
     if (this.tokenCursor.match(TokenType.Identifier)) {
-      name = this.identifierParselet();
+      identifier = this.identifierParselet();
       this.tokenCursor.advance();
     }
 
@@ -589,7 +588,7 @@ class Parser {
 
     this.expect("end");
 
-    return new ast.FunctionDeclaration(isLocal, argList, block, name);
+    return new ast.FunctionDeclaration(isLocal, argList, block, identifier);
   }
 
   // while ::= 'while' exp 'do' block 'end'
@@ -675,7 +674,9 @@ class Parser {
 
   // stat ::=  ‘;’ |
   //         varlist ‘=’ explist |
-  //         functioncall |
+  //         local function Name funcbody |
+  //         local namelist [‘=’ explist]
+  //         function funcname funcbody |
   //         label |
   //         break |
   //         goto Name |
@@ -685,16 +686,21 @@ class Parser {
   //         if exp then block {elseif exp then block} [else block] end |
   //         for Name ‘=’ exp ‘,’ exp [‘,’ exp] do block end |
   //         for namelist in explist do block end |
-  //         function funcname funcbody |
-  //         local function Name funcbody |
-  //         local namelist [‘=’ explist]
-  parseStatement(): ast.Statement {
+  //         functioncall |
+  parseStatement(): ast.Statement | null {
     const token = this.tokenCursor.current;
 
     switch (token.value) {
       // @@ TODO: For a true lossless parser,
       // I need to take this into consideration in the future.
       case ";":
+        return null;
+      case "local":
+        return this.parseLocalStatement();
+      case "function":
+        return this.parseFunctionDeclaration(false);
+      case "::":
+        return this.parseLabelStatement();
       case "break":
         return this.parseBreakStatement();
       case "goto":
@@ -711,12 +717,6 @@ class Parser {
         return this.parseIfStatement();
       case "for":
         return this.parseForStatement();
-      case "function":
-        return this.parseFunctionDeclaration(false);
-      case "local":
-        return this.parseLocalStatement();
-      case "::":
-        return this.parseLabelStatement();
       default:
         if (!this.tokenCursor.match(TokenType.Identifier)) {
           ParserException.raiseUnexpectedTokenError(
@@ -757,7 +757,11 @@ class Parser {
     //  - And we don't encounter a block that is a follow.
     while (!this.tokenCursor.eofToken && !this.tokenCursor.isBlockFollow()) {
       if (this.tokenCursor.current.value === "return") {
-        statements.push(this.parseStatement());
+        const statement = this.parseStatement();
+
+        if (statement) {
+          statements.push(statement);
+        }
 
         this.tokenCursor.advance();
         this.tokenCursor.consume(";");
@@ -765,7 +769,11 @@ class Parser {
         break;
       }
 
-      statements.push(this.parseStatement());
+      const statement = this.parseStatement();
+
+      if (statement) {
+        statements.push(statement);
+      }
 
       this.tokenCursor.advance();
       this.tokenCursor.consume(";");

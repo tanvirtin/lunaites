@@ -967,6 +967,22 @@ describe("Parser", () => {
     );
   });
 
+  test("parseStatement", {
+    ";": {
+      type: Chunk,
+      body: [],
+    },
+  }, (source: string, result: unknown) => {
+    parser = createParser(source);
+    const ast = parser.parse();
+    const minimizerVisitor = new MinimizerVisitor();
+
+    assertEquals(
+      minimizerVisitor.visit(ast) as unknown,
+      result as unknown,
+    );
+  });
+
   test("parseLocalStatement", {
     "local a = 3": {
       type: LocalStatement,
@@ -1206,7 +1222,7 @@ ${source}
         {
           type: FunctionDeclaration,
           isLocal: false,
-          name: Identifier,
+          identifier: Identifier,
           arguments: [Identifier, Identifier, Identifier, VarargLiteral],
           block: [
             {
@@ -1225,14 +1241,14 @@ ${source}
         {
           type: FunctionDeclaration,
           isLocal: false,
-          name: undefined,
+          identifier: undefined,
           arguments: [],
           block: [],
         },
         {
           type: FunctionDeclaration,
           isLocal: true,
-          name: Identifier,
+          identifier: Identifier,
           arguments: [],
           block: [],
         },
