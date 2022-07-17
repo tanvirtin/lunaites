@@ -7,7 +7,7 @@ const {
   Identifier,
   ReturnStatement,
   UnaryExpression,
-  FunctionDefinition,
+  FunctionExpression,
   FunctionDeclaration,
   NumericLiteral,
   GroupingExpression,
@@ -1261,7 +1261,7 @@ ${source}
           type: LocalStatement,
           variables: [Identifier],
           init: [{
-            type: FunctionDefinition,
+            type: FunctionExpression,
             arguments: [Identifier, Identifier, Identifier],
             block: [],
           }],

@@ -9,7 +9,7 @@ enum NodeType {
   BooleanLiteral = "BooleanLiteral",
   CommentLiteral = "CommentLiteral",
   Identifier = "Identifier",
-  FunctionDefinition = "FunctionDefinition",
+  FunctionExpression = "FunctionExpression",
   GroupingExpression = "GroupingExpression",
   UnaryExpression = "UnaryExpression",
   BinaryExpression = "BinaryExpression",
@@ -94,7 +94,7 @@ class Identifier implements Expression {
   }
 }
 
-class FunctionDefinition implements Expression {
+class FunctionExpression implements Expression {
   arguments: Expression[];
   block: Block;
 
@@ -104,7 +104,7 @@ class FunctionDefinition implements Expression {
   }
 
   accept(visitor: Visitor): unknown {
-    return visitor.visitFunctionDefinition(this);
+    return visitor.visitFunctionExpression(this);
   }
 }
 
@@ -328,7 +328,7 @@ export {
   CommentLiteral,
   DoStatement,
   FunctionDeclaration,
-  FunctionDefinition,
+  FunctionExpression,
   GotoStatement,
   GroupingExpression,
   Identifier,

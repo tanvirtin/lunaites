@@ -133,8 +133,11 @@ class Parser {
 
     this.registerNullDenotationParselet(
       TokenType.Function,
-      this.functionDefinitionParselet,
+      this.functionExpressionParselet,
     );
+
+    // @@@ TODO: Add missing parselets for the following:
+    // - '[' exp ']' | '.' Name | ':' Name args | args
 
     return this;
   }
@@ -332,7 +335,7 @@ class Parser {
   }
 
   // @@@ TODO: Add bnf notation
-  private functionDefinitionParselet(): ast.Expression {
+  private functionExpressionParselet(): ast.Expression {
     this.expect("function").advance();
 
     this.expect("(").advance();
@@ -362,7 +365,7 @@ class Parser {
 
     this.expect("end");
 
-    return new ast.FunctionDefinition(argList, block);
+    return new ast.FunctionExpression(argList, block);
   }
 
   private unaryParselet(): ast.Expression {
