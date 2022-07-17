@@ -81,67 +81,67 @@ class Parser {
   private registerNullDenotationExpressionParselets(): Parser {
     this.registerNullDenotationExpressionParselet(
       TokenType.NumericLiteral,
-      this.numericLiteralExpressionParselet,
+      this.parseNumericLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.StringLiteral,
-      this.stringLiteralExpressionParselet,
+      this.parseStringLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.BooleanLiteral,
-      this.booleanLiteralExpressionParselet,
+      this.parseBooleanLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.NilLiteral,
-      this.nilLiteralExpressionParselet,
+      this.parseNilLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.VarargLiteral,
-      this.varargLiteralExpressionParselet,
+      this.parseVarargLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.Identifier,
-      this.identifierExpressionParselet,
+      this.parseIdentifierExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.CommentLiteral,
-      this.commentLiteralExpressionParselet,
+      this.parseCommentLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.OpenParenthesis,
-      this.groupingExpressionParselet,
+      this.parseGroupingExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.Not,
-      this.unaryExpressionParselet,
+      this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.HashTag,
-      this.unaryExpressionParselet,
+      this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.Tilda,
-      this.unaryExpressionParselet,
+      this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.Minus,
-      this.unaryExpressionParselet,
+      this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
       TokenType.Function,
-      this.functionExpressionExpressionParselet,
+      this.parseFunctionExpression,
     );
 
     // @@@ TODO: Add missing parselets for the following:
@@ -153,104 +153,104 @@ class Parser {
   private registerLeftDenotationExpressionParselets(): Parser {
     this.registerLeftDenotationExpressionParselet(
       TokenType.Plus,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.Minus,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.Star,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.Divide,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.DoubleDivide,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.And,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.Or,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.GreaterThan,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.LessThan,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.GreaterThanEqual,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.LessThanEqual,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.DoubleEqual,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.TildaEqual,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     ///////// Bitwise operators ////////
     this.registerLeftDenotationExpressionParselet(
       TokenType.Pipe,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.Tilda,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.Ampersand,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.DoubleGreaterThan,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.DoubleLessThan,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.Carrot,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
     ////////////////////////////////////
 
     this.registerLeftDenotationExpressionParselet(
       TokenType.DoubleDot,
-      this.binaryExpressionParselet,
+      this.parseBinaryExpression,
     );
 
     return this;
@@ -304,50 +304,50 @@ class Parser {
   ////////////////////////////// Expressions //////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
-  private identifierExpressionParselet(): ast.Identifier {
+  private parseIdentifierExpression(): ast.Identifier {
     this.expect(TokenType.Identifier);
 
     return new ast.Identifier(this.tokenCursor.current);
   }
 
-  private numericLiteralExpressionParselet(): ast.Expression {
+  private parseNumericLiteralExpression(): ast.Expression {
     this.expect(TokenType.NumericLiteral);
 
     return new ast.NumericLiteral(this.tokenCursor.current);
   }
 
-  private stringLiteralExpressionParselet(): ast.Expression {
+  private parseStringLiteralExpression(): ast.Expression {
     this.expect(TokenType.StringLiteral);
 
     return new ast.StringLiteral(this.tokenCursor.current);
   }
 
-  private booleanLiteralExpressionParselet(): ast.Expression {
+  private parseBooleanLiteralExpression(): ast.Expression {
     this.expect(TokenType.BooleanLiteral);
 
     return new ast.BooleanLiteral(this.tokenCursor.current);
   }
 
-  private nilLiteralExpressionParselet(): ast.Expression {
+  private parseNilLiteralExpression(): ast.Expression {
     this.expect(TokenType.NilLiteral);
 
     return new ast.NilLiteral(this.tokenCursor.current);
   }
 
-  private varargLiteralExpressionParselet(): ast.Expression {
+  private parseVarargLiteralExpression(): ast.Expression {
     this.expect(TokenType.VarargLiteral);
 
     return new ast.VarargLiteral(this.tokenCursor.current);
   }
 
-  private commentLiteralExpressionParselet(): ast.Expression {
+  private parseCommentLiteralExpression(): ast.Expression {
     this.expect(TokenType.CommentLiteral);
 
     return new ast.CommentLiteral(this.tokenCursor.current);
   }
 
   // @@@ TODO: Add bnf notation
-  private functionExpressionExpressionParselet(): ast.Expression {
+  private parseFunctionExpression(): ast.Expression {
     this.expect("function").advance();
 
     this.expect("(").advance();
@@ -355,13 +355,13 @@ class Parser {
     const argList: ast.Expression[] = [];
 
     if (this.tokenCursor.match(TokenType.VarargLiteral)) {
-      argList.push(this.varargLiteralExpressionParselet());
+      argList.push(this.parseVarargLiteralExpression());
     } else if (this.tokenCursor.match(TokenType.Identifier)) {
       argList.push(this.parseExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
         if (this.tokenCursor.match(TokenType.VarargLiteral)) {
-          argList.push(this.varargLiteralExpressionParselet());
+          argList.push(this.parseVarargLiteralExpression());
           break;
         }
 
@@ -380,7 +380,7 @@ class Parser {
     return new ast.FunctionExpression(argList, block);
   }
 
-  private unaryExpressionParselet(): ast.Expression {
+  private parseUnaryExpression(): ast.Expression {
     const operatorToken = this.tokenCursor.current;
 
     // Skip over the operator.
@@ -394,7 +394,7 @@ class Parser {
     return new ast.UnaryExpression(operatorToken, rightExpression);
   }
 
-  private binaryExpressionParselet(
+  private parseBinaryExpression(
     leftExpression: ast.Expression,
   ): ast.Expression {
     const operatorToken = this.tokenCursor.current;
@@ -415,7 +415,7 @@ class Parser {
   }
 
   // NOTE: Grouping expression implicitly will have the highest precedence.
-  private groupingExpressionParselet(): ast.Expression {
+  private parseGroupingExpression(): ast.Expression {
     // Skipping over the "("
     this.tokenCursor.advance();
 
@@ -501,11 +501,11 @@ class Parser {
       const variables = [];
       const initializations = [];
 
-      variables.push(this.parseExpression());
+      variables.push(this.parseIdentifierExpression());
 
       // keep encountering more identifiers we keep repeating.
       while (this.tokenCursor.consumeNext(",")) {
-        variables.push(this.parseExpression());
+        variables.push(this.parseIdentifierExpression());
       }
 
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
@@ -536,7 +536,7 @@ class Parser {
   parseLabelStatement(): ast.Statement {
     this.expect("::").advance();
 
-    const name = this.parseExpression();
+    const name = this.parseIdentifierExpression();
 
     // We advance over identifier token.
     this.tokenCursor.advance();
@@ -614,10 +614,10 @@ class Parser {
   parseFunctionDeclaration(isLocal: boolean): ast.Statement {
     this.expect("function").advance();
 
-    let identifier: ast.Expression | null = null;
+    let identifier: ast.Identifier | null = null;
 
     if (this.tokenCursor.match(TokenType.Identifier)) {
-      identifier = this.parseExpression();
+      identifier = this.parseIdentifierExpression();
       this.tokenCursor.advance();
     }
 
@@ -626,17 +626,17 @@ class Parser {
     const argList: ast.Expression[] = [];
 
     if (this.tokenCursor.match(TokenType.VarargLiteral)) {
-      argList.push(this.parseExpression());
+      argList.push(this.parseVarargLiteralExpression());
     } else if (this.tokenCursor.match(TokenType.Identifier)) {
-      argList.push(this.parseExpression());
+      argList.push(this.parseIdentifierExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
         if (this.tokenCursor.match(TokenType.VarargLiteral)) {
-          argList.push(this.parseExpression());
+          argList.push(this.parseVarargLiteralExpression());
           break;
         }
 
-        argList.push(this.parseExpression());
+        argList.push(this.parseIdentifierExpression());
       }
 
       this.tokenCursor.advance();
@@ -711,7 +711,7 @@ class Parser {
 
     this.expect(TokenType.Identifier);
 
-    const identifier = this.parseExpression();
+    const identifier = this.parseIdentifierExpression();
 
     return new ast.GotoStatement(identifier);
   }

@@ -46,6 +46,18 @@ class Literal implements Expression {
   }
 }
 
+class Identifier implements Expression {
+  token: Token;
+
+  constructor(token: Token) {
+    this.token = token;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitIdentifier(this);
+  }
+}
+
 class NilLiteral extends Literal {
   accept(visitor: Visitor): unknown {
     return visitor.visitNilLiteral(this);
@@ -82,18 +94,6 @@ class CommentLiteral extends Literal {
   }
 }
 
-class Identifier implements Expression {
-  token: Token;
-
-  constructor(token: Token) {
-    this.token = token;
-  }
-
-  accept(visitor: Visitor): unknown {
-    return visitor.visitIdentifier(this);
-  }
-}
-
 class FunctionExpression implements Expression {
   arguments: Expression[];
   block: Block;
@@ -110,7 +110,7 @@ class FunctionExpression implements Expression {
 
 class FunctionDeclaration implements Statement {
   isLocal: boolean;
-  identifier: Expression | null;
+  identifier: Identifier | null;
   arguments: Expression[];
   block: Block;
 
@@ -118,7 +118,7 @@ class FunctionDeclaration implements Statement {
     isLocal: boolean,
     argList: Expression[],
     block: Block,
-    identifier: Expression | null,
+    identifier: Identifier | null,
   ) {
     this.isLocal = isLocal;
     this.arguments = argList;
@@ -174,10 +174,10 @@ class BinaryExpression implements Expression {
 }
 
 class LocalStatement implements Statement {
-  variables: Expression[];
+  variables: Identifier[];
   init: Expression[];
 
-  constructor(variables: Expression[], init: Expression[]) {
+  constructor(variables: Identifier[], init: Expression[]) {
     this.variables = variables;
     this.init = init;
   }
@@ -200,9 +200,9 @@ class ReturnStatement implements Statement {
 }
 
 class LabelStatement implements Statement {
-  name: Expression;
+  name: Identifier;
 
-  constructor(name: Expression) {
+  constructor(name: Identifier) {
     this.name = name;
   }
 
@@ -212,9 +212,9 @@ class LabelStatement implements Statement {
 }
 
 class GotoStatement implements Statement {
-  label: Expression;
+  label: Identifier;
 
-  constructor(label: Expression) {
+  constructor(label: Identifier) {
     this.label = label;
   }
 
