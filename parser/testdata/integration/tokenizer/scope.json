@@ -3,7 +3,7 @@
     "source": "local foo = 1 do foo = 2 end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -43,7 +43,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -83,7 +83,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -108,7 +108,7 @@
     "source": "do local foo = 1 end foo = 2",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -118,7 +118,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -158,7 +158,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -213,7 +213,7 @@
     "source": "do local foo = 1 end do foo = 2 end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -223,7 +223,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -263,7 +263,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -273,7 +273,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -313,7 +313,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -338,7 +338,7 @@
     "source": "local foo do foo = 1 do foo = 2 end end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -358,7 +358,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -398,7 +398,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -438,7 +438,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -448,7 +448,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -473,7 +473,7 @@
     "source": "local function foo() end foo()",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -483,7 +483,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -523,7 +523,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -578,7 +578,7 @@
     "source": "local a = { a }",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -653,7 +653,7 @@
     "source": "local b = { b, b.a, b[a], b:a() }",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -878,7 +878,7 @@
     "source": "local b = {} local a = { b, b.a, b[a], b:a() }",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -928,7 +928,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1153,7 +1153,7 @@
     "source": "local c local a = { b[c] }",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1173,7 +1173,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1278,7 +1278,7 @@
     "source": "local a = function() end a()",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1308,7 +1308,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1338,7 +1338,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1393,7 +1393,7 @@
     "source": "local a, b = 1, a",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1488,7 +1488,7 @@
     "source": "local a, b = 1, function() b = 2 end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1558,7 +1558,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1618,7 +1618,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1643,7 +1643,7 @@
     "source": "local a (a):b():c()",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1788,7 +1788,7 @@
     "source": "local a, b for i, a, b in c do end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1828,7 +1828,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "For",
         "value": "for",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1888,7 +1888,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "In",
         "value": "in",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1908,7 +1908,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1918,7 +1918,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1943,7 +1943,7 @@
     "source": "local a, b, c for i, a, b in c do end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2003,7 +2003,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "For",
         "value": "for",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2063,7 +2063,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "In",
         "value": "in",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2083,7 +2083,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2093,7 +2093,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2118,7 +2118,7 @@
     "source": "local a = {} function a:b() return self end self = nil",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2168,7 +2168,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2228,7 +2228,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2248,7 +2248,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2303,7 +2303,7 @@
     "source": "repeat local a = true until a",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Repeat",
         "value": "repeat",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2313,7 +2313,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2353,7 +2353,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Until",
         "value": "until",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2388,7 +2388,7 @@
     "source": "local a = function (b) end b = 0",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2418,7 +2418,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2458,7 +2458,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2513,7 +2513,7 @@
     "source": "for a = 1, 5 do end a = 0",
     "result": [
       {
-        "type": "Keyword",
+        "type": "For",
         "value": "for",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2573,7 +2573,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2583,7 +2583,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,

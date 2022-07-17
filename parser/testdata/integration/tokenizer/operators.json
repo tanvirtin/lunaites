@@ -1583,7 +1583,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1613,7 +1613,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1633,7 +1633,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1663,7 +1663,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,

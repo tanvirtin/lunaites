@@ -3,7 +3,7 @@
     "source": "return",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -53,7 +53,7 @@
     "source": "return;",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -113,7 +113,7 @@
     "source": "return;",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -148,7 +148,7 @@
     "source": "return;;",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,

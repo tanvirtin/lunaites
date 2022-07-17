@@ -98,7 +98,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 2,
         "lnumStartIndex": 11,
@@ -123,7 +123,7 @@
     "source": "return --comment \n",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -183,7 +183,7 @@
     "source": "if true--[[comment]]then end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "If",
         "value": "if",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -213,7 +213,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Then",
         "value": "then",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -223,7 +223,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -258,7 +258,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -293,7 +293,7 @@
         "value": "--[===[comment\n--[=[sub]=]--\n]===]"
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 3,
         "lnumStartIndex": 29,
@@ -378,7 +378,7 @@
         "value": "--[=="
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 2,
         "lnumStartIndex": 6,
@@ -413,7 +413,7 @@
     "source": "if true -- comment\nthen end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "If",
         "value": "if",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -443,7 +443,7 @@
         "value": "-- comment"
       },
       {
-        "type": "Keyword",
+        "type": "Then",
         "value": "then",
         "lnum": 2,
         "lnumStartIndex": 19,
@@ -453,7 +453,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 2,
         "lnumStartIndex": 19,

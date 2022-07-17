@@ -3,7 +3,7 @@
     "source": "function",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -28,7 +28,7 @@
     "source": "function 1",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -63,7 +63,7 @@
     "source": "function end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -73,7 +73,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -98,7 +98,7 @@
     "source": "function a",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -133,7 +133,7 @@
     "source": "function a end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -153,7 +153,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -178,7 +178,7 @@
     "source": "function a( end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -208,7 +208,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -233,7 +233,7 @@
     "source": "function a() end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -273,7 +273,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -298,7 +298,7 @@
     "source": "function a(1",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -353,7 +353,7 @@
     "source": "function a(\"foo\"",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -408,7 +408,7 @@
     "source": "function a(p",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -463,7 +463,7 @@
     "source": "function a(p,)",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -538,7 +538,7 @@
     "source": "function a(p q",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -603,7 +603,7 @@
     "source": "function a(p) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -653,7 +653,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -678,7 +678,7 @@
     "source": "function a(p,q) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -748,7 +748,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -773,7 +773,7 @@
     "source": "function a(p q) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -833,7 +833,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -858,7 +858,7 @@
     "source": "function a(p,q,) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -938,7 +938,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -963,7 +963,7 @@
     "source": "function a(p,q,r) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1053,7 +1053,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1078,7 +1078,7 @@
     "source": "function a(p,q,1",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1173,7 +1173,7 @@
     "source": "function a(p) do",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1223,7 +1223,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1248,7 +1248,7 @@
     "source": "function a(p) 1 end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1308,7 +1308,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1333,7 +1333,7 @@
     "source": "function a(p) return end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1383,7 +1383,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1393,7 +1393,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1418,7 +1418,7 @@
     "source": "function a(p) return return end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1468,7 +1468,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1478,7 +1478,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1488,7 +1488,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1513,7 +1513,7 @@
     "source": "function a(p) do end end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1563,7 +1563,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1573,7 +1573,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1583,7 +1583,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1608,7 +1608,7 @@
     "source": "function a.(",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1663,7 +1663,7 @@
     "source": "function a.1",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1708,7 +1708,7 @@
     "source": "function a.b() end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1768,7 +1768,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1793,7 +1793,7 @@
     "source": "function a.b,",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1858,7 +1858,7 @@
     "source": "function a.b.(",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1933,7 +1933,7 @@
     "source": "function a.b.c.d() end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2033,7 +2033,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2058,7 +2058,7 @@
     "source": "function a:",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2103,7 +2103,7 @@
     "source": "function a:1",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2158,7 +2158,7 @@
     "source": "function a:b() end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2218,7 +2218,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2243,7 +2243,7 @@
     "source": "function a:b:",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2308,7 +2308,7 @@
     "source": "function a:b.",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2373,7 +2373,7 @@
     "source": "function a.b.c:d() end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2473,7 +2473,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2498,7 +2498,7 @@
     "source": "function a(...) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2548,7 +2548,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2570,75 +2570,10 @@
     ]
   },
   {
-    "source": "function a(...,",
-    "result": [
-      {
-        "type": "Keyword",
-        "value": "function",
-        "lnum": 1,
-        "lnumStartIndex": 0,
-        "range": [
-          0,
-          8
-        ]
-      },
-      {
-        "type": "Identifier",
-        "value": "a",
-        "lnum": 1,
-        "lnumStartIndex": 0,
-        "range": [
-          9,
-          10
-        ]
-      },
-      {
-        "type": "OpenParenthesis",
-        "value": "(",
-        "lnum": 1,
-        "lnumStartIndex": 0,
-        "range": [
-          10,
-          11
-        ]
-      },
-      {
-        "type": "VarargLiteral",
-        "value": "...",
-        "lnum": 1,
-        "lnumStartIndex": 0,
-        "range": [
-          11,
-          14
-        ]
-      },
-      {
-        "type": "Comma",
-        "value": ",",
-        "lnum": 1,
-        "lnumStartIndex": 0,
-        "range": [
-          14,
-          15
-        ]
-      },
-      {
-        "type": "EOF",
-        "value": "<eof>",
-        "lnum": 1,
-        "lnumStartIndex": 0,
-        "range": [
-          15,
-          15
-        ]
-      }
-    ]
-  },
-  {
     "source": "function a(p,...) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2708,7 +2643,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2733,7 +2668,7 @@
     "source": "function a(...,p) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2803,7 +2738,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2828,7 +2763,7 @@
     "source": "function a(p,q,r,...) end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2938,7 +2873,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2963,7 +2898,7 @@
     "source": "function a() local a local b end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3003,7 +2938,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3023,7 +2958,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3043,7 +2978,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3068,7 +3003,7 @@
     "source": "function a() local a; local b; end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3108,7 +3043,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3138,7 +3073,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Local",
         "value": "local",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3168,7 +3103,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3193,7 +3128,7 @@
     "source": "function a() end; function a() end;",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3233,7 +3168,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3253,7 +3188,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3293,7 +3228,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3328,7 +3263,7 @@
     "source": "return ...",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3363,7 +3298,7 @@
     "source": "function a(...) return ... end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3413,7 +3348,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3433,7 +3368,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3458,7 +3393,7 @@
     "source": "function a() return ... end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3498,7 +3433,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3518,7 +3453,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3543,7 +3478,7 @@
     "source": "function a(...) function b() return ... end end",
     "result": [
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3593,7 +3528,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Function",
         "value": "function",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3633,7 +3568,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "Return",
         "value": "return",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3653,7 +3588,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -3663,7 +3598,7 @@
         ]
       },
       {
-        "type": "Keyword",
+        "type": "End",
         "value": "end",
         "lnum": 1,
         "lnumStartIndex": 0,
