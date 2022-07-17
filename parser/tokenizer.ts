@@ -1,64 +1,4 @@
-import { Scanner, TokenizerException } from "./mod.ts";
-
-enum TokenType {
-  Keyword = "Keyword", // Keywords
-  Identifier = "Identifier", // User defined identifiers within the language
-
-  StringLiteral = "StringLiteral", // " or '
-  NumericLiteral = "NumericLiteral", // 1, 2, 3, 4, etc.
-  BooleanLiteral = "BooleanLiteral", // true or false
-  NilLiteral = "NilLiteral", // nil
-  VarargLiteral = "VarargLiteral", // ...
-  CommentLiteral = "CommentLiteral", // -- or --[[]]
-
-  Or = "Or", // or
-  And = "And", // and
-  Not = "Not", // not
-
-  // Punctuators
-  Dot = "Dot", // .
-  Comma = "Comma", // ,
-  Equal = "Equal", // =
-  GreaterThan = "GreaterThan", // >
-  LessThan = "LessThan", // <
-  Divide = "Divide", // /
-  Colon = "Colon", // :
-  Tilda = "Tilda", // ~
-  Ampersand = "Ampersand", // &
-  Pipe = "Pipe", // |
-  Star = "Star", // *
-  Carrot = "Carrot", // ^
-  Percentage = "Percentage", // %
-  OpenBrace = "OpenBrace", // {
-  ClosedBrace = "ClosedBrace", // }
-  OpenParenthesis = "OpenParenthesis", // (
-  ClosedParenthesis = "ClosedParenthesis", // )
-  OpenBracket = "OpenBracket", // [
-  ClosedBracket = "ClosedBracket", // ]
-  SemiColon = "SemiColon", // ;
-  HashTag = "HashTag", // #
-  Minus = "Minus", // -
-  Plus = "Plus", // +
-  DoubleDot = "DoubleDot", // ..
-  DoubleEqual = "DoubleEqual", // ==
-  TildaEqual = "TildaEqual", // ~=
-  GreaterThanEqual = "GreaterThanEqual", // >=
-  LessThanEqual = "LessThanEqual", // <=
-  DoubleDivide = "DoubleDivide", // //
-  DoubleColon = "DoubleColon", // ::
-  DoubleGreaterThan = "DoubleGreaterThan", // >>
-  DoubleLessThan = "DoubleLessThan", // <<
-
-  EOF = "EOF", // <eof>
-}
-
-interface Token {
-  type: TokenType;
-  value: string;
-  range: number[];
-  lnum: number;
-  lnumStartIndex: number;
-}
+import { Scanner, Token, TokenizerException, TokenType } from "./mod.ts";
 
 interface TokenizerOptions {
   labels?: boolean;
@@ -95,34 +35,6 @@ class Tokenizer {
       ...(options ?? {}),
     };
     this.scanner = scanner;
-  }
-
-  // All lua keywords
-  private isKeyword(text: string) {
-    const { options } = this;
-    const keywords: string[] = [
-      "do",
-      "if",
-      "in",
-      "end",
-      "for",
-      "else",
-      "then",
-      "break",
-      "local",
-      "until",
-      "while",
-      "elseif",
-      "repeat",
-      "return",
-      "function",
-    ];
-
-    if (options.labels && !options.contextualGoto) {
-      keywords.push("goto");
-    }
-
-    return keywords.some((keyword) => text === keyword);
   }
 
   // Lua should progress the index and ignore:
@@ -360,6 +272,7 @@ class Tokenizer {
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -383,6 +296,7 @@ class Tokenizer {
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -404,6 +318,7 @@ class Tokenizer {
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -443,6 +358,7 @@ class Tokenizer {
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -464,6 +380,7 @@ class Tokenizer {
       lnum,
       lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -476,30 +393,40 @@ class Tokenizer {
     // Itentifiers can only be characters that are alphanumeric (digits or alphabets).
     scanner.scanWhile(scanner.isAlphanumeric);
 
-    let type = TokenType.Identifier;
+    const keywordTokenTypeMap: Record<string, TokenType> = {
+      or: TokenType.Or,
+      and: TokenType.And,
+      not: TokenType.Not,
+      true: TokenType.BooleanLiteral,
+      false: TokenType.BooleanLiteral,
+      nil: TokenType.NilLiteral,
+      do: TokenType.Do,
+      if: TokenType.If,
+      in: TokenType.In,
+      end: TokenType.End,
+      for: TokenType.For,
+      else: TokenType.Else,
+      then: TokenType.Then,
+      break: TokenType.Break,
+      local: TokenType.Local,
+      while: TokenType.While,
+      elseif: TokenType.Elseif,
+      until: TokenType.Until,
+      repeat: TokenType.Repeat,
+      return: TokenType.Return,
+      function: TokenType.Function,
+      goto: TokenType.Goto,
+    };
     const value = scanner.getText();
-
-    // Type and value depends on what type of identifier we are dealing with.
-    if (this.isKeyword(value)) {
-      type = TokenType.Keyword;
-    } else if (value === "or") {
-      type = TokenType.Or;
-    } else if (value === "and") {
-      type = TokenType.And;
-    } else if (value === "not") {
-      type = TokenType.Not;
-    } else if (value === "true" || value === "false") {
-      type = TokenType.BooleanLiteral;
-    } else if (value === "nil") {
-      type = TokenType.NilLiteral;
-    }
+    const isKeyword = value in keywordTokenTypeMap;
 
     return {
-      type,
+      type: isKeyword ? keywordTokenTypeMap[value] : TokenType.Identifier,
       value,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword,
     };
   }
 
@@ -557,6 +484,7 @@ class Tokenizer {
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -597,6 +525,7 @@ class Tokenizer {
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -626,6 +555,7 @@ class Tokenizer {
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -677,6 +607,7 @@ class Tokenizer {
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
+      isKeyword: false,
     };
   }
 
@@ -835,5 +766,5 @@ class Tokenizer {
   }
 }
 
-export { Tokenizer, TokenType };
-export type { Token, TokenizerOptions };
+export { Tokenizer };
+export type { TokenizerOptions };

@@ -1,6 +1,18 @@
 import { Scanner, TokenCursor, Tokenizer, TokenType } from "./mod.ts";
 import { assert, assertObjectMatch, describe, it } from "./deps.ts";
 
+const {
+  Identifier,
+  EOF,
+  BooleanLiteral,
+  Equal,
+  Carrot,
+  Ampersand,
+  OpenParenthesis,
+  Local,
+  Function,
+} = TokenType;
+
 function createTokenCursor() {
   const source = `
 local function main()
@@ -24,14 +36,14 @@ describe("TokenCursor", () => {
       cursor.advance();
 
       assertObjectMatch(cursor.current, {
-        type: TokenType.Keyword,
+        type: Local,
         value: "local",
       });
 
       cursor.advance();
 
       assertObjectMatch(cursor.current, {
-        type: TokenType.Keyword,
+        type: Function,
         value: "function",
       });
     });
@@ -42,27 +54,27 @@ describe("TokenCursor", () => {
       const cursor = createTokenCursor();
 
       assertObjectMatch(cursor.at(2), {
-        type: TokenType.Identifier,
+        type: Identifier,
         value: "main",
       });
 
       assertObjectMatch(cursor.at(0), {
-        type: TokenType.Keyword,
+        type: Local,
         value: "local",
       });
 
       assertObjectMatch(cursor.at(0), {
-        type: TokenType.Keyword,
+        type: Local,
         value: "local",
       });
 
       assertObjectMatch(cursor.at(6), {
-        type: TokenType.Identifier,
+        type: Identifier,
         value: "foo",
       });
 
       assertObjectMatch(cursor.at(100), {
-        type: TokenType.EOF,
+        type: EOF,
         value: "<eof>",
       });
     });
@@ -78,7 +90,7 @@ describe("TokenCursor", () => {
         .advance();
 
       assertObjectMatch(cursor.current, {
-        type: TokenType.Identifier,
+        type: Identifier,
         value: "main",
       });
     });
@@ -93,17 +105,17 @@ describe("TokenCursor", () => {
         .advance();
 
       assertObjectMatch(cursor.lookahead(6), {
-        type: TokenType.Equal,
+        type: Equal,
         value: "=",
       });
 
       assertObjectMatch(cursor.lookahead(1), {
-        type: TokenType.Identifier,
+        type: Identifier,
         value: "main",
       });
 
       assertObjectMatch(cursor.lookahead(6), {
-        type: TokenType.Equal,
+        type: Equal,
         value: "=",
       });
 
@@ -111,12 +123,12 @@ describe("TokenCursor", () => {
         .advance();
 
       assertObjectMatch(cursor.lookahead(5), {
-        type: TokenType.Equal,
+        type: Equal,
         value: "=",
       });
 
       assertObjectMatch(cursor.lookahead(1000), {
-        type: TokenType.EOF,
+        type: EOF,
         value: "<eof>",
       });
     });
@@ -127,7 +139,7 @@ describe("TokenCursor", () => {
       const cursor = createTokenCursor();
 
       assertObjectMatch(cursor.next, {
-        type: TokenType.Keyword,
+        type: Local,
         value: "local",
       });
 
@@ -135,7 +147,7 @@ describe("TokenCursor", () => {
         .advance();
 
       assertObjectMatch(cursor.next, {
-        type: TokenType.Keyword,
+        type: Function,
         value: "function",
       });
 
@@ -143,17 +155,17 @@ describe("TokenCursor", () => {
         .advance();
 
       assertObjectMatch(cursor.next, {
-        type: TokenType.Identifier,
+        type: Identifier,
         value: "main",
       });
 
       assertObjectMatch(cursor.lookahead(1000), {
-        type: TokenType.EOF,
+        type: EOF,
         value: "<eof>",
       });
 
       assertObjectMatch(cursor.next, {
-        type: TokenType.Identifier,
+        type: Identifier,
         value: "main",
       });
     });
@@ -163,19 +175,19 @@ describe("TokenCursor", () => {
     it("should return true if the current token is the token type provided", () => {
       const cursor = createTokenCursor();
 
-      assert(!cursor.match(TokenType.Keyword));
+      assert(!cursor.match(Local));
       assert(!cursor.match("local"));
 
       cursor
         .advance();
 
-      assert(cursor.match(TokenType.Keyword));
+      assert(cursor.match(Local));
       assert(cursor.match("local"));
 
       cursor
         .advance();
 
-      assert(cursor.match(TokenType.Keyword));
+      assert(cursor.match(Function));
       assert(cursor.match("function"));
     });
   });
@@ -184,19 +196,19 @@ describe("TokenCursor", () => {
     it("should return true if the next token is the token type provided", () => {
       const cursor = createTokenCursor();
 
-      assert(cursor.matchNext(TokenType.Keyword));
+      assert(cursor.matchNext(Local));
       assert(cursor.matchNext("local"));
 
       cursor
         .advance();
 
-      assert(cursor.matchNext(TokenType.Keyword));
+      assert(cursor.matchNext(Function));
       assert(cursor.matchNext("function"));
 
       cursor
         .advance();
 
-      assert(cursor.matchNext(TokenType.Identifier));
+      assert(cursor.matchNext(Identifier));
       assert(cursor.matchNext("main"));
     });
   });
@@ -210,10 +222,10 @@ describe("TokenCursor", () => {
 
       assert(
         cursor.multiMatch(
-          TokenType.Ampersand,
-          TokenType.BooleanLiteral,
-          TokenType.Carrot,
-          TokenType.Keyword,
+          Ampersand,
+          BooleanLiteral,
+          Carrot,
+          Local,
         ),
       );
 
@@ -230,10 +242,10 @@ describe("TokenCursor", () => {
 
       assert(
         cursor.multiMatchNext(
-          TokenType.Ampersand,
-          TokenType.BooleanLiteral,
-          TokenType.Carrot,
-          TokenType.Keyword,
+          Ampersand,
+          BooleanLiteral,
+          Carrot,
+          Function,
         ),
       );
 
@@ -248,11 +260,11 @@ describe("TokenCursor", () => {
       cursor
         .advance();
 
-      assert(cursor.consume(TokenType.Keyword));
-      assert(cursor.consume(TokenType.Keyword));
-      assert(cursor.consume(TokenType.Identifier));
-      assert(!cursor.consume(TokenType.Keyword));
-      assert(cursor.consume(TokenType.OpenParenthesis));
+      assert(cursor.consume(Local));
+      assert(cursor.consume(Function));
+      assert(cursor.consume(Identifier));
+      assert(!cursor.consume(Local));
+      assert(cursor.consume(OpenParenthesis));
     });
   });
 
@@ -263,10 +275,10 @@ describe("TokenCursor", () => {
       cursor
         .advance();
 
-      assert(cursor.consumeNext(TokenType.Keyword));
-      assert(cursor.consumeNext(TokenType.OpenParenthesis));
-      assert(cursor.consumeNext(TokenType.Keyword));
-      assert(cursor.consumeNext(TokenType.Equal));
+      assert(cursor.consumeNext(Function));
+      assert(cursor.consumeNext(OpenParenthesis));
+      assert(cursor.consumeNext(Local));
+      assert(cursor.consumeNext(Equal));
     });
   });
 });

@@ -690,32 +690,32 @@ class Parser {
   parseStatement(): ast.Statement | null {
     const token = this.tokenCursor.current;
 
-    switch (token.value) {
+    switch (token.type) {
       // @@ TODO: For a true lossless parser,
       // I need to take this into consideration in the future.
-      case ";":
+      case TokenType.SemiColon:
         return null;
-      case "local":
+      case TokenType.Local:
         return this.parseLocalStatement();
-      case "function":
+      case TokenType.Function:
         return this.parseFunctionDeclaration(false);
-      case "::":
+      case TokenType.DoubleColon:
         return this.parseLabelStatement();
-      case "break":
+      case TokenType.Break:
         return this.parseBreakStatement();
-      case "goto":
+      case TokenType.Goto:
         return this.parseGotoStatement();
-      case "do":
+      case TokenType.Do:
         return this.parseDoStatement();
-      case "while":
+      case TokenType.While:
         return this.parseWhileStatement();
-      case "repeat":
+      case TokenType.Repeat:
         return this.parseRepeatStatement();
-      case "return":
+      case TokenType.Return:
         return this.parseReturnStatement();
-      case "if":
+      case TokenType.If:
         return this.parseIfStatement();
-      case "for":
+      case TokenType.For:
         return this.parseForStatement();
       default:
         if (!this.tokenCursor.match(TokenType.Identifier)) {
@@ -756,7 +756,7 @@ class Parser {
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
     while (!this.tokenCursor.eofToken && !this.tokenCursor.isBlockFollow()) {
-      if (this.tokenCursor.current.value === "return") {
+      if (this.tokenCursor.current.value === TokenType.Return) {
         const statement = this.parseStatement();
 
         if (statement) {

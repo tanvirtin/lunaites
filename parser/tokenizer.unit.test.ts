@@ -7,6 +7,63 @@ import {
 } from "./mod.ts";
 import { assertObjectMatch, assertThrows, describe, it } from "./deps.ts";
 
+const {
+  Identifier,
+  EOF,
+  NilLiteral,
+  BooleanLiteral,
+  StringLiteral,
+  CommentLiteral,
+  NumericLiteral,
+  Equal,
+  Or,
+  And,
+  VarargLiteral,
+  DoubleColon,
+  Star,
+  Comma,
+  Colon,
+  DoubleDivide,
+  LessThan,
+  GreaterThan,
+  DoubleDot,
+  TildaEqual,
+  DoubleLessThan,
+  DoubleGreaterThan,
+  DoubleEqual,
+  Divide,
+  Tilda,
+  Carrot,
+  Ampersand,
+  Percentage,
+  OpenBrace,
+  ClosedBrace,
+  ClosedBracket,
+  OpenBracket,
+  OpenParenthesis,
+  Pipe,
+  Plus,
+  Minus,
+  ClosedParenthesis,
+  HashTag,
+  SemiColon,
+  Return,
+  If,
+  In,
+  For,
+  Goto,
+  Else,
+  Then,
+  Local,
+  Break,
+  Until,
+  While,
+  Elseif,
+  Repeat,
+  End,
+  Function,
+} = TokenType;
+
 function createTokenizer(source: string, tokenizerOptions?: TokenizerOptions) {
   const scanner = new Scanner(source);
 
@@ -21,39 +78,39 @@ describe("Tokenizer", () => {
       Object.entries({
         "  \r  \n      foo  \r\n  \n\r    bar  baz ": [
           {
-            type: TokenType.Identifier,
+            type: Identifier,
             value: "foo",
           },
           {
-            type: TokenType.Identifier,
+            type: Identifier,
             value: "bar",
           },
           {
-            type: TokenType.Identifier,
+            type: Identifier,
             value: "baz",
           },
           {
-            type: TokenType.EOF,
+            type: EOF,
             value: "<eof>",
           },
         ],
         "foo  \r\n  \n\r": [
           {
-            type: TokenType.Identifier,
+            type: Identifier,
             value: "foo",
           },
           {
-            type: TokenType.EOF,
+            type: EOF,
             value: "<eof>",
           },
         ],
         "foo  \r\n  \n\r\n\r\n": [
           {
-            type: TokenType.Identifier,
+            type: Identifier,
             value: "foo",
           },
           {
-            type: TokenType.EOF,
+            type: EOF,
             value: "<eof>",
           },
         ],
@@ -106,7 +163,7 @@ describe("Tokenizer", () => {
       tokenizer = createTokenizer("nil");
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.NilLiteral,
+        type: NilLiteral,
         value: "nil",
       });
     });
@@ -123,7 +180,7 @@ describe("Tokenizer", () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
-            type: TokenType.Identifier,
+            type: Identifier,
             value: result,
           });
         });
@@ -132,20 +189,21 @@ describe("Tokenizer", () => {
 
     describe("correctly tokenizes keywords", () => {
       Object.entries({
-        "if": "if",
-        "in": "in",
-        "for": "for",
-        "goto": "goto",
-        "else": "else",
-        "then": "then",
-        "local": "local",
-        "break": "break",
-        "until": "until",
-        "while": "while",
-        "elseif": "elseif",
-        "repeat": "repeat",
-        "return": "return",
-        "function": "function",
+        "if": If,
+        "in": In,
+        "for": For,
+        "goto": Goto,
+        "else": Else,
+        "then": Then,
+        "local": Local,
+        "break": Break,
+        "until": Until,
+        "while": While,
+        "elseif": Elseif,
+        "repeat": Repeat,
+        "return": Return,
+        "function": Function,
+        "end": End,
       }).forEach(([source, result]) => {
         it(`when source is "${source}"`, () => {
           tokenizer = createTokenizer(source, {
@@ -153,8 +211,8 @@ describe("Tokenizer", () => {
           });
 
           assertObjectMatch(tokenizer.tokenize(), {
-            type: TokenType.Keyword,
-            value: result,
+            type: result,
+            isKeyword: true,
           });
         });
       });
@@ -163,11 +221,11 @@ describe("Tokenizer", () => {
     describe("correctly tokenizes conditionals", () => {
       Object.entries({
         "or": {
-          type: TokenType.Or,
+          type: Or,
           value: "or",
         },
         "and": {
-          type: TokenType.And,
+          type: And,
           value: "and",
         },
       }).forEach(([source, result]) => {
@@ -188,7 +246,7 @@ describe("Tokenizer", () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
-            type: TokenType.BooleanLiteral,
+            type: BooleanLiteral,
             value: result,
           });
         });
@@ -220,7 +278,7 @@ describe("Tokenizer", () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
-            type: TokenType.StringLiteral,
+            type: StringLiteral,
             value: result,
           });
         });
@@ -229,7 +287,7 @@ describe("Tokenizer", () => {
       Object.entries({
         'a = "\\\n"': [
           {
-            type: TokenType.Identifier,
+            type: Identifier,
             value: "a",
             lnum: 1,
             lnumStartIndex: 0,
@@ -239,7 +297,7 @@ describe("Tokenizer", () => {
             ],
           },
           {
-            type: TokenType.Equal,
+            type: Equal,
             value: "=",
             lnum: 1,
             lnumStartIndex: 0,
@@ -249,7 +307,7 @@ describe("Tokenizer", () => {
             ],
           },
           {
-            type: TokenType.StringLiteral,
+            type: StringLiteral,
             value: '"\\\n"',
             lnum: 1,
             lnumStartIndex: 0,
@@ -259,7 +317,7 @@ describe("Tokenizer", () => {
             ],
           },
           {
-            type: TokenType.EOF,
+            type: EOF,
             value: "<eof>",
             lnum: 2,
             lnumStartIndex: 7,
@@ -350,7 +408,7 @@ describe("Tokenizer", () => {
           tokenizer = createTokenizer(source);
 
           assertObjectMatch(tokenizer.tokenize(), {
-            type: TokenType.NumericLiteral,
+            type: NumericLiteral,
             value: result,
           });
         });
@@ -369,7 +427,7 @@ describe("Tokenizer", () => {
             tokenizer = createTokenizer(source);
 
             assertObjectMatch(tokenizer.tokenize(), {
-              type: TokenType.NumericLiteral,
+              type: NumericLiteral,
               value: result,
             });
           });
@@ -388,7 +446,7 @@ describe("Tokenizer", () => {
             tokenizer = createTokenizer(source);
 
             assertObjectMatch(tokenizer.tokenize(), {
-              type: TokenType.NumericLiteral,
+              type: NumericLiteral,
               value: result,
             });
           });
@@ -410,7 +468,7 @@ describe("Tokenizer", () => {
             });
 
             assertObjectMatch(tokenizer.tokenize(), {
-              type: TokenType.NumericLiteral,
+              type: NumericLiteral,
               value: result,
             });
           });
@@ -433,7 +491,7 @@ describe("Tokenizer", () => {
             tokenizer = createTokenizer(source);
 
             assertObjectMatch(tokenizer.tokenize(), {
-              type: TokenType.NumericLiteral,
+              type: NumericLiteral,
               value: result,
             });
           });
@@ -458,7 +516,7 @@ describe("Tokenizer", () => {
             });
 
             assertObjectMatch(tokenizer.tokenize(), {
-              type: TokenType.NumericLiteral,
+              type: NumericLiteral,
               value: result,
             });
           });
@@ -527,123 +585,123 @@ describe("Tokenizer", () => {
     Object.entries({
       "-- comment": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- comment",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--comment": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--comment",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "-- comment\n-- comment": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- comment",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- comment",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "-- comment\nreturn": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- comment",
         },
         {
-          type: TokenType.Keyword,
+          type: Return,
           value: "return",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "return --comment \n": [
         {
-          type: TokenType.Keyword,
+          type: Return,
           value: "return",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--comment ",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--=[comment]=] return": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--=[comment]=] return",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "if true -- comment\nthen end": [
         {
-          type: TokenType.Keyword,
+          type: If,
           value: "if",
         },
         {
-          type: TokenType.BooleanLiteral,
+          type: BooleanLiteral,
           value: "true",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- comment",
         },
         {
-          type: TokenType.Keyword,
+          type: Then,
           value: "then",
         },
         {
-          type: TokenType.Keyword,
+          type: End,
           value: "end",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "-- [[ hello world ]]\n local a": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- [[ hello world ]]",
         },
         {
-          type: TokenType.Keyword,
+          type: Local,
           value: "local",
         },
         {
-          type: TokenType.Identifier,
+          type: Identifier,
           value: "a",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[1] = lp.V'Message',": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[1] = lp.V'Message',",
         },
       ],
@@ -662,141 +720,141 @@ describe("Tokenizer", () => {
     Object.entries({
       "--[[ hello world ]]": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[ hello world ]]",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[]]--[[]]": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[]]",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[]]",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[ hello world \n ]]": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[ hello world \n ]] --": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[ hello world \n ]] -- ": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- ",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[ hello world \n ]] -- \n foo": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[ hello world \n ]]",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "-- ",
         },
         {
-          type: TokenType.Identifier,
+          type: Identifier,
           value: "foo",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "if true--[[comment]]then end": [
         {
-          type: TokenType.Keyword,
+          type: If,
           value: "if",
         },
         {
-          type: TokenType.BooleanLiteral,
+          type: BooleanLiteral,
           value: "true",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[comment]]",
         },
         {
-          type: TokenType.Keyword,
+          type: Then,
           value: "then",
         },
         {
-          type: TokenType.Keyword,
+          type: End,
           value: "end",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[comment\nline two]]": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[comment\nline two]]",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[\ncomment\nline two\n]]": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[\ncomment\nline two\n]]",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
       "--[[\ncomment\nline two\n]]--[[\n\n\ncomment\n\n\n]]": [
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[\ncomment\nline two\n]]",
         },
         {
-          type: TokenType.CommentLiteral,
+          type: CommentLiteral,
           value: "--[[\n\n\ncomment\n\n\n]]",
         },
         {
-          type: TokenType.EOF,
+          type: EOF,
           value: "<eof>",
         },
       ],
@@ -821,7 +879,7 @@ describe("Tokenizer", () => {
         tokenizer = createTokenizer(source);
 
         assertObjectMatch(tokenizer.tokenize(), {
-          type: TokenType.VarargLiteral,
+          type: VarargLiteral,
           value: result,
         });
       });
@@ -834,148 +892,148 @@ describe("Tokenizer", () => {
       tokenizer = createTokenizer(source);
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Star,
+        type: Star,
         value: "*",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Carrot,
+        type: Carrot,
         value: "^",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Percentage,
+        type: Percentage,
         value: "%",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Comma,
+        type: Comma,
         value: ",",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.OpenBrace,
+        type: OpenBrace,
         value: "{",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.ClosedBrace,
+        type: ClosedBrace,
         value: "}",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.OpenBracket,
+        type: OpenBracket,
         value: "[",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.ClosedBracket,
+        type: ClosedBracket,
         value: "]",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.OpenParenthesis,
+        type: OpenParenthesis,
         value: "(",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.ClosedParenthesis,
+        type: ClosedParenthesis,
         value: ")",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.SemiColon,
+        type: SemiColon,
         value: ";",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.HashTag,
+        type: HashTag,
         value: "#",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Minus,
+        type: Minus,
         value: "-",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Plus,
+        type: Plus,
         value: "+",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Pipe,
+        type: Pipe,
         value: "|",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Ampersand,
+        type: Ampersand,
         value: "&",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Colon,
+        type: Colon,
         value: ":",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Equal,
+        type: Equal,
         value: "=",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Divide,
+        type: Divide,
         value: "/",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.Tilda,
+        type: Tilda,
         value: "~",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.GreaterThan,
+        type: GreaterThan,
         value: ">",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.LessThan,
+        type: LessThan,
         value: "<",
       });
 
       assertObjectMatch(tokenizer.tokenize(), {
-        type: TokenType.EOF,
+        type: EOF,
         value: "<eof>",
       });
     });
 
     Object.entries({
       "::": {
-        type: TokenType.DoubleColon,
+        type: DoubleColon,
         value: "::",
       },
       "//": {
-        type: TokenType.DoubleDivide,
+        type: DoubleDivide,
         value: "//",
       },
       "~=": {
-        type: TokenType.TildaEqual,
+        type: TildaEqual,
         value: "~=",
       },
       "<<": {
-        type: TokenType.DoubleLessThan,
+        type: DoubleLessThan,
         value: "<<",
       },
       ">>": {
-        type: TokenType.DoubleGreaterThan,
+        type: DoubleGreaterThan,
         value: ">>",
       },
       "==": {
-        type: TokenType.DoubleEqual,
+        type: DoubleEqual,
         value: "==",
       },
       "..": {
-        type: TokenType.DoubleDot,
+        type: DoubleDot,
         value: "..",
       },
     }).forEach(([source, result]) => {

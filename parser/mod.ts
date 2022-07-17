@@ -1,3 +1,4 @@
+export * from "./token.ts";
 export * from "./parser_exception.ts";
 export * from "./tokenizer_exception.ts";
 export * from "./exception.ts";
