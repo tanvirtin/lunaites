@@ -12,6 +12,7 @@ const {
   NumericLiteral,
   GroupingExpression,
   BreakStatement,
+  ForNumericStatement,
   StringLiteral,
   BooleanLiteral,
   NilLiteral,
@@ -1121,6 +1122,9 @@ const source = `
     ;
   end
 
+  for i = 1, i < 4 do
+  end
+
   return 4 + 5;
 `;
 
@@ -1265,6 +1269,16 @@ ${source}
             arguments: [Identifier, Identifier, Identifier],
             block: [],
           }],
+        },
+        {
+          type: ForNumericStatement,
+          variable: Identifier,
+          init: NumericLiteral,
+          condition: {
+            left: Identifier,
+            right: NumericLiteral,
+          },
+          block: [],
         },
         {
           expressions: [

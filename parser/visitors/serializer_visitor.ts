@@ -163,6 +163,16 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitForNumericStatement(node: ast.ForNumericStatement): unknown {
+    return {
+      type: ast.NodeType.ForNumericStatement,
+      variable: node.variable.accept(this),
+      init: node.init.accept(this),
+      condition: node.condition.accept(this),
+      block: node.block.accept(this),
+    };
+  }
+
   visitFunctionExpression(node: ast.FunctionExpression): unknown {
     return {
       type: ast.NodeType.FunctionExpression,
@@ -206,6 +216,8 @@ class SerializerVisitor implements Visitor {
         return this.visitWhileStatement(node as ast.WhileStatement);
       case ast.IfStatement:
         return this.visitIfStatement(node as ast.IfStatement);
+      case ast.ForNumericStatement:
+        return this.visitForNumericStatement(node as ast.ForNumericStatement);
       case ast.FunctionStatement:
         return this.visitFunctionStatement(node as ast.FunctionStatement);
       case ast.BinaryExpression:

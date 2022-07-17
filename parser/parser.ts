@@ -671,7 +671,33 @@ class Parser {
   // namelist ::= Name {',' Name}
   // explist ::= exp {',' exp}
   parseForStatement(): ast.Statement {
-    throw new Error("for statement parser not yet implemented");
+    this.expect("for").advance();
+
+    this.expect(TokenType.Identifier);
+
+    const variable = this.parseIdentifierExpression();
+
+    this.tokenCursor.advance();
+
+    this.expect("=").advance();
+
+    const init = this.parseExpression();
+
+    this.tokenCursor.advance();
+
+    this.expect(",").advance();
+
+    const condition = this.parseExpression();
+
+    this.tokenCursor.advance();
+
+    this.expect("do").advance();
+
+    const block = this.parseBlock();
+
+    this.expect("end");
+
+    return new ast.ForNumericStatement(variable, init, condition, block);
   }
 
   // repeat ::= 'repeat' block 'until' exp

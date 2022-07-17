@@ -14,6 +14,7 @@ enum NodeType {
   UnaryExpression = "UnaryExpression",
   BinaryExpression = "BinaryExpression",
   LocalStatement = "LocalStatement",
+  ForNumericStatement = "ForNumericStatement",
   ReturnStatement = "ReturnStatement",
   LabelStatement = "LabelStatement",
   GotoStatement = "GotoStatement",
@@ -295,6 +296,29 @@ class IfStatement implements Statement {
   }
 }
 
+class ForNumericStatement implements Statement {
+  variable: Identifier;
+  init: Expression;
+  condition: Expression;
+  block: Block;
+
+  constructor(
+    variable: Identifier,
+    init: Expression,
+    condition: Expression,
+    block: Block,
+  ) {
+    this.variable = variable;
+    this.init = init;
+    this.condition = condition;
+    this.block = block;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitForNumericStatement(this);
+  }
+}
+
 class Block implements Node {
   statements: Statement[];
 
@@ -327,6 +351,7 @@ export {
   Chunk,
   CommentLiteral,
   DoStatement,
+  ForNumericStatement,
   FunctionExpression,
   FunctionStatement,
   GotoStatement,

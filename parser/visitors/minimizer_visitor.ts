@@ -130,6 +130,16 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitForNumericStatement(node: ast.ForNumericStatement): unknown {
+    return {
+      type: ast.NodeType.ForNumericStatement,
+      variable: node.variable.accept(this),
+      init: node.init.accept(this),
+      condition: node.condition.accept(this),
+      block: node.block.accept(this),
+    };
+  }
+
   visitDoStatement(node: ast.DoStatement): unknown {
     return {
       type: ast.NodeType.DoStatement,
@@ -170,6 +180,8 @@ class MinimizerVisitor implements Visitor {
         return this.visitIfStatement(node as ast.IfStatement);
       case ast.WhileStatement:
         return this.visitWhileStatement(node as ast.WhileStatement);
+      case ast.ForNumericStatement:
+        return this.visitForNumericStatement(node as ast.ForNumericStatement);
       case ast.FunctionStatement:
         return this.visitFunctionStatement(node as ast.FunctionStatement);
       case ast.BreakStatement:
