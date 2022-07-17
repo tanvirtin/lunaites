@@ -393,7 +393,7 @@ class Tokenizer {
     // Itentifiers can only be characters that are alphanumeric (digits or alphabets).
     scanner.scanWhile(scanner.isAlphanumeric);
 
-    const keywordTokenTypeMap: Record<string, TokenType> = {
+    const keywordTokenTypeMap = new Map(Object.entries({
       or: TokenType.Or,
       and: TokenType.And,
       not: TokenType.Not,
@@ -416,17 +416,17 @@ class Tokenizer {
       return: TokenType.Return,
       function: TokenType.Function,
       goto: TokenType.Goto,
-    };
+    }));
     const value = scanner.getText();
-    const isKeyword = value in keywordTokenTypeMap;
+    const keywordTokenType = keywordTokenTypeMap.get(value);
 
     return {
-      type: isKeyword ? keywordTokenTypeMap[value] : TokenType.Identifier,
+      type: keywordTokenType != null ? keywordTokenType : TokenType.Identifier,
       value,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.getRange(),
-      isKeyword,
+      isKeyword: !!keywordTokenType,
     };
   }
 

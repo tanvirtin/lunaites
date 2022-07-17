@@ -3,7 +3,7 @@
     "source": "goto \"foo\"",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -38,7 +38,7 @@
     "source": "goto foo",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -198,7 +198,7 @@
     "source": "goto \"foo\"",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -233,7 +233,7 @@
     "source": "goto hasOwnProperty",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -268,7 +268,7 @@
     "source": "goto x ::x::",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -333,7 +333,7 @@
     "source": "goto x do ::x:: end",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -468,7 +468,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -578,7 +578,7 @@
     "source": "goto x local a ::x:: f()",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -693,7 +693,7 @@
     "source": "goto x local a, b ::x:: f()",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -828,7 +828,7 @@
     "source": "goto x local function a() end ::x:: f()",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -993,7 +993,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1148,7 +1148,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1283,7 +1283,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1408,7 +1408,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1513,7 +1513,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1628,7 +1628,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1853,7 +1853,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1928,7 +1928,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -1958,7 +1958,7 @@
         ]
       },
       {
-        "type": "do",
+        "type": "Do",
         "value": "do",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2053,7 +2053,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2203,7 +2203,7 @@
     "source": "goto \"foo\"",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2238,7 +2238,7 @@
     "source": "goto foo",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2303,7 +2303,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2338,7 +2338,7 @@
     "source": "goto goto",
     "result": [
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2348,7 +2348,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
@@ -2383,7 +2383,7 @@
         ]
       },
       {
-        "type": "Identifier",
+        "type": "Goto",
         "value": "goto",
         "lnum": 1,
         "lnumStartIndex": 0,
