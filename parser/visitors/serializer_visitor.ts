@@ -153,9 +153,9 @@ class SerializerVisitor implements Visitor {
     };
   }
 
-  visitFunctionDeclaration(node: ast.FunctionDeclaration): unknown {
+  visitFunctionStatement(node: ast.FunctionStatement): unknown {
     return {
-      type: ast.NodeType.FunctionDeclaration,
+      type: ast.NodeType.FunctionStatement,
       isLocal: node.isLocal,
       arguments: node.arguments.map((argument) => argument.accept(this)),
       block: node.block.accept(this),
@@ -206,8 +206,8 @@ class SerializerVisitor implements Visitor {
         return this.visitWhileStatement(node as ast.WhileStatement);
       case ast.IfStatement:
         return this.visitIfStatement(node as ast.IfStatement);
-      case ast.FunctionDeclaration:
-        return this.visitFunctionDeclaration(node as ast.FunctionDeclaration);
+      case ast.FunctionStatement:
+        return this.visitFunctionStatement(node as ast.FunctionStatement);
       case ast.BinaryExpression:
         return this.visitBinaryExpression(node as ast.BinaryExpression);
       case ast.UnaryExpression:

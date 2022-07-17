@@ -22,7 +22,7 @@ enum NodeType {
   RepeatStatement = "RepeatStatement",
   WhileStatement = "WhileStatement",
   IfStatement = "IfStatement",
-  FunctionDeclaration = "FunctionDeclaration",
+  FunctionStatement = "FunctionStatement",
   Block = "Block",
   Chunk = "Chunk",
 }
@@ -108,7 +108,7 @@ class FunctionExpression implements Expression {
   }
 }
 
-class FunctionDeclaration implements Statement {
+class FunctionStatement implements Statement {
   isLocal: boolean;
   identifier: Identifier | null;
   arguments: Expression[];
@@ -127,7 +127,7 @@ class FunctionDeclaration implements Statement {
   }
 
   accept(visitor: Visitor): unknown {
-    return visitor.visitFunctionDeclaration(this);
+    return visitor.visitFunctionStatement(this);
   }
 }
 
@@ -327,8 +327,8 @@ export {
   Chunk,
   CommentLiteral,
   DoStatement,
-  FunctionDeclaration,
   FunctionExpression,
+  FunctionStatement,
   GotoStatement,
   GroupingExpression,
   Identifier,
