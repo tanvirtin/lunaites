@@ -345,7 +345,7 @@ class Parser {
     if (this.tokenCursor.match(TokenType.VarargLiteral)) {
       argList.push(this.varargLiteralParselet());
     } else if (this.tokenCursor.match(TokenType.Identifier)) {
-      argList.push(this.identifierParselet());
+      argList.push(this.parseExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
         if (this.tokenCursor.match(TokenType.VarargLiteral)) {
@@ -353,7 +353,7 @@ class Parser {
           break;
         }
 
-        argList.push(this.identifierParselet());
+        argList.push(this.parseExpression());
       }
 
       this.tokenCursor.advance();
@@ -483,11 +483,11 @@ class Parser {
       const variables = [];
       const initializations = [];
 
-      variables.push(this.identifierParselet());
+      variables.push(this.parseExpression());
 
       // keep encountering more identifiers we keep repeating.
       while (this.tokenCursor.consumeNext(",")) {
-        variables.push(this.identifierParselet());
+        variables.push(this.parseExpression());
       }
 
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
@@ -518,7 +518,7 @@ class Parser {
   parseLabelStatement(): ast.Statement {
     this.expect("::").advance();
 
-    const name = this.identifierParselet();
+    const name = this.parseExpression();
 
     // We advance over identifier token.
     this.tokenCursor.advance();
@@ -596,10 +596,10 @@ class Parser {
   parseFunctionDeclaration(isLocal: boolean): ast.Statement {
     this.expect("function").advance();
 
-    let identifier: ast.Identifier | null = null;
+    let identifier: ast.Expression | null = null;
 
     if (this.tokenCursor.match(TokenType.Identifier)) {
-      identifier = this.identifierParselet();
+      identifier = this.parseExpression();
       this.tokenCursor.advance();
     }
 
@@ -608,17 +608,17 @@ class Parser {
     const argList: ast.Expression[] = [];
 
     if (this.tokenCursor.match(TokenType.VarargLiteral)) {
-      argList.push(this.varargLiteralParselet());
+      argList.push(this.parseExpression());
     } else if (this.tokenCursor.match(TokenType.Identifier)) {
-      argList.push(this.identifierParselet());
+      argList.push(this.parseExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
         if (this.tokenCursor.match(TokenType.VarargLiteral)) {
-          argList.push(this.varargLiteralParselet());
+          argList.push(this.parseExpression());
           break;
         }
 
-        argList.push(this.identifierParselet());
+        argList.push(this.parseExpression());
       }
 
       this.tokenCursor.advance();
@@ -693,7 +693,7 @@ class Parser {
 
     this.expect(TokenType.Identifier);
 
-    const identifier = this.identifierParselet();
+    const identifier = this.parseExpression();
 
     return new ast.GotoStatement(identifier);
   }

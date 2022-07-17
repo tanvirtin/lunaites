@@ -110,7 +110,7 @@ class FunctionExpression implements Expression {
 
 class FunctionDeclaration implements Statement {
   isLocal: boolean;
-  identifier: Identifier | null;
+  identifier: Expression | null;
   arguments: Expression[];
   block: Block;
 
@@ -118,7 +118,7 @@ class FunctionDeclaration implements Statement {
     isLocal: boolean,
     argList: Expression[],
     block: Block,
-    identifier: Identifier | null,
+    identifier: Expression | null,
   ) {
     this.isLocal = isLocal;
     this.arguments = argList;
@@ -174,10 +174,10 @@ class BinaryExpression implements Expression {
 }
 
 class LocalStatement implements Statement {
-  variables: Identifier[];
+  variables: Expression[];
   init: Expression[];
 
-  constructor(variables: Identifier[], init: Expression[]) {
+  constructor(variables: Expression[], init: Expression[]) {
     this.variables = variables;
     this.init = init;
   }
@@ -200,9 +200,9 @@ class ReturnStatement implements Statement {
 }
 
 class LabelStatement implements Statement {
-  name: Identifier;
+  name: Expression;
 
-  constructor(name: Identifier) {
+  constructor(name: Expression) {
     this.name = name;
   }
 
@@ -212,9 +212,9 @@ class LabelStatement implements Statement {
 }
 
 class GotoStatement implements Statement {
-  label: Identifier;
+  label: Expression;
 
-  constructor(label: Identifier) {
+  constructor(label: Expression) {
     this.label = label;
   }
 
