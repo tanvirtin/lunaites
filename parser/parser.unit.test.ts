@@ -7,6 +7,7 @@ const {
   Identifier,
   ReturnStatement,
   UnaryExpression,
+  FunctionDefinition,
   FunctionDeclaration,
   NumericLiteral,
   GroupingExpression,
@@ -1116,6 +1117,10 @@ const source = `
   local function bar()
   end
 
+  local xzy = function(a, b, c)
+    ;
+  end
+
   return 4 + 5;
 `;
 
@@ -1251,6 +1256,15 @@ ${source}
           identifier: Identifier,
           arguments: [],
           block: [],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [{
+            type: FunctionDefinition,
+            arguments: [Identifier, Identifier, Identifier],
+            block: [],
+          }],
         },
         {
           expressions: [

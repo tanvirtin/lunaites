@@ -60,6 +60,14 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitFunctionDefinition(node: ast.FunctionDefinition): unknown {
+    return {
+      type: ast.NodeType.FunctionDefinition,
+      arguments: node.arguments.map((argument) => argument.accept(this)),
+      block: node.block.accept(this),
+    };
+  }
+
   visitLabelStatement(_node: ast.LabelStatement) {
     return ast.NodeType.LabelStatement;
   }
@@ -172,6 +180,8 @@ class MinimizerVisitor implements Visitor {
         return this.visitUnaryExpression(node as ast.UnaryExpression);
       case ast.GroupingExpression:
         return this.visitGroupingExpression(node as ast.GroupingExpression);
+      case ast.FunctionDefinition:
+        return this.visitFunctionDefinition(node as ast.FunctionDefinition);
       case ast.Identifier:
         return this.visitIdentifier(node as ast.Identifier);
       case ast.CommentLiteral:

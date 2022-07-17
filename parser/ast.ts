@@ -9,6 +9,7 @@ enum NodeType {
   BooleanLiteral = "BooleanLiteral",
   CommentLiteral = "CommentLiteral",
   Identifier = "Identifier",
+  FunctionDefinition = "FunctionDefinition",
   GroupingExpression = "GroupingExpression",
   UnaryExpression = "UnaryExpression",
   BinaryExpression = "BinaryExpression",
@@ -93,7 +94,21 @@ class Identifier implements Expression {
   }
 }
 
-class FunctionDeclaration implements Expression {
+class FunctionDefinition implements Expression {
+  arguments: Expression[];
+  block: Block;
+
+  constructor(argList: Expression[], block: Block) {
+    this.arguments = argList;
+    this.block = block;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitFunctionDefinition(this);
+  }
+}
+
+class FunctionDeclaration implements Statement {
   isLocal: boolean;
   identifier: Identifier | null;
   arguments: Expression[];
@@ -313,6 +328,7 @@ export {
   CommentLiteral,
   DoStatement,
   FunctionDeclaration,
+  FunctionDefinition,
   GotoStatement,
   GroupingExpression,
   Identifier,

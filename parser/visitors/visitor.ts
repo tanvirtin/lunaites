@@ -9,6 +9,7 @@ interface Visitor {
   visitBooleanLiteral(node: ast.Node): void;
   visitCommentLiteral(node: ast.Node): void;
   visitIdentifier(node: ast.Node): void;
+  visitFunctionDefinition(node: ast.Node): void;
   visitGroupingExpression(node: ast.Node): void;
   visitGotoStatement(node: ast.Node): void;
   visitUnaryExpression(node: ast.Node): void;

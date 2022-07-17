@@ -131,6 +131,11 @@ class Parser {
       this.unaryParselet,
     );
 
+    this.registerNullDenotationParselet(
+      TokenType.Function,
+      this.functionDefinitionParselet,
+    );
+
     return this;
   }
 
@@ -324,6 +329,40 @@ class Parser {
     this.expect(TokenType.CommentLiteral);
 
     return new ast.CommentLiteral(this.tokenCursor.current);
+  }
+
+  // @@@ TODO: Add bnf notation
+  private functionDefinitionParselet(): ast.Expression {
+    this.expect("function").advance();
+
+    this.expect("(").advance();
+
+    const argList: ast.Expression[] = [];
+
+    if (this.tokenCursor.match(TokenType.VarargLiteral)) {
+      argList.push(this.varargLiteralParselet());
+    } else if (this.tokenCursor.match(TokenType.Identifier)) {
+      argList.push(this.identifierParselet());
+
+      while (this.tokenCursor.consumeNext(",")) {
+        if (this.tokenCursor.match(TokenType.VarargLiteral)) {
+          argList.push(this.varargLiteralParselet());
+          break;
+        }
+
+        argList.push(this.identifierParselet());
+      }
+
+      this.tokenCursor.advance();
+    }
+
+    this.expect(")").advance();
+
+    const block = this.parseBlock();
+
+    this.expect("end");
+
+    return new ast.FunctionDefinition(argList, block);
   }
 
   private unaryParselet(): ast.Expression {
