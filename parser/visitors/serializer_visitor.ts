@@ -167,8 +167,9 @@ class SerializerVisitor implements Visitor {
     return {
       type: ast.NodeType.ForNumericStatement,
       variable: node.variable.accept(this),
-      init: node.init.accept(this),
-      condition: node.condition.accept(this),
+      start: node.start.accept(this),
+      end: node.end.accept(this),
+      step: node.step?.accept(this),
       block: node.block.accept(this),
     };
   }

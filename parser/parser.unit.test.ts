@@ -1125,6 +1125,9 @@ const source = `
   for i = 1, i < 4 do
   end
 
+  for i = 1, i < 4, i < 3 do
+  end
+
   return 4 + 5;
 `;
 
@@ -1273,8 +1276,26 @@ ${source}
         {
           type: ForNumericStatement,
           variable: Identifier,
-          init: NumericLiteral,
-          condition: {
+          start: NumericLiteral,
+          end: {
+            type: BinaryExpression,
+            left: Identifier,
+            right: NumericLiteral,
+          },
+          step: undefined,
+          block: [],
+        },
+        {
+          type: ForNumericStatement,
+          variable: Identifier,
+          start: NumericLiteral,
+          end: {
+            type: BinaryExpression,
+            left: Identifier,
+            right: NumericLiteral,
+          },
+          step: {
+            type: BinaryExpression,
             left: Identifier,
             right: NumericLiteral,
           },

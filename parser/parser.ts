@@ -681,13 +681,18 @@ class Parser {
 
     this.expect("=").advance();
 
-    const init = this.parseExpression();
+    const start = this.parseExpression();
 
     this.tokenCursor.advance();
 
     this.expect(",").advance();
 
-    const condition = this.parseExpression();
+    const end = this.parseExpression();
+
+    let step;
+    if (this.tokenCursor.consumeNext(",")) {
+      step = this.parseExpression();
+    }
 
     this.tokenCursor.advance();
 
@@ -697,7 +702,7 @@ class Parser {
 
     this.expect("end");
 
-    return new ast.ForNumericStatement(variable, init, condition, block);
+    return new ast.ForNumericStatement(variable, start, end, step, block);
   }
 
   // repeat ::= 'repeat' block 'until' exp

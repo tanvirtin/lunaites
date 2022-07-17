@@ -298,19 +298,22 @@ class IfStatement implements Statement {
 
 class ForNumericStatement implements Statement {
   variable: Identifier;
-  init: Expression;
-  condition: Expression;
+  start: Expression;
+  end: Expression;
+  step: Expression | void;
   block: Block;
 
   constructor(
     variable: Identifier,
-    init: Expression,
-    condition: Expression,
+    start: Expression,
+    end: Expression,
+    step: Expression | void,
     block: Block,
   ) {
     this.variable = variable;
-    this.init = init;
-    this.condition = condition;
+    this.start = start;
+    this.end = end;
+    this.step = step;
     this.block = block;
   }
 
