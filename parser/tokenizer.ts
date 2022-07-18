@@ -10,6 +10,68 @@ interface TokenizerOptions {
   extendedIdentifiers?: boolean;
 }
 
+const {
+  Not,
+  Do,
+  Identifier,
+  EOF,
+  NilLiteral,
+  BooleanLiteral,
+  StringLiteral,
+  CommentLiteral,
+  NumericLiteral,
+  Equal,
+  Or,
+  And,
+  VarargLiteral,
+  DoubleColon,
+  Star,
+  Comma,
+  Colon,
+  DoubleDivide,
+  LessThan,
+  GreaterThan,
+  DoubleDot,
+  TildaEqual,
+  DoubleLessThan,
+  DoubleGreaterThan,
+  DoubleEqual,
+  Divide,
+  Tilda,
+  Carrot,
+  Ampersand,
+  Percentage,
+  OpenBrace,
+  Dot,
+  LessThanEqual,
+  ClosedBrace,
+  ClosedBracket,
+  OpenBracket,
+  OpenParenthesis,
+  Pipe,
+  Plus,
+  Minus,
+  ClosedParenthesis,
+  HashTag,
+  SemiColon,
+  Return,
+  If,
+  In,
+  For,
+  Goto,
+  Else,
+  Then,
+  Local,
+  Break,
+  Until,
+  While,
+  Elseif,
+  Repeat,
+  End,
+  Function,
+  GreaterThanEqual,
+} = TokenType;
+
 // References: https://www.ibm.com/docs/en/i/7.3?topic=tokens-literals
 
 class Tokenizer {
@@ -267,7 +329,7 @@ class Tokenizer {
     scanner.mark();
 
     return {
-      type: TokenType.EOF,
+      type: EOF,
       value: "<eof>",
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
@@ -291,7 +353,7 @@ class Tokenizer {
     }
 
     return {
-      type: TokenType.CommentLiteral,
+      type: CommentLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
@@ -313,7 +375,7 @@ class Tokenizer {
     this.scanLongString(true);
 
     return {
-      type: TokenType.CommentLiteral,
+      type: CommentLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
@@ -353,7 +415,7 @@ class Tokenizer {
     scanner.scan();
 
     return {
-      type: TokenType.StringLiteral,
+      type: StringLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
@@ -375,7 +437,7 @@ class Tokenizer {
     this.scanLongString(false);
 
     return {
-      type: TokenType.StringLiteral,
+      type: StringLiteral,
       value: scanner.getText(),
       lnum,
       lnumStartIndex,
@@ -394,34 +456,34 @@ class Tokenizer {
     scanner.scanWhile(scanner.isAlphanumeric);
 
     const keywordTokenTypeMap = new Map(Object.entries({
-      or: TokenType.Or,
-      and: TokenType.And,
-      not: TokenType.Not,
-      true: TokenType.BooleanLiteral,
-      false: TokenType.BooleanLiteral,
-      nil: TokenType.NilLiteral,
-      do: TokenType.Do,
-      if: TokenType.If,
-      in: TokenType.In,
-      end: TokenType.End,
-      for: TokenType.For,
-      else: TokenType.Else,
-      then: TokenType.Then,
-      break: TokenType.Break,
-      local: TokenType.Local,
-      while: TokenType.While,
-      elseif: TokenType.Elseif,
-      until: TokenType.Until,
-      repeat: TokenType.Repeat,
-      return: TokenType.Return,
-      function: TokenType.Function,
-      goto: TokenType.Goto,
+      or: Or,
+      and: And,
+      not: Not,
+      true: BooleanLiteral,
+      false: BooleanLiteral,
+      nil: NilLiteral,
+      do: Do,
+      if: If,
+      in: In,
+      end: End,
+      for: For,
+      else: Else,
+      then: Then,
+      break: Break,
+      local: Local,
+      while: While,
+      elseif: Elseif,
+      until: Until,
+      repeat: Repeat,
+      return: Return,
+      function: Function,
+      goto: Goto,
     }));
     const value = scanner.getText();
     const keywordTokenType = keywordTokenTypeMap.get(value);
 
     return {
-      type: keywordTokenType != null ? keywordTokenType : TokenType.Identifier,
+      type: keywordTokenType != null ? keywordTokenType : Identifier,
       value,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
@@ -479,7 +541,7 @@ class Tokenizer {
     }
 
     return {
-      type: TokenType.NumericLiteral,
+      type: NumericLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
@@ -520,7 +582,7 @@ class Tokenizer {
     }
 
     return {
-      type: TokenType.NumericLiteral,
+      type: NumericLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
@@ -550,7 +612,7 @@ class Tokenizer {
     scanner.scan().scan().scan();
 
     return {
-      type: TokenType.VarargLiteral,
+      type: VarargLiteral,
       value: scanner.getText(),
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
@@ -562,38 +624,38 @@ class Tokenizer {
   private tokenizePunctuator(punctuator: string): Token {
     const { scanner } = this;
     const punctuatorTable: Record<string, TokenType> = {
-      [".."]: TokenType.DoubleDot,
-      ["."]: TokenType.Dot,
-      [","]: TokenType.Comma,
-      ["=="]: TokenType.DoubleEqual,
-      ["="]: TokenType.Equal,
-      [">="]: TokenType.GreaterThanEqual,
-      [">>"]: TokenType.DoubleGreaterThan,
-      [">"]: TokenType.GreaterThan,
-      ["<="]: TokenType.LessThanEqual,
-      ["<<"]: TokenType.DoubleLessThan,
-      ["<"]: TokenType.LessThan,
-      ["~="]: TokenType.TildaEqual,
-      ["~"]: TokenType.Tilda,
-      ["//"]: TokenType.DoubleDivide,
-      ["/"]: TokenType.Divide,
-      [":"]: TokenType.Colon,
-      ["::"]: TokenType.DoubleColon,
-      ["&"]: TokenType.Ampersand,
-      ["|"]: TokenType.Pipe,
-      ["*"]: TokenType.Star,
-      ["^"]: TokenType.Carrot,
-      ["%"]: TokenType.Percentage,
-      ["{"]: TokenType.OpenBrace,
-      ["}"]: TokenType.ClosedBrace,
-      ["["]: TokenType.OpenBracket,
-      ["]"]: TokenType.ClosedBracket,
-      ["("]: TokenType.OpenParenthesis,
-      [")"]: TokenType.ClosedParenthesis,
-      [";"]: TokenType.SemiColon,
-      ["#"]: TokenType.HashTag,
-      ["-"]: TokenType.Minus,
-      ["+"]: TokenType.Plus,
+      [".."]: DoubleDot,
+      ["."]: Dot,
+      [","]: Comma,
+      ["=="]: DoubleEqual,
+      ["="]: Equal,
+      [">="]: GreaterThanEqual,
+      [">>"]: DoubleGreaterThan,
+      [">"]: GreaterThan,
+      ["<="]: LessThanEqual,
+      ["<<"]: DoubleLessThan,
+      ["<"]: LessThan,
+      ["~="]: TildaEqual,
+      ["~"]: Tilda,
+      ["//"]: DoubleDivide,
+      ["/"]: Divide,
+      [":"]: Colon,
+      ["::"]: DoubleColon,
+      ["&"]: Ampersand,
+      ["|"]: Pipe,
+      ["*"]: Star,
+      ["^"]: Carrot,
+      ["%"]: Percentage,
+      ["{"]: OpenBrace,
+      ["}"]: ClosedBrace,
+      ["["]: OpenBracket,
+      ["]"]: ClosedBracket,
+      ["("]: OpenParenthesis,
+      [")"]: ClosedParenthesis,
+      [";"]: SemiColon,
+      ["#"]: HashTag,
+      ["-"]: Minus,
+      ["+"]: Plus,
     };
 
     // Put a mark on the scanner before we progress it.
@@ -757,7 +819,7 @@ class Tokenizer {
       const token = this.tokenize();
       this.tokens.push(token);
 
-      if (token.type === TokenType.EOF) {
+      if (token.type === EOF) {
         break;
       }
     }

@@ -1,5 +1,7 @@
 import { Token, Tokenizer, TokenType } from "./mod.ts";
 
+const { EOF } = TokenType;
+
 // Layer to control "stream" of tokens.
 class TokenCursor {
   private _index = -1;
@@ -24,7 +26,7 @@ class TokenCursor {
     // token called EOF if we hit the end of the line.
     const token = this.tokenizer.tokenize();
 
-    if (token.type === TokenType.EOF) {
+    if (token.type === EOF) {
       this.eofToken = token;
     }
 

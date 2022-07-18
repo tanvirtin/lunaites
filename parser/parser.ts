@@ -8,6 +8,68 @@ import {
   TokenType,
 } from "./mod.ts";
 
+const {
+  Not,
+  Do,
+  Identifier,
+  EOF,
+  NilLiteral,
+  BooleanLiteral,
+  StringLiteral,
+  CommentLiteral,
+  NumericLiteral,
+  Equal,
+  Or,
+  And,
+  VarargLiteral,
+  DoubleColon,
+  Star,
+  Comma,
+  Colon,
+  DoubleDivide,
+  LessThan,
+  GreaterThan,
+  DoubleDot,
+  TildaEqual,
+  DoubleLessThan,
+  DoubleGreaterThan,
+  DoubleEqual,
+  Divide,
+  Tilda,
+  Carrot,
+  Ampersand,
+  Percentage,
+  OpenBrace,
+  Dot,
+  LessThanEqual,
+  ClosedBrace,
+  ClosedBracket,
+  OpenBracket,
+  OpenParenthesis,
+  Pipe,
+  Plus,
+  Minus,
+  ClosedParenthesis,
+  HashTag,
+  SemiColon,
+  Return,
+  If,
+  In,
+  For,
+  Goto,
+  Else,
+  Then,
+  Local,
+  Break,
+  Until,
+  While,
+  Elseif,
+  Repeat,
+  End,
+  Function,
+  GreaterThanEqual,
+} = TokenType;
+
 // Prerequisites: Backus-Naur Form
 // - http://marvin.cs.uidaho.edu/Teaching/CS445/grammar.pdf
 // References:
@@ -80,67 +142,67 @@ class Parser {
 
   private registerNullDenotationExpressionParselets(): Parser {
     this.registerNullDenotationExpressionParselet(
-      TokenType.NumericLiteral,
+      NumericLiteral,
       this.parseNumericLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.StringLiteral,
+      StringLiteral,
       this.parseStringLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.BooleanLiteral,
+      BooleanLiteral,
       this.parseBooleanLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.NilLiteral,
+      NilLiteral,
       this.parseNilLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.VarargLiteral,
+      VarargLiteral,
       this.parseVarargLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.Identifier,
+      Identifier,
       this.parseIdentifierExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.CommentLiteral,
+      CommentLiteral,
       this.parseCommentLiteralExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.OpenParenthesis,
+      OpenParenthesis,
       this.parseGroupingExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.Not,
+      Not,
       this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.HashTag,
+      HashTag,
       this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.Tilda,
+      Tilda,
       this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.Minus,
+      Minus,
       this.parseUnaryExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
-      TokenType.Function,
+      Function,
       this.parseFunctionExpression,
     );
 
@@ -152,104 +214,104 @@ class Parser {
 
   private registerLeftDenotationExpressionParselets(): Parser {
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Plus,
+      Plus,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Minus,
+      Minus,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Star,
+      Star,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Divide,
+      Divide,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.DoubleDivide,
+      DoubleDivide,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.And,
+      And,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Or,
+      Or,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.GreaterThan,
+      GreaterThan,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.LessThan,
+      LessThan,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.GreaterThanEqual,
+      GreaterThanEqual,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.LessThanEqual,
+      LessThanEqual,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.DoubleEqual,
+      DoubleEqual,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.TildaEqual,
+      TildaEqual,
       this.parseBinaryExpression,
     );
 
     ///////// Bitwise operators ////////
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Pipe,
+      Pipe,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Tilda,
+      Tilda,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Ampersand,
+      Ampersand,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.DoubleGreaterThan,
+      DoubleGreaterThan,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.DoubleLessThan,
+      DoubleLessThan,
       this.parseBinaryExpression,
     );
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.Carrot,
+      Carrot,
       this.parseBinaryExpression,
     );
     ////////////////////////////////////
 
     this.registerLeftDenotationExpressionParselet(
-      TokenType.DoubleDot,
+      DoubleDot,
       this.parseBinaryExpression,
     );
 
@@ -305,43 +367,43 @@ class Parser {
   ////////////////////////////////////////////////////////////////////////
 
   private parseIdentifierExpression(): ast.Identifier {
-    this.expect(TokenType.Identifier);
+    this.expect(Identifier);
 
     return new ast.Identifier(this.tokenCursor.current);
   }
 
   private parseNumericLiteralExpression(): ast.Expression {
-    this.expect(TokenType.NumericLiteral);
+    this.expect(NumericLiteral);
 
     return new ast.NumericLiteral(this.tokenCursor.current);
   }
 
   private parseStringLiteralExpression(): ast.Expression {
-    this.expect(TokenType.StringLiteral);
+    this.expect(StringLiteral);
 
     return new ast.StringLiteral(this.tokenCursor.current);
   }
 
   private parseBooleanLiteralExpression(): ast.Expression {
-    this.expect(TokenType.BooleanLiteral);
+    this.expect(BooleanLiteral);
 
     return new ast.BooleanLiteral(this.tokenCursor.current);
   }
 
   private parseNilLiteralExpression(): ast.Expression {
-    this.expect(TokenType.NilLiteral);
+    this.expect(NilLiteral);
 
     return new ast.NilLiteral(this.tokenCursor.current);
   }
 
   private parseVarargLiteralExpression(): ast.Expression {
-    this.expect(TokenType.VarargLiteral);
+    this.expect(VarargLiteral);
 
     return new ast.VarargLiteral(this.tokenCursor.current);
   }
 
   private parseCommentLiteralExpression(): ast.Expression {
-    this.expect(TokenType.CommentLiteral);
+    this.expect(CommentLiteral);
 
     return new ast.CommentLiteral(this.tokenCursor.current);
   }
@@ -354,13 +416,13 @@ class Parser {
 
     const argList: ast.Expression[] = [];
 
-    if (this.tokenCursor.match(TokenType.VarargLiteral)) {
+    if (this.tokenCursor.match(VarargLiteral)) {
       argList.push(this.parseVarargLiteralExpression());
-    } else if (this.tokenCursor.match(TokenType.Identifier)) {
+    } else if (this.tokenCursor.match(Identifier)) {
       argList.push(this.parseExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
-        if (this.tokenCursor.match(TokenType.VarargLiteral)) {
+        if (this.tokenCursor.match(VarargLiteral)) {
           argList.push(this.parseVarargLiteralExpression());
           break;
         }
@@ -497,7 +559,7 @@ class Parser {
   parseLocalStatement(): ast.Statement {
     this.expect("local").advance();
 
-    if (this.tokenCursor.match(TokenType.Identifier)) {
+    if (this.tokenCursor.match(Identifier)) {
       const variables = [];
       const initializations = [];
 
@@ -616,7 +678,7 @@ class Parser {
 
     let identifier: ast.Identifier | null = null;
 
-    if (this.tokenCursor.match(TokenType.Identifier)) {
+    if (this.tokenCursor.match(Identifier)) {
       identifier = this.parseIdentifierExpression();
       this.tokenCursor.advance();
     }
@@ -625,13 +687,13 @@ class Parser {
 
     const argList: ast.Expression[] = [];
 
-    if (this.tokenCursor.match(TokenType.VarargLiteral)) {
+    if (this.tokenCursor.match(VarargLiteral)) {
       argList.push(this.parseVarargLiteralExpression());
-    } else if (this.tokenCursor.match(TokenType.Identifier)) {
+    } else if (this.tokenCursor.match(Identifier)) {
       argList.push(this.parseIdentifierExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
-        if (this.tokenCursor.match(TokenType.VarargLiteral)) {
+        if (this.tokenCursor.match(VarargLiteral)) {
           argList.push(this.parseVarargLiteralExpression());
           break;
         }
@@ -673,7 +735,7 @@ class Parser {
   parseForStatement(): ast.Statement {
     this.expect("for").advance();
 
-    this.expect(TokenType.Identifier);
+    this.expect(Identifier);
 
     const variable = this.parseIdentifierExpression();
 
@@ -769,7 +831,7 @@ class Parser {
   parseGotoStatement(): ast.Statement {
     this.expect("goto").advance();
 
-    this.expect(TokenType.Identifier);
+    this.expect(Identifier);
 
     const identifier = this.parseIdentifierExpression();
 
@@ -813,32 +875,32 @@ class Parser {
     switch (token.type) {
       // @@ TODO: For a true lossless parser,
       // I need to take this into consideration in the future.
-      case TokenType.SemiColon:
+      case SemiColon:
         return null;
-      case TokenType.Local:
+      case Local:
         return this.parseLocalStatement();
-      case TokenType.Function:
+      case Function:
         return this.parseFunctionStatement(false);
-      case TokenType.DoubleColon:
+      case DoubleColon:
         return this.parseLabelStatement();
-      case TokenType.Break:
+      case Break:
         return this.parseBreakStatement();
-      case TokenType.Goto:
+      case Goto:
         return this.parseGotoStatement();
-      case TokenType.Do:
+      case Do:
         return this.parseDoStatement();
-      case TokenType.While:
+      case While:
         return this.parseWhileStatement();
-      case TokenType.Repeat:
+      case Repeat:
         return this.parseRepeatStatement();
-      case TokenType.Return:
+      case Return:
         return this.parseReturnStatement();
-      case TokenType.If:
+      case If:
         return this.parseIfStatement();
-      case TokenType.For:
+      case For:
         return this.parseForStatement();
       default:
-        if (!this.tokenCursor.match(TokenType.Identifier)) {
+        if (!this.tokenCursor.match(Identifier)) {
           ParserException.raiseUnexpectedTokenError(
             this.scanner,
             this.tokenCursor.current,
@@ -876,7 +938,7 @@ class Parser {
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
     while (!this.tokenCursor.eofToken && !this.tokenCursor.isBlockFollow()) {
-      if (this.tokenCursor.current.value === TokenType.Return) {
+      if (this.tokenCursor.current.value === Return) {
         const statement = this.parseStatement();
 
         if (statement) {
@@ -908,7 +970,7 @@ class Parser {
 
     // A chunk must end on an EOF token, if any other token is there
     // after we are done with parsing a chunk other than EOF it's invalid.
-    this.assertToken(TokenType.EOF);
+    this.assertToken(EOF);
 
     return new ast.Chunk(block);
   }
