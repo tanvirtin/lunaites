@@ -18,14 +18,11 @@ const {
   StringLiteral,
   CommentLiteral,
   NumericLiteral,
-  Equal,
   Or,
   And,
   VarargLiteral,
   DoubleColon,
   Star,
-  Comma,
-  Colon,
   DoubleDivide,
   LessThan,
   GreaterThan,
@@ -38,18 +35,11 @@ const {
   Tilda,
   Carrot,
   Ampersand,
-  Percentage,
-  OpenBrace,
-  Dot,
   LessThanEqual,
-  ClosedBrace,
-  ClosedBracket,
-  OpenBracket,
   OpenParenthesis,
   Pipe,
   Plus,
   Minus,
-  ClosedParenthesis,
   HashTag,
   SemiColon,
   Return,
@@ -410,7 +400,7 @@ class Parser {
 
   // @@@ TODO: Add bnf notation
   private parseFunctionExpression(): ast.Expression {
-    this.expect("function").advance();
+    this.expect(Function).advance();
 
     this.expect("(").advance();
 
@@ -437,7 +427,7 @@ class Parser {
 
     const block = this.parseBlock();
 
-    this.expect("end");
+    this.expect(End);
 
     return new ast.FunctionExpression(argList, block);
   }
@@ -557,7 +547,7 @@ class Parser {
   // local ::= 'local' 'function' Name funcdecl |
   //           'local' Name {',' Name} ['=' exp {',' exp}]
   parseLocalStatement(): ast.Statement {
-    this.expect("local").advance();
+    this.expect(Local).advance();
 
     if (this.tokenCursor.match(Identifier)) {
       const variables = [];
@@ -582,7 +572,7 @@ class Parser {
       return new ast.LocalStatement(variables, initializations);
     }
 
-    if (this.tokenCursor.match("function")) {
+    if (this.tokenCursor.match(Function)) {
       return this.parseFunctionStatement(true);
     }
 
@@ -617,13 +607,13 @@ class Parser {
 
     this.tokenCursor.advance();
 
-    this.expect("then").advance();
+    this.expect(Then).advance();
 
     const ifBlock = this.parseBlock();
     const elifBlocks: ast.Block[] = [];
     const elifConditions: ast.Expression[] = [];
 
-    while (this.tokenCursor.consume("elseif")) {
+    while (this.tokenCursor.consume(Elseif)) {
       elifConditions.push(this.parseExpression());
       this.tokenCursor.advance();
 
@@ -634,11 +624,11 @@ class Parser {
 
     let elseBlock: ast.Block | null = null;
 
-    if (this.tokenCursor.consume("else")) {
+    if (this.tokenCursor.consume(Else)) {
       elseBlock = this.parseBlock();
     }
 
-    this.expect("end");
+    this.expect(End);
 
     return new ast.IfStatement(
       ifCondition,
@@ -653,7 +643,7 @@ class Parser {
   parseReturnStatement(): ast.Statement {
     const expressions: ast.Expression[] = [];
 
-    this.expect("return").advance();
+    this.expect(Return).advance();
 
     if (this.tokenCursor.consume(";") || this.tokenCursor.eofToken) {
       return new ast.ReturnStatement(expressions);
@@ -674,7 +664,7 @@ class Parser {
   // funcdecl ::= {Name} '(' [parlist] ')' block 'end'
   // parlist ::= Name {',' Name} | [',' '...'] | '...'
   parseFunctionStatement(isLocal: boolean): ast.Statement {
-    this.expect("function").advance();
+    this.expect(Function).advance();
 
     let identifier: ast.Identifier | null = null;
 
@@ -708,22 +698,22 @@ class Parser {
 
     const block = this.parseBlock();
 
-    this.expect("end");
+    this.expect(End);
 
     return new ast.FunctionStatement(isLocal, argList, block, identifier);
   }
 
   // while ::= 'while' exp 'do' block 'end'
   parseWhileStatement(): ast.Statement {
-    this.expect("while").advance();
+    this.expect(While).advance();
 
     const condition = this.parseExpression();
 
-    this.expect("do").advance();
+    this.expect(Do).advance();
 
     const block = this.parseBlock();
 
-    this.expect("end");
+    this.expect(End);
 
     return new ast.WhileStatement(block, condition);
   }
@@ -733,7 +723,7 @@ class Parser {
   // namelist ::= Name {',' Name}
   // explist ::= exp {',' exp}
   parseForStatement(): ast.Statement {
-    this.expect("for").advance();
+    this.expect(For).advance();
 
     this.expect(Identifier);
 
@@ -744,7 +734,7 @@ class Parser {
       const variables: ast.Identifier[] = [variable];
 
       while (
-        !this.tokenCursor.consumeNext("in") && this.tokenCursor.consumeNext(",")
+        !this.tokenCursor.consumeNext(In) && this.tokenCursor.consumeNext(",")
       ) {
         variables.push(this.parseIdentifierExpression());
       }
@@ -757,11 +747,11 @@ class Parser {
 
       this.tokenCursor.advance();
 
-      this.expect("do").advance();
+      this.expect(Do).advance();
 
       const block = this.parseBlock();
 
-      this.expect("end");
+      this.expect(End);
 
       return new ast.ForGenericStatement(variables, iterators, block);
     }
@@ -787,22 +777,22 @@ class Parser {
 
     this.tokenCursor.advance();
 
-    this.expect("do").advance();
+    this.expect(Do).advance();
 
     const block = this.parseBlock();
 
-    this.expect("end");
+    this.expect(End);
 
     return new ast.ForNumericStatement(variable, start, end, step, block);
   }
 
   // repeat ::= 'repeat' block 'until' exp
   parseRepeatStatement(): ast.Statement {
-    this.expect("repeat").advance();
+    this.expect(Repeat).advance();
 
     const block = this.parseBlock();
 
-    this.expect("until").advance();
+    this.expect(Until).advance();
 
     const condition = this.parseExpression();
 
@@ -811,25 +801,25 @@ class Parser {
 
   // break ::= 'break'
   parseBreakStatement(): ast.Statement {
-    this.expect("break");
+    this.expect(Break);
 
     return new ast.BreakStatement();
   }
 
   // do ::= 'do' block 'end'
   parseDoStatement(): ast.Statement {
-    this.expect("do").advance();
+    this.expect(Do).advance();
 
     const block = this.parseBlock();
 
-    this.expect("end");
+    this.expect(End);
 
     return new ast.DoStatement(block);
   }
 
   // goto ::= 'goto' Name
   parseGotoStatement(): ast.Statement {
-    this.expect("goto").advance();
+    this.expect(Goto).advance();
 
     this.expect(Identifier);
 
