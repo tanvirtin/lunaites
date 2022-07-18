@@ -141,6 +141,15 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitForGenericStatement(node: ast.ForGenericStatement): unknown {
+    return {
+      type: ast.NodeType.ForGenericStatement,
+      variables: node.variables.map((variable) => variable.accept(this)),
+      iterators: node.iterators.map((iterator) => iterator.accept(this)),
+      block: node.block.accept(this),
+    };
+  }
+
   visitDoStatement(node: ast.DoStatement): unknown {
     return {
       type: ast.NodeType.DoStatement,

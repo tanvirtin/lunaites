@@ -174,6 +174,15 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitForGenericStatement(node: ast.ForGenericStatement): unknown {
+    return {
+      type: ast.NodeType.ForGenericStatement,
+      variables: node.variables.map((variable) => variable.accept(this)),
+      iterators: node.iterators.map((iterator) => iterator.accept(this)),
+      block: node.block.accept(this),
+    };
+  }
+
   visitFunctionExpression(node: ast.FunctionExpression): unknown {
     return {
       type: ast.NodeType.FunctionExpression,

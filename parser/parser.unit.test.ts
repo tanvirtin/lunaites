@@ -13,6 +13,7 @@ const {
   GroupingExpression,
   BreakStatement,
   ForNumericStatement,
+  ForGenericStatement,
   StringLiteral,
   BooleanLiteral,
   NilLiteral,
@@ -1128,6 +1129,9 @@ const source = `
   for i = 1, i < 4, i < 3 do
   end
 
+  for a, b, c in a < 3, b < 4, c < 4, d < 5 do
+  end
+
   return 4 + 5;
 `;
 
@@ -1299,6 +1303,37 @@ ${source}
             left: Identifier,
             right: NumericLiteral,
           },
+          block: [],
+        },
+        {
+          type: ForGenericStatement,
+          variables: [
+            Identifier,
+            Identifier,
+            Identifier,
+          ],
+          iterators: [
+            {
+              type: BinaryExpression,
+              left: Identifier,
+              right: NumericLiteral,
+            },
+            {
+              type: BinaryExpression,
+              left: Identifier,
+              right: NumericLiteral,
+            },
+            {
+              type: BinaryExpression,
+              left: Identifier,
+              right: NumericLiteral,
+            },
+            {
+              type: BinaryExpression,
+              left: Identifier,
+              right: NumericLiteral,
+            },
+          ],
           block: [],
         },
         {

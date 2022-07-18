@@ -16,6 +16,7 @@ interface Visitor {
   visitBinaryExpression(node: ast.Node): void;
   visitLocalStatement(node: ast.Node): void;
   visitForNumericStatement(node: ast.Node): void;
+  visitForGenericStatement(node: ast.Node): void;
   visitReturnStatement(node: ast.Node): void;
   visitLabelStatement(node: ast.Node): void;
   visitDoStatement(node: ast.Node): void;

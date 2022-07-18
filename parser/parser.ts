@@ -677,6 +677,33 @@ class Parser {
 
     const variable = this.parseIdentifierExpression();
 
+    // Parse for generic statement
+    if (this.tokenCursor.matchNext(",")) {
+      const variables: ast.Identifier[] = [variable];
+
+      while (
+        !this.tokenCursor.consumeNext("in") && this.tokenCursor.consumeNext(",")
+      ) {
+        variables.push(this.parseIdentifierExpression());
+      }
+
+      const iterators: ast.Expression[] = [this.parseExpression()];
+
+      while (this.tokenCursor.consumeNext(",")) {
+        iterators.push(this.parseExpression());
+      }
+
+      this.tokenCursor.advance();
+
+      this.expect("do").advance();
+
+      const block = this.parseBlock();
+
+      this.expect("end");
+
+      return new ast.ForGenericStatement(variables, iterators, block);
+    }
+
     this.tokenCursor.advance();
 
     this.expect("=").advance();
@@ -690,6 +717,8 @@ class Parser {
     const end = this.parseExpression();
 
     let step;
+    // Rule obligation: We are at the last token parseExpression ended on,
+    // so we have to consumeNext not consume.
     if (this.tokenCursor.consumeNext(",")) {
       step = this.parseExpression();
     }
