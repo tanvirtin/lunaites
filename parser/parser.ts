@@ -549,31 +549,21 @@ class Parser {
   parseLocalStatement(): ast.Statement {
     this.expect(Local).advance();
 
+    if (this.tokenCursor.match(Function)) {
+      return this.parseFunctionStatement(true);
+    }
+
     if (this.tokenCursor.match(Identifier)) {
-      const variables = [];
-      const initializations = [];
-
-      variables.push(this.parseIdentifierExpression());
-
-      // keep encountering more identifiers we keep repeating.
-      while (this.tokenCursor.consumeNext(",")) {
-        variables.push(this.parseIdentifierExpression());
-      }
+      const namelist = this.parseNamelist();
 
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
       if (this.tokenCursor.consumeNext("=")) {
-        initializations.push(this.parseExpression());
+        const explist = this.parseExplist();
 
-        while (this.tokenCursor.consumeNext(",")) {
-          initializations.push(this.parseExpression());
-        }
+        return new ast.LocalStatement(namelist, explist);
       }
 
-      return new ast.LocalStatement(variables, initializations);
-    }
-
-    if (this.tokenCursor.match(Function)) {
-      return this.parseFunctionStatement(true);
+      return new ast.LocalStatement(namelist, []);
     }
 
     // Replicating the lua REPL error.
@@ -639,24 +629,39 @@ class Parser {
     );
   }
 
+  // explist ::= exp {‘,’ exp}
+  parseExplist(): ast.Expression[] {
+    const expressions = [this.parseExpression()];
+
+    while (this.tokenCursor.consumeNext(",")) {
+      expressions.push(this.parseExpression());
+    }
+
+    return expressions;
+  }
+
+  // namelist ::= Name {‘,’ Name}
+  parseNamelist(): ast.Identifier[] {
+    const namelist = [this.parseIdentifierExpression()];
+
+    while (this.tokenCursor.consumeNext(",")) {
+      namelist.push(this.parseIdentifierExpression());
+    }
+
+    return namelist;
+  }
+
   // retstat ::= 'return' [exp {',' exp}] [';']
   parseReturnStatement(): ast.Statement {
-    const expressions: ast.Expression[] = [];
-
     this.expect(Return).advance();
 
     if (this.tokenCursor.consume(";") || this.tokenCursor.eofToken) {
-      return new ast.ReturnStatement(expressions);
+      return new ast.ReturnStatement([]);
     }
 
-    expressions.push(this.parseExpression());
+    const expressions = this.parseExplist();
 
-    while (
-      this.tokenCursor.consumeNext(",") &&
-      !this.tokenCursor.consumeNext(";")
-    ) {
-      expressions.push(this.parseExpression());
-    }
+    this.tokenCursor.consume(";");
 
     return new ast.ReturnStatement(expressions);
   }
