@@ -11,6 +11,7 @@ enum NodeType {
   Identifier = "Identifier",
   FunctionExpression = "FunctionExpression",
   GroupingExpression = "GroupingExpression",
+  MemberExpression = "MemberExpression",
   UnaryExpression = "UnaryExpression",
   BinaryExpression = "BinaryExpression",
   LocalStatement = "LocalStatement",
@@ -24,7 +25,8 @@ enum NodeType {
   RepeatStatement = "RepeatStatement",
   WhileStatement = "WhileStatement",
   IfStatement = "IfStatement",
-  FunctionStatement = "FunctionStatement",
+  FunctionLocalStatement = "FunctionLocalStatement",
+  FunctionGlobalStatement = "FunctionGlobalStatement",
   Block = "Block",
   Chunk = "Chunk",
 }
@@ -97,11 +99,11 @@ class CommentLiteral extends Literal {
 }
 
 class FunctionExpression implements Expression {
-  arguments: Expression[];
+  parlist: Expression[];
   block: Block;
 
-  constructor(argList: Expression[], block: Block) {
-    this.arguments = argList;
+  constructor(parlist: Expression[], block: Block) {
+    this.parlist = parlist;
     this.block = block;
   }
 
@@ -110,26 +112,43 @@ class FunctionExpression implements Expression {
   }
 }
 
-class FunctionStatement implements Statement {
-  isLocal: boolean;
-  identifier: Identifier | null;
-  arguments: Expression[];
+class FunctionLocalStatement implements Statement {
+  name: Identifier;
+  parlist: Expression[];
   block: Block;
 
   constructor(
-    isLocal: boolean,
-    argList: Expression[],
+    name: Identifier,
+    parlist: Expression[],
     block: Block,
-    identifier: Identifier | null,
   ) {
-    this.isLocal = isLocal;
-    this.arguments = argList;
+    this.name = name;
+    this.parlist = parlist;
     this.block = block;
-    this.identifier = identifier;
   }
 
   accept(visitor: Visitor): unknown {
-    return visitor.visitFunctionStatement(this);
+    return visitor.visitFunctionLocalStatement(this);
+  }
+}
+
+class FunctionGlobalStatement implements Statement {
+  funcname: Identifier | MemberExpression;
+  parlist: Expression[];
+  block: Block;
+
+  constructor(
+    funcname: Identifier | MemberExpression,
+    parlist: Expression[],
+    block: Block,
+  ) {
+    this.funcname = funcname;
+    this.parlist = parlist;
+    this.block = block;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitFunctionGlobalStatement(this);
   }
 }
 
@@ -142,6 +161,22 @@ class GroupingExpression implements Expression {
 
   accept(visitor: Visitor): unknown {
     return visitor.visitGroupingExpression(this);
+  }
+}
+
+class MemberExpression implements Expression {
+  base: Identifier;
+  identifier: Identifier;
+  indexer: string;
+
+  constructor(base: Identifier, indexer: string, identifier: Identifier) {
+    this.base = base;
+    this.identifier = identifier;
+    this.indexer = indexer;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitMemberExpression(this);
   }
 }
 
@@ -378,7 +413,8 @@ export {
   ForGenericStatement,
   ForNumericStatement,
   FunctionExpression,
-  FunctionStatement,
+  FunctionGlobalStatement,
+  FunctionLocalStatement,
   GotoStatement,
   GroupingExpression,
   Identifier,
@@ -386,6 +422,7 @@ export {
   LabelStatement,
   Literal,
   LocalStatement,
+  MemberExpression,
   NilLiteral,
   NodeType,
   NumericLiteral,

@@ -398,26 +398,25 @@ class Parser {
     return new ast.CommentLiteral(this.tokenCursor.current);
   }
 
-  // @@@ TODO: Add bnf notation
   private parseFunctionExpression(): ast.Expression {
     this.expect(Function).advance();
 
     this.expect("(").advance();
 
-    const argList: ast.Expression[] = [];
+    const parlist: ast.Expression[] = [];
 
     if (this.tokenCursor.match(VarargLiteral)) {
-      argList.push(this.parseVarargLiteralExpression());
+      parlist.push(this.parseVarargLiteralExpression());
     } else if (this.tokenCursor.match(Identifier)) {
-      argList.push(this.parseExpression());
+      parlist.push(this.parseExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
         if (this.tokenCursor.match(VarargLiteral)) {
-          argList.push(this.parseVarargLiteralExpression());
+          parlist.push(this.parseVarargLiteralExpression());
           break;
         }
 
-        argList.push(this.parseExpression());
+        parlist.push(this.parseExpression());
       }
 
       this.tokenCursor.advance();
@@ -429,7 +428,7 @@ class Parser {
 
     this.expect(End);
 
-    return new ast.FunctionExpression(argList, block);
+    return new ast.FunctionExpression(parlist, block);
   }
 
   private parseUnaryExpression(): ast.Expression {
@@ -550,7 +549,7 @@ class Parser {
     this.expect(Local).advance();
 
     if (this.tokenCursor.match(Function)) {
-      return this.parseFunctionStatement(true);
+      return this.parseLocalFunctionStatement();
     }
 
     if (this.tokenCursor.match(Identifier)) {
@@ -651,6 +650,27 @@ class Parser {
     return namelist;
   }
 
+  // funcname ::= Name {‘.’ Name} [‘:’ Name]
+  parseFuncname(): ast.Identifier | ast.MemberExpression {
+    this.expect(Identifier);
+
+    const base = this.parseIdentifierExpression();
+
+    if (this.tokenCursor.multiMatchNext(".", ":")) {
+      this.tokenCursor.advance();
+
+      const indexerToken = this.tokenCursor.current;
+
+      this.tokenCursor.advance();
+
+      const identifier = this.parseIdentifierExpression();
+
+      return new ast.MemberExpression(base, indexerToken.value, identifier);
+    }
+
+    return base;
+  }
+
   // retstat ::= 'return' [exp {',' exp}] [';']
   parseReturnStatement(): ast.Statement {
     this.expect(Return).advance();
@@ -666,46 +686,66 @@ class Parser {
     return new ast.ReturnStatement(expressions);
   }
 
-  // funcdecl ::= {Name} '(' [parlist] ')' block 'end'
-  // parlist ::= Name {',' Name} | [',' '...'] | '...'
-  parseFunctionStatement(isLocal: boolean): ast.Statement {
-    this.expect(Function).advance();
-
-    let identifier: ast.Identifier | null = null;
-
-    if (this.tokenCursor.match(Identifier)) {
-      identifier = this.parseIdentifierExpression();
-      this.tokenCursor.advance();
-    }
-
+  parseParlist(): ast.Expression[] {
     this.expect("(").advance();
 
-    const argList: ast.Expression[] = [];
+    const parlist = [];
 
     if (this.tokenCursor.match(VarargLiteral)) {
-      argList.push(this.parseVarargLiteralExpression());
+      parlist.push(this.parseVarargLiteralExpression());
     } else if (this.tokenCursor.match(Identifier)) {
-      argList.push(this.parseIdentifierExpression());
+      parlist.push(this.parseIdentifierExpression());
 
       while (this.tokenCursor.consumeNext(",")) {
         if (this.tokenCursor.match(VarargLiteral)) {
-          argList.push(this.parseVarargLiteralExpression());
+          parlist.push(this.parseVarargLiteralExpression());
           break;
         }
 
-        argList.push(this.parseIdentifierExpression());
+        parlist.push(this.parseIdentifierExpression());
       }
 
       this.tokenCursor.advance();
     }
 
-    this.expect(")").advance();
+    this.expect(")");
+
+    return parlist;
+  }
+
+  parseFuncbody(): [ast.Expression[], ast.Block] {
+    const parlist = this.parseParlist();
+
+    this.tokenCursor.advance();
 
     const block = this.parseBlock();
 
     this.expect(End);
 
-    return new ast.FunctionStatement(isLocal, argList, block, identifier);
+    return [parlist, block];
+  }
+
+  parseLocalFunctionStatement(): ast.Statement {
+    this.expect(Function).advance();
+
+    const name = this.parseIdentifierExpression();
+    this.tokenCursor.advance();
+
+    const [parlist, block] = this.parseFuncbody();
+
+    return new ast.FunctionLocalStatement(name, parlist, block);
+  }
+
+  parseGlobalFunctionStatement(): ast.Statement {
+    this.expect(Function).advance();
+
+    const funcname = this.parseFuncname();
+
+    this.tokenCursor.advance();
+
+    const [parlist, block] = this.parseFuncbody();
+
+    return new ast.FunctionGlobalStatement(funcname, parlist, block);
   }
 
   // while ::= 'while' exp 'do' block 'end'
@@ -875,7 +915,7 @@ class Parser {
       case Local:
         return this.parseLocalStatement();
       case Function:
-        return this.parseFunctionStatement(false);
+        return this.parseGlobalFunctionStatement();
       case DoubleColon:
         return this.parseLabelStatement();
       case Break:

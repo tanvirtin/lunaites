@@ -72,6 +72,15 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitMemberExpression(node: ast.MemberExpression): unknown {
+    return {
+      type: ast.NodeType.MemberExpression,
+      base: node.base.accept(this),
+      indexer: node.indexer,
+      identifier: node.identifier.accept(this),
+    };
+  }
+
   visitUnaryExpression(node: ast.UnaryExpression): unknown {
     return {
       type: ast.NodeType.UnaryExpression,
@@ -153,13 +162,21 @@ class SerializerVisitor implements Visitor {
     };
   }
 
-  visitFunctionStatement(node: ast.FunctionStatement): unknown {
+  visitFunctionLocalStatement(node: ast.FunctionLocalStatement): unknown {
     return {
-      type: ast.NodeType.FunctionStatement,
-      isLocal: node.isLocal,
-      arguments: node.arguments.map((argument) => argument.accept(this)),
+      type: ast.NodeType.FunctionLocalStatement,
+      name: node.name.accept(this),
+      parlist: node.parlist.map((par) => par.accept(this)),
       block: node.block.accept(this),
-      identifier: node.identifier?.accept(this),
+    };
+  }
+
+  visitFunctionGlobalStatement(node: ast.FunctionGlobalStatement): unknown {
+    return {
+      type: ast.NodeType.FunctionGlobalStatement,
+      funcname: node.funcname.accept(this),
+      parlist: node.parlist.map((par) => par.accept(this)),
+      block: node.block.accept(this),
     };
   }
 
@@ -186,7 +203,7 @@ class SerializerVisitor implements Visitor {
   visitFunctionExpression(node: ast.FunctionExpression): unknown {
     return {
       type: ast.NodeType.FunctionExpression,
-      arguments: node.arguments.map((argument) => argument.accept(this)),
+      parlist: node.parlist.map((par) => par.accept(this)),
       block: node.block.accept(this),
     };
   }
@@ -228,14 +245,22 @@ class SerializerVisitor implements Visitor {
         return this.visitIfStatement(node as ast.IfStatement);
       case ast.ForNumericStatement:
         return this.visitForNumericStatement(node as ast.ForNumericStatement);
-      case ast.FunctionStatement:
-        return this.visitFunctionStatement(node as ast.FunctionStatement);
+      case ast.FunctionLocalStatement:
+        return this.visitFunctionLocalStatement(
+          node as ast.FunctionLocalStatement,
+        );
+      case ast.FunctionGlobalStatement:
+        return this.visitFunctionGlobalStatement(
+          node as ast.FunctionGlobalStatement,
+        );
       case ast.BinaryExpression:
         return this.visitBinaryExpression(node as ast.BinaryExpression);
       case ast.UnaryExpression:
         return this.visitUnaryExpression(node as ast.UnaryExpression);
       case ast.GroupingExpression:
         return this.visitGroupingExpression(node as ast.GroupingExpression);
+      case ast.MemberExpression:
+        return this.visitMemberExpression(node as ast.MemberExpression);
       case ast.FunctionExpression:
         return this.visitFunctionExpression(node as ast.FunctionExpression);
       case ast.Identifier:

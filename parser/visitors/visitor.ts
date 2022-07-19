@@ -14,6 +14,7 @@ interface Visitor {
   visitGotoStatement(node: ast.Node): void;
   visitUnaryExpression(node: ast.Node): void;
   visitBinaryExpression(node: ast.Node): void;
+  visitMemberExpression(node: ast.Node): void;
   visitLocalStatement(node: ast.Node): void;
   visitForNumericStatement(node: ast.Node): void;
   visitForGenericStatement(node: ast.Node): void;
@@ -24,7 +25,8 @@ interface Visitor {
   visitRepeatStatement(node: ast.Node): void;
   visitWhileStatement(node: ast.Node): void;
   visitIfStatement(node: ast.Node): void;
-  visitFunctionStatement(node: ast.Node): void;
+  visitFunctionLocalStatement(node: ast.Node): void;
+  visitFunctionGlobalStatement(node: ast.Node): void;
   visitBlock(node: ast.Node): void;
   visitChunk(node: ast.Node): void;
   visit(node: ast.Node): void;

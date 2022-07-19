@@ -8,7 +8,8 @@ const {
   ReturnStatement,
   UnaryExpression,
   FunctionExpression,
-  FunctionStatement,
+  FunctionLocalStatement,
+  FunctionGlobalStatement,
   NumericLiteral,
   GroupingExpression,
   BreakStatement,
@@ -1113,9 +1114,6 @@ const source = `
     local a = x + y;
   end
 
-  function()
-  end
-
   local function bar()
   end
 
@@ -1236,10 +1234,9 @@ ${source}
           ],
         },
         {
-          type: FunctionStatement,
-          isLocal: false,
-          identifier: Identifier,
-          arguments: [Identifier, Identifier, Identifier, VarargLiteral],
+          type: FunctionGlobalStatement,
+          funcname: Identifier,
+          parlist: [Identifier, Identifier, Identifier, VarargLiteral],
           block: [
             {
               type: LocalStatement,
@@ -1255,17 +1252,9 @@ ${source}
           ],
         },
         {
-          type: FunctionStatement,
-          isLocal: false,
-          identifier: undefined,
-          arguments: [],
-          block: [],
-        },
-        {
-          type: FunctionStatement,
-          isLocal: true,
-          identifier: Identifier,
-          arguments: [],
+          type: FunctionLocalStatement,
+          name: Identifier,
+          parlist: [],
           block: [],
         },
         {
@@ -1273,7 +1262,7 @@ ${source}
           variables: [Identifier],
           init: [{
             type: FunctionExpression,
-            arguments: [Identifier, Identifier, Identifier],
+            parlist: [Identifier, Identifier, Identifier],
             block: [],
           }],
         },
