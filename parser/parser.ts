@@ -603,6 +603,16 @@ class Parser {
     );
   }
 
+  parseVarlist(): ast.Identifier[] {
+    const varlist = [this.parseIdentifierExpression()];
+
+    while (this.tokenCursor.consumeNext(",")) {
+      varlist.push(this.parseIdentifierExpression());
+    }
+
+    return varlist;
+  }
+
   // explist ::= exp {‘,’ exp}
   parseExplist(): ast.Expression[] {
     const expressions = [this.parseExpression()];
@@ -850,12 +860,16 @@ class Parser {
   }
 
   // assignment ::= varlist '=' explist
-  // var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
-  // varlist ::= var {',' var}
-  // explist ::= exp {',' exp}
-  // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   parseAssignmentStatement(): ast.Statement {
-    throw new Error("assignment statement parser not yet implemented");
+    const varlist = this.parseVarlist();
+
+    this.tokenCursor.advance();
+
+    this.expect("=").advance();
+
+    const explist = this.parseExplist();
+
+    return new ast.AssignmentStatement(varlist, explist);
   }
 
   // call ::= callexp
@@ -888,10 +902,20 @@ class Parser {
       // I need to take this into consideration in the future.
       case SemiColon:
         return null;
-      case Local:
-        return this.parseLocalStatement();
-      case Function:
-        return this.parseGlobalFunctionStatement();
+      case Identifier:
+        if (this.tokenCursor.multiMatchNext("=", ",")) {
+          return this.parseAssignmentStatement();
+        }
+
+        if (this.tokenCursor.multiMatchNext("(", "[", ".", ":", "(", "{")) {
+          return this.parseCallStatement();
+        }
+
+        return ParserException.raiseExpectedError(
+          this.scanner,
+          "=",
+          this.tokenCursor.next,
+        );
       case DoubleColon:
         return this.parseLabelStatement();
       case Break:
@@ -910,26 +934,14 @@ class Parser {
         return this.parseIfStatement();
       case For:
         return this.parseForStatement();
+      case Function:
+        return this.parseGlobalFunctionStatement();
+      case Local:
+        return this.parseLocalStatement();
       default:
-        if (!this.tokenCursor.match(Identifier)) {
-          ParserException.raiseUnexpectedTokenError(
-            this.scanner,
-            this.tokenCursor.current,
-            this.tokenCursor.next,
-          );
-        }
-
-        if (this.tokenCursor.multiMatchNext("=", ",")) {
-          return this.parseAssignmentStatement();
-        }
-
-        if (this.tokenCursor.multiMatchNext("(", "[", ".", ":", "(", "{")) {
-          return this.parseCallStatement();
-        }
-
-        ParserException.raiseExpectedError(
+        ParserException.raiseUnexpectedTokenError(
           this.scanner,
-          "=",
+          this.tokenCursor.current,
           this.tokenCursor.next,
         );
     }

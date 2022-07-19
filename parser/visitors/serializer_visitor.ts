@@ -200,6 +200,14 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitAssignmentStatement(node: ast.AssignmentStatement): unknown {
+    return {
+      type: ast.NodeType.AssignmentStatement,
+      variables: node.variables.map((variable) => variable.accept(this)),
+      init: node.init.map((iterator) => iterator.accept(this)),
+    };
+  }
+
   visitFunctionExpression(node: ast.FunctionExpression): unknown {
     return {
       type: ast.NodeType.FunctionExpression,
@@ -245,6 +253,8 @@ class SerializerVisitor implements Visitor {
         return this.visitIfStatement(node as ast.IfStatement);
       case ast.ForNumericStatement:
         return this.visitForNumericStatement(node as ast.ForNumericStatement);
+      case ast.AssignmentStatement:
+        return this.visitAssignmentStatement(node as ast.AssignmentStatement);
       case ast.FunctionLocalStatement:
         return this.visitFunctionLocalStatement(
           node as ast.FunctionLocalStatement,

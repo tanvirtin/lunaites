@@ -2,6 +2,7 @@ import { ast, MinimizerVisitor, Parser, SerializerVisitor } from "./mod.ts";
 import { assertEquals, assertStrictEquals, describe, it } from "./deps.ts";
 
 const {
+  AssignmentStatement,
   BinaryExpression,
   LocalStatement,
   Identifier,
@@ -1130,6 +1131,10 @@ const source = `
   for a, b, c in a < 3, b < 4, c < 4, d < 5 do
   end
 
+  a = 3
+
+  a, b, c = true, 9, "Hello, world!";
+
   return 4 + 5;
 `;
 
@@ -1324,6 +1329,16 @@ ${source}
             },
           ],
           block: [],
+        },
+        {
+          type: AssignmentStatement,
+          variables: [Identifier],
+          init: [NumericLiteral],
+        },
+        {
+          type: AssignmentStatement,
+          variables: [Identifier, Identifier, Identifier],
+          init: [BooleanLiteral, NumericLiteral, StringLiteral],
         },
         {
           expressions: [

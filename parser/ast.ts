@@ -27,6 +27,7 @@ enum NodeType {
   IfStatement = "IfStatement",
   FunctionLocalStatement = "FunctionLocalStatement",
   FunctionGlobalStatement = "FunctionGlobalStatement",
+  AssignmentStatement = "AssignmentStatement",
   Block = "Block",
   Chunk = "Chunk",
 }
@@ -306,6 +307,20 @@ class WhileStatement implements Statement {
   }
 }
 
+class AssignmentStatement implements Statement {
+  variables: Identifier[];
+  init: Expression[];
+
+  constructor(variables: Identifier[], init: Expression[]) {
+    this.variables = variables;
+    this.init = init;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitAssignmentStatement(this);
+  }
+}
+
 class IfStatement implements Statement {
   ifCondition: Expression;
   ifBlock: Block;
@@ -403,6 +418,7 @@ class Chunk implements Node {
 }
 
 export {
+  AssignmentStatement,
   BinaryExpression,
   Block,
   BooleanLiteral,
