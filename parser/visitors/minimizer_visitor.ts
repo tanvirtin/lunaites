@@ -79,7 +79,7 @@ class MinimizerVisitor implements Visitor {
 
   visitTableKey(node: ast.TableKey): unknown {
     return {
-      type: ast.NodeType.FunctionExpression,
+      type: ast.NodeType.TableKey,
       key: node.key.accept(this),
       value: node.value.accept(this),
     };
@@ -87,7 +87,7 @@ class MinimizerVisitor implements Visitor {
 
   visitTableKeyString(node: ast.TableKeyString): unknown {
     return {
-      type: ast.NodeType.FunctionExpression,
+      type: ast.NodeType.TableKeyString,
       key: node.key.accept(this),
       value: node.value.accept(this),
     };
@@ -95,8 +95,15 @@ class MinimizerVisitor implements Visitor {
 
   visitTableValue(node: ast.TableValue): unknown {
     return {
-      type: ast.NodeType.FunctionExpression,
+      type: ast.NodeType.TableValue,
       value: node.value.accept(this),
+    };
+  }
+
+  visitTableConstructor(node: ast.TableConstructor): unknown {
+    return {
+      type: ast.NodeType.TableConstructor,
+      fieldlist: node.fieldlist.map((field) => field.accept(this)),
     };
   }
 
@@ -270,6 +277,8 @@ class MinimizerVisitor implements Visitor {
         return this.visitTableKeyString(node as ast.TableKeyString);
       case ast.TableValue:
         return this.visitTableValue(node as ast.TableValue);
+      case ast.TableConstructor:
+        return this.visitTableConstructor(node as ast.TableConstructor);
       case ast.CommentLiteral:
         return this.visitCommentLiteral(node as ast.CommentLiteral);
       case ast.BooleanLiteral:

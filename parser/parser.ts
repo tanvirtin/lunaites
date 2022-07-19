@@ -12,6 +12,8 @@ const {
   Not,
   Do,
   Identifier,
+  OpenBrace,
+  ClosedBrace,
   EOF,
   NilLiteral,
   BooleanLiteral,
@@ -194,6 +196,11 @@ class Parser {
     this.registerNullDenotationExpressionParselet(
       Function,
       this.parseFunctionExpression,
+    );
+
+    this.registerNullDenotationExpressionParselet(
+      OpenBrace,
+      this.parseTableConstructor,
     );
 
     return this;
@@ -403,6 +410,19 @@ class Parser {
     return new ast.FunctionExpression(parlist, block);
   }
 
+  // tableconstructor ::= ‘{’ [fieldlist] ‘}’
+  private parseTableConstructor(): ast.Expression {
+    this.expect(OpenBrace).advance();
+
+    const fieldlist = this.parseFieldlist();
+
+    this.tokenCursor.advance();
+
+    this.expect(ClosedBrace);
+
+    return new ast.TableConstructor(fieldlist);
+  }
+
   private parseUnaryExpression(): ast.Expression {
     const operatorToken = this.tokenCursor.current;
 
@@ -516,7 +536,7 @@ class Parser {
   ////////////////////////////////////////////////////////////////////////
 
   // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
-  parseField() {
+  parseField(): ast.Expression {
     if (this.tokenCursor.match("[")) {
       this.tokenCursor.advance();
 
@@ -548,6 +568,17 @@ class Parser {
     const value = this.parseExpression();
 
     return new ast.TableValue(value);
+  }
+
+  // fieldlist ::= field {fieldsep field} [fieldsep]
+  parseFieldlist(): ast.Expression[] {
+    const fieldList = [this.parseField()];
+
+    while (this.tokenCursor.someConsumeNext(",", ";")) {
+      fieldList.push(this.parseField());
+    }
+
+    return fieldList;
   }
 
   // varlist ::= var {‘,’ var}
@@ -589,7 +620,7 @@ class Parser {
 
     const base = this.parseIdentifierExpression();
 
-    if (this.tokenCursor.multiMatchNext(".", ":")) {
+    if (this.tokenCursor.someMatchNext(".", ":")) {
       this.tokenCursor.advance();
 
       const indexerToken = this.tokenCursor.current;
@@ -938,11 +969,11 @@ class Parser {
       case SemiColon:
         return null;
       case Identifier:
-        if (this.tokenCursor.multiMatchNext("=", ",")) {
+        if (this.tokenCursor.someMatchNext("=", ",")) {
           return this.parseAssignmentStatement();
         }
 
-        if (this.tokenCursor.multiMatchNext("(", "[", ".", ":", "(", "{")) {
+        if (this.tokenCursor.someMatchNext("(", "[", ".", ":", "(", "{")) {
           return this.parseCallStatement();
         }
 

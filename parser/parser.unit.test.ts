@@ -6,6 +6,9 @@ const {
   BinaryExpression,
   LocalStatement,
   Identifier,
+  TableKey,
+  TableKeyString,
+  TableValue,
   ReturnStatement,
   UnaryExpression,
   FunctionExpression,
@@ -1135,6 +1138,13 @@ const source = `
 
   a, b, c = true, 9, "Hello, world!";
 
+  a = {
+    [3] = 3,
+    b = 3;
+    nil,
+    3 + 4
+  }
+
   return 4 + 5;
 `;
 
@@ -1339,6 +1349,41 @@ ${source}
           type: AssignmentStatement,
           variables: [Identifier, Identifier, Identifier],
           init: [BooleanLiteral, NumericLiteral, StringLiteral],
+        },
+        {
+          init: [
+            {
+              fieldlist: [
+                {
+                  type: TableKey,
+                  key: NumericLiteral,
+                  value: NumericLiteral,
+                },
+                {
+                  type: TableKeyString,
+                  key: Identifier,
+                  value: NumericLiteral,
+                },
+                {
+                  type: TableValue,
+                  value: NilLiteral,
+                },
+                {
+                  type: TableValue,
+                  value: {
+                    left: NumericLiteral,
+                    right: NumericLiteral,
+                    type: BinaryExpression,
+                  },
+                },
+              ],
+              type: "TableConstructor",
+            },
+          ],
+          type: "AssignmentStatement",
+          variables: [
+            "Identifier",
+          ],
         },
         {
           expressions: [

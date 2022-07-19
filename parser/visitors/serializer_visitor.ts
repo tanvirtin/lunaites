@@ -100,7 +100,7 @@ class SerializerVisitor implements Visitor {
 
   visitTableKey(node: ast.TableKey): unknown {
     return {
-      type: ast.NodeType.FunctionExpression,
+      type: ast.NodeType.TableKey,
       key: node.key.accept(this),
       value: node.value.accept(this),
     };
@@ -108,7 +108,7 @@ class SerializerVisitor implements Visitor {
 
   visitTableKeyString(node: ast.TableKeyString): unknown {
     return {
-      type: ast.NodeType.FunctionExpression,
+      type: ast.NodeType.TableKeyString,
       key: node.key.accept(this),
       value: node.value.accept(this),
     };
@@ -116,8 +116,15 @@ class SerializerVisitor implements Visitor {
 
   visitTableValue(node: ast.TableValue): unknown {
     return {
-      type: ast.NodeType.FunctionExpression,
+      type: ast.NodeType.TableValue,
       value: node.value.accept(this),
+    };
+  }
+
+  visitTableConstructor(node: ast.TableConstructor): unknown {
+    return {
+      type: ast.NodeType.TableConstructor,
+      fieldlist: node.fieldlist.map((field) => field.accept(this)),
     };
   }
 
@@ -292,6 +299,8 @@ class SerializerVisitor implements Visitor {
         return this.visitTableKeyString(node as ast.TableKeyString);
       case ast.TableValue:
         return this.visitTableValue(node as ast.TableValue);
+      case ast.TableConstructor:
+        return this.visitTableConstructor(node as ast.TableConstructor);
       case ast.BinaryExpression:
         return this.visitBinaryExpression(node as ast.BinaryExpression);
       case ast.UnaryExpression:

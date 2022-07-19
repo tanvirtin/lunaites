@@ -31,6 +31,7 @@ enum NodeType {
   TableKey = "TableKey",
   TableKeyString = "TableKeyString",
   TableValue = "TableValue",
+  TableConstructor = "TableConstructor",
   Block = "Block",
   Chunk = "Chunk",
 }
@@ -221,6 +222,18 @@ class TableValue implements Expression {
 
   accept(visitor: Visitor): unknown {
     return visitor.visitTableValue(this);
+  }
+}
+
+class TableConstructor implements Expression {
+  fieldlist: Expression[];
+
+  constructor(fieldlist: Expression[]) {
+    this.fieldlist = fieldlist;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitTableConstructor(this);
   }
 }
 
@@ -488,6 +501,7 @@ export {
   RepeatStatement,
   ReturnStatement,
   StringLiteral,
+  TableConstructor,
   TableKey,
   TableKeyString,
   TableValue,

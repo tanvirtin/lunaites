@@ -111,11 +111,11 @@ class TokenCursor {
     return this.next?.value === query;
   }
 
-  multiMatch(...args: string[] | TokenType[]): boolean {
+  someMatch(...args: string[] | TokenType[]): boolean {
     return args.some((arg) => this.match(arg));
   }
 
-  multiMatchNext(...args: string[] | TokenType[]): boolean {
+  someMatchNext(...args: string[] | TokenType[]): boolean {
     return args.some((arg) => this.matchNext(arg));
   }
 
@@ -135,6 +135,27 @@ class TokenCursor {
 
   consumeNext(query: string | TokenType): boolean {
     const isMatchFound = this.matchNext(query);
+
+    if (isMatchFound) {
+      this.advance();
+      this.advance();
+    }
+
+    return isMatchFound;
+  }
+
+  someConsume(...args: string[] | TokenType[]): boolean {
+    const isMatchFound = this.someMatch(...args);
+
+    if (isMatchFound) {
+      this.advance();
+    }
+
+    return isMatchFound;
+  }
+
+  someConsumeNext(...args: string[] | TokenType[]): boolean {
+    const isMatchFound = this.someMatchNext(...args);
 
     if (isMatchFound) {
       this.advance();

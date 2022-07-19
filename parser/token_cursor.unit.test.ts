@@ -213,7 +213,7 @@ describe("TokenCursor", () => {
     });
   });
 
-  describe("multiMatch", () => {
+  describe("someMatch", () => {
     it("should return true if the current token is among one of the token types provided", () => {
       const cursor = createTokenCursor();
 
@@ -221,7 +221,7 @@ describe("TokenCursor", () => {
         .advance();
 
       assert(
-        cursor.multiMatch(
+        cursor.someMatch(
           Ampersand,
           BooleanLiteral,
           Carrot,
@@ -229,11 +229,11 @@ describe("TokenCursor", () => {
         ),
       );
 
-      assert(cursor.multiMatch("main", "a", "sup", "local"));
+      assert(cursor.someMatch("main", "a", "sup", "local"));
     });
   });
 
-  describe("multiMatchNext", () => {
+  describe("someMatchNext", () => {
     it("should return true if the current token is among one of the token types provided", () => {
       const cursor = createTokenCursor();
 
@@ -241,7 +241,7 @@ describe("TokenCursor", () => {
         .advance();
 
       assert(
-        cursor.multiMatchNext(
+        cursor.someMatchNext(
           Ampersand,
           BooleanLiteral,
           Carrot,
@@ -249,7 +249,7 @@ describe("TokenCursor", () => {
         ),
       );
 
-      assert(cursor.multiMatchNext("main", "a", "sup", "function", "local"));
+      assert(cursor.someMatchNext("main", "a", "sup", "function", "local"));
     });
   });
 
@@ -281,4 +281,6 @@ describe("TokenCursor", () => {
       assert(cursor.consumeNext(Equal));
     });
   });
+
+  // TODO: Add unit tests for someConsumeNext and consumeNext
 });
