@@ -401,32 +401,7 @@ class Parser {
   private parseFunctionExpression(): ast.Expression {
     this.expect(Function).advance();
 
-    this.expect("(").advance();
-
-    const parlist: ast.Expression[] = [];
-
-    if (this.tokenCursor.match(VarargLiteral)) {
-      parlist.push(this.parseVarargLiteralExpression());
-    } else if (this.tokenCursor.match(Identifier)) {
-      parlist.push(this.parseExpression());
-
-      while (this.tokenCursor.consumeNext(",")) {
-        if (this.tokenCursor.match(VarargLiteral)) {
-          parlist.push(this.parseVarargLiteralExpression());
-          break;
-        }
-
-        parlist.push(this.parseExpression());
-      }
-
-      this.tokenCursor.advance();
-    }
-
-    this.expect(")").advance();
-
-    const block = this.parseBlock();
-
-    this.expect(End);
+    const [parlist, block] = this.parseFuncbody();
 
     return new ast.FunctionExpression(parlist, block);
   }
@@ -729,6 +704,7 @@ class Parser {
     this.expect(Function).advance();
 
     const name = this.parseIdentifierExpression();
+
     this.tokenCursor.advance();
 
     const [parlist, block] = this.parseFuncbody();
