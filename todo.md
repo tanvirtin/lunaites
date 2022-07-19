@@ -22,7 +22,7 @@
 - [x] funcbody ::= ‘(’ [parlist] ‘)’ block end
 - [x] parlist ::= namelist [‘,’ ‘...’] | ‘...’
 - [ ] tableconstructor ::= ‘{’ [fieldlist] ‘}’
-- [ ] fieldlist ::= field {fieldsep field} [fieldsep]
+- [ ] fieldlist ::= field {fieldsep field} [fieldsep] <--- Next
 - [x] field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
 - [ ] fieldsep ::= ‘,’ | ‘;’
 - [ ] binop ::= ‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘//’ | ‘^’ | ‘%’ | ‘&’ | ‘~’ | ‘|’ |
