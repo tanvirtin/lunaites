@@ -770,11 +770,7 @@ class Parser {
         variables.push(this.parseIdentifierExpression());
       }
 
-      const iterators: ast.Expression[] = [this.parseExpression()];
-
-      while (this.tokenCursor.consumeNext(",")) {
-        iterators.push(this.parseExpression());
-      }
+      const iterators = this.parseExplist();
 
       this.tokenCursor.advance();
 
