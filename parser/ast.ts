@@ -114,16 +114,16 @@ class FunctionExpression implements Expression {
 }
 
 class FunctionLocalStatement implements Statement {
-  name: Identifier;
+  funcname: Identifier;
   parlist: Expression[];
   block: Block;
 
   constructor(
-    name: Identifier,
+    funcname: Identifier,
     parlist: Expression[],
     block: Block,
   ) {
-    this.name = name;
+    this.funcname = funcname;
     this.parlist = parlist;
     this.block = block;
   }

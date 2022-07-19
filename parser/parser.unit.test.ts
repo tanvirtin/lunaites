@@ -1258,7 +1258,7 @@ ${source}
         },
         {
           type: FunctionLocalStatement,
-          name: Identifier,
+          funcname: Identifier,
           parlist: [],
           block: [],
         },

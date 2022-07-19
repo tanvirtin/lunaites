@@ -132,7 +132,7 @@ class MinimizerVisitor implements Visitor {
   visitFunctionLocalStatement(node: ast.FunctionLocalStatement): unknown {
     return {
       type: ast.NodeType.FunctionLocalStatement,
-      name: node.name.accept(this),
+      funcname: node.funcname.accept(this),
       parlist: node.parlist.map((par) => par.accept(this)),
       block: node.block.accept(this),
     };
