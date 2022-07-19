@@ -23,7 +23,7 @@
 - [x] parlist ::= namelist [‘,’ ‘...’] | ‘...’
 - [ ] tableconstructor ::= ‘{’ [fieldlist] ‘}’
 - [ ] fieldlist ::= field {fieldsep field} [fieldsep]
-- [ ] field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
+- [x] field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
 - [ ] fieldsep ::= ‘,’ | ‘;’
 - [ ] binop ::= ‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘//’ | ‘^’ | ‘%’ | ‘&’ | ‘~’ | ‘|’ |
       ‘>>’ | ‘<<’ | ‘..’ | ‘<’ | ‘<=’ | ‘>’ | ‘>=’ | ‘==’ | ‘~=’ | and | or

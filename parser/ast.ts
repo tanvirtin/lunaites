@@ -28,6 +28,9 @@ enum NodeType {
   FunctionLocalStatement = "FunctionLocalStatement",
   FunctionGlobalStatement = "FunctionGlobalStatement",
   AssignmentStatement = "AssignmentStatement",
+  TableKey = "TableKey",
+  TableKeyString = "TableKeyString",
+  TableValue = "TableValue",
   Block = "Block",
   Chunk = "Chunk",
 }
@@ -178,6 +181,46 @@ class MemberExpression implements Expression {
 
   accept(visitor: Visitor): unknown {
     return visitor.visitMemberExpression(this);
+  }
+}
+
+class TableKey implements Expression {
+  key: Expression;
+  value: Expression;
+
+  constructor(key: Expression, value: Expression) {
+    this.key = key;
+    this.value = value;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitTableKey(this);
+  }
+}
+
+class TableKeyString implements Expression {
+  key: Identifier;
+  value: Expression;
+
+  constructor(key: Identifier, value: Expression) {
+    this.key = key;
+    this.value = value;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitTableKeyString(this);
+  }
+}
+
+class TableValue implements Expression {
+  value: Expression;
+
+  constructor(value: Expression) {
+    this.value = value;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitTableValue(this);
   }
 }
 
@@ -445,6 +488,9 @@ export {
   RepeatStatement,
   ReturnStatement,
   StringLiteral,
+  TableKey,
+  TableKeyString,
+  TableValue,
   UnaryExpression,
   VarargLiteral,
   WhileStatement,

@@ -28,6 +28,9 @@ interface Visitor {
   visitAssignmentStatement(node: ast.Node): void;
   visitFunctionLocalStatement(node: ast.Node): void;
   visitFunctionGlobalStatement(node: ast.Node): void;
+  visitTableKey(node: ast.Node): void;
+  visitTableValue(node: ast.Node): void;
+  visitTableKeyString(node: ast.Node): void;
   visitBlock(node: ast.Node): void;
   visitChunk(node: ast.Node): void;
   visit(node: ast.Node): void;

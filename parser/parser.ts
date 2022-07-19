@@ -515,6 +515,42 @@ class Parser {
   ////////////////////////////// Utility /////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
+  // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
+  parseField() {
+    if (this.tokenCursor.match("[")) {
+      this.tokenCursor.advance();
+
+      const key = this.parseExpression();
+
+      this.tokenCursor.advance();
+
+      this.expect("]").advance();
+
+      this.expect("=").advance();
+
+      const value = this.parseExpression();
+
+      return new ast.TableKey(key, value);
+    }
+
+    if (this.tokenCursor.match(Identifier)) {
+      const key = this.parseIdentifierExpression();
+
+      this.tokenCursor.advance();
+
+      this.expect("=").advance();
+
+      const value = this.parseExpression();
+
+      return new ast.TableKeyString(key, value);
+    }
+
+    const value = this.parseExpression();
+
+    return new ast.TableValue(value);
+  }
+
+  // varlist ::= var {‘,’ var}
   parseVarlist(): ast.Identifier[] {
     const varlist = [this.parseIdentifierExpression()];
 
@@ -568,6 +604,7 @@ class Parser {
     return base;
   }
 
+  // parlist ::= namelist [‘,’ ‘...’] | ‘...’
   parseParlist(): ast.Expression[] {
     this.expect("(").advance();
 
@@ -595,6 +632,7 @@ class Parser {
     return parlist;
   }
 
+  // funcbody ::= ‘(’ [parlist] ‘)’ block end
   parseFuncbody(): [ast.Expression[], ast.Block] {
     const parlist = this.parseParlist();
 

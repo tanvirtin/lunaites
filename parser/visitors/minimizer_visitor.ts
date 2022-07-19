@@ -77,6 +77,29 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitTableKey(node: ast.TableKey): unknown {
+    return {
+      type: ast.NodeType.FunctionExpression,
+      key: node.key.accept(this),
+      value: node.value.accept(this),
+    };
+  }
+
+  visitTableKeyString(node: ast.TableKeyString): unknown {
+    return {
+      type: ast.NodeType.FunctionExpression,
+      key: node.key.accept(this),
+      value: node.value.accept(this),
+    };
+  }
+
+  visitTableValue(node: ast.TableValue): unknown {
+    return {
+      type: ast.NodeType.FunctionExpression,
+      value: node.value.accept(this),
+    };
+  }
+
   visitLabelStatement(_node: ast.LabelStatement) {
     return ast.NodeType.LabelStatement;
   }
@@ -241,6 +264,12 @@ class MinimizerVisitor implements Visitor {
         return this.visitFunctionExpression(node as ast.FunctionExpression);
       case ast.Identifier:
         return this.visitIdentifier(node as ast.Identifier);
+      case ast.TableKey:
+        return this.visitTableKey(node as ast.TableKey);
+      case ast.TableKeyString:
+        return this.visitTableKeyString(node as ast.TableKeyString);
+      case ast.TableValue:
+        return this.visitTableValue(node as ast.TableValue);
       case ast.CommentLiteral:
         return this.visitCommentLiteral(node as ast.CommentLiteral);
       case ast.BooleanLiteral:
