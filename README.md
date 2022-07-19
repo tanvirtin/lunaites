@@ -1,26 +1,10 @@
-# lunaites
+# Lunaites
 
-Lua AST
+Lua abstract syntax tree generator in Typescript.
 
-### Tests
+## Grammer
 
-```
-make tests
-```
-
-### Check format
-
-```
-make fmt
-```
-
-### Check lint
-
-```
-make lint
-```
-
-### Grammer
+---
 
 ```
 chunk ::= block
