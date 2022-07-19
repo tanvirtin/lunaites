@@ -196,9 +196,6 @@ class Parser {
       this.parseFunctionExpression,
     );
 
-    // @@@ TODO: Add missing parselets for the following:
-    // - '[' exp ']' | '.' Name | ':' Name args | args
-
     return this;
   }
 
@@ -515,6 +512,102 @@ class Parser {
   }
 
   ////////////////////////////////////////////////////////////////////////
+  ////////////////////////////// Utility /////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////
+
+  parseVarlist(): ast.Identifier[] {
+    const varlist = [this.parseIdentifierExpression()];
+
+    while (this.tokenCursor.consumeNext(",")) {
+      varlist.push(this.parseIdentifierExpression());
+    }
+
+    return varlist;
+  }
+
+  // explist ::= exp {‘,’ exp}
+  parseExplist(): ast.Expression[] {
+    const expressions = [this.parseExpression()];
+
+    while (this.tokenCursor.consumeNext(",")) {
+      expressions.push(this.parseExpression());
+    }
+
+    return expressions;
+  }
+
+  // namelist ::= Name {‘,’ Name}
+  parseNamelist(): ast.Identifier[] {
+    const namelist = [this.parseIdentifierExpression()];
+
+    while (this.tokenCursor.consumeNext(",")) {
+      namelist.push(this.parseIdentifierExpression());
+    }
+
+    return namelist;
+  }
+
+  // funcname ::= Name {‘.’ Name} [‘:’ Name]
+  parseFuncname(): ast.Identifier | ast.MemberExpression {
+    this.expect(Identifier);
+
+    const base = this.parseIdentifierExpression();
+
+    if (this.tokenCursor.multiMatchNext(".", ":")) {
+      this.tokenCursor.advance();
+
+      const indexerToken = this.tokenCursor.current;
+
+      this.tokenCursor.advance();
+
+      const identifier = this.parseIdentifierExpression();
+
+      return new ast.MemberExpression(base, indexerToken.value, identifier);
+    }
+
+    return base;
+  }
+
+  parseParlist(): ast.Expression[] {
+    this.expect("(").advance();
+
+    const parlist = [];
+
+    if (this.tokenCursor.match(VarargLiteral)) {
+      parlist.push(this.parseVarargLiteralExpression());
+    } else if (this.tokenCursor.match(Identifier)) {
+      parlist.push(this.parseIdentifierExpression());
+
+      while (this.tokenCursor.consumeNext(",")) {
+        if (this.tokenCursor.match(VarargLiteral)) {
+          parlist.push(this.parseVarargLiteralExpression());
+          break;
+        }
+
+        parlist.push(this.parseIdentifierExpression());
+      }
+
+      this.tokenCursor.advance();
+    }
+
+    this.expect(")");
+
+    return parlist;
+  }
+
+  parseFuncbody(): [ast.Expression[], ast.Block] {
+    const parlist = this.parseParlist();
+
+    this.tokenCursor.advance();
+
+    const block = this.parseBlock();
+
+    this.expect(End);
+
+    return [parlist, block];
+  }
+
+  ////////////////////////////////////////////////////////////////////////
   ////////////////////////////// Statements //////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
@@ -603,59 +696,6 @@ class Parser {
     );
   }
 
-  parseVarlist(): ast.Identifier[] {
-    const varlist = [this.parseIdentifierExpression()];
-
-    while (this.tokenCursor.consumeNext(",")) {
-      varlist.push(this.parseIdentifierExpression());
-    }
-
-    return varlist;
-  }
-
-  // explist ::= exp {‘,’ exp}
-  parseExplist(): ast.Expression[] {
-    const expressions = [this.parseExpression()];
-
-    while (this.tokenCursor.consumeNext(",")) {
-      expressions.push(this.parseExpression());
-    }
-
-    return expressions;
-  }
-
-  // namelist ::= Name {‘,’ Name}
-  parseNamelist(): ast.Identifier[] {
-    const namelist = [this.parseIdentifierExpression()];
-
-    while (this.tokenCursor.consumeNext(",")) {
-      namelist.push(this.parseIdentifierExpression());
-    }
-
-    return namelist;
-  }
-
-  // funcname ::= Name {‘.’ Name} [‘:’ Name]
-  parseFuncname(): ast.Identifier | ast.MemberExpression {
-    this.expect(Identifier);
-
-    const base = this.parseIdentifierExpression();
-
-    if (this.tokenCursor.multiMatchNext(".", ":")) {
-      this.tokenCursor.advance();
-
-      const indexerToken = this.tokenCursor.current;
-
-      this.tokenCursor.advance();
-
-      const identifier = this.parseIdentifierExpression();
-
-      return new ast.MemberExpression(base, indexerToken.value, identifier);
-    }
-
-    return base;
-  }
-
   // retstat ::= 'return' [exp {',' exp}] [';']
   parseReturnStatement(): ast.Statement {
     this.expect(Return).advance();
@@ -669,45 +709,6 @@ class Parser {
     this.tokenCursor.consume(";");
 
     return new ast.ReturnStatement(expressions);
-  }
-
-  parseParlist(): ast.Expression[] {
-    this.expect("(").advance();
-
-    const parlist = [];
-
-    if (this.tokenCursor.match(VarargLiteral)) {
-      parlist.push(this.parseVarargLiteralExpression());
-    } else if (this.tokenCursor.match(Identifier)) {
-      parlist.push(this.parseIdentifierExpression());
-
-      while (this.tokenCursor.consumeNext(",")) {
-        if (this.tokenCursor.match(VarargLiteral)) {
-          parlist.push(this.parseVarargLiteralExpression());
-          break;
-        }
-
-        parlist.push(this.parseIdentifierExpression());
-      }
-
-      this.tokenCursor.advance();
-    }
-
-    this.expect(")");
-
-    return parlist;
-  }
-
-  parseFuncbody(): [ast.Expression[], ast.Block] {
-    const parlist = this.parseParlist();
-
-    this.tokenCursor.advance();
-
-    const block = this.parseBlock();
-
-    this.expect(End);
-
-    return [parlist, block];
   }
 
   parseLocalFunctionStatement(): ast.Statement {
