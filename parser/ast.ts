@@ -16,6 +16,7 @@ enum NodeType {
   BinaryExpression = "BinaryExpression",
   CallExpression = "CallExpression",
   StringCallExpression = "StringCallExpression",
+  TableCallExpression = "StringCallExpression",
   LocalStatement = "LocalStatement",
   ForNumericStatement = "ForNumericStatement",
   ForGenericStatement = "ForGenericStatement",
@@ -251,6 +252,20 @@ class StringCallExpression implements Expression {
 
   accept(visitor: Visitor): unknown {
     return visitor.visitStringCallExpression(this);
+  }
+}
+
+class TableCallExpression implements Expression {
+  base: Identifier;
+  argument: Expression;
+
+  constructor(base: Identifier, argument: Expression) {
+    this.base = base;
+    this.argument = argument;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitTableCallExpression(this);
   }
 }
 
@@ -547,6 +562,7 @@ export {
   ReturnStatement,
   StringCallExpression,
   StringLiteral,
+  TableCallExpression,
   TableConstructor,
   TableKey,
   TableKeyString,

@@ -1180,6 +1180,18 @@ const source = `
   x.y(true, 'foo', 3)
   foo()
   foo(1, true, 'foo', 4.1)
+  bar {
+    1,
+    b = {
+      true,
+      c = {
+        'sup',
+        d = {
+          nil
+        }
+      }
+    }
+  }
 
   return 4 + 5;
 `;
@@ -1603,6 +1615,62 @@ ${source}
               StringLiteral,
               NumericLiteral,
             ],
+            base: Identifier,
+          },
+        },
+
+        {
+          type: CallStatement,
+          expression: {
+            type: StringCallExpression,
+            argument: {
+              fieldlist: [
+                {
+                  type: TableValue,
+                  value: NumericLiteral,
+                },
+                {
+                  type: TableKeyString,
+                  key: Identifier,
+                  value: {
+                    fieldlist: [
+                      {
+                        type: TableValue,
+                        value: BooleanLiteral,
+                      },
+                      {
+                        type: TableKeyString,
+                        key: Identifier,
+                        value: {
+                          fieldlist: [
+                            {
+                              type: TableValue,
+                              value: StringLiteral,
+                            },
+                            {
+                              type: TableKeyString,
+                              key: Identifier,
+                              value: {
+                                fieldlist: [
+                                  {
+                                    type: TableValue,
+                                    value: NilLiteral,
+                                  },
+                                ],
+                                type: TableConstructor,
+                              },
+                            },
+                          ],
+                          type: TableConstructor,
+                        },
+                      },
+                    ],
+                    type: TableConstructor,
+                  },
+                },
+              ],
+              type: TableConstructor,
+            },
             base: Identifier,
           },
         },

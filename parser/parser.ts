@@ -1044,8 +1044,16 @@ class Parser {
 
           return new ast.CallStatement(callExpression);
         }
-        default:
-          throw new Error("other call statements not yet implemented");
+        case "{": {
+          const tableConstructorExpression = this
+            .parseTableConstructorExpression();
+          const tableCallExpression = new ast.TableCallExpression(
+            base,
+            tableConstructorExpression,
+          );
+
+          return new ast.CallStatement(tableCallExpression);
+        }
       }
     }
 
