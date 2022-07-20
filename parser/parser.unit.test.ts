@@ -1158,6 +1158,16 @@ const source = `
 
   local c = {}
 
+  local a = {
+    b = {
+      c = {
+        d = {
+          nil
+        }
+      }
+    }
+  }
+
   return 4 + 5;
 `;
 
@@ -1446,6 +1456,48 @@ ${source}
               fieldlist: [],
             },
           ],
+        },
+        {
+          init: [
+            {
+              type: TableConstructor,
+              fieldlist: [
+                {
+                  type: TableKeyString,
+                  key: Identifier,
+                  value: {
+                    type: TableConstructor,
+                    fieldlist: [
+                      {
+                        type: TableKeyString,
+                        key: Identifier,
+                        value: {
+                          type: TableConstructor,
+                          fieldlist: [
+                            {
+                              type: TableKeyString,
+                              key: Identifier,
+                              value: {
+                                type: TableConstructor,
+                                fieldlist: [
+                                  {
+                                    type: TableValue,
+                                    value: NilLiteral,
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+          type: LocalStatement,
+          variables: [Identifier],
         },
         {
           expressions: [
