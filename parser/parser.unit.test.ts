@@ -2,6 +2,7 @@ import { ast, MinimizerVisitor, Parser, SerializerVisitor } from "./mod.ts";
 import { assertEquals, assertStrictEquals, describe, it } from "./deps.ts";
 
 const {
+  TableConstructor,
   AssignmentStatement,
   BinaryExpression,
   LocalStatement,
@@ -1145,6 +1146,14 @@ const source = `
     3 + 4
   }
 
+  local a = {
+    [a] = b;
+  }
+
+  a = {
+    nil;
+  }
+
   return 4 + 5;
 `;
 
@@ -1351,8 +1360,11 @@ ${source}
           init: [BooleanLiteral, NumericLiteral, StringLiteral],
         },
         {
+          type: AssignmentStatement,
+          variables: [Identifier],
           init: [
             {
+              type: TableConstructor,
               fieldlist: [
                 {
                   type: TableKey,
@@ -1377,12 +1389,38 @@ ${source}
                   },
                 },
               ],
-              type: "TableConstructor",
             },
           ],
-          type: "AssignmentStatement",
-          variables: [
-            "Identifier",
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [
+            {
+              type: TableConstructor,
+              fieldlist: [
+                {
+                  type: TableKey,
+                  key: Identifier,
+                  value: Identifier,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: AssignmentStatement,
+          variables: [Identifier],
+          init: [
+            {
+              type: TableConstructor,
+              fieldlist: [
+                {
+                  type: TableValue,
+                  value: NilLiteral,
+                },
+              ],
+            },
           ],
         },
         {

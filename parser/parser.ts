@@ -13,7 +13,6 @@ const {
   Do,
   Identifier,
   OpenBrace,
-  ClosedBrace,
   EOF,
   NilLiteral,
   BooleanLiteral,
@@ -412,13 +411,13 @@ class Parser {
 
   // tableconstructor ::= ‘{’ [fieldlist] ‘}’
   private parseTableConstructor(): ast.Expression {
-    this.expect(OpenBrace).advance();
+    this.expect("{").advance();
 
     const fieldlist = this.parseFieldlist();
 
     this.tokenCursor.advance();
 
-    this.expect(ClosedBrace);
+    this.expect("}");
 
     return new ast.TableConstructor(fieldlist);
   }
@@ -574,7 +573,18 @@ class Parser {
   parseFieldlist(): ast.Expression[] {
     const fieldList = [this.parseField()];
 
-    while (this.tokenCursor.someConsumeNext(",", ";")) {
+    while (this.tokenCursor.someMatchNext(",", ";")) {
+      // Move to the either matched "," or ";"
+      this.tokenCursor.advance();
+
+      // However if we encounter "}" we have a dangling "," or ";"
+      if (this.tokenCursor.matchNext("}")) {
+        break;
+      }
+
+      // We skip over "," or ";"
+      this.tokenCursor.advance();
+
       fieldList.push(this.parseField());
     }
 
