@@ -551,6 +551,12 @@ class Parser {
   // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   parseArgs(): ast.Expression[] {
     if (this.tokenCursor.match("(")) {
+      this.tokenCursor.advance();
+
+      if (this.tokenCursor.match(")")) {
+        return [];
+      }
+
       const explist = this.parseExplist();
 
       this.tokenCursor.advance();
@@ -994,7 +1000,43 @@ class Parser {
   // args ::=  ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   parseCallStatement(): ast.Statement {
     if (this.tokenCursor.someMatchNext("(", "[", ".", ":", "(", "{")) {
-      throw new Error("not handled yet");
+      // a:b(1, 2, 3)
+      // ^
+      const base = this.parseIdentifierExpression();
+
+      this.tokenCursor.advance();
+
+      const indexerToken = this.tokenCursor.current;
+      // a:b(1, 2, 3)
+      //  ^
+
+      switch (indexerToken.value) {
+        case ".":
+        case ":": {
+          this.tokenCursor.advance();
+
+          const identifier = this.parseIdentifierExpression();
+          // a:b(1, 2, 3)
+          //   ^
+
+          this.tokenCursor.advance();
+          // a:b(1, 2, 3)
+          //    ^
+
+          const callExpression = new ast.CallExpression(
+            new ast.MemberExpression(
+              base,
+              indexerToken.value,
+              identifier,
+            ), // a:b
+            this.parseArgs(), // (1, 2, 3)
+          );
+
+          return new ast.CallStatement(callExpression);
+        }
+        default:
+          throw new Error("other call statements not yet implemented");
+      }
     }
 
     if (this.tokenCursor.matchNext(StringLiteral)) {

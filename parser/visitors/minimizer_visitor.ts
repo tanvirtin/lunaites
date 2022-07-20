@@ -115,6 +115,14 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitCallExpression(node: ast.CallExpression): unknown {
+    return {
+      type: ast.NodeType.CallExpression,
+      base: node.base.accept(this),
+      args: node.args.map((arg) => arg.accept(this)),
+    };
+  }
+
   visitLabelStatement(_node: ast.LabelStatement) {
     return ast.NodeType.LabelStatement;
   }
@@ -286,6 +294,8 @@ class MinimizerVisitor implements Visitor {
         return this.visitFunctionExpression(node as ast.FunctionExpression);
       case ast.StringCallExpression:
         return this.visitStringCallExpression(node as ast.StringCallExpression);
+      case ast.CallExpression:
+        return this.visitCallExpression(node as ast.CallExpression);
       case ast.CallStatement:
         return this.visitCallStatement(node as ast.CallStatement);
       case ast.Identifier:

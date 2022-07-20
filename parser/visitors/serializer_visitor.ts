@@ -136,6 +136,14 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitCallExpression(node: ast.CallExpression): unknown {
+    return {
+      type: ast.NodeType.CallExpression,
+      base: node.base.accept(this),
+      args: node.args.map((arg) => arg.accept(this)),
+    };
+  }
+
   visitLocalStatement(node: ast.LocalStatement): unknown {
     return {
       type: ast.NodeType.LocalStatement,
@@ -328,6 +336,8 @@ class SerializerVisitor implements Visitor {
         return this.visitFunctionExpression(node as ast.FunctionExpression);
       case ast.StringCallExpression:
         return this.visitStringCallExpression(node as ast.StringCallExpression);
+      case ast.CallExpression:
+        return this.visitCallExpression(node as ast.CallExpression);
       case ast.CallStatement:
         return this.visitCallStatement(node as ast.CallStatement);
       case ast.Identifier:

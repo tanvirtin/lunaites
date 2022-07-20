@@ -21,6 +21,8 @@ const {
   GroupingExpression,
   BreakStatement,
   ForNumericStatement,
+  CallExpression,
+  MemberExpression,
   ForGenericStatement,
   StringLiteral,
   BooleanLiteral,
@@ -1172,6 +1174,10 @@ const source = `
   }
 
   a "3"
+  a:b()
+  a:b(1, 2, 3)
+  x.y()
+  x.y(true, 'foo', 3)
 
   return 4 + 5;
 `;
@@ -1518,6 +1524,66 @@ ${source}
           },
         },
         {
+          type: CallStatement,
+          expression: {
+            type: CallExpression,
+            base: {
+              type: MemberExpression,
+              base: Identifier,
+              identifier: Identifier,
+              indexer: ":",
+            },
+            args: [],
+          },
+        },
+        {
+          type: "CallStatement",
+          expression: {
+            type: CallExpression,
+            base: {
+              type: MemberExpression,
+              base: Identifier,
+              identifier: Identifier,
+              indexer: ":",
+            },
+            args: [
+              NumericLiteral,
+              NumericLiteral,
+              NumericLiteral,
+            ],
+          },
+        },
+        {
+          type: CallStatement,
+          expression: {
+            type: CallExpression,
+            base: {
+              base: Identifier,
+              identifier: Identifier,
+              indexer: ".",
+              type: MemberExpression,
+            },
+            args: [],
+          },
+        },
+        {
+          type: CallStatement,
+          expression: {
+            type: CallExpression,
+            base: {
+              base: Identifier,
+              identifier: Identifier,
+              indexer: ".",
+              type: MemberExpression,
+            },
+            args: [
+              BooleanLiteral,
+              StringLiteral,
+              NumericLiteral,
+            ],
+          },
+        },
+        {
           expressions: [
             {
               left: NumericLiteral,
@@ -1532,3 +1598,12 @@ ${source}
     });
   },
 );
+
+(() => {
+  const parser = new Parser(`
+`);
+  const minimizerVisitor = new MinimizerVisitor();
+  const minimizedAst = minimizerVisitor.visit(parser.parse());
+
+  console.log(minimizedAst);
+});
