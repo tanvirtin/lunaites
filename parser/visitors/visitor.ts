@@ -21,6 +21,8 @@ interface Visitor {
   visitReturnStatement(node: ast.Node): void;
   visitLabelStatement(node: ast.Node): void;
   visitDoStatement(node: ast.Node): void;
+  visitStringCallExpression(node: ast.Node): void;
+  visitCallStatement(node: ast.Node): void;
   visitBreakStatement(node: ast.Node): void;
   visitRepeatStatement(node: ast.Node): void;
   visitWhileStatement(node: ast.Node): void;

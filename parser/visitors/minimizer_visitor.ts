@@ -107,12 +107,27 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
+  visitStringCallExpression(node: ast.StringCallExpression): unknown {
+    return {
+      type: ast.NodeType.StringCallExpression,
+      base: node.base.accept(this),
+      argument: node.argument.accept(this),
+    };
+  }
+
   visitLabelStatement(_node: ast.LabelStatement) {
     return ast.NodeType.LabelStatement;
   }
 
   visitBreakStatement(_node: ast.BreakStatement): unknown {
     return ast.NodeType.BreakStatement;
+  }
+
+  visitCallStatement(node: ast.CallStatement): unknown {
+    return {
+      type: ast.NodeType.CallStatement,
+      expression: node.expression.accept(this),
+    };
   }
 
   visitLocalStatement(node: ast.LocalStatement): unknown {
@@ -269,6 +284,10 @@ class MinimizerVisitor implements Visitor {
         return this.visitMemberExpression(node as ast.MemberExpression);
       case ast.FunctionExpression:
         return this.visitFunctionExpression(node as ast.FunctionExpression);
+      case ast.StringCallExpression:
+        return this.visitStringCallExpression(node as ast.StringCallExpression);
+      case ast.CallStatement:
+        return this.visitCallStatement(node as ast.CallStatement);
       case ast.Identifier:
         return this.visitIdentifier(node as ast.Identifier);
       case ast.TableKey:

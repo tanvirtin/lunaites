@@ -476,6 +476,16 @@ class Parser {
     return new ast.GroupingExpression(expression);
   }
 
+  private parseStringCallExpression(): ast.Expression {
+    const base = this.parseIdentifierExpression();
+
+    this.tokenCursor.advance();
+
+    const argument = this.parseStringLiteralExpression();
+
+    return new ast.StringCallExpression(base, argument);
+  }
+
   // exp ::= (unop exp | primary | prefixexp ) { binop exp }
   // primary ::= nil | false | true | Number | String | '...' |
   //             functiondef | tableconstructor
@@ -983,7 +993,19 @@ class Parser {
   // callexp ::= prefixexp args | prefixexp ':' Name args
   // args ::=  ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   parseCallStatement(): ast.Statement {
-    throw new Error("call statement parser not yet implemented");
+    if (this.tokenCursor.someMatchNext("(", "[", ".", ":", "(", "{")) {
+      throw new Error("not handled yet");
+    }
+
+    if (this.tokenCursor.matchNext(StringLiteral)) {
+      return new ast.CallStatement(this.parseStringCallExpression());
+    }
+
+    ParserException.raiseUnexpectedTokenError(
+      this.scanner,
+      this.tokenCursor.current,
+      this.tokenCursor.next,
+    );
   }
 
   // stat ::=  ‘;’ |
@@ -1014,7 +1036,17 @@ class Parser {
           return this.parseAssignmentStatement();
         }
 
-        if (this.tokenCursor.someMatchNext("(", "[", ".", ":", "(", "{")) {
+        if (
+          this.tokenCursor.someMatchNext(
+            "(",
+            "[",
+            ".",
+            ":",
+            "(",
+            "{",
+            StringLiteral,
+          )
+        ) {
           return this.parseCallStatement();
         }
 

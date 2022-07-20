@@ -5,6 +5,8 @@ const {
   TableConstructor,
   AssignmentStatement,
   BinaryExpression,
+  CallStatement,
+  StringCallExpression,
   LocalStatement,
   Identifier,
   TableKey,
@@ -1169,6 +1171,8 @@ const source = `
     }
   }
 
+  a "3"
+
   return 4 + 5;
 `;
 
@@ -1504,6 +1508,14 @@ ${source}
           ],
           type: LocalStatement,
           variables: [Identifier],
+        },
+        {
+          type: CallStatement,
+          expression: {
+            type: StringCallExpression,
+            base: Identifier,
+            argument: StringLiteral,
+          },
         },
         {
           expressions: [

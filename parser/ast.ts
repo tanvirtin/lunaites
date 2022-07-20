@@ -14,6 +14,7 @@ enum NodeType {
   MemberExpression = "MemberExpression",
   UnaryExpression = "UnaryExpression",
   BinaryExpression = "BinaryExpression",
+  StringCallExpression = "StringCallExpression",
   LocalStatement = "LocalStatement",
   ForNumericStatement = "ForNumericStatement",
   ForGenericStatement = "ForGenericStatement",
@@ -28,6 +29,7 @@ enum NodeType {
   FunctionLocalStatement = "FunctionLocalStatement",
   FunctionGlobalStatement = "FunctionGlobalStatement",
   AssignmentStatement = "AssignmentStatement",
+  CallStatement = "CallStatement",
   TableKey = "TableKey",
   TableKeyString = "TableKeyString",
   TableValue = "TableValue",
@@ -237,6 +239,20 @@ class TableConstructor implements Expression {
   }
 }
 
+class StringCallExpression implements Expression {
+  base: Identifier;
+  argument: Expression;
+
+  constructor(base: Identifier, argument: Expression) {
+    this.base = base;
+    this.argument = argument;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitStringCallExpression(this);
+  }
+}
+
 class UnaryExpression implements Expression {
   operator: Token;
   argument: Expression;
@@ -290,6 +306,18 @@ class ReturnStatement implements Statement {
 
   accept(visitor: Visitor): unknown {
     return visitor.visitReturnStatement(this);
+  }
+}
+
+class CallStatement implements Expression {
+  expression: Expression;
+
+  constructor(expression: Expression) {
+    this.expression = expression;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitCallStatement(this);
   }
 }
 
@@ -479,6 +507,7 @@ export {
   Block,
   BooleanLiteral,
   BreakStatement,
+  CallStatement,
   Chunk,
   CommentLiteral,
   DoStatement,
@@ -500,6 +529,7 @@ export {
   NumericLiteral,
   RepeatStatement,
   ReturnStatement,
+  StringCallExpression,
   StringLiteral,
   TableConstructor,
   TableKey,
