@@ -999,7 +999,7 @@ class Parser {
   // callexp ::= prefixexp args | prefixexp ':' Name args
   // args ::=  ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   parseCallStatement(): ast.Statement {
-    if (this.tokenCursor.someMatchNext("(", "[", ".", ":", "(", "{")) {
+    if (this.tokenCursor.someMatchNext(".", ":", "(", "{", "[")) {
       // a:b(1, 2, 3)
       // ^
       const base = this.parseIdentifierExpression();
@@ -1023,14 +1023,24 @@ class Parser {
           // a:b(1, 2, 3)
           //    ^
 
-          const callExpression = new ast.CallExpression(
-            new ast.MemberExpression(
-              base,
-              indexerToken.value,
-              identifier,
-            ), // a:b
-            this.parseArgs(), // (1, 2, 3)
+          const memberExpressionBase = new ast.MemberExpression(
+            base,
+            indexerToken.value,
+            identifier,
           );
+          const args = this.parseArgs();
+
+          const callExpression = new ast.CallExpression(
+            memberExpressionBase, // a:b
+            args, // (1, 2, 3)
+          );
+
+          return new ast.CallStatement(callExpression);
+        }
+        case "(": {
+          const args = this.parseArgs();
+
+          const callExpression = new ast.CallExpression(base, args);
 
           return new ast.CallStatement(callExpression);
         }
@@ -1040,7 +1050,9 @@ class Parser {
     }
 
     if (this.tokenCursor.matchNext(StringLiteral)) {
-      return new ast.CallStatement(this.parseStringCallExpression());
+      const expression = this.parseStringCallExpression();
+
+      return new ast.CallStatement(expression);
     }
 
     ParserException.raiseUnexpectedTokenError(

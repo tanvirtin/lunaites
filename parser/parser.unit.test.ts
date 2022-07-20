@@ -1178,6 +1178,8 @@ const source = `
   a:b(1, 2, 3)
   x.y()
   x.y(true, 'foo', 3)
+  foo()
+  foo(1, true, 'foo', 4.1)
 
   return 4 + 5;
 `;
@@ -1581,6 +1583,27 @@ ${source}
               StringLiteral,
               NumericLiteral,
             ],
+          },
+        },
+        {
+          type: CallStatement,
+          expression: {
+            type: CallExpression,
+            args: [],
+            base: Identifier,
+          },
+        },
+        {
+          type: CallStatement,
+          expression: {
+            type: CallExpression,
+            args: [
+              NumericLiteral,
+              BooleanLiteral,
+              StringLiteral,
+              NumericLiteral,
+            ],
+            base: Identifier,
           },
         },
         {
