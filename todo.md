@@ -21,10 +21,10 @@
 - [x] functiondef ::= function funcbody
 - [x] funcbody ::= ‘(’ [parlist] ‘)’ block end
 - [x] parlist ::= namelist [‘,’ ‘...’] | ‘...’
-- [ ] tableconstructor ::= ‘{’ [fieldlist] ‘}’
+- [x] tableconstructor ::= ‘{’ [fieldlist] ‘}’
 - [x] fieldlist ::= field {fieldsep field} [fieldsep]
 - [x] field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
-- [ ] fieldsep ::= ‘,’ | ‘;’
-- [ ] binop ::= ‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘//’ | ‘^’ | ‘%’ | ‘&’ | ‘~’ | ‘|’ |
+- [x] fieldsep ::= ‘,’ | ‘;’
+- [x] binop ::= ‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘//’ | ‘^’ | ‘%’ | ‘&’ | ‘~’ | ‘|’ |
       ‘>>’ | ‘<<’ | ‘..’ | ‘<’ | ‘<=’ | ‘>’ | ‘>=’ | ‘==’ | ‘~=’ | and | or
-- [ ] unop ::= ‘-’ | not | ‘#’ | ‘~’
+- [x] unop ::= ‘-’ | not | ‘#’ | ‘~’
