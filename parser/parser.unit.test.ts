@@ -1154,6 +1154,10 @@ const source = `
     nil;
   }
 
+  b = {}
+
+  local c = {}
+
   return 4 + 5;
 `;
 
@@ -1420,6 +1424,26 @@ ${source}
                   value: NilLiteral,
                 },
               ],
+            },
+          ],
+        },
+        {
+          type: AssignmentStatement,
+          variables: [Identifier],
+          init: [
+            {
+              type: TableConstructor,
+              fieldlist: [],
+            },
+          ],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [
+            {
+              type: TableConstructor,
+              fieldlist: [],
             },
           ],
         },

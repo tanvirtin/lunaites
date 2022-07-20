@@ -413,6 +413,10 @@ class Parser {
   private parseTableConstructor(): ast.Expression {
     this.expect("{").advance();
 
+    if (this.tokenCursor.match("}")) {
+      return new ast.TableConstructor([]);
+    }
+
     const fieldlist = this.parseFieldlist();
 
     this.tokenCursor.advance();
