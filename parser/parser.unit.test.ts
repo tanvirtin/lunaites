@@ -1101,6 +1101,7 @@ const source = `
   local m, n, o = true, "hello", foo
   local a = 3;
   local b = 4;
+  local c = '1'
   break;
 
   do
@@ -1221,6 +1222,11 @@ ${source}
           type: LocalStatement,
           variables: [Identifier],
           init: [NumericLiteral],
+        },
+        {
+          type: LocalStatement,
+          variables: [Identifier],
+          init: [StringLiteral],
         },
         BreakStatement,
         {

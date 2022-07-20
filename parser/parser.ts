@@ -199,7 +199,7 @@ class Parser {
 
     this.registerNullDenotationExpressionParselet(
       OpenBrace,
-      this.parseTableConstructor,
+      this.parseTableConstructorExpression,
     );
 
     return this;
@@ -410,7 +410,7 @@ class Parser {
   }
 
   // tableconstructor ::= ‘{’ [fieldlist] ‘}’
-  private parseTableConstructor(): ast.Expression {
+  private parseTableConstructorExpression(): ast.Expression {
     this.expect("{").advance();
 
     if (this.tokenCursor.match("}")) {
@@ -537,6 +537,33 @@ class Parser {
   ////////////////////////////////////////////////////////////////////////
   ////////////////////////////// Utility /////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
+
+  // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
+  parseArgs(): ast.Expression[] {
+    if (this.tokenCursor.match("(")) {
+      const explist = this.parseExplist();
+
+      this.tokenCursor.advance();
+
+      this.expect(")");
+
+      return explist;
+    }
+
+    if (this.tokenCursor.match("{")) {
+      return [this.parseTableConstructorExpression()];
+    }
+
+    if (this.tokenCursor.match(StringLiteral)) {
+      return [this.parseStringLiteralExpression()];
+    }
+
+    ParserException.raiseUnexpectedTokenError(
+      this.scanner,
+      this.tokenCursor.current,
+      this.tokenCursor.next,
+    );
+  }
 
   // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
   parseField(): ast.Expression {

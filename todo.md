@@ -17,7 +17,7 @@
       | prefixexp | tableconstructor | exp binop exp | unop exp
 - [ ] prefixexp ::= var | functioncall | ‘(’ exp ‘)’
 - [ ] functioncall ::= prefixexp args | prefixexp ‘:’ Name args
-- [ ] args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
+- [x] args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
 - [x] functiondef ::= function funcbody
 - [x] funcbody ::= ‘(’ [parlist] ‘)’ block end
 - [x] parlist ::= namelist [‘,’ ‘...’] | ‘...’
