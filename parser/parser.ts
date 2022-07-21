@@ -426,6 +426,77 @@ class Parser {
     return new ast.TableConstructor(fieldlist);
   }
 
+  private parseTableCallExpression(): ast.TableCallExpression {
+    const base = this.parseIdentifierExpression();
+
+    this.tokenCursor.advance();
+
+    const expression = this
+      .parseTableConstructorExpression();
+
+    return new ast.TableCallExpression(base, expression);
+  }
+
+  private parseMemberCallExpression(
+    index: TokenType | string,
+  ): ast.MemberCallExpression {
+    const base = this.parseIdentifierExpression();
+
+    this.tokenCursor.advance();
+
+    this.expect(index).advance();
+
+    const identifier = this.parseIdentifierExpression();
+
+    this.tokenCursor.advance();
+
+    const memberExpressionBase = new ast.MemberExpression(
+      base,
+      index,
+      identifier,
+    );
+    const args = this.parseArgs();
+
+    return new ast.MemberCallExpression(
+      memberExpressionBase,
+      args,
+    );
+  }
+
+  private parseCallExpression() {
+    if (this.tokenCursor.someMatchNext(".", ":", "(", "{", "[")) {
+      switch (this.tokenCursor.next.value) {
+        case ".":
+          return this.parseMemberCallExpression(".");
+        case ":": {
+          return this.parseMemberCallExpression(":");
+        }
+        case "(": {
+          const base = this.parseIdentifierExpression();
+
+          this.tokenCursor.advance();
+
+          const args = this.parseArgs();
+
+          return new ast.CallExpression(base, args);
+        }
+        case "{": {
+          return this.parseTableCallExpression();
+        }
+      }
+    }
+
+    if (this.tokenCursor.matchNext(StringLiteral)) {
+      return this.parseStringCallExpression();
+    }
+
+    ParserException.raiseUnexpectedTokenError(
+      this.scanner,
+      this.tokenCursor.current,
+      this.tokenCursor.next,
+    );
+  }
+
   private parseUnaryExpression(): ast.Expression {
     const operatorToken = this.tokenCursor.current;
 
@@ -999,75 +1070,9 @@ class Parser {
   // callexp ::= prefixexp args | prefixexp ':' Name args
   // args ::=  ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   parseCallStatement(): ast.Statement {
-    if (this.tokenCursor.someMatchNext(".", ":", "(", "{", "[")) {
-      // a:b(1, 2, 3)
-      // ^
-      const base = this.parseIdentifierExpression();
+    const expression = this.parseCallExpression();
 
-      this.tokenCursor.advance();
-
-      const indexerToken = this.tokenCursor.current;
-      // a:b(1, 2, 3)
-      //  ^
-
-      switch (indexerToken.value) {
-        case ".":
-        case ":": {
-          this.tokenCursor.advance();
-
-          const identifier = this.parseIdentifierExpression();
-          // a:b(1, 2, 3)
-          //   ^
-
-          this.tokenCursor.advance();
-          // a:b(1, 2, 3)
-          //    ^
-
-          const memberExpressionBase = new ast.MemberExpression(
-            base,
-            indexerToken.value,
-            identifier,
-          );
-          const args = this.parseArgs();
-
-          const callExpression = new ast.CallExpression(
-            memberExpressionBase, // a:b
-            args, // (1, 2, 3)
-          );
-
-          return new ast.CallStatement(callExpression);
-        }
-        case "(": {
-          const args = this.parseArgs();
-
-          const callExpression = new ast.CallExpression(base, args);
-
-          return new ast.CallStatement(callExpression);
-        }
-        case "{": {
-          const tableConstructorExpression = this
-            .parseTableConstructorExpression();
-          const tableCallExpression = new ast.TableCallExpression(
-            base,
-            tableConstructorExpression,
-          );
-
-          return new ast.CallStatement(tableCallExpression);
-        }
-      }
-    }
-
-    if (this.tokenCursor.matchNext(StringLiteral)) {
-      const expression = this.parseStringCallExpression();
-
-      return new ast.CallStatement(expression);
-    }
-
-    ParserException.raiseUnexpectedTokenError(
-      this.scanner,
-      this.tokenCursor.current,
-      this.tokenCursor.next,
-    );
+    return new ast.CallStatement(expression);
   }
 
   // stat ::=  ‘;’ |

@@ -283,6 +283,8 @@ class CallExpression implements Expression {
   }
 }
 
+class MemberCallExpression extends CallExpression {}
+
 class UnaryExpression implements Expression {
   operator: Token;
   argument: Expression;
@@ -554,6 +556,7 @@ export {
   LabelStatement,
   Literal,
   LocalStatement,
+  MemberCallExpression,
   MemberExpression,
   NilLiteral,
   NodeType,
