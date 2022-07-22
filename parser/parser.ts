@@ -158,18 +158,8 @@ class Parser {
     );
 
     this.registerNullDenotationExpressionParselet(
-      Identifier,
-      this.parseIdentifierExpression,
-    );
-
-    this.registerNullDenotationExpressionParselet(
       CommentLiteral,
       this.parseCommentLiteralExpression,
-    );
-
-    this.registerNullDenotationExpressionParselet(
-      OpenParenthesis,
-      this.parseGroupingExpression,
     );
 
     this.registerNullDenotationExpressionParselet(
@@ -200,6 +190,16 @@ class Parser {
     this.registerNullDenotationExpressionParselet(
       OpenBrace,
       this.parseTableConstructorExpression,
+    );
+
+    this.registerNullDenotationExpressionParselet(
+      Identifier,
+      this.parsePrefixExpression,
+    );
+
+    this.registerNullDenotationExpressionParselet(
+      OpenParenthesis,
+      this.parsePrefixExpression,
     );
 
     return this;
@@ -426,77 +426,6 @@ class Parser {
     return new ast.TableConstructor(fieldlist);
   }
 
-  private parseTableCallExpression(): ast.TableCallExpression {
-    const base = this.parseIdentifierExpression();
-
-    this.tokenCursor.advance();
-
-    const expression = this
-      .parseTableConstructorExpression();
-
-    return new ast.TableCallExpression(base, expression);
-  }
-
-  private parseMemberCallExpression(
-    index: TokenType | string,
-  ): ast.MemberCallExpression {
-    const base = this.parseIdentifierExpression();
-
-    this.tokenCursor.advance();
-
-    this.expect(index).advance();
-
-    const identifier = this.parseIdentifierExpression();
-
-    this.tokenCursor.advance();
-
-    const memberExpressionBase = new ast.MemberExpression(
-      base,
-      index,
-      identifier,
-    );
-    const args = this.parseArgs();
-
-    return new ast.MemberCallExpression(
-      memberExpressionBase,
-      args,
-    );
-  }
-
-  private parseCallExpression() {
-    if (this.tokenCursor.someMatchNext(".", ":", "(", "{", "[")) {
-      switch (this.tokenCursor.next.value) {
-        case ".":
-          return this.parseMemberCallExpression(".");
-        case ":": {
-          return this.parseMemberCallExpression(":");
-        }
-        case "(": {
-          const base = this.parseIdentifierExpression();
-
-          this.tokenCursor.advance();
-
-          const args = this.parseArgs();
-
-          return new ast.CallExpression(base, args);
-        }
-        case "{": {
-          return this.parseTableCallExpression();
-        }
-      }
-    }
-
-    if (this.tokenCursor.matchNext(StringLiteral)) {
-      return this.parseStringCallExpression();
-    }
-
-    ParserException.raiseUnexpectedTokenError(
-      this.scanner,
-      this.tokenCursor.current,
-      this.tokenCursor.next,
-    );
-  }
-
   private parseUnaryExpression(): ast.Expression {
     const operatorToken = this.tokenCursor.current;
 
@@ -547,21 +476,52 @@ class Parser {
     return new ast.GroupingExpression(expression);
   }
 
-  private parseStringCallExpression(): ast.Expression {
-    const base = this.parseIdentifierExpression();
+  // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
+  // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
+  // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
+  private parsePrefixExpression(): ast.Expression {
+    if (this.tokenCursor.match("(")) {
+      return this.parseGroupingExpression();
+    }
 
-    this.tokenCursor.advance();
+    if (this.tokenCursor.match(Identifier)) {
+      const base = this.parseIdentifierExpression();
 
-    const argument = this.parseStringLiteralExpression();
+      if (this.tokenCursor.consumeNext("[")) {
+        const expression = this.parseExpression();
 
-    return new ast.StringCallExpression(base, argument);
+        this.tokenCursor.advance();
+
+        this.expect("]");
+
+        return new ast.IndexExpression(base, expression);
+      }
+
+      if (this.tokenCursor.consumeNext(".")) {
+        const identifier = this.parseIdentifierExpression();
+
+        return new ast.MemberExpression(base, ".", identifier);
+      }
+
+      if (this.tokenCursor.someConsumeNext("{", StringLiteral)) {
+        const args = this.parseArgs();
+
+        return new ast.FunctionCallExpression(base, args);
+      }
+
+      return base;
+    }
+
+    ParserException.raiseExpectedError(
+      this.scanner,
+      "=",
+      this.tokenCursor.next,
+    );
   }
 
   // exp ::= (unop exp | primary | prefixexp ) { binop exp }
   // primary ::= nil | false | true | Number | String | '...' |
   //             functiondef | tableconstructor
-  // prefixexp ::= (Name | '(' exp ')' ) { '[' exp ']' |
-  //          '.' Name | ':' Name args | args }
   parseExpression(
     precedence: Precedence = Precedence.Lowest,
   ): ast.Expression {
@@ -709,12 +669,35 @@ class Parser {
     return fieldList;
   }
 
+  // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
+  parseVar(): ast.Expression {
+    // parsePrefixExpression actually calls parseVar as per language grammer,
+    // Since our base case is covered we can now directly call parsePrefixExpression.
+    const prefixexp = this.parsePrefixExpression();
+
+    if (this.tokenCursor.consumeNext("[")) {
+      const expression = this.parseExpression();
+
+      this.expect("]");
+
+      return new ast.IndexExpression(prefixexp, expression);
+    }
+
+    if (this.tokenCursor.consumeNext(".")) {
+      const identifier = this.parseIdentifierExpression();
+
+      return new ast.MemberExpression(prefixexp, ".", identifier);
+    }
+
+    return prefixexp;
+  }
+
   // varlist ::= var {‘,’ var}
-  parseVarlist(): ast.Identifier[] {
-    const varlist = [this.parseIdentifierExpression()];
+  parseVarlist(): ast.Expression[] {
+    const varlist = [this.parseVar()];
 
     while (this.tokenCursor.consumeNext(",")) {
-      varlist.push(this.parseIdentifierExpression());
+      varlist.push(this.parseVar());
     }
 
     return varlist;
@@ -1066,13 +1049,32 @@ class Parser {
     return new ast.AssignmentStatement(varlist, explist);
   }
 
-  // call ::= callexp
-  // callexp ::= prefixexp args | prefixexp ':' Name args
-  // args ::=  ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
-  parseCallStatement(): ast.Statement {
-    const expression = this.parseCallExpression();
+  // functioncall ::=  prefixexp args | prefixexp ':' Name args
+  parseFunctionCallStatement(): ast.Statement {
+    const identifier = this.parseIdentifierExpression();
 
-    return new ast.CallStatement(expression);
+    this.tokenCursor.advance();
+
+    const args = this.parseArgs();
+
+    const functionCallExpression = new ast.FunctionCallExpression(
+      identifier,
+      args,
+    );
+
+    return new ast.FunctionCallStatement(functionCallExpression);
+  }
+
+  parseAssignmentOrFunctionCallStatement(): ast.Statement {
+    const prefixexp = this.parsePrefixExpression();
+
+    // Create self referencial structure using loops.
+
+    ParserException.raiseUnexpectedTokenError(
+      this.scanner,
+      this.tokenCursor.current,
+      this.tokenCursor.next,
+    );
   }
 
   // stat ::=  ‘;’ |
@@ -1098,30 +1100,6 @@ class Parser {
       // I need to take this into consideration in the future.
       case SemiColon:
         return null;
-      case Identifier:
-        if (this.tokenCursor.someMatchNext("=", ",")) {
-          return this.parseAssignmentStatement();
-        }
-
-        if (
-          this.tokenCursor.someMatchNext(
-            "(",
-            "[",
-            ".",
-            ":",
-            "(",
-            "{",
-            StringLiteral,
-          )
-        ) {
-          return this.parseCallStatement();
-        }
-
-        return ParserException.raiseExpectedError(
-          this.scanner,
-          "=",
-          this.tokenCursor.next,
-        );
       case DoubleColon:
         return this.parseLabelStatement();
       case Break:
@@ -1145,11 +1123,7 @@ class Parser {
       case Local:
         return this.parseLocalStatement();
       default:
-        ParserException.raiseUnexpectedTokenError(
-          this.scanner,
-          this.tokenCursor.current,
-          this.tokenCursor.next,
-        );
+        return this.parseAssignmentOrFunctionCallStatement();
     }
   }
 

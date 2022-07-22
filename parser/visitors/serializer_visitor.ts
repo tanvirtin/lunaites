@@ -81,6 +81,14 @@ class SerializerVisitor implements Visitor {
     };
   }
 
+  visitIndexExpression(node: ast.IndexExpression): unknown {
+    return {
+      type: ast.NodeType.IndexExpression,
+      base: node.base.accept(this),
+      index: node.index.accept(this),
+    };
+  }
+
   visitUnaryExpression(node: ast.UnaryExpression): unknown {
     return {
       type: ast.NodeType.UnaryExpression,
@@ -128,25 +136,9 @@ class SerializerVisitor implements Visitor {
     };
   }
 
-  visitStringCallExpression(node: ast.StringCallExpression): unknown {
+  visitFunctionCallExpression(node: ast.FunctionCallExpression): unknown {
     return {
-      type: ast.NodeType.StringCallExpression,
-      base: node.base.accept(this),
-      argument: node.argument.accept(this),
-    };
-  }
-
-  visitTableCallExpression(node: ast.TableCallExpression): unknown {
-    return {
-      type: ast.NodeType.TableCallExpression,
-      base: node.base.accept(this),
-      argument: node.argument.accept(this),
-    };
-  }
-
-  visitCallExpression(node: ast.CallExpression): unknown {
-    return {
-      type: ast.NodeType.CallExpression,
+      type: ast.NodeType.FunctionCallExpression,
       base: node.base.accept(this),
       args: node.args.map((arg) => arg.accept(this)),
     };
@@ -160,9 +152,9 @@ class SerializerVisitor implements Visitor {
     };
   }
 
-  visitCallStatement(node: ast.CallStatement): unknown {
+  visitFunctionCallStatement(node: ast.FunctionCallStatement): unknown {
     return {
-      type: ast.NodeType.CallStatement,
+      type: ast.NodeType.FunctionCallStatement,
       expression: node.expression.accept(this),
     };
   }
@@ -340,16 +332,18 @@ class SerializerVisitor implements Visitor {
         return this.visitGroupingExpression(node as ast.GroupingExpression);
       case ast.MemberExpression:
         return this.visitMemberExpression(node as ast.MemberExpression);
+      case ast.IndexExpression:
+        return this.visitIndexExpression(node as ast.IndexExpression);
       case ast.FunctionExpression:
         return this.visitFunctionExpression(node as ast.FunctionExpression);
-      case ast.StringCallExpression:
-        return this.visitStringCallExpression(node as ast.StringCallExpression);
-      case ast.TableCallExpression:
-        return this.visitTableCallExpression(node as ast.TableCallExpression);
-      case ast.CallExpression:
-        return this.visitCallExpression(node as ast.CallExpression);
-      case ast.CallStatement:
-        return this.visitCallStatement(node as ast.CallStatement);
+      case ast.FunctionCallExpression:
+        return this.visitFunctionCallExpression(
+          node as ast.FunctionCallExpression,
+        );
+      case ast.FunctionCallStatement:
+        return this.visitFunctionCallStatement(
+          node as ast.FunctionCallStatement,
+        );
       case ast.Identifier:
         return this.visitIdentifier(node as ast.Identifier);
       case ast.CommentLiteral:

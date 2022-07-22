@@ -21,12 +21,11 @@ interface Visitor {
   visitReturnStatement(node: ast.Node): void;
   visitLabelStatement(node: ast.Node): void;
   visitDoStatement(node: ast.Node): void;
-  visitCallExpression(node: ast.Node): void;
-  visitTableCallExpression(node: ast.Node): void;
-  visitStringCallExpression(node: ast.Node): void;
-  visitCallStatement(node: ast.Node): void;
+  visitFunctionCallExpression(node: ast.Node): void;
+  visitFunctionCallStatement(node: ast.Node): void;
   visitBreakStatement(node: ast.Node): void;
   visitRepeatStatement(node: ast.Node): void;
+  visitIndexExpression(node: ast.Node): void;
   visitWhileStatement(node: ast.Node): void;
   visitIfStatement(node: ast.Node): void;
   visitAssignmentStatement(node: ast.Node): void;

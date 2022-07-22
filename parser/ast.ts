@@ -12,11 +12,12 @@ enum NodeType {
   FunctionExpression = "FunctionExpression",
   GroupingExpression = "GroupingExpression",
   MemberExpression = "MemberExpression",
+  IndexExpression = "IndexExpression",
   UnaryExpression = "UnaryExpression",
   BinaryExpression = "BinaryExpression",
-  CallExpression = "CallExpression",
-  StringCallExpression = "StringCallExpression",
-  TableCallExpression = "StringCallExpression",
+  FunctionCallExpression = "FunctionCallExpression",
+  StringFunctionCallExpression = "StringFunctionCallExpression",
+  TableFunctionCallExpression = "StringFunctionCallExpression",
   LocalStatement = "LocalStatement",
   ForNumericStatement = "ForNumericStatement",
   ForGenericStatement = "ForGenericStatement",
@@ -31,7 +32,7 @@ enum NodeType {
   FunctionLocalStatement = "FunctionLocalStatement",
   FunctionGlobalStatement = "FunctionGlobalStatement",
   AssignmentStatement = "AssignmentStatement",
-  CallStatement = "CallStatement",
+  FunctionCallStatement = "FunctionCallStatement",
   TableKey = "TableKey",
   TableKeyString = "TableKeyString",
   TableValue = "TableValue",
@@ -174,11 +175,11 @@ class GroupingExpression implements Expression {
 }
 
 class MemberExpression implements Expression {
-  base: Identifier;
+  base: Expression;
   identifier: Identifier;
   indexer: string;
 
-  constructor(base: Identifier, indexer: string, identifier: Identifier) {
+  constructor(base: Expression, indexer: string, identifier: Identifier) {
     this.base = base;
     this.identifier = identifier;
     this.indexer = indexer;
@@ -186,6 +187,20 @@ class MemberExpression implements Expression {
 
   accept(visitor: Visitor): unknown {
     return visitor.visitMemberExpression(this);
+  }
+}
+
+class IndexExpression implements Expression {
+  base: Expression;
+  index: Expression;
+
+  constructor(base: Expression, expression: Expression) {
+    this.base = base;
+    this.index = expression;
+  }
+
+  accept(visitor: Visitor): unknown {
+    return visitor.visitIndexExpression(this);
   }
 }
 
@@ -241,35 +256,7 @@ class TableConstructor implements Expression {
   }
 }
 
-class StringCallExpression implements Expression {
-  base: Identifier;
-  argument: Expression;
-
-  constructor(base: Identifier, argument: Expression) {
-    this.base = base;
-    this.argument = argument;
-  }
-
-  accept(visitor: Visitor): unknown {
-    return visitor.visitStringCallExpression(this);
-  }
-}
-
-class TableCallExpression implements Expression {
-  base: Identifier;
-  argument: Expression;
-
-  constructor(base: Identifier, argument: Expression) {
-    this.base = base;
-    this.argument = argument;
-  }
-
-  accept(visitor: Visitor): unknown {
-    return visitor.visitTableCallExpression(this);
-  }
-}
-
-class CallExpression implements Expression {
+class FunctionCallExpression implements Expression {
   base: Expression;
   args: Expression[];
 
@@ -279,11 +266,9 @@ class CallExpression implements Expression {
   }
 
   accept(visitor: Visitor): unknown {
-    return visitor.visitCallExpression(this);
+    return visitor.visitFunctionCallExpression(this);
   }
 }
-
-class MemberCallExpression extends CallExpression {}
 
 class UnaryExpression implements Expression {
   operator: Token;
@@ -341,7 +326,7 @@ class ReturnStatement implements Statement {
   }
 }
 
-class CallStatement implements Expression {
+class FunctionCallStatement implements Expression {
   expression: Expression;
 
   constructor(expression: Expression) {
@@ -349,7 +334,7 @@ class CallStatement implements Expression {
   }
 
   accept(visitor: Visitor): unknown {
-    return visitor.visitCallStatement(this);
+    return visitor.visitFunctionCallStatement(this);
   }
 }
 
@@ -424,10 +409,10 @@ class WhileStatement implements Statement {
 }
 
 class AssignmentStatement implements Statement {
-  variables: Identifier[];
+  variables: Expression[];
   init: Expression[];
 
-  constructor(variables: Identifier[], init: Expression[]) {
+  constructor(variables: Expression[], init: Expression[]) {
     this.variables = variables;
     this.init = init;
   }
@@ -539,13 +524,13 @@ export {
   Block,
   BooleanLiteral,
   BreakStatement,
-  CallExpression,
-  CallStatement,
   Chunk,
   CommentLiteral,
   DoStatement,
   ForGenericStatement,
   ForNumericStatement,
+  FunctionCallExpression,
+  FunctionCallStatement,
   FunctionExpression,
   FunctionGlobalStatement,
   FunctionLocalStatement,
@@ -553,19 +538,17 @@ export {
   GroupingExpression,
   Identifier,
   IfStatement,
+  IndexExpression,
   LabelStatement,
   Literal,
   LocalStatement,
-  MemberCallExpression,
   MemberExpression,
   NilLiteral,
   NodeType,
   NumericLiteral,
   RepeatStatement,
   ReturnStatement,
-  StringCallExpression,
   StringLiteral,
-  TableCallExpression,
   TableConstructor,
   TableKey,
   TableKeyString,

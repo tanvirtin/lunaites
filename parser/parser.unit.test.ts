@@ -5,8 +5,8 @@ const {
   TableConstructor,
   AssignmentStatement,
   BinaryExpression,
-  CallStatement,
-  StringCallExpression,
+  FunctionCallStatement,
+  StringFunctionCallExpression,
   LocalStatement,
   Identifier,
   TableKey,
@@ -21,7 +21,7 @@ const {
   GroupingExpression,
   BreakStatement,
   ForNumericStatement,
-  CallExpression,
+  FunctionCallExpression,
   MemberExpression,
   ForGenericStatement,
   StringLiteral,
@@ -1530,17 +1530,17 @@ ${source}
           variables: [Identifier],
         },
         {
-          type: CallStatement,
+          type: FunctionCallStatement,
           expression: {
-            type: StringCallExpression,
+            type: StringFunctionCallExpression,
             base: Identifier,
             argument: StringLiteral,
           },
         },
         {
-          type: CallStatement,
+          type: FunctionCallStatement,
           expression: {
-            type: CallExpression,
+            type: FunctionCallExpression,
             base: {
               type: MemberExpression,
               base: Identifier,
@@ -1551,9 +1551,9 @@ ${source}
           },
         },
         {
-          type: "CallStatement",
+          type: "FunctionCallStatement",
           expression: {
-            type: CallExpression,
+            type: FunctionCallExpression,
             base: {
               type: MemberExpression,
               base: Identifier,
@@ -1568,9 +1568,9 @@ ${source}
           },
         },
         {
-          type: CallStatement,
+          type: FunctionCallStatement,
           expression: {
-            type: CallExpression,
+            type: FunctionCallExpression,
             base: {
               base: Identifier,
               identifier: Identifier,
@@ -1581,9 +1581,9 @@ ${source}
           },
         },
         {
-          type: CallStatement,
+          type: FunctionCallStatement,
           expression: {
-            type: CallExpression,
+            type: FunctionCallExpression,
             base: {
               base: Identifier,
               identifier: Identifier,
@@ -1598,17 +1598,17 @@ ${source}
           },
         },
         {
-          type: CallStatement,
+          type: FunctionCallStatement,
           expression: {
-            type: CallExpression,
+            type: FunctionCallExpression,
             args: [],
             base: Identifier,
           },
         },
         {
-          type: CallStatement,
+          type: FunctionCallStatement,
           expression: {
-            type: CallExpression,
+            type: FunctionCallExpression,
             args: [
               NumericLiteral,
               BooleanLiteral,
@@ -1620,9 +1620,9 @@ ${source}
         },
 
         {
-          type: CallStatement,
+          type: FunctionCallStatement,
           expression: {
-            type: StringCallExpression,
+            type: StringFunctionCallExpression,
             argument: {
               fieldlist: [
                 {
@@ -1692,9 +1692,10 @@ ${source}
 
 (() => {
   const parser = new Parser(`
+  (a[1])()
 `);
   const minimizerVisitor = new MinimizerVisitor();
   const minimizedAst = minimizerVisitor.visit(parser.parse());
 
   console.log(minimizedAst);
-});
+})();
