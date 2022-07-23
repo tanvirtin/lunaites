@@ -677,9 +677,9 @@ class Parser {
       return [this.parseStringLiteralExpression()];
     }
 
-    ParserException.raiseUnexpectedTokenError(
+    ParserException.raiseExpectedError(
       this.scanner,
-      this.tokenCursor.current,
+      "function arguments",
       this.tokenCursor.next,
     );
   }
@@ -1126,7 +1126,12 @@ class Parser {
       );
     }
 
-    if (varlist.length > 1) {
+    // First argument could either be a function call or an identifier
+    const [functionCallOrIdentifier] = varlist;
+
+    if (
+      functionCallOrIdentifier instanceof ast.Identifier || varlist.length > 1
+    ) {
       this.tokenCursor.advance();
 
       this.expect("=").advance();

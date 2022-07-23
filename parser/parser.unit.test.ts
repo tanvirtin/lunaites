@@ -1692,10 +1692,16 @@ ${source}
 // (a)(1, 2, 3)() "" {} ()
 (() => {
   const parser = new Parser(`
-  (a)(1, 2, 3)() "Hello, world!" {} ()
+  a:b()
+  a = {
+    [3] = 3,
+    b = 3;
+    nil,
+    3 + 4
+  }
 `);
   const minimizerVisitor = new MinimizerVisitor();
   const minimizedAst = minimizerVisitor.visit(parser.parse());
 
   console.log(minimizedAst);
-});
+})();
