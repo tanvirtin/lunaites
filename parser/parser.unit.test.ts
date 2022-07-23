@@ -1698,4 +1698,4 @@ ${source}
   const minimizedAst = minimizerVisitor.visit(parser.parse());
 
   console.log(minimizedAst);
-})();
+});
