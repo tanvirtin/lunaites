@@ -1689,10 +1689,10 @@ ${source}
     });
   },
 );
-
+// (a)(1, 2, 3)() "" {} ()
 (() => {
   const parser = new Parser(`
-  (a)()
+  (a)(1, 2, 3)() "" {} ()
 `);
   const minimizerVisitor = new MinimizerVisitor();
   const minimizedAst = minimizerVisitor.visit(parser.parse());

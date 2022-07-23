@@ -1109,19 +1109,6 @@ class Parser {
     return new ast.GotoStatement(identifier);
   }
 
-  // assignment ::= varlist '=' explist
-  parseAssignmentStatement(): ast.Statement {
-    const varlist = this.parseVarlist();
-
-    this.tokenCursor.advance();
-
-    this.expect("=").advance();
-
-    const explist = this.parseExplist();
-
-    return new ast.AssignmentStatement(varlist, explist);
-  }
-
   //     assignment ::= varlist '=' explist
   //     var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
   //     varlist ::= var {',' var}
@@ -1130,13 +1117,34 @@ class Parser {
   //     call ::= callexp
   //     callexp ::= prefixexp args | prefixexp ':' Name args
   parseAssignmentOrFunctionCallStatement(): ast.Statement {
-    let varlist = this.parseVarlist();
+    const varlist = this.parseVarlist();
 
-    console.log(varlist);
+    if (varlist.length === 0) {
+      ParserException.raiseUnexpectedTokenError(
+        this.scanner,
+        this.tokenCursor.current,
+        this.tokenCursor.next,
+      );
+    }
 
-    // Create self referencial structure using loops.
-    // At this point prefixexp can either be x or (x.b())
-    throw new Error("Not yet implemented");
+    if (varlist.length > 1) {
+      this.tokenCursor.advance();
+
+      this.expect("=").advance();
+
+      const explist = this.parseExplist();
+
+      return new ast.AssignmentStatement(varlist, explist);
+    }
+
+    // This is just a function call statement
+    const [functionCallExpression] = varlist;
+
+    const functionCallStatement = new ast.FunctionCallStatement(
+      functionCallExpression,
+    );
+
+    return functionCallStatement;
   }
 
   // stat ::=  ‘;’ |
