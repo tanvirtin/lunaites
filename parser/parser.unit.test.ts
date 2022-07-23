@@ -1692,7 +1692,7 @@ ${source}
 
 (() => {
   const parser = new Parser(`
-  (a[1])()
+  (a)()
 `);
   const minimizerVisitor = new MinimizerVisitor();
   const minimizedAst = minimizerVisitor.visit(parser.parse());

@@ -463,7 +463,7 @@ class Parser {
   // NOTE: Grouping expression implicitly will have the highest precedence.
   private parseGroupingExpression(): ast.Expression {
     // Skipping over the "("
-    this.tokenCursor.advance();
+    this.expect("(").advance();
 
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression();
@@ -476,12 +476,79 @@ class Parser {
     return new ast.GroupingExpression(expression);
   }
 
+  //     suffix ::= '[' exp ']' | '.' Name | ':' Name args | args
+  //     args ::= '(' [explist] ')' | tableconstructor | String
+  private parsePrefixExpressionSuffix(
+    base: ast.Expression,
+  ): ast.Expression | null {
+    if (this.tokenCursor.consumeNext("[")) {
+      const expression = this.parseExpression();
+
+      this.tokenCursor.advance();
+
+      this.expect("]");
+
+      return new ast.IndexExpression(base, expression);
+    }
+
+    if (this.tokenCursor.consumeNext(".")) {
+      const identifier = this.parseIdentifierExpression();
+
+      return new ast.MemberExpression(base, ".", identifier);
+    }
+
+    if (this.tokenCursor.consumeNext(":")) {
+      const identifier = this.parseIdentifierExpression();
+
+      base = new ast.MemberExpression(base, ":", identifier);
+
+      this.tokenCursor.advance();
+
+      const args = this.parseArgs();
+
+      return new ast.FunctionCallExpression(base, args);
+    }
+
+    if (this.tokenCursor.matchNext(StringLiteral)) {
+      this.tokenCursor.advance();
+
+      const args = this.parseArgs();
+
+      return new ast.FunctionCallExpression(base, args);
+    }
+
+    if (this.tokenCursor.someMatchNext("(", "{")) {
+      this.tokenCursor.advance();
+
+      const args = this.parseArgs();
+
+      return new ast.FunctionCallExpression(base, args);
+    }
+
+    return null;
+  }
+
+  private chainPrefixExpression(prefixexp: ast.Expression) {
+    // TODO: Fix infintity loop.
+    while (true) {
+      const newPrefixexp = this.parsePrefixExpressionSuffix(prefixexp);
+
+      if (newPrefixexp === null) {
+        return prefixexp;
+      }
+
+      prefixexp = newPrefixexp;
+
+      this.tokenCursor.advance();
+    }
+  }
+
   // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
   // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
   private parsePrefixExpression(): ast.Expression {
     if (this.tokenCursor.match("(")) {
-      return this.parseGroupingExpression();
+      return this.chainPrefixExpression(this.parseGroupingExpression());
     }
 
     if (this.tokenCursor.match(Identifier)) {
@@ -494,22 +561,28 @@ class Parser {
 
         this.expect("]");
 
-        return new ast.IndexExpression(base, expression);
+        return this.chainPrefixExpression(
+          new ast.IndexExpression(base, expression),
+        );
       }
 
       if (this.tokenCursor.consumeNext(".")) {
         const identifier = this.parseIdentifierExpression();
 
-        return new ast.MemberExpression(base, ".", identifier);
+        return this.chainPrefixExpression(
+          new ast.MemberExpression(base, ".", identifier),
+        );
       }
 
       if (this.tokenCursor.someConsumeNext("{", StringLiteral)) {
         const args = this.parseArgs();
 
-        return new ast.FunctionCallExpression(base, args);
+        return this.chainPrefixExpression(
+          new ast.FunctionCallExpression(base, args),
+        );
       }
 
-      return base;
+      return this.chainPrefixExpression(base);
     }
 
     ParserException.raiseExpectedError(
@@ -1049,32 +1122,21 @@ class Parser {
     return new ast.AssignmentStatement(varlist, explist);
   }
 
-  // functioncall ::=  prefixexp args | prefixexp ':' Name args
-  parseFunctionCallStatement(): ast.Statement {
-    const identifier = this.parseIdentifierExpression();
-
-    this.tokenCursor.advance();
-
-    const args = this.parseArgs();
-
-    const functionCallExpression = new ast.FunctionCallExpression(
-      identifier,
-      args,
-    );
-
-    return new ast.FunctionCallStatement(functionCallExpression);
-  }
-
+  //     assignment ::= varlist '=' explist
+  //     var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
+  //     varlist ::= var {',' var}
+  //     explist ::= exp {',' exp}
+  //
+  //     call ::= callexp
+  //     callexp ::= prefixexp args | prefixexp ':' Name args
   parseAssignmentOrFunctionCallStatement(): ast.Statement {
-    const prefixexp = this.parsePrefixExpression();
+    let varlist = this.parseVarlist();
+
+    console.log(varlist);
 
     // Create self referencial structure using loops.
-
-    ParserException.raiseUnexpectedTokenError(
-      this.scanner,
-      this.tokenCursor.current,
-      this.tokenCursor.next,
-    );
+    // At this point prefixexp can either be x or (x.b())
+    throw new Error("Not yet implemented");
   }
 
   // stat ::=  ‘;’ |
