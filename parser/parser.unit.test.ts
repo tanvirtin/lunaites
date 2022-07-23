@@ -1692,7 +1692,7 @@ ${source}
 // (a)(1, 2, 3)() "" {} ()
 (() => {
   const parser = new Parser(`
-  (a)(1, 2, 3)() "" {} ()
+  (a)(1, 2, 3)() "Hello, world!" {} ()
 `);
   const minimizerVisitor = new MinimizerVisitor();
   const minimizedAst = minimizerVisitor.visit(parser.parse());

@@ -509,20 +509,14 @@ class Parser {
       return new ast.FunctionCallExpression(base, args);
     }
 
-    if (this.tokenCursor.matchNext(StringLiteral)) {
+    if (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
       this.tokenCursor.advance();
 
       const args = this.parseArgs();
 
-      return new ast.FunctionCallExpression(base, args);
-    }
-
-    if (this.tokenCursor.someMatchNext("(", "{")) {
-      this.tokenCursor.advance();
-
-      const args = this.parseArgs();
-
-      return new ast.FunctionCallExpression(base, args);
+      return this.chainPrefixExpression(
+        new ast.FunctionCallExpression(base, args),
+      );
     }
 
     return null;
