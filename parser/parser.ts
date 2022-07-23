@@ -575,7 +575,9 @@ class Parser {
         );
       }
 
-      if (this.tokenCursor.someConsumeNext("(", "{", StringLiteral)) {
+      if (this.tokenCursor.someMatchNext("(", "{", StringLiteral)) {
+        this.tokenCursor.advance();
+
         const args = this.parseArgs();
 
         return this.createFunctionCallExpression(base, args);
