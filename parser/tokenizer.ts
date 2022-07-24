@@ -1,5 +1,5 @@
 import { Scanner, Token, TokenizerException, TokenType } from "./mod.ts";
-import { Profiler } from "../core/mod.ts";
+// import { Profiler } from "../core/mod.ts";
 
 interface TokenizerOptions {
   labels?: boolean;
@@ -107,6 +107,7 @@ class Tokenizer {
   //   - carriage return
   //   - horizontal tab
   //   - vertical tab
+  //@Profiler.bench
   private consumeWhitespace(): boolean {
     const { scanner } = this;
 
@@ -122,6 +123,7 @@ class Tokenizer {
   }
 
   // Eats away the entire shebang line
+  //@Profiler.bench
   private consumeShebangLine(): boolean {
     const { scanner } = this;
 
@@ -135,6 +137,7 @@ class Tokenizer {
     return false;
   }
 
+  //@Profiler.bench
   private consumeExponent({ isBinary }: { isBinary?: boolean }) {
     const { scanner } = this;
 
@@ -164,6 +167,7 @@ class Tokenizer {
     return false;
   }
 
+  //@Profiler.bench
   private consumeBackslash(): boolean {
     const { scanner } = this;
 
@@ -176,6 +180,7 @@ class Tokenizer {
     return false;
   }
 
+  //@Profiler.bench
   private consumeImaginaryUnitSuffix(): boolean {
     const { options, scanner } = this;
 
@@ -198,6 +203,7 @@ class Tokenizer {
   // Integer suffix should not work if the literal being processed
   // has fractions ("." notation). Integer suffix will also
   // not work if there is an imaginary suffix before it as well.
+  //@Profiler.bench
   private consumeInt64Suffix(): boolean {
     const { options, scanner } = this;
 
@@ -241,6 +247,7 @@ class Tokenizer {
     return false;
   }
 
+  //@Profiler.bench
   private consumeDotNotation(): boolean {
     const { scanner } = this;
 
@@ -253,6 +260,7 @@ class Tokenizer {
     return false;
   }
 
+  //@Profiler.bench
   private scanLongString(isComment: boolean): boolean {
     let depth = 0;
     let encounteredDelimeter = false;
@@ -323,6 +331,7 @@ class Tokenizer {
     return true;
   }
 
+  //@Profiler.bench
   private tokenizeEOF(): Token {
     const { scanner } = this;
 
@@ -339,6 +348,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeComment(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -363,6 +373,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeLongComment(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -385,6 +396,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeStringLiteral(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -425,6 +437,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeLongStringLiteral(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -447,6 +460,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeIdentifier(): Token {
     const { scanner } = this;
 
@@ -456,32 +470,78 @@ class Tokenizer {
     // Itentifiers can only be characters that are alphanumeric (digits or alphabets).
     scanner.scanWhile(scanner.isAlphanumeric);
 
-    const keywordTokenTypeMap = new Map(Object.entries({
-      or: Or,
-      and: And,
-      not: Not,
-      true: BooleanLiteral,
-      false: BooleanLiteral,
-      nil: NilLiteral,
-      do: Do,
-      if: If,
-      in: In,
-      end: End,
-      for: For,
-      else: Else,
-      then: Then,
-      break: Break,
-      local: Local,
-      while: While,
-      elseif: Elseif,
-      until: Until,
-      repeat: Repeat,
-      return: Return,
-      function: Function,
-      goto: Goto,
-    }));
+    let keywordTokenType;
     const value = scanner.getText();
-    const keywordTokenType = keywordTokenTypeMap.get(value);
+
+    // Switch case is more optimized over heap allocations.
+    switch (value) {
+      case "or":
+        keywordTokenType = Or;
+        break;
+      case "and":
+        keywordTokenType = And;
+        break;
+      case "not":
+        keywordTokenType = Not;
+        break;
+      case "true":
+        keywordTokenType = BooleanLiteral;
+        break;
+      case "false":
+        keywordTokenType = BooleanLiteral;
+        break;
+      case "nil":
+        keywordTokenType = NilLiteral;
+        break;
+      case "do":
+        keywordTokenType = Do;
+        break;
+      case "if":
+        keywordTokenType = If;
+        break;
+      case "in":
+        keywordTokenType = In;
+        break;
+      case "end":
+        keywordTokenType = End;
+        break;
+      case "for":
+        keywordTokenType = For;
+        break;
+      case "else":
+        keywordTokenType = Else;
+        break;
+      case "then":
+        keywordTokenType = Then;
+        break;
+      case "break":
+        keywordTokenType = Break;
+        break;
+      case "local":
+        keywordTokenType = Local;
+        break;
+      case "while":
+        keywordTokenType = While;
+        break;
+      case "elseif":
+        keywordTokenType = Elseif;
+        break;
+      case "until":
+        keywordTokenType = Until;
+        break;
+      case "repeat":
+        keywordTokenType = Repeat;
+        break;
+      case "return":
+        keywordTokenType = Return;
+        break;
+      case "function":
+        keywordTokenType = Function;
+        break;
+      case "goto":
+        keywordTokenType = Goto;
+        break;
+    }
 
     return {
       type: keywordTokenType != null ? keywordTokenType : Identifier,
@@ -493,6 +553,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeHexadecimalNumericLiteral(): Token {
     const { scanner } = this;
 
@@ -551,6 +612,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeDecimalNumericLiteral(): Token {
     const { scanner } = this;
 
@@ -592,6 +654,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizeNumericLiteral(): Token {
     const { scanner } = this;
 
@@ -603,6 +666,7 @@ class Tokenizer {
     return this.tokenizeDecimalNumericLiteral();
   }
 
+  //@Profiler.bench
   private tokenizeVarargLiteral(): Token {
     const { scanner } = this;
 
@@ -622,6 +686,7 @@ class Tokenizer {
     };
   }
 
+  //@Profiler.bench
   private tokenizePunctuator(punctuator: string): Token {
     const { scanner } = this;
     const punctuatorTable: Record<string, TokenType> = {
@@ -674,7 +739,7 @@ class Tokenizer {
     };
   }
 
-  @Profiler.bench
+  //@Profiler.bench
   tokenize(): Token {
     const { scanner, options, isStarted } = this;
 
