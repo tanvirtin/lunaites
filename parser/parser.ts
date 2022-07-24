@@ -478,55 +478,46 @@ class Parser {
 
   //     suffix ::= '[' exp ']' | '.' Name | ':' Name args | args
   //     args ::= '(' [explist] ')' | tableconstructor | String
-  private parsePrefixExpressionSuffix(
-    base: ast.Expression,
-  ): ast.Expression | null {
-    if (this.tokenCursor.consumeNext("[")) {
-      const expression = this.parseExpression();
+  private chainFunctionCalls(prefixexp: ast.Expression) {
+    while (
+      this.tokenCursor.someMatchNext(StringLiteral, "(", "{", "[", ".", ":")
+    ) {
+      let newPrefixexp = prefixexp;
 
-      this.tokenCursor.advance();
+      if (this.tokenCursor.consumeNext("[")) {
+        const expression = this.parseExpression();
 
-      this.expect("]");
+        this.tokenCursor.advance();
 
-      return new ast.IndexExpression(base, expression);
-    }
+        this.expect("]");
 
-    if (this.tokenCursor.consumeNext(".")) {
-      const identifier = this.parseIdentifierExpression();
+        newPrefixexp = new ast.IndexExpression(newPrefixexp, expression);
+      }
 
-      return new ast.MemberExpression(base, ".", identifier);
-    }
+      if (this.tokenCursor.consumeNext(".")) {
+        const identifier = this.parseIdentifierExpression();
 
-    if (this.tokenCursor.consumeNext(":")) {
-      const identifier = this.parseIdentifierExpression();
+        newPrefixexp = new ast.MemberExpression(newPrefixexp, ".", identifier);
+      }
 
-      base = new ast.MemberExpression(base, ":", identifier);
+      if (this.tokenCursor.consumeNext(":")) {
+        const identifier = this.parseIdentifierExpression();
 
-      this.tokenCursor.advance();
+        newPrefixexp = new ast.MemberExpression(newPrefixexp, ":", identifier);
 
-      const args = this.parseArgs();
+        this.tokenCursor.advance();
 
-      return this.createFunctionCallExpression(base, args);
-    }
+        const args = this.parseArgs();
 
-    if (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
-      this.tokenCursor.advance();
+        newPrefixexp = this.createFunctionCallExpression(newPrefixexp, args);
+      }
 
-      const args = this.parseArgs();
+      if (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
+        this.tokenCursor.advance();
 
-      return this.createFunctionCallExpression(base, args);
-    }
+        const args = this.parseArgs();
 
-    return null;
-  }
-
-  private chainPotentialFunctionCalls(prefixexp: ast.Expression) {
-    // TODO: Fix infintity loop.
-    while (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
-      const newPrefixexp = this.parsePrefixExpressionSuffix(prefixexp);
-
-      if (newPrefixexp === null) {
-        return prefixexp;
+        newPrefixexp = this.createFunctionCallExpression(newPrefixexp, args);
       }
 
       prefixexp = newPrefixexp;
@@ -539,7 +530,7 @@ class Parser {
     base: ast.Expression,
     args: ast.Expression[],
   ): ast.Expression {
-    return this.chainPotentialFunctionCalls(
+    return this.chainFunctionCalls(
       new ast.FunctionCallExpression(base, args),
     );
   }
@@ -549,7 +540,7 @@ class Parser {
   // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
   private parsePrefixExpression(): ast.Expression {
     if (this.tokenCursor.match("(")) {
-      return this.chainPotentialFunctionCalls(this.parseGroupingExpression());
+      return this.chainFunctionCalls(this.parseGroupingExpression());
     }
 
     if (this.tokenCursor.match(Identifier)) {
@@ -562,7 +553,7 @@ class Parser {
 
         this.expect("]");
 
-        return this.chainPotentialFunctionCalls(
+        return this.chainFunctionCalls(
           new ast.IndexExpression(base, expression),
         );
       }
@@ -570,7 +561,7 @@ class Parser {
       if (this.tokenCursor.consumeNext(".")) {
         const identifier = this.parseIdentifierExpression();
 
-        return this.chainPotentialFunctionCalls(
+        return this.chainFunctionCalls(
           new ast.MemberExpression(base, ".", identifier),
         );
       }

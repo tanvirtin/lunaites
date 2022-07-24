@@ -1192,6 +1192,12 @@ const source = `
     }
   }
 
+  x "Hello, world!"
+
+  i = 3
+
+  (1 + 5):c()
+
   return 4 + 5;
 `;
 
@@ -1672,6 +1678,39 @@ ${source}
                 ],
               },
             ],
+          },
+        },
+        {
+          type: FunctionCallStatement,
+          expression: {
+            type: FunctionCallExpression,
+            base: Identifier,
+            args: [StringLiteral],
+          },
+        },
+        {
+          type: AssignmentStatement,
+          variables: [Identifier],
+          init: [NumericLiteral],
+        },
+        {
+          type: FunctionCallStatement,
+          expression: {
+            type: FunctionCallExpression,
+            base: {
+              type: MemberExpression,
+              base: {
+                type: GroupingExpression,
+                expression: {
+                  type: BinaryExpression,
+                  left: NumericLiteral,
+                  right: NumericLiteral,
+                },
+              },
+              identifier: Identifier,
+              indexer: ":",
+            },
+            args: [],
           },
         },
         {
