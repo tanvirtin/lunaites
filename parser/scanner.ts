@@ -67,12 +67,6 @@ class Scanner {
     return this;
   }
 
-  // Verify if a given char is the one being pointed at.
-  @Profiler.bench
-  isChar(char: string, index: number): boolean {
-    return this.source[index] === char;
-  }
-
   // Verify if a given charcode is the one being pointed at.
   @Profiler.bench
   isCharCode(charCode: number, index: number): boolean {
@@ -181,7 +175,7 @@ class Scanner {
   @Profiler.bench
   match(chars: string): boolean {
     for (let i = 0; i < chars.length; ++i) {
-      if (!this.isChar(chars[i], this._index + i)) {
+      if (chars[i] !== this.source[this._index + i]) {
         return false;
       }
     }
@@ -213,7 +207,7 @@ class Scanner {
   @Profiler.bench
   someChar(chars: string[] | string): boolean {
     for (const char of chars) {
-      if (this.isChar(char, this.pos)) {
+      if (char === this.source[this.pos]) {
         return true;
       }
     }
@@ -224,7 +218,7 @@ class Scanner {
   @Profiler.bench
   everyChar(chars: string[] | string): boolean {
     for (const char of chars) {
-      if (this.isChar(char, this.pos)) {
+      if (char === this.source[this.pos]) {
         return false;
       }
     }
