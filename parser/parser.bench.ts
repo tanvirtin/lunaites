@@ -104,11 +104,11 @@ const source = `
   return 4 + 5;
 `;
 
-const epoch = 10e7;
-const parser = new Parser(source);
+const epoch = 10e3;
 
 console.time(`Parser on ${epoch} iterations`);
 for (let i = 0; i < epoch; ++i) {
+  const parser = new Parser(source);
   parser.parse();
 }
 console.timeEnd(`Parser on ${epoch} iterations`);
