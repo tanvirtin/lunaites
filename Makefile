@@ -23,6 +23,7 @@ check: lint fmt tests
 
 bench:
 	deno run -A ./parser/parser.bench.ts
+	deno run -A ./parser/tokenizer.bench.ts
 
 compile: 
 	deno compile -A -o ./bin/lunaites mod.ts
