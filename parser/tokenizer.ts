@@ -1,4 +1,5 @@
 import { Scanner, Token, TokenizerException, TokenType } from "./mod.ts";
+import { Profiler } from "../core/mod.ts";
 
 interface TokenizerOptions {
   labels?: boolean;
@@ -673,6 +674,7 @@ class Tokenizer {
     };
   }
 
+  @Profiler.bench
   tokenize(): Token {
     const { scanner, options, isStarted } = this;
 
