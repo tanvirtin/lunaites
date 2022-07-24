@@ -194,12 +194,12 @@ class Parser {
 
     this.registerNullDenotationExpressionParselet(
       Identifier,
-      this.parsePrefixExpression,
+      this.parseVar,
     );
 
     this.registerNullDenotationExpressionParselet(
       OpenParenthesis,
-      this.parsePrefixExpression,
+      this.parseVar,
     );
 
     return this;
@@ -355,248 +355,6 @@ class Parser {
   // Since I am generating an ast through recursion it is important that each
   // parser method keeps this behaviour consistent to avoid random bugs.
 
-  //////////////////////////////////////////////////////////////////////////
-  ////////////////////////////// Expressions //////////////////////////////
-  ////////////////////////////////////////////////////////////////////////
-
-  private parseIdentifierExpression(): ast.Identifier {
-    this.expect(Identifier);
-
-    return new ast.Identifier(this.tokenCursor.current);
-  }
-
-  private parseNumericLiteralExpression(): ast.Expression {
-    this.expect(NumericLiteral);
-
-    return new ast.NumericLiteral(this.tokenCursor.current);
-  }
-
-  private parseStringLiteralExpression(): ast.Expression {
-    this.expect(StringLiteral);
-
-    return new ast.StringLiteral(this.tokenCursor.current);
-  }
-
-  private parseBooleanLiteralExpression(): ast.Expression {
-    this.expect(BooleanLiteral);
-
-    return new ast.BooleanLiteral(this.tokenCursor.current);
-  }
-
-  private parseNilLiteralExpression(): ast.Expression {
-    this.expect(NilLiteral);
-
-    return new ast.NilLiteral(this.tokenCursor.current);
-  }
-
-  private parseVarargLiteralExpression(): ast.Expression {
-    this.expect(VarargLiteral);
-
-    return new ast.VarargLiteral(this.tokenCursor.current);
-  }
-
-  private parseCommentLiteralExpression(): ast.Expression {
-    this.expect(CommentLiteral);
-
-    return new ast.CommentLiteral(this.tokenCursor.current);
-  }
-
-  private parseFunctionExpression(): ast.Expression {
-    this.expect(Function).advance();
-
-    const [parlist, block] = this.parseFuncbody();
-
-    return new ast.FunctionExpression(parlist, block);
-  }
-
-  // tableconstructor ::= ‘{’ [fieldlist] ‘}’
-  private parseTableConstructorExpression(): ast.Expression {
-    this.expect("{").advance();
-
-    if (this.tokenCursor.match("}")) {
-      return new ast.TableConstructor([]);
-    }
-
-    const fieldlist = this.parseFieldlist();
-
-    this.tokenCursor.advance();
-
-    this.expect("}");
-
-    return new ast.TableConstructor(fieldlist);
-  }
-
-  private parseUnaryExpression(): ast.Expression {
-    const operatorToken = this.tokenCursor.current;
-
-    // Skip over the operator.
-    this.tokenCursor.advance();
-
-    // Get the right expression to attach to the operator.
-    const rightExpression = this.parseExpression(
-      Precedence.getUnaryPrecedence(operatorToken),
-    );
-
-    return new ast.UnaryExpression(operatorToken, rightExpression);
-  }
-
-  private parseBinaryExpression(
-    leftExpression: ast.Expression,
-  ): ast.Expression {
-    const operatorToken = this.tokenCursor.current;
-
-    // Skip over the operator.
-    this.tokenCursor.advance();
-
-    // Retrieve the right expression.
-    const rightExpression = this.parseExpression(
-      Precedence.getBinaryPrecedence(operatorToken),
-    );
-
-    return new ast.BinaryExpression(
-      leftExpression,
-      operatorToken,
-      rightExpression,
-    );
-  }
-
-  // NOTE: Grouping expression implicitly will have the highest precedence.
-  private parseGroupingExpression(): ast.Expression {
-    // Skipping over the "("
-    this.expect("(").advance();
-
-    // We gather the expression that can be found within the parenthesis.
-    const expression = this.parseExpression();
-
-    // Skip over the last token that the expression ended on.
-    this.tokenCursor.advance();
-
-    this.expect(")");
-
-    return new ast.GroupingExpression(expression);
-  }
-
-  // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
-  // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
-  // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
-  private parsePrefixExpression(): ast.Expression {
-    if (this.tokenCursor.match("(")) {
-      return this.chainFunctionCalls(this.parseGroupingExpression());
-    }
-
-    if (this.tokenCursor.match(Identifier)) {
-      const base = this.parseIdentifierExpression();
-
-      if (this.tokenCursor.consumeNext("[")) {
-        const expression = this.parseExpression();
-
-        this.tokenCursor.advance();
-
-        this.expect("]");
-
-        return this.chainFunctionCalls(
-          new ast.IndexExpression(base, expression),
-        );
-      }
-
-      if (this.tokenCursor.consumeNext(".")) {
-        const identifier = this.parseIdentifierExpression();
-
-        return this.chainFunctionCalls(
-          new ast.MemberExpression(base, ".", identifier),
-        );
-      }
-
-      if (this.tokenCursor.consumeNext(":")) {
-        const identifier = this.parseIdentifierExpression();
-
-        const memberExpression = new ast.MemberExpression(
-          base,
-          ":",
-          identifier,
-        );
-
-        this.tokenCursor.advance();
-
-        const args = this.parseArgs();
-
-        return this.createFunctionCallExpression(memberExpression, args);
-      }
-
-      if (this.tokenCursor.someMatchNext("(", "{", StringLiteral)) {
-        this.tokenCursor.advance();
-
-        const args = this.parseArgs();
-
-        return this.createFunctionCallExpression(base, args);
-      }
-
-      return base;
-    }
-
-    ParserException.raiseExpectedError(
-      this.scanner,
-      "=",
-      this.tokenCursor.next,
-    );
-  }
-
-  // exp ::= (unop exp | primary | prefixexp ) { binop exp }
-  // primary ::= nil | false | true | Number | String | '...' |
-  //             functiondef | tableconstructor
-  parseExpression(
-    precedence: Precedence = Precedence.Lowest,
-  ): ast.Expression {
-    // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
-    //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
-    const nullDenotationExpressionParselet =
-      this.nullDenotationExpressionParseletTable[this.tokenCursor.current.type];
-
-    if (!nullDenotationExpressionParselet) {
-      ParserException.raiseExpectedError(
-        this.scanner,
-        "<expression>",
-        this.tokenCursor.next,
-      );
-    }
-
-    let leftExpression = nullDenotationExpressionParselet();
-
-    // If we encounter an operator whos precedence is greater than
-    // the last token's precedence, then the new operator will pull
-    // the previous operator's intentended right expression as it's left.
-    // This means that the last operator's right will be the expression
-    // tied to the new operator with higher precedence.
-    // Demonstrating what I mean for the expression: 1 + 2 * 3
-    //                   AST
-    //                    +
-    //                  /   \
-    //                 1     * <-- Operator precendece in action.
-    //                      / \
-    //                     2   3
-    while (
-      !this.tokenCursor.eofToken &&
-      precedence < Precedence.getPrecedence(this.tokenCursor.next)
-    ) {
-      this.tokenCursor.advance();
-
-      const leftDenotationExpressionParselet = this
-        .leftDenotationExpressionParseletTable[this.tokenCursor.current.type];
-
-      if (!leftDenotationExpressionParselet) {
-        ParserException.raiseExpectedError(
-          this.scanner,
-          "<expression>",
-          this.tokenCursor.next,
-        );
-      }
-
-      leftExpression = leftDenotationExpressionParselet(leftExpression);
-    }
-
-    return leftExpression;
-  }
-
   ////////////////////////////////////////////////////////////////////////
   ////////////////////////////// Utility /////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
@@ -692,26 +450,68 @@ class Parser {
   }
 
   // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
+  // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
+  // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
   private parseVar(): ast.Expression {
-    // parsePrefixExpression actually calls parseVar as per language grammer,
-    // Since our base case is covered we can now directly call parsePrefixExpression.
-    const prefixexp = this.parsePrefixExpression();
-
-    if (this.tokenCursor.consumeNext("[")) {
-      const expression = this.parseExpression();
-
-      this.expect("]");
-
-      return new ast.IndexExpression(prefixexp, expression);
+    if (this.tokenCursor.match("(")) {
+      return this.chainFunctionCalls(this.parseGroupingExpression());
     }
 
-    if (this.tokenCursor.consumeNext(".")) {
-      const identifier = this.parseIdentifierExpression();
+    if (this.tokenCursor.match(Identifier)) {
+      const base = this.parseIdentifierExpression();
 
-      return new ast.MemberExpression(prefixexp, ".", identifier);
+      if (this.tokenCursor.consumeNext("[")) {
+        const expression = this.parseExpression();
+
+        this.tokenCursor.advance();
+
+        this.expect("]");
+
+        return this.chainFunctionCalls(
+          new ast.IndexExpression(base, expression),
+        );
+      }
+
+      if (this.tokenCursor.consumeNext(".")) {
+        const identifier = this.parseIdentifierExpression();
+
+        return this.chainFunctionCalls(
+          new ast.MemberExpression(base, ".", identifier),
+        );
+      }
+
+      if (this.tokenCursor.consumeNext(":")) {
+        const identifier = this.parseIdentifierExpression();
+
+        const memberExpression = new ast.MemberExpression(
+          base,
+          ":",
+          identifier,
+        );
+
+        this.tokenCursor.advance();
+
+        const args = this.parseArgs();
+
+        return this.createFunctionCallExpression(memberExpression, args);
+      }
+
+      if (this.tokenCursor.someMatchNext("(", "{", StringLiteral)) {
+        this.tokenCursor.advance();
+
+        const args = this.parseArgs();
+
+        return this.createFunctionCallExpression(base, args);
+      }
+
+      return base;
     }
 
-    return prefixexp;
+    ParserException.raiseExpectedError(
+      this.scanner,
+      "=",
+      this.tokenCursor.next,
+    );
   }
 
   // varlist ::= var {‘,’ var}
@@ -879,6 +679,183 @@ class Parser {
     return this.chainFunctionCalls(
       new ast.FunctionCallExpression(base, args),
     );
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  ////////////////////////////// Expressions //////////////////////////////
+  ////////////////////////////////////////////////////////////////////////
+
+  private parseIdentifierExpression(): ast.Identifier {
+    this.expect(Identifier);
+
+    return new ast.Identifier(this.tokenCursor.current);
+  }
+
+  private parseNumericLiteralExpression(): ast.Expression {
+    this.expect(NumericLiteral);
+
+    return new ast.NumericLiteral(this.tokenCursor.current);
+  }
+
+  private parseStringLiteralExpression(): ast.Expression {
+    this.expect(StringLiteral);
+
+    return new ast.StringLiteral(this.tokenCursor.current);
+  }
+
+  private parseBooleanLiteralExpression(): ast.Expression {
+    this.expect(BooleanLiteral);
+
+    return new ast.BooleanLiteral(this.tokenCursor.current);
+  }
+
+  private parseNilLiteralExpression(): ast.Expression {
+    this.expect(NilLiteral);
+
+    return new ast.NilLiteral(this.tokenCursor.current);
+  }
+
+  private parseVarargLiteralExpression(): ast.Expression {
+    this.expect(VarargLiteral);
+
+    return new ast.VarargLiteral(this.tokenCursor.current);
+  }
+
+  private parseCommentLiteralExpression(): ast.Expression {
+    this.expect(CommentLiteral);
+
+    return new ast.CommentLiteral(this.tokenCursor.current);
+  }
+
+  private parseFunctionExpression(): ast.Expression {
+    this.expect(Function).advance();
+
+    const [parlist, block] = this.parseFuncbody();
+
+    return new ast.FunctionExpression(parlist, block);
+  }
+
+  // tableconstructor ::= ‘{’ [fieldlist] ‘}’
+  private parseTableConstructorExpression(): ast.Expression {
+    this.expect("{").advance();
+
+    if (this.tokenCursor.match("}")) {
+      return new ast.TableConstructor([]);
+    }
+
+    const fieldlist = this.parseFieldlist();
+
+    this.tokenCursor.advance();
+
+    this.expect("}");
+
+    return new ast.TableConstructor(fieldlist);
+  }
+
+  private parseUnaryExpression(): ast.Expression {
+    const operatorToken = this.tokenCursor.current;
+
+    // Skip over the operator.
+    this.tokenCursor.advance();
+
+    // Get the right expression to attach to the operator.
+    const rightExpression = this.parseExpression(
+      Precedence.getUnaryPrecedence(operatorToken),
+    );
+
+    return new ast.UnaryExpression(operatorToken, rightExpression);
+  }
+
+  private parseBinaryExpression(
+    leftExpression: ast.Expression,
+  ): ast.Expression {
+    const operatorToken = this.tokenCursor.current;
+
+    // Skip over the operator.
+    this.tokenCursor.advance();
+
+    // Retrieve the right expression.
+    const rightExpression = this.parseExpression(
+      Precedence.getBinaryPrecedence(operatorToken),
+    );
+
+    return new ast.BinaryExpression(
+      leftExpression,
+      operatorToken,
+      rightExpression,
+    );
+  }
+
+  // NOTE: Grouping expression implicitly will have the highest precedence.
+  private parseGroupingExpression(): ast.Expression {
+    // Skipping over the "("
+    this.expect("(").advance();
+
+    // We gather the expression that can be found within the parenthesis.
+    const expression = this.parseExpression();
+
+    // Skip over the last token that the expression ended on.
+    this.tokenCursor.advance();
+
+    this.expect(")");
+
+    return new ast.GroupingExpression(expression);
+  }
+
+  // exp ::= (unop exp | primary | prefixexp ) { binop exp }
+  // primary ::= nil | false | true | Number | String | '...' |
+  //             functiondef | tableconstructor
+  parseExpression(
+    precedence: Precedence = Precedence.Lowest,
+  ): ast.Expression {
+    // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
+    //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
+    const nullDenotationExpressionParselet =
+      this.nullDenotationExpressionParseletTable[this.tokenCursor.current.type];
+
+    if (!nullDenotationExpressionParselet) {
+      ParserException.raiseExpectedError(
+        this.scanner,
+        "<expression>",
+        this.tokenCursor.next,
+      );
+    }
+
+    let leftExpression = nullDenotationExpressionParselet();
+
+    // If we encounter an operator whos precedence is greater than
+    // the last token's precedence, then the new operator will pull
+    // the previous operator's intentended right expression as it's left.
+    // This means that the last operator's right will be the expression
+    // tied to the new operator with higher precedence.
+    // Demonstrating what I mean for the expression: 1 + 2 * 3
+    //                   AST
+    //                    +
+    //                  /   \
+    //                 1     * <-- Operator precendece in action.
+    //                      / \
+    //                     2   3
+    while (
+      !this.tokenCursor.eofToken &&
+      precedence < Precedence.getPrecedence(this.tokenCursor.next)
+    ) {
+      this.tokenCursor.advance();
+
+      const leftDenotationExpressionParselet = this
+        .leftDenotationExpressionParseletTable[this.tokenCursor.current.type];
+
+      if (!leftDenotationExpressionParselet) {
+        ParserException.raiseExpectedError(
+          this.scanner,
+          "<expression>",
+          this.tokenCursor.next,
+        );
+      }
+
+      leftExpression = leftDenotationExpressionParselet(leftExpression);
+    }
+
+    return leftExpression;
   }
 
   ////////////////////////////////////////////////////////////////////////
