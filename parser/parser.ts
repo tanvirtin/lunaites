@@ -522,7 +522,7 @@ class Parser {
 
   private chainPotentialFunctionCalls(prefixexp: ast.Expression) {
     // TODO: Fix infintity loop.
-    while (true) {
+    while (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
       const newPrefixexp = this.parsePrefixExpressionSuffix(prefixexp);
 
       if (newPrefixexp === null) {
@@ -530,9 +530,9 @@ class Parser {
       }
 
       prefixexp = newPrefixexp;
-
-      this.tokenCursor.advance();
     }
+
+    return prefixexp;
   }
 
   private createFunctionCallExpression(
@@ -575,6 +575,22 @@ class Parser {
         );
       }
 
+      if (this.tokenCursor.consumeNext(":")) {
+        const identifier = this.parseIdentifierExpression();
+
+        const memberExpression = new ast.MemberExpression(
+          base,
+          ":",
+          identifier,
+        );
+
+        this.tokenCursor.advance();
+
+        const args = this.parseArgs();
+
+        return this.createFunctionCallExpression(memberExpression, args);
+      }
+
       if (this.tokenCursor.someMatchNext("(", "{", StringLiteral)) {
         this.tokenCursor.advance();
 
@@ -583,7 +599,7 @@ class Parser {
         return this.createFunctionCallExpression(base, args);
       }
 
-      return this.chainPotentialFunctionCalls(base);
+      return base;
     }
 
     ParserException.raiseExpectedError(
@@ -682,7 +698,7 @@ class Parser {
     ParserException.raiseExpectedError(
       this.scanner,
       "function arguments",
-      this.tokenCursor.next,
+      this.tokenCursor.current,
     );
   }
 

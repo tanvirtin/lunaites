@@ -1691,7 +1691,17 @@ ${source}
 );
 
 (() => {
-  const parser = new Parser(source);
+  const parser = new Parser(`
+  a:b(1, 2, 9)
+  a "3"
+  a = {
+    [3] = 3,
+    b = 3;
+    nil,
+    3 + 4
+  }
+  (a)(1, 2, 3)() "" {} ()
+`);
   const minimizerVisitor = new MinimizerVisitor();
   const minimizedAst = minimizerVisitor.visit(parser.parse());
 
