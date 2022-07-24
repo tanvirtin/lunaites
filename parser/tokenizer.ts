@@ -111,8 +111,8 @@ class Tokenizer {
   private consumeWhitespace(): boolean {
     const { scanner } = this;
 
-    while (!scanner.isOutOfBounds()) {
-      if (scanner.isWhitespace()) {
+    while (!scanner.isOutOfBounds(scanner.pos)) {
+      if (scanner.isWhitespace(scanner.pos)) {
         scanner.scan();
       } else if (!scanner.consumeEOL()) {
         return true;
@@ -128,7 +128,7 @@ class Tokenizer {
     const { scanner } = this;
 
     if (scanner.match("#!")) {
-      scanner.scanUntil(scanner.isLineFeed);
+      scanner.scanUntil(() => scanner.isLineFeed(scanner.pos));
       this.consumeWhitespace();
 
       return true;
@@ -143,23 +143,28 @@ class Tokenizer {
 
     if (
       isBinary
-        ? (scanner.isCharCode(69) || scanner.isCharCode(101)) // (p or P)
-        : (scanner.isCharCode(80) || scanner.isCharCode(112)) // (e or E)
+        ? (scanner.isCharCode(69, scanner.pos) ||
+          scanner.isCharCode(101, scanner.pos)) // (p or P)
+        : (scanner.isCharCode(80, scanner.pos) ||
+          scanner.isCharCode(112, scanner.pos)) // (e or E)
     ) {
       scanner.scan();
 
       // If we encounter a "+" or "-", we can just continue our
       // scanning as it's part of the semantics.
-      if (scanner.isCharCode(43) || scanner.isCharCode(45)) {
+      if (
+        scanner.isCharCode(43, scanner.pos) ||
+        scanner.isCharCode(45, scanner.pos)
+      ) {
         scanner.scan();
       }
 
       // If we encounter a digit after the exponent it's an error.
-      if (!scanner.isDigit()) {
+      if (!scanner.isDigit(scanner.pos)) {
         TokenizerException.raiseMalformedNumberError(scanner);
       }
 
-      scanner.scanWhile(scanner.isDigit);
+      scanner.scanWhile(() => scanner.isDigit(scanner.pos));
 
       return true;
     }
@@ -189,7 +194,10 @@ class Tokenizer {
     }
 
     // We check of suffix indicator for imaginary numbers by "i" or "I"
-    if (scanner.isCharCode(73) || scanner.isCharCode(105)) {
+    if (
+      scanner.isCharCode(73, scanner.pos) ||
+      scanner.isCharCode(105, scanner.pos)
+    ) {
       scanner.scan();
 
       return true;
@@ -214,13 +222,22 @@ class Tokenizer {
     // Accepted suffixes: Any casing combination of ULL and LL
 
     // U or u
-    if (scanner.isCharCode(85) || scanner.isCharCode(117)) {
+    if (
+      scanner.isCharCode(85, scanner.pos) ||
+      scanner.isCharCode(117, scanner.pos)
+    ) {
       scanner.scan();
       // L or l
-      if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+      if (
+        scanner.isCharCode(76, scanner.pos) ||
+        scanner.isCharCode(108, scanner.pos)
+      ) {
         scanner.scan();
         // L or l
-        if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+        if (
+          scanner.isCharCode(76, scanner.pos) ||
+          scanner.isCharCode(108, scanner.pos)
+        ) {
           scanner.scan();
 
           return true;
@@ -231,11 +248,17 @@ class Tokenizer {
       // U but no L
       TokenizerException.raiseMalformedNumberError(scanner);
       // L or l
-    } else if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+    } else if (
+      scanner.isCharCode(76, scanner.pos) ||
+      scanner.isCharCode(108, scanner.pos)
+    ) {
       scanner.scan();
 
       // L or l
-      if (scanner.isCharCode(76) || scanner.isCharCode(108)) {
+      if (
+        scanner.isCharCode(76, scanner.pos) ||
+        scanner.isCharCode(108, scanner.pos)
+      ) {
         scanner.scan();
 
         return true;
@@ -288,7 +311,7 @@ class Tokenizer {
 
       // If we hit out of bounds we have an unfinished
       // long string that never met the matching delimiter.
-      if (scanner.isOutOfBounds()) {
+      if (scanner.isOutOfBounds(scanner.pos)) {
         raiseError();
       }
 
@@ -343,7 +366,7 @@ class Tokenizer {
       value: "<eof>",
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -359,16 +382,19 @@ class Tokenizer {
     // scan over "--"
     scanner.scan().scan();
 
-    while (!scanner.isLineTerminator() && !scanner.isOutOfBounds()) {
+    while (
+      !scanner.isLineTerminator(scanner.pos) &&
+      !scanner.isOutOfBounds(scanner.pos)
+    ) {
       scanner.scan();
     }
 
     return {
       type: CommentLiteral,
-      value: scanner.getText(),
+      value: scanner.text,
       lnum,
       lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -388,10 +414,10 @@ class Tokenizer {
 
     return {
       type: CommentLiteral,
-      value: scanner.getText(),
+      value: scanner.text,
       lnum,
       lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -400,7 +426,7 @@ class Tokenizer {
   private tokenizeStringLiteral(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
-    const delimeterCharCode = scanner.getCharCode();
+    const delimeterCharCode = scanner.charCode;
 
     // Mark the spot in the scanner for us to remember the start.
     scanner.mark();
@@ -408,10 +434,10 @@ class Tokenizer {
     // Scan over the ending string delimiter (", ')
     scanner.scan();
 
-    while (!scanner.isCharCode(delimeterCharCode)) {
+    while (!scanner.isCharCode(delimeterCharCode, scanner.pos)) {
       // If we hit out of bounds we have an unfinished string that
       // never met the matching delimiter.
-      if (scanner.isOutOfBounds()) {
+      if (scanner.isOutOfBounds(scanner.pos)) {
         TokenizerException.raiseUnfinishedStringError(scanner);
       }
 
@@ -429,10 +455,10 @@ class Tokenizer {
 
     return {
       type: StringLiteral,
-      value: scanner.getText(),
+      value: scanner.text,
       lnum,
       lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -452,10 +478,10 @@ class Tokenizer {
 
     return {
       type: StringLiteral,
-      value: scanner.getText(),
+      value: scanner.text,
       lnum,
       lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -468,10 +494,10 @@ class Tokenizer {
     scanner.mark();
 
     // Itentifiers can only be characters that are alphanumeric (digits or alphabets).
-    scanner.scanWhile(scanner.isAlphanumeric);
+    scanner.scanWhile(() => scanner.isAlphanumeric(scanner.pos));
 
     let keywordTokenType;
-    const value = scanner.getText();
+    const value = scanner.text;
 
     // Switch case is more optimized over heap allocations.
     switch (value) {
@@ -548,7 +574,7 @@ class Tokenizer {
       value,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: !!keywordTokenType,
     };
   }
@@ -565,7 +591,7 @@ class Tokenizer {
     scanner.scan().scan();
 
     // Next character must either be a hexadecimal or a ".", if not it's an error.
-    if (!scanner.match(".") && !scanner.isHexDigit()) {
+    if (!scanner.match(".") && !scanner.isHexDigit(scanner.pos)) {
       TokenizerException.raiseMalformedNumberError(scanner);
     }
 
@@ -574,7 +600,7 @@ class Tokenizer {
 
     // When dealing with hexadecimal numeric literals, only hexadecimal digits are valid.
     // For example, Letters can be either between 0-9 or A-F.
-    scanner.scanWhile(scanner.isHexDigit);
+    scanner.scanWhile(() => scanner.isHexDigit(scanner.pos));
 
     // If we already encountered a "." it cannot appear again, so incase we didn't encounter
     // a hex that start with a dot notation such as "0x.3f" we account for dot notation that
@@ -583,7 +609,7 @@ class Tokenizer {
       isDecimal = this.consumeDotNotation();
     }
 
-    scanner.scanWhile(scanner.isHexDigit);
+    scanner.scanWhile(() => scanner.isHexDigit(scanner.pos));
 
     // If we encounter another dot notation it's an error, e.g "0x3..3".
     if (isDecimal && scanner.match(".")) {
@@ -604,10 +630,10 @@ class Tokenizer {
 
     return {
       type: NumericLiteral,
-      value: scanner.getText(),
+      value: scanner.text,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -617,13 +643,13 @@ class Tokenizer {
     const { scanner } = this;
 
     // Mark the position and scan until we no longer encounter a digit.
-    scanner.mark().scanWhile(scanner.isDigit);
+    scanner.mark().scanWhile(() => scanner.isDigit(scanner.pos));
 
     // We check for dot notation to check if we are dealing with decimal numbers.
     const isDecimal = this.consumeDotNotation();
 
     // When dealing with decimal numeric literal, only digits are valid.
-    scanner.scanWhile(scanner.isDigit);
+    scanner.scanWhile(() => scanner.isDigit(scanner.pos));
 
     // If we encounter another dot notation it's an error, e.g "3..3" or "3.3.4".
     if (isDecimal && scanner.match(".")) {
@@ -648,10 +674,10 @@ class Tokenizer {
 
     return {
       type: NumericLiteral,
-      value: scanner.getText(),
+      value: scanner.text,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -680,10 +706,10 @@ class Tokenizer {
 
     return {
       type: VarargLiteral,
-      value: scanner.getText(),
+      value: scanner.text,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -733,10 +759,10 @@ class Tokenizer {
 
     return {
       type: punctuatorTable[punctuator],
-      value: scanner.getText(),
+      value: scanner.text,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
-      range: scanner.getRange(),
+      range: scanner.range,
       isKeyword: false,
     };
   }
@@ -756,13 +782,13 @@ class Tokenizer {
     // All whitespace noise is eaten away as they have no semantic value.
     this.consumeWhitespace();
 
-    if (scanner.isOutOfBounds()) {
+    if (scanner.isOutOfBounds(scanner.pos)) {
       return this.tokenizeEOF();
     }
 
     // If the word is an alphabet it probably is an identifier.
     // NOTE: lua identifiers do not start with numbers.
-    if (scanner.isAlphabet()) {
+    if (scanner.isAlphabet(scanner.pos)) {
       return this.tokenizeIdentifier();
     }
 
@@ -788,12 +814,12 @@ class Tokenizer {
       return this.tokenizePunctuator("[");
     }
 
-    if (scanner.isDigit()) {
+    if (scanner.isDigit(scanner.pos)) {
       return this.tokenizeNumericLiteral();
     }
 
     if (scanner.match(".")) {
-      if (scanner.isDigit(scanner.index + 1)) {
+      if (scanner.isDigit(scanner.pos + 1)) {
         return this.tokenizeDecimalNumericLiteral();
       }
 
@@ -876,8 +902,8 @@ class Tokenizer {
       return this.tokenizePunctuator("|");
     }
 
-    if (scanner.someChar("*^%,{}]();#-+")) {
-      return this.tokenizePunctuator(scanner.getChar());
+    if (scanner.someChar("*^%,{}]();#-+", scanner.pos)) {
+      return this.tokenizePunctuator(scanner.char);
     }
 
     TokenizerException.raiseUnexpectedCharacterError(scanner);

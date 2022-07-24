@@ -2,7 +2,7 @@ import { Scanner } from "./mod.ts";
 import {
   assert,
   assertEquals,
-  assertObjectMatch,
+  assertStrictEquals,
   describe,
   it,
 } from "./deps.ts";
@@ -12,23 +12,19 @@ describe("Scanner", () => {
 
   describe("scan", () => {
     it("increments the current scanner index by 1", () => {
-      assertEquals((new Scanner("hello world")).index, 0);
+      assertEquals((new Scanner("hello world")).pos, 0);
     });
 
     it("increments the current scanner index by a specific number", () => {
       scanner = new Scanner("hello world");
 
-      assertObjectMatch(scanner, {
-        index: 0,
-      });
+      assertStrictEquals(scanner.pos, 0);
 
       scanner.scan(200);
 
-      assertObjectMatch(scanner, {
-        index: 200,
-      });
+      assertStrictEquals(scanner.pos, 200);
 
-      assert(scanner.isOutOfBounds());
+      assert(scanner.isOutOfBounds(scanner.pos));
     });
   });
 
@@ -36,9 +32,9 @@ describe("Scanner", () => {
     it("should scan until a given scanner evaluates to false", () => {
       const scanner = new Scanner("\n\n\n\n\n\n\n\n\n\nh");
 
-      scanner.scanWhile(scanner.isLineFeed);
+      scanner.scanWhile(() => scanner.isLineFeed(scanner.pos));
 
-      assertEquals(scanner.getChar(), "h");
+      assertEquals(scanner.char, "h");
     });
 
     it("should scan until a given function evaluates to false", () => {
@@ -46,8 +42,8 @@ describe("Scanner", () => {
 
       scanner.scanWhile(() => true);
 
-      assert(scanner.isOutOfBounds());
-      assertEquals(scanner.getChar(), undefined);
+      assert(scanner.isOutOfBounds(scanner.pos));
+      assertEquals(scanner.char, undefined);
     });
   });
 
@@ -55,10 +51,10 @@ describe("Scanner", () => {
     it("should scan until a given function evaluates to true", () => {
       const scanner = new Scanner("........................h");
 
-      scanner.scanUntil(scanner.isOutOfBounds);
+      scanner.scanUntil(() => scanner.isOutOfBounds(scanner.pos));
 
-      assert(scanner.isOutOfBounds());
-      assertEquals(scanner.getChar(), undefined);
+      assert(scanner.isOutOfBounds(scanner.pos));
+      assertEquals(scanner.char, undefined);
     });
   });
 
@@ -150,12 +146,12 @@ describe("Scanner", () => {
     it("should return true if the char being pointed at is a combination of line feed and carriage return", () => {
       scanner = new Scanner("\r\n\n\r");
 
-      assert(scanner.isNewLine());
+      assert(scanner.isNewLine(scanner.pos));
 
       scanner.scan();
       scanner.scan();
 
-      assert(scanner.isNewLine());
+      assert(scanner.isNewLine(scanner.pos));
     });
 
     it("should return false if the char being pointed at is not a combination of line feed and carriage return", () => {
@@ -259,13 +255,13 @@ describe("Scanner", () => {
       scanner.scan();
       scanner.scan();
 
-      assert(scanner.isOutOfBounds());
+      assert(scanner.isOutOfBounds(scanner.pos));
     });
 
     it("should return false if the char being pointed at is not a whitespace", () => {
       scanner = new Scanner("[]");
 
-      assert(!scanner.isOutOfBounds());
+      assert(!scanner.isOutOfBounds(scanner.pos));
     });
   });
 
@@ -273,7 +269,7 @@ describe("Scanner", () => {
     it("returns the char at the scanner", () => {
       scanner = new Scanner("nmp");
 
-      assertEquals(scanner.getChar(), "n");
+      assertEquals(scanner.char, "n");
     });
   });
 
@@ -281,17 +277,11 @@ describe("Scanner", () => {
     it("returns the char code at the scanner", () => {
       scanner = new Scanner("npm");
 
-      assertEquals(scanner.getCharCode(), 110);
+      assertEquals(scanner.charCode, 110);
     });
   });
 
   describe("getText", () => {
-    it("returns a text for a given range from the source", () => {
-      scanner = new Scanner("npm");
-
-      assertEquals(scanner.getText(0, 3), "npm");
-    });
-
     it("returns a text starting at a marked spot from the source", () => {
       scanner = new Scanner("hello");
 
@@ -302,17 +292,11 @@ describe("Scanner", () => {
       scanner.scan();
       scanner.scan();
 
-      assertEquals(scanner.getText(), "hello");
+      assertEquals(scanner.text, "hello");
     });
   });
 
   describe("getRange", () => {
-    it("returns an array for a given range", () => {
-      scanner = new Scanner("npm");
-
-      assertEquals(scanner.getRange(0, 3), [0, 3]);
-    });
-
     it("returns an array starting at a marked spot", () => {
       scanner = new Scanner("hello");
 
@@ -323,7 +307,7 @@ describe("Scanner", () => {
       scanner.scan();
       scanner.scan();
 
-      assertEquals(scanner.getRange(), [0, 5]);
+      assertEquals(scanner.range, [0, 5]);
     });
   });
 
@@ -333,7 +317,7 @@ describe("Scanner", () => {
       scanner.scan();
       scanner.mark();
 
-      assertEquals(scanner.getRange(), [1, 1]);
+      assertEquals(scanner.range, [1, 1]);
     });
   });
 });
