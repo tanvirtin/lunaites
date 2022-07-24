@@ -106,9 +106,13 @@ const source = `
 
 const epoch = 10e3;
 
-console.time(`Parser on ${epoch} iterations`);
+const t0 = performance.now();
+
 for (let i = 0; i < epoch; ++i) {
   const parser = new Parser(source);
   parser.parse();
 }
-console.timeEnd(`Parser on ${epoch} iterations`);
+
+const t1 = performance.now();
+
+console.log(`Parser took ${t1 - t0}ms`);
