@@ -6,7 +6,6 @@ const {
   AssignmentStatement,
   BinaryExpression,
   FunctionCallStatement,
-  StringFunctionCallExpression,
   LocalStatement,
   Identifier,
   TableKey,
@@ -1690,32 +1689,3 @@ ${source}
     });
   },
 );
-
-(() => {
-  const parser = new Parser(`
-  a "3"
-  a:b()
-  a:b(1, 2, 3)
-  x.y()
-  x.y(true, 'foo', 3)
-  foo()
-  foo(1, true, 'foo', 4.1)
-  bar {
-    1,
-    b = {
-      true,
-      c = {
-        'sup',
-        d = {
-          nil
-        }
-      }
-    }
-  }
-
-`);
-  const minimizerVisitor = new MinimizerVisitor();
-  const minimizedAst = minimizerVisitor.visit(parser.parse());
-
-  console.log(minimizedAst);
-})();
