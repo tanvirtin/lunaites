@@ -7,7 +7,6 @@ import {
   Tokenizer,
   TokenType,
 } from "./mod.ts";
-import { Profiler } from "../core/mod.ts";
 
 const {
   Not,

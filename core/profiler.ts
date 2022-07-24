@@ -1,4 +1,6 @@
 class Profiler {
+  private static programStartedOn = performance.now();
+  private static enabled = !!Deno.env.get("LUNAITES_ENABLE_PROFILING");
   private static executionMap: Record<string, number> = {};
 
   static bench(
@@ -6,6 +8,10 @@ class Profiler {
     methodName: string,
     descriptor: PropertyDescriptor,
   ) {
+    if (!Profiler.enabled) {
+      return descriptor;
+    }
+
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: unknown[]) {
@@ -28,6 +34,7 @@ class Profiler {
   }
 
   static dump() {
+    console.info(`Parser took ${performance.now() - this.programStartedOn}ms`);
     console.info(this.executionMap);
   }
 }

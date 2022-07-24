@@ -22,6 +22,7 @@ coverage:
 check: lint fmt tests
 
 profile:
+	export LUNAITES_ENABLE_PROFILING=true
 	deno run -A ./parser/profile.ts
 
 compile: 
