@@ -902,7 +902,7 @@ class Tokenizer {
       return this.tokenizePunctuator("|");
     }
 
-    if (scanner.someChar("*^%,{}]();#-+", scanner.pos)) {
+    if (scanner.someChar("*^%,{}]();#-+")) {
       return this.tokenizePunctuator(scanner.char);
     }
 

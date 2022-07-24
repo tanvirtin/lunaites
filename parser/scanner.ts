@@ -81,38 +81,6 @@ class Scanner {
     return this.source.charCodeAt(index) === charCode;
   }
 
-  @Profiler.bench
-  someChar(chars: string[] | string, index: number): boolean {
-    for (const char of chars) {
-      if (this.isChar(char, index)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  @Profiler.bench
-  everyChar(chars: string[] | string, index: number): boolean {
-    for (const char of chars) {
-      if (this.isChar(char, index)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  @Profiler.bench
-  someCharCode(charCodes: number[], index: number): boolean {
-    return charCodes.some((charCode) => this.isCharCode(charCode, index));
-  }
-
-  @Profiler.bench
-  everyCharCode(charCodes: number[], index: number): boolean {
-    return charCodes.some((charCode) => this.isCharCode(charCode, index));
-  }
-
   // \n
   @Profiler.bench
   isLineFeed(index: number): boolean {
@@ -240,6 +208,38 @@ class Scanner {
     }
 
     return false;
+  }
+
+  @Profiler.bench
+  someChar(chars: string[] | string): boolean {
+    for (const char of chars) {
+      if (this.isChar(char, this.pos)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  @Profiler.bench
+  everyChar(chars: string[] | string): boolean {
+    for (const char of chars) {
+      if (this.isChar(char, this.pos)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  @Profiler.bench
+  someCharCode(charCodes: number[]): boolean {
+    return charCodes.some((charCode) => this.isCharCode(charCode, this.pos));
+  }
+
+  @Profiler.bench
+  everyCharCode(charCodes: number[]): boolean {
+    return charCodes.some((charCode) => this.isCharCode(charCode, this.pos));
   }
 
   // Increments the internal scanner index by 1.
