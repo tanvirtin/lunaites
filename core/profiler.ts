@@ -5,8 +5,8 @@ interface Execution {
 }
 
 class Profiler {
+  private static enabled = false;
   private static programStartedOn = performance.now();
-  private static enabled = !!Deno.env.get("LUNAITES_PROFILING");
   private static executionMap: Record<string, Execution> = {};
 
   static bench(

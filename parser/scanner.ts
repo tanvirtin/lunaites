@@ -24,11 +24,6 @@ class Scanner {
     };
   }
 
-  @Profiler.bench
-  private sanitizeIndex(index?: number) {
-    return index ?? this.index;
-  }
-
   // Mark the current index in memory.
   @Profiler.bench
   mark(): Scanner {
@@ -40,21 +35,19 @@ class Scanner {
   // Verify if a given char is the one being pointed at.
   @Profiler.bench
   isChar(char: string, index?: number): boolean {
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
-    if (this.isOutOfBounds(index)) return false;
-
-    return this.getChar(index) === char;
+    return this.source[index] === char;
   }
 
   // Verify if a given charcode is the one being pointed at.
   @Profiler.bench
   isCharCode(charCode: number, index?: number): boolean {
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
     if (this.isOutOfBounds(index)) return false;
 
-    return this.getCharCode(index) === charCode;
+    return this.source.charCodeAt(index) === charCode;
   }
 
   @Profiler.bench
@@ -104,11 +97,11 @@ class Scanner {
   // ' '
   @Profiler.bench
   isWhitespace(index?: number): boolean {
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
     if (this.isOutOfBounds(index)) return false;
 
-    const charCode = this.getCharCode(index);
+    const charCode = this.source.charCodeAt(index);
 
     return charCode === 9 || charCode === 32 || charCode === 0xB ||
       charCode === 0xC;
@@ -117,9 +110,7 @@ class Scanner {
   // \n or \r
   @Profiler.bench
   isLineTerminator(index?: number): boolean {
-    index = this.sanitizeIndex(index);
-
-    if (this.isOutOfBounds(index)) return false;
+    index = index ?? this.index;
 
     return this.isLineFeed(index) || this.isCarriageReturn(index);
   }
@@ -127,9 +118,7 @@ class Scanner {
   // \n\r or \r\n
   @Profiler.bench
   isNewLine(index?: number): boolean {
-    index = this.sanitizeIndex(index);
-
-    if (this.isOutOfBounds(index)) return false;
+    index = index ?? this.index;
 
     return (this.isLineFeed(index) && this.isCarriageReturn(index + 1)) ||
       (this.isCarriageReturn(index) && this.isLineFeed(index + 1));
@@ -138,11 +127,9 @@ class Scanner {
   // [0-9]
   @Profiler.bench
   isDigit(index?: number): boolean {
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
+    const charCode = this.source.charCodeAt(index);
 
     return charCode >= 48 && charCode <= 57;
   }
@@ -150,13 +137,11 @@ class Scanner {
   // Extended alphabets starting  ending in ÿ
   @Profiler.bench
   isExtendedAlphabets(index?: number): boolean {
+    index = index ?? this.index;
+
     if (!this.options.extendedIdentifiers) return false;
 
-    index = this.sanitizeIndex(index);
-
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
+    const charCode = this.source.charCodeAt(index);
 
     return charCode >= 128;
   }
@@ -164,11 +149,9 @@ class Scanner {
   // Alphabets [A-Z, a-z]
   @Profiler.bench
   isAlphabet(index?: number): boolean {
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
+    const charCode = this.source.charCodeAt(index);
 
     return ((charCode >= 65 && charCode <= 90) ||
       (charCode >= 97 && charCode <= 122) || 95 === charCode);
@@ -177,11 +160,9 @@ class Scanner {
   // [0-9], [A-f, a-f]
   @Profiler.bench
   isHexDigit(index?: number) {
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
-    if (this.isOutOfBounds(index)) return false;
-
-    const charCode = this.getCharCode(index);
+    const charCode = this.source.charCodeAt(index);
 
     return this.isDigit(index) || (charCode >= 65 && charCode <= 70) ||
       (charCode >= 97 && charCode <= 102);
@@ -190,8 +171,6 @@ class Scanner {
   // [0-9] or Alphabets
   @Profiler.bench
   isAlphanumeric(index?: number): boolean {
-    index = this.sanitizeIndex(index);
-
     if (this.isOutOfBounds(index)) return false;
 
     return this.isDigit(index) || this.isAlphabet(index) ||
@@ -201,7 +180,7 @@ class Scanner {
   // When scanner goes out of bounds of the source.
   @Profiler.bench
   isOutOfBounds(index?: number): boolean {
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
     return index < 0 || index >= this.source.length;
   }
@@ -218,18 +197,12 @@ class Scanner {
 
   // Returns the current char under scanner.
   @Profiler.bench
-  getChar(index?: number): string {
-    index = this.sanitizeIndex(index);
-
-    return this.source[index];
+  getChar(): string {
+    return this.source[this.index];
   }
 
-  // Returns the current char code under scanner.
-  @Profiler.bench
-  getCharCode(index?: number): number {
-    index = this.sanitizeIndex(index);
-
-    return this.source.charCodeAt(index);
+  getCharCode(): number {
+    return this.source.charCodeAt(this.index);
   }
 
   // Returns the current range from marked index to
@@ -237,7 +210,7 @@ class Scanner {
   @Profiler.bench
   getText(markedIndex?: number, index?: number): string {
     markedIndex = markedIndex ?? this.markedIndex;
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
     return this.source.slice(markedIndex, index);
   }
@@ -247,7 +220,7 @@ class Scanner {
   @Profiler.bench
   getRange(markedIndex?: number, index?: number): number[] {
     markedIndex = markedIndex ?? this.markedIndex;
-    index = this.sanitizeIndex(index);
+    index = index ?? this.index;
 
     return [markedIndex, index];
   }

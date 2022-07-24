@@ -274,8 +274,6 @@ describe("Scanner", () => {
       scanner = new Scanner("nmp");
 
       assertEquals(scanner.getChar(), "n");
-      assertEquals(scanner.getChar(1), "m");
-      assertEquals(scanner.getChar(2), "p");
     });
   });
 
@@ -284,8 +282,6 @@ describe("Scanner", () => {
       scanner = new Scanner("npm");
 
       assertEquals(scanner.getCharCode(), 110);
-      assertEquals(scanner.getCharCode(1), 112);
-      assertEquals(scanner.getCharCode(2), 109);
     });
   });
 
