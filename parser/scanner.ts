@@ -90,8 +90,6 @@ class Scanner {
   // ' '
   @Profiler.bench
   isWhitespace(index: number): boolean {
-    if (this.isOutOfBounds(index)) return false;
-
     const charCode = this.source.charCodeAt(index);
 
     return charCode === 9 || charCode === 32 || charCode === 0xB ||
@@ -107,6 +105,8 @@ class Scanner {
   // \n\r or \r\n
   @Profiler.bench
   isNewLine(index: number): boolean {
+    if (this.isOutOfBounds(index)) return false;
+
     return (this.isLineFeed(index) && this.isCarriageReturn(index + 1)) ||
       (this.isCarriageReturn(index) && this.isLineFeed(index + 1));
   }
@@ -160,11 +160,6 @@ class Scanner {
   @Profiler.bench
   isOutOfBounds(index: number): boolean {
     return index < 0 || index >= this.source.length;
-  }
-
-  @Profiler.bench
-  isWithinBounds(): boolean {
-    return this._index < this.source.length;
   }
 
   @Profiler.bench
@@ -228,11 +223,15 @@ class Scanner {
 
   @Profiler.bench
   someCharCode(charCodes: number[]): boolean {
+    if (this.isOutOfBounds(this.pos)) return false;
+
     return charCodes.some((charCode) => this.isCharCode(charCode, this.pos));
   }
 
   @Profiler.bench
   everyCharCode(charCodes: number[]): boolean {
+    if (this.isOutOfBounds(this.pos)) return false;
+
     return charCodes.some((charCode) => this.isCharCode(charCode, this.pos));
   }
 
@@ -247,7 +246,7 @@ class Scanner {
 
   @Profiler.bench
   scanWhile(cond: () => boolean): Scanner {
-    while (cond.call(this) && this.isWithinBounds()) {
+    while (cond.call(this) && !this.isOutOfBounds(this.pos)) {
       this.scan();
     }
 
@@ -256,7 +255,7 @@ class Scanner {
 
   @Profiler.bench
   scanUntil(cond: () => boolean): Scanner {
-    while (!cond.call(this) && this.isWithinBounds()) {
+    while (!cond.call(this) && !this.isOutOfBounds(this.pos)) {
       this.scan();
     }
 
