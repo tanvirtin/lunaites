@@ -1,5 +1,5 @@
 import { Scanner, Token, TokenizerException, TokenType } from "./mod.ts";
-// import { Profiler } from "../core/mod.ts";
+import { Profiler } from "../core/mod.ts";
 
 interface TokenizerOptions {
   labels?: boolean;
@@ -107,7 +107,7 @@ class Tokenizer {
   //   - carriage return
   //   - horizontal tab
   //   - vertical tab
-  //@Profiler.bench
+  @Profiler.bench
   private consumeWhitespace(): boolean {
     const { scanner } = this;
 
@@ -123,7 +123,7 @@ class Tokenizer {
   }
 
   // Eats away the entire shebang line
-  //@Profiler.bench
+  @Profiler.bench
   private consumeShebangLine(): boolean {
     const { scanner } = this;
 
@@ -137,7 +137,7 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private consumeExponent({ isBinary }: { isBinary?: boolean }) {
     const { scanner } = this;
 
@@ -167,7 +167,7 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private consumeBackslash(): boolean {
     const { scanner } = this;
 
@@ -180,7 +180,7 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private consumeImaginaryUnitSuffix(): boolean {
     const { options, scanner } = this;
 
@@ -203,7 +203,7 @@ class Tokenizer {
   // Integer suffix should not work if the literal being processed
   // has fractions ("." notation). Integer suffix will also
   // not work if there is an imaginary suffix before it as well.
-  //@Profiler.bench
+  @Profiler.bench
   private consumeInt64Suffix(): boolean {
     const { options, scanner } = this;
 
@@ -247,7 +247,7 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private consumeDotNotation(): boolean {
     const { scanner } = this;
 
@@ -260,7 +260,7 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private scanLongString(isComment: boolean): boolean {
     let depth = 0;
     let encounteredDelimeter = false;
@@ -331,7 +331,7 @@ class Tokenizer {
     return true;
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeEOF(): Token {
     const { scanner } = this;
 
@@ -348,7 +348,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeComment(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -373,7 +373,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeLongComment(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -396,7 +396,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeStringLiteral(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -437,7 +437,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeLongStringLiteral(): Token {
     const { scanner } = this;
     const { lnum, lnumStartIndex } = scanner;
@@ -460,7 +460,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeIdentifier(): Token {
     const { scanner } = this;
 
@@ -553,7 +553,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeHexadecimalNumericLiteral(): Token {
     const { scanner } = this;
 
@@ -612,8 +612,9 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeDecimalNumericLiteral(): Token {
+    // TODO: optimize tokenizeDecimalNumericLiteral.
     const { scanner } = this;
 
     // Mark the position and scan until we no longer encounter a digit.
@@ -633,7 +634,9 @@ class Tokenizer {
     // After we are done with the code above we may have something like 3 or 3.14159265359.
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
     const hasExponent = this.consumeExponent({ isBinary: true });
+
     const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
+
     const hasInt64Suffix = this.consumeInt64Suffix();
 
     // If either the number is a decimal, has exponent or has imaginary suffix,
@@ -654,7 +657,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeNumericLiteral(): Token {
     const { scanner } = this;
 
@@ -666,7 +669,7 @@ class Tokenizer {
     return this.tokenizeDecimalNumericLiteral();
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizeVarargLiteral(): Token {
     const { scanner } = this;
 
@@ -686,7 +689,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   private tokenizePunctuator(punctuator: string): Token {
     const { scanner } = this;
     const punctuatorTable: Record<string, TokenType> = {
@@ -739,7 +742,7 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
+  @Profiler.bench
   tokenize(): Token {
     const { scanner, options, isStarted } = this;
 

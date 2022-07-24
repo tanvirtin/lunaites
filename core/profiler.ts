@@ -1,7 +1,13 @@
+interface Execution {
+  name: string;
+  calls: number;
+  duration: number;
+}
+
 class Profiler {
   private static programStartedOn = performance.now();
   private static enabled = !!Deno.env.get("LUNAITES_ENABLE_PROFILING");
-  private static executionMap: Record<string, number> = {};
+  private static executionMap: Record<string, Execution> = {};
 
   static bench(
     _target: unknown,
@@ -19,12 +25,18 @@ class Profiler {
       const result = originalMethod.apply(this, args);
       const finish = performance.now();
 
-      const executionTime = finish - start;
+      const duration = finish - start;
 
       if (methodName in Profiler.executionMap) {
-        Profiler.executionMap[methodName] += executionTime;
+        const exec = Profiler.executionMap[methodName];
+        exec.calls += 1;
+        exec.duration += duration;
       } else {
-        Profiler.executionMap[methodName] = executionTime;
+        Profiler.executionMap[methodName] = {
+          name: methodName,
+          calls: 1,
+          duration,
+        };
       }
 
       return result;
@@ -35,7 +47,12 @@ class Profiler {
 
   static dump() {
     console.info(`Parser took ${performance.now() - this.programStartedOn}ms`);
-    console.info(this.executionMap);
+
+    let executions = Object.values(this.executionMap);
+
+    executions = executions.sort((a, b) => b.duration - a.duration);
+
+    executions.forEach((e) => console.log(e));
   }
 }
 
