@@ -1,3 +1,5 @@
+import { Profiler } from "../core/mod.ts";
+
 // Please refer to the https://www.asciitable.com/ for the char codes.
 
 interface ScannerOptions {
@@ -22,11 +24,13 @@ class Scanner {
     };
   }
 
+  @Profiler.bench
   private sanitizeIndex(index?: number) {
     return index ?? this.index;
   }
 
   // Mark the current index in memory.
+  @Profiler.bench
   mark(): Scanner {
     this.markedIndex = this.index;
 
@@ -34,6 +38,7 @@ class Scanner {
   }
 
   // Verify if a given char is the one being pointed at.
+  @Profiler.bench
   isChar(char: string, index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -43,6 +48,7 @@ class Scanner {
   }
 
   // Verify if a given charcode is the one being pointed at.
+  @Profiler.bench
   isCharCode(charCode: number, index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -51,6 +57,7 @@ class Scanner {
     return this.getCharCode(index) === charCode;
   }
 
+  @Profiler.bench
   someChar(chars: string[] | string, index?: number): boolean {
     for (const char of chars) {
       if (this.isChar(char, index)) {
@@ -61,6 +68,7 @@ class Scanner {
     return false;
   }
 
+  @Profiler.bench
   everyChar(chars: string[] | string, index?: number): boolean {
     for (const char of chars) {
       if (this.isChar(char, index)) {
@@ -71,25 +79,30 @@ class Scanner {
     return true;
   }
 
+  @Profiler.bench
   someCharCode(charCodes: number[], index?: number): boolean {
     return charCodes.some((charCode) => this.isCharCode(charCode, index));
   }
 
+  @Profiler.bench
   everyCharCode(charCodes: number[], index: number): boolean {
     return charCodes.some((charCode) => this.isCharCode(charCode, index));
   }
 
   // \n
+  @Profiler.bench
   isLineFeed(index?: number): boolean {
     return this.isCharCode(10, index);
   }
 
   // \r
+  @Profiler.bench
   isCarriageReturn(index?: number): boolean {
     return this.isCharCode(13, index);
   }
 
   // ' '
+  @Profiler.bench
   isWhitespace(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -102,6 +115,7 @@ class Scanner {
   }
 
   // \n or \r
+  @Profiler.bench
   isLineTerminator(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -111,6 +125,7 @@ class Scanner {
   }
 
   // \n\r or \r\n
+  @Profiler.bench
   isNewLine(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -121,6 +136,7 @@ class Scanner {
   }
 
   // [0-9]
+  @Profiler.bench
   isDigit(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -132,6 +148,7 @@ class Scanner {
   }
 
   // Extended alphabets starting  ending in ÿ
+  @Profiler.bench
   isExtendedAlphabets(index?: number): boolean {
     if (!this.options.extendedIdentifiers) return false;
 
@@ -145,6 +162,7 @@ class Scanner {
   }
 
   // Alphabets [A-Z, a-z]
+  @Profiler.bench
   isAlphabet(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -157,6 +175,7 @@ class Scanner {
   }
 
   // [0-9], [A-f, a-f]
+  @Profiler.bench
   isHexDigit(index?: number) {
     index = this.sanitizeIndex(index);
 
@@ -169,6 +188,7 @@ class Scanner {
   }
 
   // [0-9] or Alphabets
+  @Profiler.bench
   isAlphanumeric(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
@@ -179,17 +199,25 @@ class Scanner {
   }
 
   // When scanner goes out of bounds of the source.
+  @Profiler.bench
   isOutOfBounds(index?: number): boolean {
     index = this.sanitizeIndex(index);
 
     return index < 0 || index >= this.source.length;
   }
 
+  @Profiler.bench
+  isWithinBounds(): boolean {
+    return this.index < this.source.length;
+  }
+
+  @Profiler.bench
   getCol(): number {
     return this.index - this.lnumStartIndex + 1;
   }
 
   // Returns the current char under scanner.
+  @Profiler.bench
   getChar(index?: number): string {
     index = this.sanitizeIndex(index);
 
@@ -197,6 +225,7 @@ class Scanner {
   }
 
   // Returns the current char code under scanner.
+  @Profiler.bench
   getCharCode(index?: number): number {
     index = this.sanitizeIndex(index);
 
@@ -205,6 +234,7 @@ class Scanner {
 
   // Returns the current range from marked index to
   // current index in an array or a specified range.
+  @Profiler.bench
   getText(markedIndex?: number, index?: number): string {
     markedIndex = markedIndex ?? this.markedIndex;
     index = this.sanitizeIndex(index);
@@ -214,6 +244,7 @@ class Scanner {
 
   // Returns the current range from marked index to current
   // index in an array or a specified range.
+  @Profiler.bench
   getRange(markedIndex?: number, index?: number): number[] {
     markedIndex = markedIndex ?? this.markedIndex;
     index = this.sanitizeIndex(index);
@@ -221,6 +252,7 @@ class Scanner {
     return [markedIndex, index];
   }
 
+  @Profiler.bench
   match(chars: string): boolean {
     for (let i = 0; i < chars.length; ++i) {
       if (!this.isChar(chars[i], this.index + i)) {
@@ -231,6 +263,7 @@ class Scanner {
     return true;
   }
 
+  @Profiler.bench
   consumeEOL(): boolean {
     if (this.isLineTerminator()) {
       // If we encountered a line terminator, we scan the line count by 1.
@@ -252,6 +285,7 @@ class Scanner {
   }
 
   // Increments the internal scanner index by 1.
+  @Profiler.bench
   scan(by?: number): Scanner {
     // 0 gets ignored and treated as 1 which is why we use || and not ??.
     this.index += by || 1;
@@ -259,16 +293,18 @@ class Scanner {
     return this;
   }
 
+  @Profiler.bench
   scanWhile(cond: () => boolean): Scanner {
-    while (cond.call(this) && this.index < this.source.length) {
+    while (cond.call(this) && this.isWithinBounds()) {
       this.scan();
     }
 
     return this;
   }
 
+  @Profiler.bench
   scanUntil(cond: () => boolean): Scanner {
-    while (!cond.call(this) && this.index < this.source.length) {
+    while (!cond.call(this) && this.isWithinBounds()) {
       this.scan();
     }
 

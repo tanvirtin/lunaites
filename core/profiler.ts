@@ -6,11 +6,12 @@ interface Execution {
 
 class Profiler {
   private static programStartedOn = performance.now();
-  private static enabled = !!Deno.env.get("LUNAITES_ENABLE_PROFILING");
+  private static enabled = !!Deno.env.get("LUNAITES_PROFILING");
   private static executionMap: Record<string, Execution> = {};
 
   static bench(
-    _target: unknown,
+    // deno-lint-ignore ban-types
+    target: Object,
     methodName: string,
     descriptor: PropertyDescriptor,
   ) {
@@ -24,16 +25,17 @@ class Profiler {
       const start = performance.now();
       const result = originalMethod.apply(this, args);
       const finish = performance.now();
-
       const duration = finish - start;
+      const name = `${target.constructor.name}.${methodName}`;
 
-      if (methodName in Profiler.executionMap) {
-        const exec = Profiler.executionMap[methodName];
+      if (name in Profiler.executionMap) {
+        const exec = Profiler.executionMap[name];
+
         exec.calls += 1;
         exec.duration += duration;
       } else {
-        Profiler.executionMap[methodName] = {
-          name: methodName,
+        Profiler.executionMap[name] = {
+          name,
           calls: 1,
           duration,
         };
