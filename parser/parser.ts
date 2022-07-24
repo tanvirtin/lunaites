@@ -476,65 +476,6 @@ class Parser {
     return new ast.GroupingExpression(expression);
   }
 
-  //     suffix ::= '[' exp ']' | '.' Name | ':' Name args | args
-  //     args ::= '(' [explist] ')' | tableconstructor | String
-  private chainFunctionCalls(prefixexp: ast.Expression) {
-    while (
-      this.tokenCursor.someMatchNext(StringLiteral, "(", "{", "[", ".", ":")
-    ) {
-      let newPrefixexp = prefixexp;
-
-      if (this.tokenCursor.consumeNext("[")) {
-        const expression = this.parseExpression();
-
-        this.tokenCursor.advance();
-
-        this.expect("]");
-
-        newPrefixexp = new ast.IndexExpression(newPrefixexp, expression);
-      }
-
-      if (this.tokenCursor.consumeNext(".")) {
-        const identifier = this.parseIdentifierExpression();
-
-        newPrefixexp = new ast.MemberExpression(newPrefixexp, ".", identifier);
-      }
-
-      if (this.tokenCursor.consumeNext(":")) {
-        const identifier = this.parseIdentifierExpression();
-
-        newPrefixexp = new ast.MemberExpression(newPrefixexp, ":", identifier);
-
-        this.tokenCursor.advance();
-
-        const args = this.parseArgs();
-
-        newPrefixexp = this.createFunctionCallExpression(newPrefixexp, args);
-      }
-
-      if (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
-        this.tokenCursor.advance();
-
-        const args = this.parseArgs();
-
-        newPrefixexp = this.createFunctionCallExpression(newPrefixexp, args);
-      }
-
-      prefixexp = newPrefixexp;
-    }
-
-    return prefixexp;
-  }
-
-  private createFunctionCallExpression(
-    base: ast.Expression,
-    args: ast.Expression[],
-  ): ast.Expression {
-    return this.chainFunctionCalls(
-      new ast.FunctionCallExpression(base, args),
-    );
-  }
-
   // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
   // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
@@ -661,7 +602,7 @@ class Parser {
   ////////////////////////////////////////////////////////////////////////
 
   // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
-  parseArgs(): ast.Expression[] {
+  private parseArgs(): ast.Expression[] {
     if (this.tokenCursor.match("(")) {
       this.tokenCursor.advance();
 
@@ -694,7 +635,7 @@ class Parser {
   }
 
   // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
-  parseField(): ast.Expression {
+  private parseField(): ast.Expression {
     if (this.tokenCursor.match("[")) {
       this.tokenCursor.advance();
 
@@ -729,7 +670,7 @@ class Parser {
   }
 
   // fieldlist ::= field {fieldsep field} [fieldsep]
-  parseFieldlist(): ast.Expression[] {
+  private parseFieldlist(): ast.Expression[] {
     const fieldList = [this.parseField()];
 
     while (this.tokenCursor.someMatchNext(",", ";")) {
@@ -751,7 +692,7 @@ class Parser {
   }
 
   // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
-  parseVar(): ast.Expression {
+  private parseVar(): ast.Expression {
     // parsePrefixExpression actually calls parseVar as per language grammer,
     // Since our base case is covered we can now directly call parsePrefixExpression.
     const prefixexp = this.parsePrefixExpression();
@@ -774,7 +715,7 @@ class Parser {
   }
 
   // varlist ::= var {‘,’ var}
-  parseVarlist(): ast.Expression[] {
+  private parseVarlist(): ast.Expression[] {
     const varlist = [this.parseVar()];
 
     while (this.tokenCursor.consumeNext(",")) {
@@ -785,7 +726,7 @@ class Parser {
   }
 
   // explist ::= exp {‘,’ exp}
-  parseExplist(): ast.Expression[] {
+  private parseExplist(): ast.Expression[] {
     const expressions = [this.parseExpression()];
 
     while (this.tokenCursor.consumeNext(",")) {
@@ -796,7 +737,7 @@ class Parser {
   }
 
   // namelist ::= Name {‘,’ Name}
-  parseNamelist(): ast.Identifier[] {
+  private parseNamelist(): ast.Identifier[] {
     const namelist = [this.parseIdentifierExpression()];
 
     while (this.tokenCursor.consumeNext(",")) {
@@ -807,7 +748,7 @@ class Parser {
   }
 
   // funcname ::= Name {‘.’ Name} [‘:’ Name]
-  parseFuncname(): ast.Identifier | ast.MemberExpression {
+  private parseFuncname(): ast.Identifier | ast.MemberExpression {
     this.expect(Identifier);
 
     const base = this.parseIdentifierExpression();
@@ -828,7 +769,7 @@ class Parser {
   }
 
   // parlist ::= namelist [‘,’ ‘...’] | ‘...’
-  parseParlist(): ast.Expression[] {
+  private parseParlist(): ast.Expression[] {
     this.expect("(").advance();
 
     const parlist = [];
@@ -856,7 +797,7 @@ class Parser {
   }
 
   // funcbody ::= ‘(’ [parlist] ‘)’ block end
-  parseFuncbody(): [ast.Expression[], ast.Block] {
+  private parseFuncbody(): [ast.Expression[], ast.Block] {
     const parlist = this.parseParlist();
 
     this.tokenCursor.advance();
@@ -866,6 +807,78 @@ class Parser {
     this.expect(End);
 
     return [parlist, block];
+  }
+
+  //     suffix ::= '[' exp ']' | '.' Name | ':' Name args | args
+  //     args ::= '(' [explist] ')' | tableconstructor | String
+  private chainFunctionCalls(leftExpression: ast.Expression): ast.Expression {
+    while (
+      this.tokenCursor.someMatchNext(StringLiteral, "(", "{", "[", ".", ":")
+    ) {
+      if (this.tokenCursor.consumeNext("[")) {
+        const expression = this.parseExpression();
+
+        this.tokenCursor.advance();
+
+        this.expect("]");
+
+        leftExpression = new ast.IndexExpression(
+          leftExpression,
+          expression,
+        );
+      }
+
+      if (this.tokenCursor.consumeNext(".")) {
+        const identifier = this.parseIdentifierExpression();
+
+        leftExpression = new ast.MemberExpression(
+          leftExpression,
+          ".",
+          identifier,
+        );
+      }
+
+      if (this.tokenCursor.consumeNext(":")) {
+        const identifier = this.parseIdentifierExpression();
+
+        leftExpression = new ast.MemberExpression(
+          leftExpression,
+          ":",
+          identifier,
+        );
+
+        this.tokenCursor.advance();
+
+        const args = this.parseArgs();
+
+        leftExpression = this.createFunctionCallExpression(
+          leftExpression,
+          args,
+        );
+      }
+
+      if (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
+        this.tokenCursor.advance();
+
+        const args = this.parseArgs();
+
+        leftExpression = this.createFunctionCallExpression(
+          leftExpression,
+          args,
+        );
+      }
+    }
+
+    return leftExpression;
+  }
+
+  private createFunctionCallExpression(
+    base: ast.Expression,
+    args: ast.Expression[],
+  ): ast.Expression {
+    return this.chainFunctionCalls(
+      new ast.FunctionCallExpression(base, args),
+    );
   }
 
   ////////////////////////////////////////////////////////////////////////

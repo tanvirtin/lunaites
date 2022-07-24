@@ -1096,7 +1096,6 @@ describe("Parser", () => {
 });
 
 const source = `
-  break;
   local foo
   local bar
   local x, y, z
@@ -1105,7 +1104,6 @@ const source = `
   local a = 3;
   local b = 4;
   local c = '1'
-  break;
 
   do
     local a = 3;
@@ -1216,7 +1214,6 @@ ${source}
 
     assertEquals(minimizedAst, {
       body: [
-        BreakStatement,
         {
           type: LocalStatement,
           variables: [Identifier],
@@ -1257,7 +1254,6 @@ ${source}
           variables: [Identifier],
           init: [StringLiteral],
         },
-        BreakStatement,
         {
           type: DoStatement,
           body: [
