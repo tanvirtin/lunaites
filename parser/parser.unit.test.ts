@@ -1532,9 +1532,9 @@ ${source}
         {
           type: FunctionCallStatement,
           expression: {
-            type: StringFunctionCallExpression,
+            type: FunctionCallExpression,
             base: Identifier,
-            argument: StringLiteral,
+            args: [StringLiteral],
           },
         },
         {
@@ -1618,60 +1618,61 @@ ${source}
             base: Identifier,
           },
         },
-
         {
           type: FunctionCallStatement,
           expression: {
-            type: StringFunctionCallExpression,
-            argument: {
-              fieldlist: [
-                {
-                  type: TableValue,
-                  value: NumericLiteral,
-                },
-                {
-                  type: TableKeyString,
-                  key: Identifier,
-                  value: {
-                    fieldlist: [
-                      {
-                        type: TableValue,
-                        value: BooleanLiteral,
-                      },
-                      {
-                        type: TableKeyString,
-                        key: Identifier,
-                        value: {
-                          fieldlist: [
-                            {
-                              type: TableValue,
-                              value: StringLiteral,
-                            },
-                            {
-                              type: TableKeyString,
-                              key: Identifier,
-                              value: {
-                                fieldlist: [
-                                  {
-                                    type: TableValue,
-                                    value: NilLiteral,
-                                  },
-                                ],
-                                type: TableConstructor,
-                              },
-                            },
-                          ],
-                          type: TableConstructor,
-                        },
-                      },
-                    ],
-                    type: TableConstructor,
-                  },
-                },
-              ],
-              type: TableConstructor,
-            },
+            type: FunctionCallExpression,
             base: Identifier,
+            args: [
+              {
+                type: TableConstructor,
+                fieldlist: [
+                  {
+                    type: TableValue,
+                    value: NumericLiteral,
+                  },
+                  {
+                    type: TableKeyString,
+                    key: Identifier,
+                    value: {
+                      type: TableConstructor,
+                      fieldlist: [
+                        {
+                          type: TableValue,
+                          value: BooleanLiteral,
+                        },
+                        {
+                          type: TableKeyString,
+                          key: Identifier,
+                          value: {
+                            type: TableConstructor,
+                            fieldlist: [
+                              {
+                                type: TableValue,
+                                value: StringLiteral,
+                              },
+                              {
+                                type: TableKeyString,
+                                key: Identifier,
+                                value: {
+                                  fieldlist: [
+                                    {
+                                      type: TableValue,
+                                      value: NilLiteral,
+                                    },
+                                  ],
+                                  type: TableConstructor,
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            ],
           },
         },
         {
@@ -1692,15 +1693,26 @@ ${source}
 
 (() => {
   const parser = new Parser(`
-  a:b(1, 2, 9)
   a "3"
-  a = {
-    [3] = 3,
-    b = 3;
-    nil,
-    3 + 4
+  a:b()
+  a:b(1, 2, 3)
+  x.y()
+  x.y(true, 'foo', 3)
+  foo()
+  foo(1, true, 'foo', 4.1)
+  bar {
+    1,
+    b = {
+      true,
+      c = {
+        'sup',
+        d = {
+          nil
+        }
+      }
+    }
   }
-  (a)(1, 2, 3)() "" {} ()
+
 `);
   const minimizerVisitor = new MinimizerVisitor();
   const minimizedAst = minimizerVisitor.visit(parser.parse());

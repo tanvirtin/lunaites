@@ -27,9 +27,6 @@ const source = `
     local a = x + y;
   end
 
-  function()
-  end
-
   local function bar()
   end
 
