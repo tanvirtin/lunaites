@@ -1,5 +1,4 @@
 import { Scanner, Token, TokenizerException, TokenType } from "./mod.ts";
-// import { Profiler } from "../core/mod.ts";
 
 interface TokenizerOptions {
   labels?: boolean;
@@ -717,40 +716,109 @@ class Tokenizer {
   //@Profiler.bench
   private tokenizePunctuator(punctuator: string): Token {
     const { scanner } = this;
-    const punctuatorTable: Record<string, TokenType> = {
-      [".."]: DoubleDot,
-      ["."]: Dot,
-      [","]: Comma,
-      ["=="]: DoubleEqual,
-      ["="]: Equal,
-      [">="]: GreaterThanEqual,
-      [">>"]: DoubleGreaterThan,
-      [">"]: GreaterThan,
-      ["<="]: LessThanEqual,
-      ["<<"]: DoubleLessThan,
-      ["<"]: LessThan,
-      ["~="]: TildaEqual,
-      ["~"]: Tilda,
-      ["//"]: DoubleDivide,
-      ["/"]: Divide,
-      [":"]: Colon,
-      ["::"]: DoubleColon,
-      ["&"]: Ampersand,
-      ["|"]: Pipe,
-      ["*"]: Star,
-      ["^"]: Carrot,
-      ["%"]: Percentage,
-      ["{"]: OpenBrace,
-      ["}"]: ClosedBrace,
-      ["["]: OpenBracket,
-      ["]"]: ClosedBracket,
-      ["("]: OpenParenthesis,
-      [")"]: ClosedParenthesis,
-      [";"]: SemiColon,
-      ["#"]: HashTag,
-      ["-"]: Minus,
-      ["+"]: Plus,
-    };
+
+    let type: TokenType;
+
+    switch (punctuator) {
+      case "..":
+        type = DoubleDot;
+        break;
+      case ".":
+        type = Dot;
+        break;
+      case ",":
+        type = Comma;
+        break;
+      case "==":
+        type = DoubleEqual;
+        break;
+      case "=":
+        type = Equal;
+        break;
+      case ">=":
+        type = GreaterThanEqual;
+        break;
+      case ">>":
+        type = DoubleGreaterThan;
+        break;
+      case ">":
+        type = GreaterThan;
+        break;
+      case "<=":
+        type = LessThanEqual;
+        break;
+      case "<<":
+        type = DoubleLessThan;
+        break;
+      case "<":
+        type = LessThan;
+        break;
+      case "~=":
+        type = TildaEqual;
+        break;
+      case "~":
+        type = Tilda;
+        break;
+      case "//":
+        type = DoubleDivide;
+        break;
+      case "/":
+        type = Divide;
+        break;
+      case ":":
+        type = Colon;
+        break;
+      case "::":
+        type = DoubleColon;
+        break;
+      case "&":
+        type = Ampersand;
+        break;
+      case "|":
+        type = Pipe;
+        break;
+      case "*":
+        type = Star;
+        break;
+      case "^":
+        type = Carrot;
+        break;
+      case "%":
+        type = Percentage;
+        break;
+      case "{":
+        type = OpenBrace;
+        break;
+      case "}":
+        type = ClosedBrace;
+        break;
+      case "[":
+        type = OpenBracket;
+        break;
+      case "]":
+        type = ClosedBracket;
+        break;
+      case "(":
+        type = OpenParenthesis;
+        break;
+      case ")":
+        type = ClosedParenthesis;
+        break;
+      case ";":
+        type = SemiColon;
+        break;
+      case "#":
+        type = HashTag;
+        break;
+      case "-":
+        type = Minus;
+        break;
+      case "+":
+        type = Plus;
+        break;
+      default:
+        TokenizerException.raiseUnexpectedCharacterError(this.scanner);
+    }
 
     // Put a mark on the scanner before we progress it.
     scanner.mark();
@@ -758,7 +826,7 @@ class Tokenizer {
     scanner.scan(punctuator.length);
 
     return {
-      type: punctuatorTable[punctuator],
+      type,
       value: scanner.text,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
@@ -767,7 +835,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   tokenize(): Token {
     const { scanner, options, isStarted } = this;
 
