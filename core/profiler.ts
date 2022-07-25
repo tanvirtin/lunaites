@@ -5,7 +5,7 @@ interface Execution {
 }
 
 class Profiler {
-  private static enabled = false;
+  private static enabled = true;
   private static programStartedOn = performance.now();
   private static executionMap: Record<string, Execution> = {};
 
