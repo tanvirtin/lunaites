@@ -8,7 +8,7 @@ class TokenCursor {
   #internalIndex = -1;
   #tokens: Token[] = [];
   #tokenizer: Tokenizer;
-  public eofToken: Token | void = undefined;
+  eofToken: Token | void = undefined;
 
   constructor(tokenizer: Tokenizer) {
     this.#tokenizer = tokenizer;

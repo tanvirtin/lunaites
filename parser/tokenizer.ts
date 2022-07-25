@@ -75,7 +75,7 @@ const {
 // References: https://www.ibm.com/docs/en/i/7.3?topic=tokens-literals
 
 class Tokenizer {
-  public scanner: Scanner;
+  scanner: Scanner;
   #isStarted = false;
   #tokens: Token[] = [];
   #options: TokenizerOptions = {

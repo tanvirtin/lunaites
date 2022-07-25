@@ -7,8 +7,8 @@ interface ScannerOptions {
 class Scanner {
   #source = "";
   #index = 0;
-  public lnum = 1;
-  public lnumStartIndex = 0;
+  lnum = 1;
+  lnumStartIndex = 0;
   #markedIndex = 0;
   #options: ScannerOptions = {
     extendedIdentifiers: true,
