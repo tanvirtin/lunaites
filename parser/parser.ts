@@ -139,70 +139,74 @@ class Parser {
 
   // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   #parseArgs(): ast.Expression[] {
-    if (this.#tokenCursor.match(OpenParenthesis)) {
-      this.#tokenCursor.advance();
+    const tokenType = this.#tokenCursor.current.type;
 
-      if (this.#tokenCursor.match(ClosedParenthesis)) {
-        return [];
+    switch (tokenType) {
+      case OpenParenthesis: {
+        this.#tokenCursor.advance();
+
+        if (this.#tokenCursor.current.type === ClosedParenthesis) {
+          return [];
+        }
+
+        const explist = this.#parseExplist();
+
+        this.#tokenCursor.advance();
+
+        this.#expect(ClosedParenthesis);
+
+        return explist;
       }
-
-      const explist = this.#parseExplist();
-
-      this.#tokenCursor.advance();
-
-      this.#expect(ClosedParenthesis);
-
-      return explist;
+      case OpenBrace:
+        return [this.#parseTableConstructorExpression()];
+      case StringLiteral:
+        return [this.#parseStringLiteralExpression()];
+      default:
+        ParserException.raiseExpectedError(
+          this.#scanner,
+          "function arguments",
+          this.#tokenCursor.current,
+        );
     }
-
-    if (this.#tokenCursor.match(OpenBrace)) {
-      return [this.#parseTableConstructorExpression()];
-    }
-
-    if (this.#tokenCursor.match(StringLiteral)) {
-      return [this.#parseStringLiteralExpression()];
-    }
-
-    ParserException.raiseExpectedError(
-      this.#scanner,
-      "function arguments",
-      this.#tokenCursor.current,
-    );
   }
 
   // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
   #parseField(): ast.Expression {
-    if (this.#tokenCursor.match(OpenBracket)) {
-      this.#tokenCursor.advance();
+    const tokenType = this.#tokenCursor.current.type;
 
-      const key = this.parseExpression();
+    switch (tokenType) {
+      case OpenBracket: {
+        this.#tokenCursor.advance();
 
-      this.#tokenCursor.advance();
+        const key = this.parseExpression();
 
-      this.#expect(ClosedBracket).advance();
+        this.#tokenCursor.advance();
 
-      this.#expect(Equal).advance();
+        this.#expect(ClosedBracket).advance();
 
-      const value = this.parseExpression();
+        this.#expect(Equal).advance();
 
-      return new ast.TableKey(key, value);
+        const value = this.parseExpression();
+
+        return new ast.TableKey(key, value);
+      }
+      case Identifier: {
+        const key = this.#parseIdentifierExpression();
+
+        this.#tokenCursor.advance();
+
+        this.#expect(Equal).advance();
+
+        const value = this.parseExpression();
+
+        return new ast.TableKeyString(key, value);
+      }
+      default: {
+        const value = this.parseExpression();
+
+        return new ast.TableValue(value);
+      }
     }
-
-    if (this.#tokenCursor.match(Identifier)) {
-      const key = this.#parseIdentifierExpression();
-
-      this.#tokenCursor.advance();
-
-      this.#expect(Equal).advance();
-
-      const value = this.parseExpression();
-
-      return new ast.TableKeyString(key, value);
-    }
-
-    const value = this.parseExpression();
-
-    return new ast.TableValue(value);
   }
 
   // fieldlist ::= field {fieldsep field} [fieldsep]
@@ -231,71 +235,73 @@ class Parser {
   // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
   #parseVar(): ast.Expression {
-    if (this.#tokenCursor.match(OpenParenthesis)) {
-      return this.#chainFunctionCalls(this.#parseGroupingExpression());
+    const tokenType = this.#tokenCursor.current.type;
+
+    switch (tokenType) {
+      case OpenParenthesis:
+        return this.#chainFunctionCalls(this.#parseGroupingExpression());
+      case Identifier: {
+        const base = this.#parseIdentifierExpression();
+
+        if (this.#tokenCursor.consumeNext(OpenBracket)) {
+          const expression = this.parseExpression();
+
+          this.#tokenCursor.advance();
+
+          this.#expect(ClosedBracket);
+
+          return this.#chainFunctionCalls(
+            new ast.IndexExpression(base, expression),
+          );
+        }
+
+        if (this.#tokenCursor.consumeNext(Dot)) {
+          const identifier = this.#parseIdentifierExpression();
+
+          return this.#chainFunctionCalls(
+            new ast.MemberExpression(base, ".", identifier),
+          );
+        }
+
+        if (this.#tokenCursor.consumeNext(Colon)) {
+          const identifier = this.#parseIdentifierExpression();
+
+          const memberExpression = new ast.MemberExpression(
+            base,
+            ":",
+            identifier,
+          );
+
+          this.#tokenCursor.advance();
+
+          const args = this.#parseArgs();
+
+          return this.#createFunctionCallExpression(memberExpression, args);
+        }
+
+        if (
+          this.#tokenCursor.someMatchNext(
+            OpenParenthesis,
+            OpenBrace,
+            StringLiteral,
+          )
+        ) {
+          this.#tokenCursor.advance();
+
+          const args = this.#parseArgs();
+
+          return this.#createFunctionCallExpression(base, args);
+        }
+
+        return base;
+      }
+      default:
+        ParserException.raiseExpectedError(
+          this.#scanner,
+          "=",
+          this.#tokenCursor.next,
+        );
     }
-
-    if (this.#tokenCursor.match(Identifier)) {
-      const base = this.#parseIdentifierExpression();
-
-      if (this.#tokenCursor.consumeNext(OpenBracket)) {
-        const expression = this.parseExpression();
-
-        this.#tokenCursor.advance();
-
-        this.#expect(ClosedBracket);
-
-        return this.#chainFunctionCalls(
-          new ast.IndexExpression(base, expression),
-        );
-      }
-
-      if (this.#tokenCursor.consumeNext(Dot)) {
-        const identifier = this.#parseIdentifierExpression();
-
-        return this.#chainFunctionCalls(
-          new ast.MemberExpression(base, ".", identifier),
-        );
-      }
-
-      if (this.#tokenCursor.consumeNext(Colon)) {
-        const identifier = this.#parseIdentifierExpression();
-
-        const memberExpression = new ast.MemberExpression(
-          base,
-          ":",
-          identifier,
-        );
-
-        this.#tokenCursor.advance();
-
-        const args = this.#parseArgs();
-
-        return this.#createFunctionCallExpression(memberExpression, args);
-      }
-
-      if (
-        this.#tokenCursor.someMatchNext(
-          OpenParenthesis,
-          OpenBrace,
-          StringLiteral,
-        )
-      ) {
-        this.#tokenCursor.advance();
-
-        const args = this.#parseArgs();
-
-        return this.#createFunctionCallExpression(base, args);
-      }
-
-      return base;
-    }
-
-    ParserException.raiseExpectedError(
-      this.#scanner,
-      "=",
-      this.#tokenCursor.next,
-    );
   }
 
   // varlist ::= var {‘,’ var}
@@ -335,19 +341,24 @@ class Parser {
   #parseFuncname(): ast.Identifier | ast.MemberExpression {
     const base = this.#parseIdentifierExpression();
 
-    if (this.#tokenCursor.someMatchNext(Dot, Colon)) {
-      this.#tokenCursor.advance();
+    const nextTokenType = this.#tokenCursor.next.type;
 
-      const indexerToken = this.#tokenCursor.current;
+    switch (nextTokenType) {
+      case Dot:
+      case Colon: {
+        this.#tokenCursor.advance();
 
-      this.#tokenCursor.advance();
+        const indexerToken = this.#tokenCursor.current;
 
-      const identifier = this.#parseIdentifierExpression();
+        this.#tokenCursor.advance();
 
-      return new ast.MemberExpression(base, indexerToken.value, identifier);
+        const identifier = this.#parseIdentifierExpression();
+
+        return new ast.MemberExpression(base, indexerToken.value, identifier);
+      }
+      default:
+        return base;
     }
-
-    return base;
   }
 
   // parlist ::= namelist [‘,’ ‘...’] | ‘...’
@@ -356,21 +367,26 @@ class Parser {
 
     const parlist = [];
 
-    if (this.#tokenCursor.match(VarargLiteral)) {
-      parlist.push(this.#parseVarargLiteralExpression());
-    } else if (this.#tokenCursor.match(Identifier)) {
-      parlist.push(this.#parseIdentifierExpression());
+    const tokenType = this.#tokenCursor.current.type;
 
-      while (this.#tokenCursor.consumeNext(Comma)) {
-        if (this.#tokenCursor.match(VarargLiteral)) {
-          parlist.push(this.#parseVarargLiteralExpression());
-          break;
+    switch (tokenType) {
+      case VarargLiteral:
+        parlist.push(this.#parseVarargLiteralExpression());
+        break;
+      case Identifier: {
+        parlist.push(this.#parseIdentifierExpression());
+
+        while (this.#tokenCursor.consumeNext(Comma)) {
+          if (this.#tokenCursor.match(VarargLiteral)) {
+            parlist.push(this.#parseVarargLiteralExpression());
+            break;
+          }
+
+          parlist.push(this.#parseIdentifierExpression());
         }
 
-        parlist.push(this.#parseIdentifierExpression());
+        this.#tokenCursor.advance();
       }
-
-      this.#tokenCursor.advance();
     }
 
     this.#expect(ClosedParenthesis);
@@ -763,29 +779,31 @@ class Parser {
   parseLocalStatement(): ast.Statement {
     this.#expect(Local).advance();
 
-    if (this.#tokenCursor.match(Function)) {
-      return this.parseLocalFunctionStatement();
-    }
+    const tokenType = this.#tokenCursor.current.type;
 
-    if (this.#tokenCursor.match(Identifier)) {
-      const namelist = this.#parseNamelist();
+    switch (tokenType) {
+      case Function:
+        return this.parseLocalFunctionStatement();
+      case Identifier: {
+        const namelist = this.#parseNamelist();
 
-      // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
-      if (this.#tokenCursor.consumeNext(Equal)) {
-        const explist = this.#parseExplist();
+        // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
+        if (this.#tokenCursor.consumeNext(Equal)) {
+          const explist = this.#parseExplist();
 
-        return new ast.LocalStatement(namelist, explist);
+          return new ast.LocalStatement(namelist, explist);
+        }
+
+        return new ast.LocalStatement(namelist, []);
       }
-
-      return new ast.LocalStatement(namelist, []);
+      default:
+        // Replicating the lua REPL error.
+        ParserException.raiseExpectedError(
+          this.#scanner,
+          "<name>",
+          this.#tokenCursor.next,
+        );
     }
-
-    // Replicating the lua REPL error.
-    ParserException.raiseExpectedError(
-      this.#scanner,
-      "<name>",
-      this.#tokenCursor.next,
-    );
   }
 
   // label ::= '::' Name '::'

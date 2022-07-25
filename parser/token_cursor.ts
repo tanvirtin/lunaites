@@ -66,8 +66,16 @@ class TokenCursor {
     return this.#tokens[this.index];
   }
 
+  get currentType(): TokenType {
+    return this.#tokens[this.index].type;
+  }
+
   get next(): Token {
     return this.lookahead(1);
+  }
+
+  get nextType(): TokenType {
+    return this.lookahead(1).type;
   }
 
   isBlockFollow(): boolean {
