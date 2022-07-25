@@ -10,6 +10,8 @@ import {
 
 const {
   Not,
+  Dot,
+  Colon,
   Equal,
   Do,
   Identifier,
@@ -437,7 +439,7 @@ class Parser {
   #parseFieldlist(): ast.Expression[] {
     const fieldList = [this.#parseField()];
 
-    while (this.#tokenCursor.someMatchNext(",", ";")) {
+    while (this.#tokenCursor.someMatchNext(Comma, SemiColon)) {
       // Move to the either matched "," or ";"
       this.#tokenCursor.advance();
 
@@ -478,7 +480,7 @@ class Parser {
         );
       }
 
-      if (this.#tokenCursor.consumeNext(".")) {
+      if (this.#tokenCursor.consumeNext(Dot)) {
         const identifier = this.#parseIdentifierExpression();
 
         return this.#chainFunctionCalls(
@@ -486,7 +488,7 @@ class Parser {
         );
       }
 
-      if (this.#tokenCursor.consumeNext(":")) {
+      if (this.#tokenCursor.consumeNext(Colon)) {
         const identifier = this.#parseIdentifierExpression();
 
         const memberExpression = new ast.MemberExpression(
@@ -530,7 +532,7 @@ class Parser {
   #parseVarlist(): ast.Expression[] {
     const varlist = [this.#parseVar()];
 
-    while (this.#tokenCursor.consumeNext(",")) {
+    while (this.#tokenCursor.consumeNext(Comma)) {
       varlist.push(this.#parseVar());
     }
 
@@ -541,7 +543,7 @@ class Parser {
   #parseExplist(): ast.Expression[] {
     const expressions = [this.parseExpression()];
 
-    while (this.#tokenCursor.consumeNext(",")) {
+    while (this.#tokenCursor.consumeNext(Comma)) {
       expressions.push(this.parseExpression());
     }
 
@@ -552,7 +554,7 @@ class Parser {
   #parseNamelist(): ast.Identifier[] {
     const namelist = [this.#parseIdentifierExpression()];
 
-    while (this.#tokenCursor.consumeNext(",")) {
+    while (this.#tokenCursor.consumeNext(Comma)) {
       namelist.push(this.#parseIdentifierExpression());
     }
 
@@ -565,7 +567,7 @@ class Parser {
 
     const base = this.#parseIdentifierExpression();
 
-    if (this.#tokenCursor.someMatchNext(".", ":")) {
+    if (this.#tokenCursor.someMatchNext(Dot, Colon)) {
       this.#tokenCursor.advance();
 
       const indexerToken = this.#tokenCursor.current;
@@ -591,7 +593,7 @@ class Parser {
     } else if (this.#tokenCursor.match(Identifier)) {
       parlist.push(this.#parseIdentifierExpression());
 
-      while (this.#tokenCursor.consumeNext(",")) {
+      while (this.#tokenCursor.consumeNext(Comma)) {
         if (this.#tokenCursor.match(VarargLiteral)) {
           parlist.push(this.#parseVarargLiteralExpression());
           break;
@@ -647,7 +649,7 @@ class Parser {
         );
       }
 
-      if (this.#tokenCursor.consumeNext(".")) {
+      if (this.#tokenCursor.consumeNext(Dot)) {
         const identifier = this.#parseIdentifierExpression();
 
         leftExpression = new ast.MemberExpression(
@@ -657,7 +659,7 @@ class Parser {
         );
       }
 
-      if (this.#tokenCursor.consumeNext(":")) {
+      if (this.#tokenCursor.consumeNext(Colon)) {
         const identifier = this.#parseIdentifierExpression();
 
         leftExpression = new ast.MemberExpression(
@@ -900,7 +902,7 @@ class Parser {
       const namelist = this.#parseNamelist();
 
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
-      if (this.#tokenCursor.consumeNext("=")) {
+      if (this.#tokenCursor.consumeNext(Equal)) {
         const explist = this.#parseExplist();
 
         return new ast.LocalStatement(namelist, explist);
@@ -1038,11 +1040,12 @@ class Parser {
     const variable = this.#parseIdentifierExpression();
 
     // Parse for generic statement
-    if (this.#tokenCursor.matchNext(",")) {
+    if (this.#tokenCursor.matchNext(Comma)) {
       const variables: ast.Identifier[] = [variable];
 
       while (
-        !this.#tokenCursor.consumeNext(In) && this.#tokenCursor.consumeNext(",")
+        !this.#tokenCursor.consumeNext(In) &&
+        this.#tokenCursor.consumeNext(Comma)
       ) {
         variables.push(this.#parseIdentifierExpression());
       }
@@ -1075,7 +1078,7 @@ class Parser {
     let step;
     // Rule obligation: We are at the last token parseExpression ended on,
     // so we have to consumeNext not consume.
-    if (this.#tokenCursor.consumeNext(",")) {
+    if (this.#tokenCursor.consumeNext(Comma)) {
       step = this.parseExpression();
     }
 
