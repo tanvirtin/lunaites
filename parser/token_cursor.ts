@@ -70,12 +70,20 @@ class TokenCursor {
     return this.#tokens[this.index].type;
   }
 
+  get currentValue(): string {
+    return this.#tokens[this.index].value;
+  }
+
   get next(): Token {
     return this.lookahead(1);
   }
 
+  get nextValue(): string {
+    return this.next.value;
+  }
+
   get nextType(): TokenType {
-    return this.lookahead(1).type;
+    return this.next.type;
   }
 
   isBlockFollow(): boolean {

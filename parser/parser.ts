@@ -139,13 +139,13 @@ class Parser {
 
   // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   #parseArgs(): ast.Expression[] {
-    const tokenType = this.#tokenCursor.current.type;
+    const tokenType = this.#tokenCursor.currentType;
 
     switch (tokenType) {
       case OpenParenthesis: {
         this.#tokenCursor.advance();
 
-        if (this.#tokenCursor.current.type === ClosedParenthesis) {
+        if (this.#tokenCursor.currentType === ClosedParenthesis) {
           return [];
         }
 
@@ -172,7 +172,7 @@ class Parser {
 
   // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
   #parseField(): ast.Expression {
-    const tokenType = this.#tokenCursor.current.type;
+    const tokenType = this.#tokenCursor.currentType;
 
     switch (tokenType) {
       case OpenBracket: {
@@ -218,7 +218,7 @@ class Parser {
       this.#tokenCursor.advance();
 
       // However if we encounter ClosedBrace we have a dangling "," or ";"
-      if (this.#tokenCursor.matchNext(ClosedBrace)) {
+      if (this.#tokenCursor.nextType === ClosedBrace) {
         break;
       }
 
@@ -235,64 +235,64 @@ class Parser {
   // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
   #parseVar(): ast.Expression {
-    const tokenType = this.#tokenCursor.current.type;
+    const tokenType = this.#tokenCursor.currentType;
 
     switch (tokenType) {
       case OpenParenthesis:
         return this.#chainFunctionCalls(this.#parseGroupingExpression());
       case Identifier: {
         const base = this.#parseIdentifierExpression();
+        const nextTokenType = this.#tokenCursor.nextType;
 
-        if (this.#tokenCursor.consumeNext(OpenBracket)) {
-          const expression = this.parseExpression();
+        switch (nextTokenType) {
+          case OpenBracket: {
+            this.#tokenCursor.advance().advance();
+            const expression = this.parseExpression();
 
-          this.#tokenCursor.advance();
+            this.#tokenCursor.advance();
 
-          this.#expect(ClosedBracket);
+            this.#expect(ClosedBracket);
 
-          return this.#chainFunctionCalls(
-            new ast.IndexExpression(base, expression),
-          );
+            return this.#chainFunctionCalls(
+              new ast.IndexExpression(base, expression),
+            );
+          }
+          case Dot: {
+            this.#tokenCursor.advance().advance();
+
+            const identifier = this.#parseIdentifierExpression();
+
+            return this.#chainFunctionCalls(
+              new ast.MemberExpression(base, ".", identifier),
+            );
+          }
+          case Colon: {
+            this.#tokenCursor.advance().advance();
+
+            const identifier = this.#parseIdentifierExpression();
+
+            const memberExpression = new ast.MemberExpression(
+              base,
+              ":",
+              identifier,
+            );
+
+            this.#tokenCursor.advance();
+
+            const args = this.#parseArgs();
+
+            return this.#createFunctionCallExpression(memberExpression, args);
+          }
+          case OpenParenthesis:
+          case OpenBrace:
+          case StringLiteral: {
+            this.#tokenCursor.advance();
+
+            const args = this.#parseArgs();
+
+            return this.#createFunctionCallExpression(base, args);
+          }
         }
-
-        if (this.#tokenCursor.consumeNext(Dot)) {
-          const identifier = this.#parseIdentifierExpression();
-
-          return this.#chainFunctionCalls(
-            new ast.MemberExpression(base, ".", identifier),
-          );
-        }
-
-        if (this.#tokenCursor.consumeNext(Colon)) {
-          const identifier = this.#parseIdentifierExpression();
-
-          const memberExpression = new ast.MemberExpression(
-            base,
-            ":",
-            identifier,
-          );
-
-          this.#tokenCursor.advance();
-
-          const args = this.#parseArgs();
-
-          return this.#createFunctionCallExpression(memberExpression, args);
-        }
-
-        if (
-          this.#tokenCursor.someMatchNext(
-            OpenParenthesis,
-            OpenBrace,
-            StringLiteral,
-          )
-        ) {
-          this.#tokenCursor.advance();
-
-          const args = this.#parseArgs();
-
-          return this.#createFunctionCallExpression(base, args);
-        }
-
         return base;
       }
       default:
@@ -341,7 +341,7 @@ class Parser {
   #parseFuncname(): ast.Identifier | ast.MemberExpression {
     const base = this.#parseIdentifierExpression();
 
-    const nextTokenType = this.#tokenCursor.next.type;
+    const nextTokenType = this.#tokenCursor.nextType;
 
     switch (nextTokenType) {
       case Dot:
@@ -367,7 +367,7 @@ class Parser {
 
     const parlist = [];
 
-    const tokenType = this.#tokenCursor.current.type;
+    const tokenType = this.#tokenCursor.currentType;
 
     switch (tokenType) {
       case VarargLiteral:
@@ -377,7 +377,7 @@ class Parser {
         parlist.push(this.#parseIdentifierExpression());
 
         while (this.#tokenCursor.consumeNext(Comma)) {
-          if (this.#tokenCursor.match(VarargLiteral)) {
+          if (this.#tokenCursor.currentType === VarargLiteral) {
             parlist.push(this.#parseVarargLiteralExpression());
             break;
           }
@@ -462,21 +462,21 @@ class Parser {
         );
       }
 
-      if (
-        this.#tokenCursor.someMatchNext(
-          StringLiteral,
-          OpenParenthesis,
-          OpenBrace,
-        )
-      ) {
-        this.#tokenCursor.advance();
+      const nextTokenType = this.#tokenCursor.nextType;
 
-        const args = this.#parseArgs();
+      switch (nextTokenType) {
+        case StringLiteral:
+        case OpenParenthesis:
+        case OpenBrace: {
+          this.#tokenCursor.advance();
 
-        leftExpression = this.#createFunctionCallExpression(
-          leftExpression,
-          args,
-        );
+          const args = this.#parseArgs();
+
+          leftExpression = this.#createFunctionCallExpression(
+            leftExpression,
+            args,
+          );
+        }
       }
     }
 
@@ -536,7 +536,7 @@ class Parser {
   #parseTableConstructorExpression(): ast.Expression {
     this.#expect(OpenBrace).advance();
 
-    if (this.#tokenCursor.match(ClosedBrace)) {
+    if (this.#tokenCursor.currentType === ClosedBrace) {
       return new ast.TableConstructor([]);
     }
 
@@ -608,7 +608,7 @@ class Parser {
     // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
     //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
 
-    const tokenType = this.#tokenCursor.current.type;
+    const tokenType = this.#tokenCursor.currentType;
 
     let leftExpression: Expression;
 
@@ -695,7 +695,7 @@ class Parser {
     ) {
       this.#tokenCursor.advance();
 
-      const tokenType = this.#tokenCursor.current.type;
+      const tokenType = this.#tokenCursor.currentType;
 
       switch (tokenType) {
         case Plus:
@@ -779,7 +779,7 @@ class Parser {
   parseLocalStatement(): ast.Statement {
     this.#expect(Local).advance();
 
-    const tokenType = this.#tokenCursor.current.type;
+    const tokenType = this.#tokenCursor.currentType;
 
     switch (tokenType) {
       case Function:
@@ -927,7 +927,7 @@ class Parser {
     const variable = this.#parseIdentifierExpression();
 
     // Parse for generic statement
-    if (this.#tokenCursor.matchNext(Comma)) {
+    if (this.#tokenCursor.nextType === Comma) {
       const variables: ast.Identifier[] = [variable];
 
       while (
