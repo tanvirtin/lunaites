@@ -1,3 +1,4 @@
+import { Expression } from "./ast.ts";
 import {
   ast,
   ParserException,
@@ -75,29 +76,10 @@ const {
 // - https://www.lua.org/manual/5.4/manual.html#9
 // - https://craftinginterpreters.com/
 
-// Null denotation tokens will not contain any left expression associated with it.
-type NullDenotationExpressionParselet = () => ast.Expression;
-// Left denotation tokens will contain a left expression associated with it.
-type LeftDenotationExpressionParselet = (
-  leftExpression: ast.Expression,
-) => ast.Expression;
-
-type ExpressionParseletTable<T> = Partial<Record<TokenType, T>>;
-type NullDenotationExpressionParseletTable = ExpressionParseletTable<
-  NullDenotationExpressionParselet
->;
-type LeftDenotationExpressionParseletTable = ExpressionParseletTable<
-  LeftDenotationExpressionParselet
->;
-
 // Pratt parser.
 class Parser {
   #scanner: Scanner;
   #tokenCursor: TokenCursor;
-  #nullDenotationExpressionParseletTable:
-    NullDenotationExpressionParseletTable = {};
-  #leftDenotationExpressionParseletTable:
-    LeftDenotationExpressionParseletTable = {};
 
   constructor(source: string) {
     const scanner = new Scanner(source);
@@ -109,214 +91,8 @@ class Parser {
     this.#scanner = scanner;
     this.#tokenCursor = tokenCursor;
 
-    this.#registerExpressionParselets();
-
     // We start the cursor.
     this.#tokenCursor.advance();
-  }
-
-  #registerNullDenotationExpressionParselet(
-    tokenType: TokenType,
-    nullDenotationExpressionParselet: NullDenotationExpressionParselet,
-  ): Parser {
-    this.#nullDenotationExpressionParseletTable[tokenType] =
-      nullDenotationExpressionParselet.bind(
-        this,
-      );
-
-    return this;
-  }
-
-  #registerLeftDenotationExpressionParselet(
-    tokenType: TokenType,
-    leftDenotationExpressionParselet: LeftDenotationExpressionParselet,
-  ): Parser {
-    this.#leftDenotationExpressionParseletTable[tokenType] =
-      leftDenotationExpressionParselet.bind(
-        this,
-      );
-
-    return this;
-  }
-
-  #registerNullDenotationExpressionParselets(): Parser {
-    this.#registerNullDenotationExpressionParselet(
-      NumericLiteral,
-      this.#parseNumericLiteralExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      StringLiteral,
-      this.#parseStringLiteralExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      BooleanLiteral,
-      this.#parseBooleanLiteralExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      NilLiteral,
-      this.#parseNilLiteralExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      VarargLiteral,
-      this.#parseVarargLiteralExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      CommentLiteral,
-      this.#parseCommentLiteralExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      Not,
-      this.#parseUnaryExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      HashTag,
-      this.#parseUnaryExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      Tilda,
-      this.#parseUnaryExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      Minus,
-      this.#parseUnaryExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      Function,
-      this.#parseFunctionExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      OpenBrace,
-      this.#parseTableConstructorExpression,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      Identifier,
-      this.#parseVar,
-    );
-
-    this.#registerNullDenotationExpressionParselet(
-      OpenParenthesis,
-      this.#parseVar,
-    );
-
-    return this;
-  }
-
-  #registerLeftDenotationExpressionParselets(): Parser {
-    this.#registerLeftDenotationExpressionParselet(
-      Plus,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      Minus,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      Star,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      Divide,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      DoubleDivide,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      And,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      Or,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      GreaterThan,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      LessThan,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      GreaterThanEqual,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      LessThanEqual,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      DoubleEqual,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      TildaEqual,
-      this.#parseBinaryExpression,
-    );
-
-    ///////// Bitwise operators ////////
-    this.#registerLeftDenotationExpressionParselet(
-      Pipe,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      Tilda,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      Ampersand,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      DoubleGreaterThan,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      DoubleLessThan,
-      this.#parseBinaryExpression,
-    );
-
-    this.#registerLeftDenotationExpressionParselet(
-      Carrot,
-      this.#parseBinaryExpression,
-    );
-    ////////////////////////////////////
-
-    this.#registerLeftDenotationExpressionParselet(
-      DoubleDot,
-      this.#parseBinaryExpression,
-    );
-
-    return this;
   }
 
   #assertToken(tokenType: TokenType): Parser | never {
@@ -341,12 +117,6 @@ class Parser {
       value,
       this.#tokenCursor.next,
     );
-  }
-
-  #registerExpressionParselets(): Parser {
-    return this
-      .#registerNullDenotationExpressionParselets()
-      .#registerLeftDenotationExpressionParselets();
   }
 
   // AST Node parsers.
@@ -837,18 +607,75 @@ class Parser {
   ): ast.Expression {
     // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
     //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
-    const nullDenotationExpressionParselet = this
-      .#nullDenotationExpressionParseletTable[this.#tokenCursor.current.type];
 
-    if (!nullDenotationExpressionParselet) {
-      ParserException.raiseExpectedError(
-        this.#scanner,
-        "<expression>",
-        this.#tokenCursor.next,
-      );
+    const tokenType = this.#tokenCursor.current.type;
+
+    let leftExpression: Expression;
+
+    switch (tokenType) {
+      case NumericLiteral:
+        leftExpression = this.#parseNumericLiteralExpression();
+        break;
+
+      case StringLiteral:
+        leftExpression = this.#parseStringLiteralExpression();
+        break;
+
+      case BooleanLiteral:
+        leftExpression = this.#parseBooleanLiteralExpression();
+        break;
+
+      case NilLiteral:
+        leftExpression = this.#parseNilLiteralExpression();
+        break;
+
+      case VarargLiteral:
+        leftExpression = this.#parseVarargLiteralExpression();
+        break;
+
+      case CommentLiteral:
+        leftExpression = this.#parseCommentLiteralExpression();
+        break;
+
+      case Not:
+        leftExpression = this.#parseUnaryExpression();
+        break;
+
+      case HashTag:
+        leftExpression = this.#parseUnaryExpression();
+        break;
+
+      case Tilda:
+        leftExpression = this.#parseUnaryExpression();
+        break;
+
+      case Minus:
+        leftExpression = this.#parseUnaryExpression();
+        break;
+
+      case Function:
+        leftExpression = this.#parseFunctionExpression();
+        break;
+
+      case OpenBrace:
+        leftExpression = this.#parseTableConstructorExpression();
+        break;
+
+      case Identifier:
+        leftExpression = this.#parseVar();
+        break;
+
+      case OpenParenthesis:
+        leftExpression = this.#parseVar();
+        break;
+
+      default:
+        ParserException.raiseExpectedError(
+          this.#scanner,
+          "<expression>",
+          this.#tokenCursor.next,
+        );
     }
-
-    let leftExpression = nullDenotationExpressionParselet();
 
     // If we encounter an operator whos precedence is greater than
     // the last token's precedence, then the new operator will pull
@@ -868,18 +695,76 @@ class Parser {
     ) {
       this.#tokenCursor.advance();
 
-      const leftDenotationExpressionParselet = this
-        .#leftDenotationExpressionParseletTable[this.#tokenCursor.current.type];
+      const tokenType = this.#tokenCursor.current.type;
 
-      if (!leftDenotationExpressionParselet) {
-        ParserException.raiseExpectedError(
-          this.#scanner,
-          "<expression>",
-          this.#tokenCursor.next,
-        );
+      switch (tokenType) {
+        case Plus:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Minus:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Star:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Divide:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case DoubleDivide:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case And:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Or:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case GreaterThan:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case LessThan:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case GreaterThanEqual:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case LessThanEqual:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case DoubleEqual:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case TildaEqual:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Pipe:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Tilda:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Ampersand:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case DoubleGreaterThan:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case DoubleLessThan:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Carrot:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case DoubleDot:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        default:
+          ParserException.raiseExpectedError(
+            this.#scanner,
+            "<expression>",
+            this.#tokenCursor.next,
+          );
       }
-
-      leftExpression = leftDenotationExpressionParselet(leftExpression);
     }
 
     return leftExpression;
