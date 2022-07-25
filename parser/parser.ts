@@ -84,11 +84,11 @@ type LeftDenotationExpressionParseletTable = ExpressionParseletTable<
 
 // Pratt parser.
 class Parser {
-  private scanner: Scanner;
-  private tokenCursor: TokenCursor;
-  private nullDenotationExpressionParseletTable:
+  #scanner: Scanner;
+  #tokenCursor: TokenCursor;
+  #nullDenotationExpressionParseletTable:
     NullDenotationExpressionParseletTable = {};
-  private leftDenotationExpressionParseletTable:
+  #leftDenotationExpressionParseletTable:
     LeftDenotationExpressionParseletTable = {};
 
   constructor(source: string) {
@@ -98,20 +98,20 @@ class Parser {
     });
     const tokenCursor = new TokenCursor(tokenizer);
 
-    this.scanner = scanner;
-    this.tokenCursor = tokenCursor;
+    this.#scanner = scanner;
+    this.#tokenCursor = tokenCursor;
 
-    this.registerExpressionParselets();
+    this.#registerExpressionParselets();
 
     // We start the cursor.
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
   }
 
-  private registerNullDenotationExpressionParselet(
+  #registerNullDenotationExpressionParselet(
     tokenType: TokenType,
     nullDenotationExpressionParselet: NullDenotationExpressionParselet,
   ): Parser {
-    this.nullDenotationExpressionParseletTable[tokenType] =
+    this.#nullDenotationExpressionParseletTable[tokenType] =
       nullDenotationExpressionParselet.bind(
         this,
       );
@@ -119,11 +119,11 @@ class Parser {
     return this;
   }
 
-  private registerLeftDenotationExpressionParselet(
+  #registerLeftDenotationExpressionParselet(
     tokenType: TokenType,
     leftDenotationExpressionParselet: LeftDenotationExpressionParselet,
   ): Parser {
-    this.leftDenotationExpressionParseletTable[tokenType] =
+    this.#leftDenotationExpressionParseletTable[tokenType] =
       leftDenotationExpressionParselet.bind(
         this,
       );
@@ -131,214 +131,214 @@ class Parser {
     return this;
   }
 
-  private registerNullDenotationExpressionParselets(): Parser {
-    this.registerNullDenotationExpressionParselet(
+  #registerNullDenotationExpressionParselets(): Parser {
+    this.#registerNullDenotationExpressionParselet(
       NumericLiteral,
-      this.parseNumericLiteralExpression,
+      this.#parseNumericLiteralExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       StringLiteral,
-      this.parseStringLiteralExpression,
+      this.#parseStringLiteralExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       BooleanLiteral,
-      this.parseBooleanLiteralExpression,
+      this.#parseBooleanLiteralExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       NilLiteral,
-      this.parseNilLiteralExpression,
+      this.#parseNilLiteralExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       VarargLiteral,
-      this.parseVarargLiteralExpression,
+      this.#parseVarargLiteralExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       CommentLiteral,
-      this.parseCommentLiteralExpression,
+      this.#parseCommentLiteralExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       Not,
-      this.parseUnaryExpression,
+      this.#parseUnaryExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       HashTag,
-      this.parseUnaryExpression,
+      this.#parseUnaryExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       Tilda,
-      this.parseUnaryExpression,
+      this.#parseUnaryExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       Minus,
-      this.parseUnaryExpression,
+      this.#parseUnaryExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       Function,
-      this.parseFunctionExpression,
+      this.#parseFunctionExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       OpenBrace,
-      this.parseTableConstructorExpression,
+      this.#parseTableConstructorExpression,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       Identifier,
-      this.parseVar,
+      this.#parseVar,
     );
 
-    this.registerNullDenotationExpressionParselet(
+    this.#registerNullDenotationExpressionParselet(
       OpenParenthesis,
-      this.parseVar,
+      this.#parseVar,
     );
 
     return this;
   }
 
-  private registerLeftDenotationExpressionParselets(): Parser {
-    this.registerLeftDenotationExpressionParselet(
+  #registerLeftDenotationExpressionParselets(): Parser {
+    this.#registerLeftDenotationExpressionParselet(
       Plus,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Minus,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Star,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Divide,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       DoubleDivide,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       And,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Or,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       GreaterThan,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       LessThan,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       GreaterThanEqual,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       LessThanEqual,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       DoubleEqual,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       TildaEqual,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
     ///////// Bitwise operators ////////
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Pipe,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Tilda,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Ampersand,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       DoubleGreaterThan,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       DoubleLessThan,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       Carrot,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
     ////////////////////////////////////
 
-    this.registerLeftDenotationExpressionParselet(
+    this.#registerLeftDenotationExpressionParselet(
       DoubleDot,
-      this.parseBinaryExpression,
+      this.#parseBinaryExpression,
     );
 
     return this;
   }
 
-  private assertToken(tokenType: TokenType): Parser | never {
-    if (!this.tokenCursor.consume(tokenType)) {
+  #assertToken(tokenType: TokenType): Parser | never {
+    if (!this.#tokenCursor.consume(tokenType)) {
       ParserException.raiseUnexpectedTokenError(
-        this.scanner,
-        this.tokenCursor.current,
-        this.tokenCursor.next,
+        this.#scanner,
+        this.#tokenCursor.current,
+        this.#tokenCursor.next,
       );
     }
 
     return this;
   }
 
-  private expect(value: string | TokenType): TokenCursor | never {
-    if (this.tokenCursor.match(value)) {
-      return this.tokenCursor;
+  #expect(value: string | TokenType): TokenCursor | never {
+    if (this.#tokenCursor.match(value)) {
+      return this.#tokenCursor;
     }
 
     ParserException.raiseExpectedError(
-      this.scanner,
+      this.#scanner,
       value,
-      this.tokenCursor.next,
+      this.#tokenCursor.next,
     );
   }
 
-  private registerExpressionParselets(): Parser {
+  #registerExpressionParselets(): Parser {
     return this
-      .registerNullDenotationExpressionParselets()
-      .registerLeftDenotationExpressionParselets();
+      .#registerNullDenotationExpressionParselets()
+      .#registerLeftDenotationExpressionParselets();
   }
 
   // AST Node parsers.
@@ -360,62 +360,62 @@ class Parser {
   ////////////////////////////////////////////////////////////////////////
 
   // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
-  private parseArgs(): ast.Expression[] {
-    if (this.tokenCursor.match("(")) {
-      this.tokenCursor.advance();
+  #parseArgs(): ast.Expression[] {
+    if (this.#tokenCursor.match("(")) {
+      this.#tokenCursor.advance();
 
-      if (this.tokenCursor.match(")")) {
+      if (this.#tokenCursor.match(")")) {
         return [];
       }
 
-      const explist = this.parseExplist();
+      const explist = this.#parseExplist();
 
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      this.expect(")");
+      this.#expect(")");
 
       return explist;
     }
 
-    if (this.tokenCursor.match("{")) {
-      return [this.parseTableConstructorExpression()];
+    if (this.#tokenCursor.match("{")) {
+      return [this.#parseTableConstructorExpression()];
     }
 
-    if (this.tokenCursor.match(StringLiteral)) {
-      return [this.parseStringLiteralExpression()];
+    if (this.#tokenCursor.match(StringLiteral)) {
+      return [this.#parseStringLiteralExpression()];
     }
 
     ParserException.raiseExpectedError(
-      this.scanner,
+      this.#scanner,
       "function arguments",
-      this.tokenCursor.current,
+      this.#tokenCursor.current,
     );
   }
 
   // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
-  private parseField(): ast.Expression {
-    if (this.tokenCursor.match("[")) {
-      this.tokenCursor.advance();
+  #parseField(): ast.Expression {
+    if (this.#tokenCursor.match("[")) {
+      this.#tokenCursor.advance();
 
       const key = this.parseExpression();
 
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      this.expect("]").advance();
+      this.#expect("]").advance();
 
-      this.expect("=").advance();
+      this.#expect("=").advance();
 
       const value = this.parseExpression();
 
       return new ast.TableKey(key, value);
     }
 
-    if (this.tokenCursor.match(Identifier)) {
-      const key = this.parseIdentifierExpression();
+    if (this.#tokenCursor.match(Identifier)) {
+      const key = this.#parseIdentifierExpression();
 
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      this.expect("=").advance();
+      this.#expect("=").advance();
 
       const value = this.parseExpression();
 
@@ -428,22 +428,22 @@ class Parser {
   }
 
   // fieldlist ::= field {fieldsep field} [fieldsep]
-  private parseFieldlist(): ast.Expression[] {
-    const fieldList = [this.parseField()];
+  #parseFieldlist(): ast.Expression[] {
+    const fieldList = [this.#parseField()];
 
-    while (this.tokenCursor.someMatchNext(",", ";")) {
+    while (this.#tokenCursor.someMatchNext(",", ";")) {
       // Move to the either matched "," or ";"
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
       // However if we encounter "}" we have a dangling "," or ";"
-      if (this.tokenCursor.matchNext("}")) {
+      if (this.#tokenCursor.matchNext("}")) {
         break;
       }
 
       // We skip over "," or ";"
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      fieldList.push(this.parseField());
+      fieldList.push(this.#parseField());
     }
 
     return fieldList;
@@ -452,36 +452,36 @@ class Parser {
   // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
   // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
-  private parseVar(): ast.Expression {
-    if (this.tokenCursor.match("(")) {
-      return this.chainFunctionCalls(this.parseGroupingExpression());
+  #parseVar(): ast.Expression {
+    if (this.#tokenCursor.match("(")) {
+      return this.#chainFunctionCalls(this.#parseGroupingExpression());
     }
 
-    if (this.tokenCursor.match(Identifier)) {
-      const base = this.parseIdentifierExpression();
+    if (this.#tokenCursor.match(Identifier)) {
+      const base = this.#parseIdentifierExpression();
 
-      if (this.tokenCursor.consumeNext("[")) {
+      if (this.#tokenCursor.consumeNext("[")) {
         const expression = this.parseExpression();
 
-        this.tokenCursor.advance();
+        this.#tokenCursor.advance();
 
-        this.expect("]");
+        this.#expect("]");
 
-        return this.chainFunctionCalls(
+        return this.#chainFunctionCalls(
           new ast.IndexExpression(base, expression),
         );
       }
 
-      if (this.tokenCursor.consumeNext(".")) {
-        const identifier = this.parseIdentifierExpression();
+      if (this.#tokenCursor.consumeNext(".")) {
+        const identifier = this.#parseIdentifierExpression();
 
-        return this.chainFunctionCalls(
+        return this.#chainFunctionCalls(
           new ast.MemberExpression(base, ".", identifier),
         );
       }
 
-      if (this.tokenCursor.consumeNext(":")) {
-        const identifier = this.parseIdentifierExpression();
+      if (this.#tokenCursor.consumeNext(":")) {
+        const identifier = this.#parseIdentifierExpression();
 
         const memberExpression = new ast.MemberExpression(
           base,
@@ -489,47 +489,47 @@ class Parser {
           identifier,
         );
 
-        this.tokenCursor.advance();
+        this.#tokenCursor.advance();
 
-        const args = this.parseArgs();
+        const args = this.#parseArgs();
 
-        return this.createFunctionCallExpression(memberExpression, args);
+        return this.#createFunctionCallExpression(memberExpression, args);
       }
 
-      if (this.tokenCursor.someMatchNext("(", "{", StringLiteral)) {
-        this.tokenCursor.advance();
+      if (this.#tokenCursor.someMatchNext("(", "{", StringLiteral)) {
+        this.#tokenCursor.advance();
 
-        const args = this.parseArgs();
+        const args = this.#parseArgs();
 
-        return this.createFunctionCallExpression(base, args);
+        return this.#createFunctionCallExpression(base, args);
       }
 
       return base;
     }
 
     ParserException.raiseExpectedError(
-      this.scanner,
+      this.#scanner,
       "=",
-      this.tokenCursor.next,
+      this.#tokenCursor.next,
     );
   }
 
   // varlist ::= var {‘,’ var}
-  private parseVarlist(): ast.Expression[] {
-    const varlist = [this.parseVar()];
+  #parseVarlist(): ast.Expression[] {
+    const varlist = [this.#parseVar()];
 
-    while (this.tokenCursor.consumeNext(",")) {
-      varlist.push(this.parseVar());
+    while (this.#tokenCursor.consumeNext(",")) {
+      varlist.push(this.#parseVar());
     }
 
     return varlist;
   }
 
   // explist ::= exp {‘,’ exp}
-  private parseExplist(): ast.Expression[] {
+  #parseExplist(): ast.Expression[] {
     const expressions = [this.parseExpression()];
 
-    while (this.tokenCursor.consumeNext(",")) {
+    while (this.#tokenCursor.consumeNext(",")) {
       expressions.push(this.parseExpression());
     }
 
@@ -537,30 +537,30 @@ class Parser {
   }
 
   // namelist ::= Name {‘,’ Name}
-  private parseNamelist(): ast.Identifier[] {
-    const namelist = [this.parseIdentifierExpression()];
+  #parseNamelist(): ast.Identifier[] {
+    const namelist = [this.#parseIdentifierExpression()];
 
-    while (this.tokenCursor.consumeNext(",")) {
-      namelist.push(this.parseIdentifierExpression());
+    while (this.#tokenCursor.consumeNext(",")) {
+      namelist.push(this.#parseIdentifierExpression());
     }
 
     return namelist;
   }
 
   // funcname ::= Name {‘.’ Name} [‘:’ Name]
-  private parseFuncname(): ast.Identifier | ast.MemberExpression {
-    this.expect(Identifier);
+  #parseFuncname(): ast.Identifier | ast.MemberExpression {
+    this.#expect(Identifier);
 
-    const base = this.parseIdentifierExpression();
+    const base = this.#parseIdentifierExpression();
 
-    if (this.tokenCursor.someMatchNext(".", ":")) {
-      this.tokenCursor.advance();
+    if (this.#tokenCursor.someMatchNext(".", ":")) {
+      this.#tokenCursor.advance();
 
-      const indexerToken = this.tokenCursor.current;
+      const indexerToken = this.#tokenCursor.current;
 
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      const identifier = this.parseIdentifierExpression();
+      const identifier = this.#parseIdentifierExpression();
 
       return new ast.MemberExpression(base, indexerToken.value, identifier);
     }
@@ -569,58 +569,58 @@ class Parser {
   }
 
   // parlist ::= namelist [‘,’ ‘...’] | ‘...’
-  private parseParlist(): ast.Expression[] {
-    this.expect("(").advance();
+  #parseParlist(): ast.Expression[] {
+    this.#expect("(").advance();
 
     const parlist = [];
 
-    if (this.tokenCursor.match(VarargLiteral)) {
-      parlist.push(this.parseVarargLiteralExpression());
-    } else if (this.tokenCursor.match(Identifier)) {
-      parlist.push(this.parseIdentifierExpression());
+    if (this.#tokenCursor.match(VarargLiteral)) {
+      parlist.push(this.#parseVarargLiteralExpression());
+    } else if (this.#tokenCursor.match(Identifier)) {
+      parlist.push(this.#parseIdentifierExpression());
 
-      while (this.tokenCursor.consumeNext(",")) {
-        if (this.tokenCursor.match(VarargLiteral)) {
-          parlist.push(this.parseVarargLiteralExpression());
+      while (this.#tokenCursor.consumeNext(",")) {
+        if (this.#tokenCursor.match(VarargLiteral)) {
+          parlist.push(this.#parseVarargLiteralExpression());
           break;
         }
 
-        parlist.push(this.parseIdentifierExpression());
+        parlist.push(this.#parseIdentifierExpression());
       }
 
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
     }
 
-    this.expect(")");
+    this.#expect(")");
 
     return parlist;
   }
 
   // funcbody ::= ‘(’ [parlist] ‘)’ block end
-  private parseFuncbody(): [ast.Expression[], ast.Block] {
-    const parlist = this.parseParlist();
+  #parseFuncbody(): [ast.Expression[], ast.Block] {
+    const parlist = this.#parseParlist();
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
     const block = this.parseBlock();
 
-    this.expect(End);
+    this.#expect(End);
 
     return [parlist, block];
   }
 
   //     suffix ::= '[' exp ']' | '.' Name | ':' Name args | args
   //     args ::= '(' [explist] ')' | tableconstructor | String
-  private chainFunctionCalls(leftExpression: ast.Expression): ast.Expression {
+  #chainFunctionCalls(leftExpression: ast.Expression): ast.Expression {
     while (
-      this.tokenCursor.someMatchNext(StringLiteral, "(", "{", "[", ".", ":")
+      this.#tokenCursor.someMatchNext(StringLiteral, "(", "{", "[", ".", ":")
     ) {
-      if (this.tokenCursor.consumeNext("[")) {
+      if (this.#tokenCursor.consumeNext("[")) {
         const expression = this.parseExpression();
 
-        this.tokenCursor.advance();
+        this.#tokenCursor.advance();
 
-        this.expect("]");
+        this.#expect("]");
 
         leftExpression = new ast.IndexExpression(
           leftExpression,
@@ -628,8 +628,8 @@ class Parser {
         );
       }
 
-      if (this.tokenCursor.consumeNext(".")) {
-        const identifier = this.parseIdentifierExpression();
+      if (this.#tokenCursor.consumeNext(".")) {
+        const identifier = this.#parseIdentifierExpression();
 
         leftExpression = new ast.MemberExpression(
           leftExpression,
@@ -638,8 +638,8 @@ class Parser {
         );
       }
 
-      if (this.tokenCursor.consumeNext(":")) {
-        const identifier = this.parseIdentifierExpression();
+      if (this.#tokenCursor.consumeNext(":")) {
+        const identifier = this.#parseIdentifierExpression();
 
         leftExpression = new ast.MemberExpression(
           leftExpression,
@@ -647,22 +647,22 @@ class Parser {
           identifier,
         );
 
-        this.tokenCursor.advance();
+        this.#tokenCursor.advance();
 
-        const args = this.parseArgs();
+        const args = this.#parseArgs();
 
-        leftExpression = this.createFunctionCallExpression(
+        leftExpression = this.#createFunctionCallExpression(
           leftExpression,
           args,
         );
       }
 
-      if (this.tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
-        this.tokenCursor.advance();
+      if (this.#tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
+        this.#tokenCursor.advance();
 
-        const args = this.parseArgs();
+        const args = this.#parseArgs();
 
-        leftExpression = this.createFunctionCallExpression(
+        leftExpression = this.#createFunctionCallExpression(
           leftExpression,
           args,
         );
@@ -672,11 +672,11 @@ class Parser {
     return leftExpression;
   }
 
-  private createFunctionCallExpression(
+  #createFunctionCallExpression(
     base: ast.Expression,
     args: ast.Expression[],
   ): ast.Expression {
-    return this.chainFunctionCalls(
+    return this.#chainFunctionCalls(
       new ast.FunctionCallExpression(base, args),
     );
   }
@@ -685,78 +685,78 @@ class Parser {
   ////////////////////////////// Expressions //////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
-  private parseIdentifierExpression(): ast.Identifier {
-    this.expect(Identifier);
+  #parseIdentifierExpression(): ast.Identifier {
+    this.#expect(Identifier);
 
-    return new ast.Identifier(this.tokenCursor.current);
+    return new ast.Identifier(this.#tokenCursor.current);
   }
 
-  private parseNumericLiteralExpression(): ast.Expression {
-    this.expect(NumericLiteral);
+  #parseNumericLiteralExpression(): ast.Expression {
+    this.#expect(NumericLiteral);
 
-    return new ast.NumericLiteral(this.tokenCursor.current);
+    return new ast.NumericLiteral(this.#tokenCursor.current);
   }
 
-  private parseStringLiteralExpression(): ast.Expression {
-    this.expect(StringLiteral);
+  #parseStringLiteralExpression(): ast.Expression {
+    this.#expect(StringLiteral);
 
-    return new ast.StringLiteral(this.tokenCursor.current);
+    return new ast.StringLiteral(this.#tokenCursor.current);
   }
 
-  private parseBooleanLiteralExpression(): ast.Expression {
-    this.expect(BooleanLiteral);
+  #parseBooleanLiteralExpression(): ast.Expression {
+    this.#expect(BooleanLiteral);
 
-    return new ast.BooleanLiteral(this.tokenCursor.current);
+    return new ast.BooleanLiteral(this.#tokenCursor.current);
   }
 
-  private parseNilLiteralExpression(): ast.Expression {
-    this.expect(NilLiteral);
+  #parseNilLiteralExpression(): ast.Expression {
+    this.#expect(NilLiteral);
 
-    return new ast.NilLiteral(this.tokenCursor.current);
+    return new ast.NilLiteral(this.#tokenCursor.current);
   }
 
-  private parseVarargLiteralExpression(): ast.Expression {
-    this.expect(VarargLiteral);
+  #parseVarargLiteralExpression(): ast.Expression {
+    this.#expect(VarargLiteral);
 
-    return new ast.VarargLiteral(this.tokenCursor.current);
+    return new ast.VarargLiteral(this.#tokenCursor.current);
   }
 
-  private parseCommentLiteralExpression(): ast.Expression {
-    this.expect(CommentLiteral);
+  #parseCommentLiteralExpression(): ast.Expression {
+    this.#expect(CommentLiteral);
 
-    return new ast.CommentLiteral(this.tokenCursor.current);
+    return new ast.CommentLiteral(this.#tokenCursor.current);
   }
 
-  private parseFunctionExpression(): ast.Expression {
-    this.expect(Function).advance();
+  #parseFunctionExpression(): ast.Expression {
+    this.#expect(Function).advance();
 
-    const [parlist, block] = this.parseFuncbody();
+    const [parlist, block] = this.#parseFuncbody();
 
     return new ast.FunctionExpression(parlist, block);
   }
 
   // tableconstructor ::= ‘{’ [fieldlist] ‘}’
-  private parseTableConstructorExpression(): ast.Expression {
-    this.expect("{").advance();
+  #parseTableConstructorExpression(): ast.Expression {
+    this.#expect("{").advance();
 
-    if (this.tokenCursor.match("}")) {
+    if (this.#tokenCursor.match("}")) {
       return new ast.TableConstructor([]);
     }
 
-    const fieldlist = this.parseFieldlist();
+    const fieldlist = this.#parseFieldlist();
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    this.expect("}");
+    this.#expect("}");
 
     return new ast.TableConstructor(fieldlist);
   }
 
-  private parseUnaryExpression(): ast.Expression {
-    const operatorToken = this.tokenCursor.current;
+  #parseUnaryExpression(): ast.Expression {
+    const operatorToken = this.#tokenCursor.current;
 
     // Skip over the operator.
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
     // Get the right expression to attach to the operator.
     const rightExpression = this.parseExpression(
@@ -766,13 +766,13 @@ class Parser {
     return new ast.UnaryExpression(operatorToken, rightExpression);
   }
 
-  private parseBinaryExpression(
+  #parseBinaryExpression(
     leftExpression: ast.Expression,
   ): ast.Expression {
-    const operatorToken = this.tokenCursor.current;
+    const operatorToken = this.#tokenCursor.current;
 
     // Skip over the operator.
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
     // Retrieve the right expression.
     const rightExpression = this.parseExpression(
@@ -787,17 +787,17 @@ class Parser {
   }
 
   // NOTE: Grouping expression implicitly will have the highest precedence.
-  private parseGroupingExpression(): ast.Expression {
+  #parseGroupingExpression(): ast.Expression {
     // Skipping over the "("
-    this.expect("(").advance();
+    this.#expect("(").advance();
 
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression();
 
     // Skip over the last token that the expression ended on.
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    this.expect(")");
+    this.#expect(")");
 
     return new ast.GroupingExpression(expression);
   }
@@ -810,14 +810,14 @@ class Parser {
   ): ast.Expression {
     // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
     //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
-    const nullDenotationExpressionParselet =
-      this.nullDenotationExpressionParseletTable[this.tokenCursor.current.type];
+    const nullDenotationExpressionParselet = this
+      .#nullDenotationExpressionParseletTable[this.#tokenCursor.current.type];
 
     if (!nullDenotationExpressionParselet) {
       ParserException.raiseExpectedError(
-        this.scanner,
+        this.#scanner,
         "<expression>",
-        this.tokenCursor.next,
+        this.#tokenCursor.next,
       );
     }
 
@@ -836,19 +836,19 @@ class Parser {
     //                      / \
     //                     2   3
     while (
-      !this.tokenCursor.eofToken &&
-      precedence < Precedence.getPrecedence(this.tokenCursor.next)
+      !this.#tokenCursor.eofToken &&
+      precedence < Precedence.getPrecedence(this.#tokenCursor.next)
     ) {
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
       const leftDenotationExpressionParselet = this
-        .leftDenotationExpressionParseletTable[this.tokenCursor.current.type];
+        .#leftDenotationExpressionParseletTable[this.#tokenCursor.current.type];
 
       if (!leftDenotationExpressionParselet) {
         ParserException.raiseExpectedError(
-          this.scanner,
+          this.#scanner,
           "<expression>",
-          this.tokenCursor.next,
+          this.#tokenCursor.next,
         );
       }
 
@@ -865,18 +865,18 @@ class Parser {
   // local ::= 'local' 'function' Name funcdecl |
   //           'local' Name {',' Name} ['=' exp {',' exp}]
   parseLocalStatement(): ast.Statement {
-    this.expect(Local).advance();
+    this.#expect(Local).advance();
 
-    if (this.tokenCursor.match(Function)) {
+    if (this.#tokenCursor.match(Function)) {
       return this.parseLocalFunctionStatement();
     }
 
-    if (this.tokenCursor.match(Identifier)) {
-      const namelist = this.parseNamelist();
+    if (this.#tokenCursor.match(Identifier)) {
+      const namelist = this.#parseNamelist();
 
       // NOTE: We can have local a, b, c = 1, 2, 3 or just local a, b, c.
-      if (this.tokenCursor.consumeNext("=")) {
-        const explist = this.parseExplist();
+      if (this.#tokenCursor.consumeNext("=")) {
+        const explist = this.#parseExplist();
 
         return new ast.LocalStatement(namelist, explist);
       }
@@ -886,22 +886,22 @@ class Parser {
 
     // Replicating the lua REPL error.
     ParserException.raiseExpectedError(
-      this.scanner,
+      this.#scanner,
       "<name>",
-      this.tokenCursor.next,
+      this.#tokenCursor.next,
     );
   }
 
   // label ::= '::' Name '::'
   parseLabelStatement(): ast.Statement {
-    this.expect("::").advance();
+    this.#expect("::").advance();
 
-    const name = this.parseIdentifierExpression();
+    const name = this.#parseIdentifierExpression();
 
     // We advance over identifier token.
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    this.expect("::");
+    this.#expect("::");
 
     return new ast.LabelStatement(name);
   }
@@ -909,34 +909,34 @@ class Parser {
   // if ::= 'if' exp 'then' block {elseif} ['else' block] 'end'
   // elseif ::= 'elseif' exp 'then' block
   parseIfStatement(): ast.Statement {
-    this.expect("if").advance();
+    this.#expect("if").advance();
 
     const ifCondition = this.parseExpression();
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    this.expect(Then).advance();
+    this.#expect(Then).advance();
 
     const ifBlock = this.parseBlock();
     const elifBlocks: ast.Block[] = [];
     const elifConditions: ast.Expression[] = [];
 
-    while (this.tokenCursor.consume(Elseif)) {
+    while (this.#tokenCursor.consume(Elseif)) {
       elifConditions.push(this.parseExpression());
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
       elifBlocks.push(this.parseBlock());
     }
 
     let elseBlock: ast.Block | null = null;
 
-    if (this.tokenCursor.consume(Else)) {
+    if (this.#tokenCursor.consume(Else)) {
       elseBlock = this.parseBlock();
     }
 
-    this.expect(End);
+    this.#expect(End);
 
     return new ast.IfStatement(
       ifCondition,
@@ -949,54 +949,54 @@ class Parser {
 
   // retstat ::= 'return' [exp {',' exp}] [';']
   parseReturnStatement(): ast.Statement {
-    this.expect(Return).advance();
+    this.#expect(Return).advance();
 
-    if (this.tokenCursor.consume(";") || this.tokenCursor.eofToken) {
+    if (this.#tokenCursor.consume(";") || this.#tokenCursor.eofToken) {
       return new ast.ReturnStatement([]);
     }
 
-    const expressions = this.parseExplist();
+    const expressions = this.#parseExplist();
 
-    this.tokenCursor.consume(";");
+    this.#tokenCursor.consume(";");
 
     return new ast.ReturnStatement(expressions);
   }
 
   parseLocalFunctionStatement(): ast.Statement {
-    this.expect(Function).advance();
+    this.#expect(Function).advance();
 
-    const name = this.parseIdentifierExpression();
+    const name = this.#parseIdentifierExpression();
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    const [parlist, block] = this.parseFuncbody();
+    const [parlist, block] = this.#parseFuncbody();
 
     return new ast.FunctionLocalStatement(name, parlist, block);
   }
 
   parseGlobalFunctionStatement(): ast.Statement {
-    this.expect(Function).advance();
+    this.#expect(Function).advance();
 
-    const funcname = this.parseFuncname();
+    const funcname = this.#parseFuncname();
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    const [parlist, block] = this.parseFuncbody();
+    const [parlist, block] = this.#parseFuncbody();
 
     return new ast.FunctionGlobalStatement(funcname, parlist, block);
   }
 
   // while ::= 'while' exp 'do' block 'end'
   parseWhileStatement(): ast.Statement {
-    this.expect(While).advance();
+    this.#expect(While).advance();
 
     const condition = this.parseExpression();
 
-    this.expect(Do).advance();
+    this.#expect(Do).advance();
 
     const block = this.parseBlock();
 
-    this.expect(End);
+    this.#expect(End);
 
     return new ast.WhileStatement(block, condition);
   }
@@ -1006,72 +1006,72 @@ class Parser {
   // namelist ::= Name {',' Name}
   // explist ::= exp {',' exp}
   parseForStatement(): ast.Statement {
-    this.expect(For).advance();
+    this.#expect(For).advance();
 
-    this.expect(Identifier);
+    this.#expect(Identifier);
 
-    const variable = this.parseIdentifierExpression();
+    const variable = this.#parseIdentifierExpression();
 
     // Parse for generic statement
-    if (this.tokenCursor.matchNext(",")) {
+    if (this.#tokenCursor.matchNext(",")) {
       const variables: ast.Identifier[] = [variable];
 
       while (
-        !this.tokenCursor.consumeNext(In) && this.tokenCursor.consumeNext(",")
+        !this.#tokenCursor.consumeNext(In) && this.#tokenCursor.consumeNext(",")
       ) {
-        variables.push(this.parseIdentifierExpression());
+        variables.push(this.#parseIdentifierExpression());
       }
 
-      const iterators = this.parseExplist();
+      const iterators = this.#parseExplist();
 
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      this.expect(Do).advance();
+      this.#expect(Do).advance();
 
       const block = this.parseBlock();
 
-      this.expect(End);
+      this.#expect(End);
 
       return new ast.ForGenericStatement(variables, iterators, block);
     }
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    this.expect("=").advance();
+    this.#expect("=").advance();
 
     const start = this.parseExpression();
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    this.expect(",").advance();
+    this.#expect(",").advance();
 
     const end = this.parseExpression();
 
     let step;
     // Rule obligation: We are at the last token parseExpression ended on,
     // so we have to consumeNext not consume.
-    if (this.tokenCursor.consumeNext(",")) {
+    if (this.#tokenCursor.consumeNext(",")) {
       step = this.parseExpression();
     }
 
-    this.tokenCursor.advance();
+    this.#tokenCursor.advance();
 
-    this.expect(Do).advance();
+    this.#expect(Do).advance();
 
     const block = this.parseBlock();
 
-    this.expect(End);
+    this.#expect(End);
 
     return new ast.ForNumericStatement(variable, start, end, step, block);
   }
 
   // repeat ::= 'repeat' block 'until' exp
   parseRepeatStatement(): ast.Statement {
-    this.expect(Repeat).advance();
+    this.#expect(Repeat).advance();
 
     const block = this.parseBlock();
 
-    this.expect(Until).advance();
+    this.#expect(Until).advance();
 
     const condition = this.parseExpression();
 
@@ -1080,29 +1080,29 @@ class Parser {
 
   // break ::= 'break'
   parseBreakStatement(): ast.Statement {
-    this.expect(Break);
+    this.#expect(Break);
 
     return new ast.BreakStatement();
   }
 
   // do ::= 'do' block 'end'
   parseDoStatement(): ast.Statement {
-    this.expect(Do).advance();
+    this.#expect(Do).advance();
 
     const block = this.parseBlock();
 
-    this.expect(End);
+    this.#expect(End);
 
     return new ast.DoStatement(block);
   }
 
   // goto ::= 'goto' Name
   parseGotoStatement(): ast.Statement {
-    this.expect(Goto).advance();
+    this.#expect(Goto).advance();
 
-    this.expect(Identifier);
+    this.#expect(Identifier);
 
-    const identifier = this.parseIdentifierExpression();
+    const identifier = this.#parseIdentifierExpression();
 
     return new ast.GotoStatement(identifier);
   }
@@ -1115,13 +1115,13 @@ class Parser {
   //     call ::= callexp
   //     callexp ::= prefixexp args | prefixexp ':' Name args
   parseAssignmentOrFunctionCallStatement(): ast.Statement {
-    const varlist = this.parseVarlist();
+    const varlist = this.#parseVarlist();
 
     if (varlist.length === 0) {
       ParserException.raiseUnexpectedTokenError(
-        this.scanner,
-        this.tokenCursor.current,
-        this.tokenCursor.next,
+        this.#scanner,
+        this.#tokenCursor.current,
+        this.#tokenCursor.next,
       );
     }
 
@@ -1131,11 +1131,11 @@ class Parser {
     if (
       functionCallOrIdentifier instanceof ast.Identifier || varlist.length > 1
     ) {
-      this.tokenCursor.advance();
+      this.#tokenCursor.advance();
 
-      this.expect("=").advance();
+      this.#expect("=").advance();
 
-      const explist = this.parseExplist();
+      const explist = this.#parseExplist();
 
       return new ast.AssignmentStatement(varlist, explist);
     }
@@ -1166,7 +1166,7 @@ class Parser {
   //         for namelist in explist do block end |
   //         functioncall |
   parseStatement(): ast.Statement | null {
-    const token = this.tokenCursor.current;
+    const token = this.#tokenCursor.current;
 
     switch (token.type) {
       // @@ TODO: For a true lossless parser,
@@ -1213,16 +1213,16 @@ class Parser {
     // Only continue this loop if:
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
-    while (!this.tokenCursor.eofToken && !this.tokenCursor.isBlockFollow()) {
-      if (this.tokenCursor.current.value === Return) {
+    while (!this.#tokenCursor.eofToken && !this.#tokenCursor.isBlockFollow()) {
+      if (this.#tokenCursor.current.value === Return) {
         const statement = this.parseStatement();
 
         if (statement) {
           statements.push(statement);
         }
 
-        this.tokenCursor.advance();
-        this.tokenCursor.consume(";");
+        this.#tokenCursor.advance();
+        this.#tokenCursor.consume(";");
 
         break;
       }
@@ -1233,8 +1233,8 @@ class Parser {
         statements.push(statement);
       }
 
-      this.tokenCursor.advance();
-      this.tokenCursor.consume(";");
+      this.#tokenCursor.advance();
+      this.#tokenCursor.consume(";");
     }
 
     return new ast.Block(statements);
@@ -1246,7 +1246,7 @@ class Parser {
 
     // A chunk must end on an EOF token, if any other token is there
     // after we are done with parsing a chunk other than EOF it's invalid.
-    this.assertToken(EOF);
+    this.#assertToken(EOF);
 
     return new ast.Chunk(block);
   }
