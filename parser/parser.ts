@@ -1126,7 +1126,7 @@ class Parser {
     // Only continue this loop if:
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
-    while (!this.#tokenCursor.eofToken && !this.#tokenCursor.isBlockFollow()) {
+    while (!this.#tokenCursor.eofToken && !this.#tokenCursor.isBlockFollow) {
       if (this.#tokenCursor.current.value === Return) {
         const statement = this.parseStatement();
 

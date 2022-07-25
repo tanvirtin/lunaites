@@ -86,7 +86,7 @@ class TokenCursor {
     return this.next.type;
   }
 
-  isBlockFollow(): boolean {
+  get isBlockFollow(): boolean {
     const token = this.current;
 
     switch (token.value) {
