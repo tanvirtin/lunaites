@@ -66,18 +66,18 @@ class Scanner {
 
   // Verify if a given charcode is the one being pointed at.
   isCharCodeAt(index: number, charCode: number): boolean {
-    if (this.isOutOfBounds(index)) return false;
+    if (this.isOutOfBoundsAt(index)) return false;
 
     return this.source.charCodeAt(index) === charCode;
   }
 
   // \n
-  isLineFeed(index: number): boolean {
+  isLineFeedAt(index: number): boolean {
     return this.isCharCodeAt(index, 10);
   }
 
   // \r
-  isCarriageReturn(index: number): boolean {
+  isCarriageReturnAt(index: number): boolean {
     return this.isCharCodeAt(index, 13);
   }
 
@@ -90,27 +90,27 @@ class Scanner {
   }
 
   // \n or \r
-  isLineTerminator(index: number): boolean {
-    return this.isLineFeed(index) || this.isCarriageReturn(index);
+  isLineTerminatorAt(index: number): boolean {
+    return this.isLineFeedAt(index) || this.isCarriageReturnAt(index);
   }
 
   // \n\r or \r\n
-  isNewLine(index: number): boolean {
-    if (this.isOutOfBounds(index)) return false;
+  isNewLineAt(index: number): boolean {
+    if (this.isOutOfBoundsAt(index)) return false;
 
-    return (this.isLineFeed(index) && this.isCarriageReturn(index + 1)) ||
-      (this.isCarriageReturn(index) && this.isLineFeed(index + 1));
+    return (this.isLineFeedAt(index) && this.isCarriageReturnAt(index + 1)) ||
+      (this.isCarriageReturnAt(index) && this.isLineFeedAt(index + 1));
   }
 
   // [0-9]
-  isDigit(index: number): boolean {
+  isDigitAt(index: number): boolean {
     const charCode = this.source.charCodeAt(index);
 
     return charCode >= 48 && charCode <= 57;
   }
 
   // Extended alphabets starting  ending in ÿ
-  isExtendedAlphabets(index: number): boolean {
+  isExtendedAlphabetsAt(index: number): boolean {
     if (!this.options.extendedIdentifiers) return false;
 
     const charCode = this.source.charCodeAt(index);
@@ -119,7 +119,7 @@ class Scanner {
   }
 
   // Alphabets [A-Z, a-z]
-  isAlphabet(index: number): boolean {
+  isAlphabetAt(index: number): boolean {
     const charCode = this.source.charCodeAt(index);
 
     return ((charCode >= 65 && charCode <= 90) ||
@@ -127,23 +127,23 @@ class Scanner {
   }
 
   // [0-9], [A-f, a-f]
-  isHexDigit(index: number) {
+  isHexDigitAt(index: number) {
     const charCode = this.source.charCodeAt(index);
 
-    return this.isDigit(index) || (charCode >= 65 && charCode <= 70) ||
+    return this.isDigitAt(index) || (charCode >= 65 && charCode <= 70) ||
       (charCode >= 97 && charCode <= 102);
   }
 
   // [0-9] or Alphabets
-  isAlphanumeric(index: number): boolean {
-    if (this.isOutOfBounds(index)) return false;
+  isAlphanumericAt(index: number): boolean {
+    if (this.isOutOfBoundsAt(index)) return false;
 
-    return this.isDigit(index) || this.isAlphabet(index) ||
-      this.isExtendedAlphabets(index);
+    return this.isDigitAt(index) || this.isAlphabetAt(index) ||
+      this.isExtendedAlphabetsAt(index);
   }
 
   // When scanner goes out of bounds of the source.
-  isOutOfBounds(index: number): boolean {
+  isOutOfBoundsAt(index: number): boolean {
     return index < 0 || index >= this.source.length;
   }
 
@@ -162,11 +162,11 @@ class Scanner {
   }
 
   consumeEOL(): boolean {
-    if (this.isLineTerminator(this._index)) {
+    if (this.isLineTerminatorAt(this._index)) {
       // If we encountered a line terminator, we scan the line count by 1.
       ++this.lnum;
       // If we encounter \n\r or \r\n it's a new line.
-      if (this.isNewLine(this._index)) {
+      if (this.isNewLineAt(this._index)) {
         this.scan().scan();
         this.lnumStartIndex = this._index;
         // Otherwise we skip the \n or \r.
@@ -202,13 +202,13 @@ class Scanner {
   }
 
   someCharCode(charCodes: number[]): boolean {
-    if (this.isOutOfBounds(this.pos)) return false;
+    if (this.isOutOfBoundsAt(this.pos)) return false;
 
     return charCodes.some((charCode) => this.isCharCodeAt(this.pos, charCode));
   }
 
   everyCharCode(charCodes: number[]): boolean {
-    if (this.isOutOfBounds(this.pos)) return false;
+    if (this.isOutOfBoundsAt(this.pos)) return false;
 
     return charCodes.some((charCode) => this.isCharCodeAt(this.pos, charCode));
   }
@@ -222,7 +222,7 @@ class Scanner {
   }
 
   scanWhile(cond: () => boolean): Scanner {
-    while (cond.call(this) && !this.isOutOfBounds(this.pos)) {
+    while (cond.call(this) && !this.isOutOfBoundsAt(this.pos)) {
       this.scan();
     }
 
@@ -230,7 +230,7 @@ class Scanner {
   }
 
   scanUntil(cond: () => boolean): Scanner {
-    while (!cond.call(this) && !this.isOutOfBounds(this.pos)) {
+    while (!cond.call(this) && !this.isOutOfBoundsAt(this.pos)) {
       this.scan();
     }
 
