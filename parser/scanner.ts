@@ -85,8 +85,15 @@ class Scanner {
   isWhitespace(index: number): boolean {
     const charCode = this.source.charCodeAt(index);
 
-    return charCode === 9 || charCode === 32 || charCode === 0xB ||
-      charCode === 0xC;
+    switch (charCode) {
+      case 9:
+      case 32:
+      case 0xB:
+      case 0xC:
+        return true;
+      default:
+        return false;
+    }
   }
 
   // \n or \r
