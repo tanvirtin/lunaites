@@ -76,9 +76,9 @@ const {
 
 class Tokenizer {
   public scanner: Scanner;
-  private isStarted = false;
-  private tokens: Token[] = [];
-  private options: TokenizerOptions = {
+  #isStarted = false;
+  #tokens: Token[] = [];
+  #options: TokenizerOptions = {
     labels: true,
     contextualGoto: true,
     integerDivision: true,
@@ -92,8 +92,8 @@ class Tokenizer {
     scanner: Scanner,
     options?: TokenizerOptions,
   ) {
-    this.options = {
-      ...this.options,
+    this.#options = {
+      ...this.#options,
       ...(options ?? {}),
     };
     this.scanner = scanner;
@@ -107,7 +107,7 @@ class Tokenizer {
   //   - horizontal tab
   //   - vertical tab
   //@Profiler.bench
-  private consumeWhitespace(): boolean {
+  #consumeWhitespace(): boolean {
     while (!this.scanner.isOutOfBoundsAt(this.scanner.pos)) {
       if (this.scanner.isWhitespace(this.scanner.pos)) {
         this.scanner.scan();
@@ -121,10 +121,10 @@ class Tokenizer {
 
   // Eats away the entire shebang line
   //@Profiler.bench
-  private consumeShebangLine(): boolean {
+  #consumeShebangLine(): boolean {
     if (this.scanner.match("#!")) {
       this.scanner.scanUntil(() => this.scanner.isLineFeedAt(this.scanner.pos));
-      this.consumeWhitespace();
+      this.#consumeWhitespace();
 
       return true;
     }
@@ -133,7 +133,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private consumeExponent({ isBinary }: { isBinary?: boolean }) {
+  #consumeExponent({ isBinary }: { isBinary?: boolean }) {
     if (
       isBinary
         ? (this.scanner.isCharCodeAt(this.scanner.pos, 69) ||
@@ -166,7 +166,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private consumeBackslash(): boolean {
+  #consumeBackslash(): boolean {
     if (this.scanner.match("\\")) {
       this.scanner.scan();
 
@@ -177,8 +177,8 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private consumeImaginaryUnitSuffix(): boolean {
-    if (!this.options.imaginaryNumbers) {
+  #consumeImaginaryUnitSuffix(): boolean {
+    if (!this.#options.imaginaryNumbers) {
       return false;
     }
 
@@ -201,8 +201,8 @@ class Tokenizer {
   // has fractions ("." notation). Integer suffix will also
   // not work if there is an imaginary suffix before it as well.
   //@Profiler.bench
-  private consumeInt64Suffix(): boolean {
-    if (!this.options.integerSuffixes) {
+  #consumeInt64Suffix(): boolean {
+    if (!this.#options.integerSuffixes) {
       return false;
     }
 
@@ -258,7 +258,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private consumeDotNotation(): boolean {
+  #consumeDotNotation(): boolean {
     if (this.scanner.match(".")) {
       this.scanner.scan();
 
@@ -269,7 +269,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private scanLongString(isComment: boolean): boolean {
+  #scanLongString(isComment: boolean): boolean {
     let depth = 0;
     let encounteredDelimeter = false;
 
@@ -340,7 +340,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeEOF(): Token {
+  #tokenizeEOF(): Token {
     // Mark the spot in the this.scanner for us to remember the start.
     this.scanner.mark();
 
@@ -355,7 +355,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeComment(): Token {
+  #tokenizeComment(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
 
     // Mark the spot in the this.scanner for us to remember the start.
@@ -382,7 +382,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeLongComment(): Token {
+  #tokenizeLongComment(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
 
     // Mark the spot in the this.scanner for us to remember the start.
@@ -391,7 +391,7 @@ class Tokenizer {
     // scan over "--["
     this.scanner.scan("--[".length);
 
-    this.scanLongString(true);
+    this.#scanLongString(true);
 
     return {
       type: CommentLiteral,
@@ -404,7 +404,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeStringLiteral(): Token {
+  #tokenizeStringLiteral(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
     const delimeterCharCode = this.scanner.charCode;
 
@@ -421,7 +421,7 @@ class Tokenizer {
         TokenizerException.raiseUnfinishedStringError(this.scanner);
       }
 
-      this.consumeBackslash();
+      this.#consumeBackslash();
 
       // If we successfully consume an end of line then we don't need to scan again.
       // NOTE: this.scanner.consume* progresses the this.scanner.
@@ -444,7 +444,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeLongStringLiteral(): Token {
+  #tokenizeLongStringLiteral(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
 
     // Mark the spot in the this.scanner for us to remember the start.
@@ -453,7 +453,7 @@ class Tokenizer {
     // Skip over "["
     this.scanner.scan();
 
-    this.scanLongString(false);
+    this.#scanLongString(false);
 
     return {
       type: StringLiteral,
@@ -466,7 +466,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeIdentifier(): Token {
+  #tokenizeIdentifier(): Token {
     // Mark the spot in the this.scanner for us to remember the start.
     this.scanner.mark();
 
@@ -559,7 +559,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeHexadecimalNumericLiteral(): Token {
+  #tokenizeHexadecimalNumericLiteral(): Token {
     // Put a mark on the this.scanner before we progress it.
     this.scanner.mark();
 
@@ -575,7 +575,7 @@ class Tokenizer {
     }
 
     // Hexadecimal numbers can be represented as 0x.34
-    let isDecimal = this.consumeDotNotation();
+    let isDecimal = this.#consumeDotNotation();
 
     // When dealing with hexadecimal numeric literals, only hexadecimal digits are valid.
     // For example, Letters can be either between 0-9 or A-F.
@@ -585,7 +585,7 @@ class Tokenizer {
     // a hex that start with a dot notation such as "0x.3f" we account for dot notation that
     // may appear afterwards.
     if (!isDecimal) {
-      isDecimal = this.consumeDotNotation();
+      isDecimal = this.#consumeDotNotation();
     }
 
     this.scanner.scanWhile(() => this.scanner.isHexDigitAt(this.scanner.pos));
@@ -595,9 +595,9 @@ class Tokenizer {
       TokenizerException.raiseMalformedNumberError(this.scanner);
     }
 
-    const hasExponent = this.consumeExponent({ isBinary: false });
-    const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
-    const hasInt64Suffix = this.consumeInt64Suffix();
+    const hasExponent = this.#consumeExponent({ isBinary: false });
+    const hasImaginaryUnitSuffix = this.#consumeImaginaryUnitSuffix();
+    const hasInt64Suffix = this.#consumeInt64Suffix();
 
     // If either the number is a decimal or has exponent or has imaginary suffix
     // and if we find integer suffix it's a syntax error that should be thrown.
@@ -618,14 +618,14 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeDecimalNumericLiteral(): Token {
+  #tokenizeDecimalNumericLiteral(): Token {
     // Mark the position and scan until we no longer encounter a digit.
     this.scanner.mark().scanWhile(() =>
       this.scanner.isDigitAt(this.scanner.pos)
     );
 
     // We check for dot notation to check if we are dealing with decimal numbers.
-    const isDecimal = this.consumeDotNotation();
+    const isDecimal = this.#consumeDotNotation();
 
     // When dealing with decimal numeric literal, only digits are valid.
     this.scanner.scanWhile(() => this.scanner.isDigitAt(this.scanner.pos));
@@ -637,11 +637,11 @@ class Tokenizer {
 
     // After we are done with the code above we may have something like 3 or 3.14159265359.
     // Now we need to check for exponent part, NOTE: 3.14159265359e2 is a valid statement.
-    const hasExponent = this.consumeExponent({ isBinary: true });
+    const hasExponent = this.#consumeExponent({ isBinary: true });
 
-    const hasImaginaryUnitSuffix = this.consumeImaginaryUnitSuffix();
+    const hasImaginaryUnitSuffix = this.#consumeImaginaryUnitSuffix();
 
-    const hasInt64Suffix = this.consumeInt64Suffix();
+    const hasInt64Suffix = this.#consumeInt64Suffix();
 
     // If either the number is a decimal, has exponent or has imaginary suffix,
     // if we find integer suffix as well, we throw an error.
@@ -662,17 +662,17 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizeNumericLiteral(): Token {
+  #tokenizeNumericLiteral(): Token {
     // If it's a hexadecimal it starts with "0x" or "0X".
     if (this.scanner.match("0x") || this.scanner.match("0X")) {
-      return this.tokenizeHexadecimalNumericLiteral();
+      return this.#tokenizeHexadecimalNumericLiteral();
     }
 
-    return this.tokenizeDecimalNumericLiteral();
+    return this.#tokenizeDecimalNumericLiteral();
   }
 
   //@Profiler.bench
-  private tokenizeVarargLiteral(): Token {
+  #tokenizeVarargLiteral(): Token {
     // Put a mark on the this.scanner before we progress it.
     this.scanner.mark();
 
@@ -690,7 +690,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  private tokenizePunctuator(punctuator: string): Token {
+  #tokenizePunctuator(punctuator: string): Token {
     let type: TokenType;
 
     switch (punctuator) {
@@ -812,137 +812,137 @@ class Tokenizer {
   tokenize(): Token {
     // Shebang must be the first two bytes in a file.
     // So we must use this check before any whitespace consumption.
-    if (!this.isStarted) {
-      this.isStarted = true;
+    if (!this.#isStarted) {
+      this.#isStarted = true;
 
-      this.consumeShebangLine();
+      this.#consumeShebangLine();
     }
 
     // All whitespace noise is eaten away as they have no semantic value.
-    this.consumeWhitespace();
+    this.#consumeWhitespace();
 
     if (this.scanner.isOutOfBoundsAt(this.scanner.pos)) {
-      return this.tokenizeEOF();
+      return this.#tokenizeEOF();
     }
 
     // If the word is an alphabet it probably is an identifier.
     // NOTE: lua identifiers do not start with numbers.
     if (this.scanner.isAlphabetAt(this.scanner.pos)) {
-      return this.tokenizeIdentifier();
+      return this.#tokenizeIdentifier();
     }
 
     if (this.scanner.match('"') || this.scanner.match("'")) {
-      return this.tokenizeStringLiteral();
+      return this.#tokenizeStringLiteral();
     }
 
     if (this.scanner.isDigitAt(this.scanner.pos)) {
-      return this.tokenizeNumericLiteral();
+      return this.#tokenizeNumericLiteral();
     }
 
-    if (this.options.bitwiseOperators && this.scanner.match("&")) {
-      return this.tokenizePunctuator("&");
+    if (this.#options.bitwiseOperators && this.scanner.match("&")) {
+      return this.#tokenizePunctuator("&");
     }
 
-    if (this.options.bitwiseOperators && this.scanner.match("|")) {
-      return this.tokenizePunctuator("|");
+    if (this.#options.bitwiseOperators && this.scanner.match("|")) {
+      return this.#tokenizePunctuator("|");
     }
 
     if (this.scanner.match("[")) {
       if (this.scanner.match("[[") || this.scanner.match("[=")) {
-        return this.tokenizeLongStringLiteral();
+        return this.#tokenizeLongStringLiteral();
       }
 
-      return this.tokenizePunctuator("[");
+      return this.#tokenizePunctuator("[");
     }
 
     if (this.scanner.match("=")) {
       if (this.scanner.match("==")) {
-        return this.tokenizePunctuator("==");
+        return this.#tokenizePunctuator("==");
       }
 
-      return this.tokenizePunctuator("=");
+      return this.#tokenizePunctuator("=");
     }
 
     if (this.scanner.match("~")) {
       if (this.scanner.match("~=")) {
-        return this.tokenizePunctuator("~=");
+        return this.#tokenizePunctuator("~=");
       }
 
-      if (this.options.bitwiseOperators) {
-        return this.tokenizePunctuator("~");
+      if (this.#options.bitwiseOperators) {
+        return this.#tokenizePunctuator("~");
       }
     }
 
     if (this.scanner.match("/")) {
-      if (this.options.integerDivision && this.scanner.match("//")) {
-        return this.tokenizePunctuator("//");
+      if (this.#options.integerDivision && this.scanner.match("//")) {
+        return this.#tokenizePunctuator("//");
       }
 
-      return this.tokenizePunctuator("/");
+      return this.#tokenizePunctuator("/");
     }
 
     if (this.scanner.match(":")) {
-      if (this.options.labels && this.scanner.match("::")) {
-        return this.tokenizePunctuator("::");
+      if (this.#options.labels && this.scanner.match("::")) {
+        return this.#tokenizePunctuator("::");
       }
 
-      return this.tokenizePunctuator(":");
+      return this.#tokenizePunctuator(":");
     }
 
     if (this.scanner.match(">")) {
-      if (this.options.bitwiseOperators && this.scanner.match(">=")) {
-        return this.tokenizePunctuator(">=");
+      if (this.#options.bitwiseOperators && this.scanner.match(">=")) {
+        return this.#tokenizePunctuator(">=");
       }
 
-      if (this.options.bitwiseOperators && this.scanner.match(">>")) {
-        return this.tokenizePunctuator(">>");
+      if (this.#options.bitwiseOperators && this.scanner.match(">>")) {
+        return this.#tokenizePunctuator(">>");
       }
 
-      return this.tokenizePunctuator(">");
+      return this.#tokenizePunctuator(">");
     }
 
     if (this.scanner.match("<")) {
-      if (this.options.bitwiseOperators && this.scanner.match("<=")) {
-        return this.tokenizePunctuator("<=");
+      if (this.#options.bitwiseOperators && this.scanner.match("<=")) {
+        return this.#tokenizePunctuator("<=");
       }
 
-      if (this.options.bitwiseOperators && this.scanner.match("<<")) {
-        return this.tokenizePunctuator("<<");
+      if (this.#options.bitwiseOperators && this.scanner.match("<<")) {
+        return this.#tokenizePunctuator("<<");
       }
 
-      return this.tokenizePunctuator("<");
+      return this.#tokenizePunctuator("<");
     }
 
     if (this.scanner.match("--")) {
       // We check for these two conditions because you can also have
       // comments such as --[hello world which is valid.
       if (this.scanner.match("--[[") || this.scanner.match("--[=")) {
-        return this.tokenizeLongComment();
+        return this.#tokenizeLongComment();
       }
 
-      return this.tokenizeComment();
+      return this.#tokenizeComment();
     }
 
     if (this.scanner.match(".")) {
       if (this.scanner.isDigitAt(this.scanner.pos + 1)) {
-        return this.tokenizeDecimalNumericLiteral();
+        return this.#tokenizeDecimalNumericLiteral();
       }
 
       if (this.scanner.match("...")) {
-        return this.tokenizeVarargLiteral();
+        return this.#tokenizeVarargLiteral();
       }
 
       if (this.scanner.match("..")) {
-        return this.tokenizePunctuator("..");
+        return this.#tokenizePunctuator("..");
       }
 
       if (this.scanner.match(".")) {
-        return this.tokenizePunctuator(".");
+        return this.#tokenizePunctuator(".");
       }
     }
 
     if (this.scanner.someChar("*^%,{}]();#-+")) {
-      return this.tokenizePunctuator(this.scanner.char);
+      return this.#tokenizePunctuator(this.scanner.char);
     }
 
     TokenizerException.raiseUnexpectedCharacterError(this.scanner);
@@ -951,14 +951,14 @@ class Tokenizer {
   getTokens(): Token[] {
     while (true) {
       const token = this.tokenize();
-      this.tokens.push(token);
+      this.#tokens.push(token);
 
       if (token.type === EOF) {
         break;
       }
     }
 
-    return this.tokens;
+    return this.#tokens;
   }
 }
 
