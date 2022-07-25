@@ -10,16 +10,22 @@ import {
 
 const {
   Not,
+  Equal,
   Do,
   Identifier,
+  ClosedBrace,
+  OpenBracket,
+  ClosedBracket,
   OpenBrace,
   EOF,
   NilLiteral,
   BooleanLiteral,
+  ClosedParenthesis,
   StringLiteral,
   CommentLiteral,
   NumericLiteral,
   Or,
+  Comma,
   And,
   VarargLiteral,
   DoubleColon,
@@ -361,10 +367,10 @@ class Parser {
 
   // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   #parseArgs(): ast.Expression[] {
-    if (this.#tokenCursor.match("(")) {
+    if (this.#tokenCursor.match(OpenParenthesis)) {
       this.#tokenCursor.advance();
 
-      if (this.#tokenCursor.match(")")) {
+      if (this.#tokenCursor.match(ClosedParenthesis)) {
         return [];
       }
 
@@ -372,12 +378,12 @@ class Parser {
 
       this.#tokenCursor.advance();
 
-      this.#expect(")");
+      this.#expect(ClosedParenthesis);
 
       return explist;
     }
 
-    if (this.#tokenCursor.match("{")) {
+    if (this.#tokenCursor.match(OpenBrace)) {
       return [this.#parseTableConstructorExpression()];
     }
 
@@ -394,16 +400,16 @@ class Parser {
 
   // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
   #parseField(): ast.Expression {
-    if (this.#tokenCursor.match("[")) {
+    if (this.#tokenCursor.match(OpenBracket)) {
       this.#tokenCursor.advance();
 
       const key = this.parseExpression();
 
       this.#tokenCursor.advance();
 
-      this.#expect("]").advance();
+      this.#expect(ClosedBracket).advance();
 
-      this.#expect("=").advance();
+      this.#expect(Equal).advance();
 
       const value = this.parseExpression();
 
@@ -415,7 +421,7 @@ class Parser {
 
       this.#tokenCursor.advance();
 
-      this.#expect("=").advance();
+      this.#expect(Equal).advance();
 
       const value = this.parseExpression();
 
@@ -435,8 +441,8 @@ class Parser {
       // Move to the either matched "," or ";"
       this.#tokenCursor.advance();
 
-      // However if we encounter "}" we have a dangling "," or ";"
-      if (this.#tokenCursor.matchNext("}")) {
+      // However if we encounter ClosedBrace we have a dangling "," or ";"
+      if (this.#tokenCursor.matchNext(ClosedBrace)) {
         break;
       }
 
@@ -453,19 +459,19 @@ class Parser {
   // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
   // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
   #parseVar(): ast.Expression {
-    if (this.#tokenCursor.match("(")) {
+    if (this.#tokenCursor.match(OpenParenthesis)) {
       return this.#chainFunctionCalls(this.#parseGroupingExpression());
     }
 
     if (this.#tokenCursor.match(Identifier)) {
       const base = this.#parseIdentifierExpression();
 
-      if (this.#tokenCursor.consumeNext("[")) {
+      if (this.#tokenCursor.consumeNext(OpenBracket)) {
         const expression = this.parseExpression();
 
         this.#tokenCursor.advance();
 
-        this.#expect("]");
+        this.#expect(ClosedBracket);
 
         return this.#chainFunctionCalls(
           new ast.IndexExpression(base, expression),
@@ -496,7 +502,13 @@ class Parser {
         return this.#createFunctionCallExpression(memberExpression, args);
       }
 
-      if (this.#tokenCursor.someMatchNext("(", "{", StringLiteral)) {
+      if (
+        this.#tokenCursor.someMatchNext(
+          OpenParenthesis,
+          OpenBrace,
+          StringLiteral,
+        )
+      ) {
         this.#tokenCursor.advance();
 
         const args = this.#parseArgs();
@@ -570,7 +582,7 @@ class Parser {
 
   // parlist ::= namelist [‘,’ ‘...’] | ‘...’
   #parseParlist(): ast.Expression[] {
-    this.#expect("(").advance();
+    this.#expect(OpenParenthesis).advance();
 
     const parlist = [];
 
@@ -591,7 +603,7 @@ class Parser {
       this.#tokenCursor.advance();
     }
 
-    this.#expect(")");
+    this.#expect(ClosedParenthesis);
 
     return parlist;
   }
@@ -613,14 +625,21 @@ class Parser {
   //     args ::= '(' [explist] ')' | tableconstructor | String
   #chainFunctionCalls(leftExpression: ast.Expression): ast.Expression {
     while (
-      this.#tokenCursor.someMatchNext(StringLiteral, "(", "{", "[", ".", ":")
+      this.#tokenCursor.someMatchNext(
+        StringLiteral,
+        OpenParenthesis,
+        OpenBrace,
+        OpenBracket,
+        ".",
+        ":",
+      )
     ) {
-      if (this.#tokenCursor.consumeNext("[")) {
+      if (this.#tokenCursor.consumeNext(OpenBracket)) {
         const expression = this.parseExpression();
 
         this.#tokenCursor.advance();
 
-        this.#expect("]");
+        this.#expect(ClosedBracket);
 
         leftExpression = new ast.IndexExpression(
           leftExpression,
@@ -657,7 +676,13 @@ class Parser {
         );
       }
 
-      if (this.#tokenCursor.someMatchNext(StringLiteral, "(", "{")) {
+      if (
+        this.#tokenCursor.someMatchNext(
+          StringLiteral,
+          OpenParenthesis,
+          OpenBrace,
+        )
+      ) {
         this.#tokenCursor.advance();
 
         const args = this.#parseArgs();
@@ -737,9 +762,9 @@ class Parser {
 
   // tableconstructor ::= ‘{’ [fieldlist] ‘}’
   #parseTableConstructorExpression(): ast.Expression {
-    this.#expect("{").advance();
+    this.#expect(OpenBrace).advance();
 
-    if (this.#tokenCursor.match("}")) {
+    if (this.#tokenCursor.match(ClosedBrace)) {
       return new ast.TableConstructor([]);
     }
 
@@ -747,7 +772,7 @@ class Parser {
 
     this.#tokenCursor.advance();
 
-    this.#expect("}");
+    this.#expect(ClosedBrace);
 
     return new ast.TableConstructor(fieldlist);
   }
@@ -788,8 +813,8 @@ class Parser {
 
   // NOTE: Grouping expression implicitly will have the highest precedence.
   #parseGroupingExpression(): ast.Expression {
-    // Skipping over the "("
-    this.#expect("(").advance();
+    // Skipping over the OpenParenthesis
+    this.#expect(OpenParenthesis).advance();
 
     // We gather the expression that can be found within the parenthesis.
     const expression = this.parseExpression();
@@ -797,7 +822,7 @@ class Parser {
     // Skip over the last token that the expression ended on.
     this.#tokenCursor.advance();
 
-    this.#expect(")");
+    this.#expect(ClosedParenthesis);
 
     return new ast.GroupingExpression(expression);
   }
@@ -894,14 +919,14 @@ class Parser {
 
   // label ::= '::' Name '::'
   parseLabelStatement(): ast.Statement {
-    this.#expect("::").advance();
+    this.#expect(DoubleColon).advance();
 
     const name = this.#parseIdentifierExpression();
 
     // We advance over identifier token.
     this.#tokenCursor.advance();
 
-    this.#expect("::");
+    this.#expect(DoubleColon);
 
     return new ast.LabelStatement(name);
   }
@@ -909,7 +934,7 @@ class Parser {
   // if ::= 'if' exp 'then' block {elseif} ['else' block] 'end'
   // elseif ::= 'elseif' exp 'then' block
   parseIfStatement(): ast.Statement {
-    this.#expect("if").advance();
+    this.#expect(If).advance();
 
     const ifCondition = this.parseExpression();
 
@@ -1037,13 +1062,13 @@ class Parser {
 
     this.#tokenCursor.advance();
 
-    this.#expect("=").advance();
+    this.#expect(Equal).advance();
 
     const start = this.parseExpression();
 
     this.#tokenCursor.advance();
 
-    this.#expect(",").advance();
+    this.#expect(Comma).advance();
 
     const end = this.parseExpression();
 
@@ -1133,7 +1158,7 @@ class Parser {
     ) {
       this.#tokenCursor.advance();
 
-      this.#expect("=").advance();
+      this.#expect(Equal).advance();
 
       const explist = this.#parseExplist();
 
