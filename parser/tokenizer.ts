@@ -859,18 +859,20 @@ class Tokenizer {
       return this.tokenizeIdentifier();
     }
 
-    if (scanner.match("--")) {
-      // We check for these two conditions because you can also have
-      // comments such as --[hello world which is valid.
-      if (scanner.match("--[[") || scanner.match("--[=")) {
-        return this.tokenizeLongComment();
-      }
-
-      return this.tokenizeComment();
-    }
-
     if (scanner.match('"') || scanner.match("'")) {
       return this.tokenizeStringLiteral();
+    }
+
+    if (scanner.isDigitAt(scanner.pos)) {
+      return this.tokenizeNumericLiteral();
+    }
+
+    if (options.bitwiseOperators && scanner.match("&")) {
+      return this.tokenizePunctuator("&");
+    }
+
+    if (options.bitwiseOperators && scanner.match("|")) {
+      return this.tokenizePunctuator("|");
     }
 
     if (scanner.match("[")) {
@@ -881,58 +883,12 @@ class Tokenizer {
       return this.tokenizePunctuator("[");
     }
 
-    if (scanner.isDigitAt(scanner.pos)) {
-      return this.tokenizeNumericLiteral();
-    }
-
-    if (scanner.match(".")) {
-      if (scanner.isDigitAt(scanner.pos + 1)) {
-        return this.tokenizeDecimalNumericLiteral();
-      }
-
-      if (scanner.match("...")) {
-        return this.tokenizeVarargLiteral();
-      }
-
-      if (scanner.match("..")) {
-        return this.tokenizePunctuator("..");
-      }
-
-      if (scanner.match(".")) {
-        return this.tokenizePunctuator(".");
-      }
-    }
-
     if (scanner.match("=")) {
       if (scanner.match("==")) {
         return this.tokenizePunctuator("==");
       }
 
       return this.tokenizePunctuator("=");
-    }
-
-    if (scanner.match(">")) {
-      if (options.bitwiseOperators && scanner.match(">=")) {
-        return this.tokenizePunctuator(">=");
-      }
-
-      if (options.bitwiseOperators && scanner.match(">>")) {
-        return this.tokenizePunctuator(">>");
-      }
-
-      return this.tokenizePunctuator(">");
-    }
-
-    if (scanner.match("<")) {
-      if (options.bitwiseOperators && scanner.match("<=")) {
-        return this.tokenizePunctuator("<=");
-      }
-
-      if (options.bitwiseOperators && scanner.match("<<")) {
-        return this.tokenizePunctuator("<<");
-      }
-
-      return this.tokenizePunctuator("<");
     }
 
     if (scanner.match("~")) {
@@ -961,12 +917,56 @@ class Tokenizer {
       return this.tokenizePunctuator(":");
     }
 
-    if (options.bitwiseOperators && scanner.match("&")) {
-      return this.tokenizePunctuator("&");
+    if (scanner.match(">")) {
+      if (options.bitwiseOperators && scanner.match(">=")) {
+        return this.tokenizePunctuator(">=");
+      }
+
+      if (options.bitwiseOperators && scanner.match(">>")) {
+        return this.tokenizePunctuator(">>");
+      }
+
+      return this.tokenizePunctuator(">");
     }
 
-    if (options.bitwiseOperators && scanner.match("|")) {
-      return this.tokenizePunctuator("|");
+    if (scanner.match("<")) {
+      if (options.bitwiseOperators && scanner.match("<=")) {
+        return this.tokenizePunctuator("<=");
+      }
+
+      if (options.bitwiseOperators && scanner.match("<<")) {
+        return this.tokenizePunctuator("<<");
+      }
+
+      return this.tokenizePunctuator("<");
+    }
+
+    if (scanner.match("--")) {
+      // We check for these two conditions because you can also have
+      // comments such as --[hello world which is valid.
+      if (scanner.match("--[[") || scanner.match("--[=")) {
+        return this.tokenizeLongComment();
+      }
+
+      return this.tokenizeComment();
+    }
+
+    if (scanner.match(".")) {
+      if (scanner.isDigitAt(scanner.pos + 1)) {
+        return this.tokenizeDecimalNumericLiteral();
+      }
+
+      if (scanner.match("...")) {
+        return this.tokenizeVarargLiteral();
+      }
+
+      if (scanner.match("..")) {
+        return this.tokenizePunctuator("..");
+      }
+
+      if (scanner.match(".")) {
+        return this.tokenizePunctuator(".");
+      }
     }
 
     if (scanner.someChar("*^%,{}]();#-+")) {
