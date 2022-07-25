@@ -333,8 +333,6 @@ class Parser {
 
   // funcname ::= Name {‘.’ Name} [‘:’ Name]
   #parseFuncname(): ast.Identifier | ast.MemberExpression {
-    this.#expect(Identifier);
-
     const base = this.#parseIdentifierExpression();
 
     if (this.#tokenCursor.someMatchNext(Dot, Colon)) {
@@ -483,44 +481,30 @@ class Parser {
   ////////////////////////////////////////////////////////////////////////
 
   #parseIdentifierExpression(): ast.Identifier {
-    this.#expect(Identifier);
-
     return new ast.Identifier(this.#tokenCursor.current);
   }
 
   #parseNumericLiteralExpression(): ast.Expression {
-    this.#expect(NumericLiteral);
-
     return new ast.NumericLiteral(this.#tokenCursor.current);
   }
 
   #parseStringLiteralExpression(): ast.Expression {
-    this.#expect(StringLiteral);
-
     return new ast.StringLiteral(this.#tokenCursor.current);
   }
 
   #parseBooleanLiteralExpression(): ast.Expression {
-    this.#expect(BooleanLiteral);
-
     return new ast.BooleanLiteral(this.#tokenCursor.current);
   }
 
   #parseNilLiteralExpression(): ast.Expression {
-    this.#expect(NilLiteral);
-
     return new ast.NilLiteral(this.#tokenCursor.current);
   }
 
   #parseVarargLiteralExpression(): ast.Expression {
-    this.#expect(VarargLiteral);
-
     return new ast.VarargLiteral(this.#tokenCursor.current);
   }
 
   #parseCommentLiteralExpression(): ast.Expression {
-    this.#expect(CommentLiteral);
-
     return new ast.CommentLiteral(this.#tokenCursor.current);
   }
 
@@ -993,8 +977,6 @@ class Parser {
 
   // break ::= 'break'
   parseBreakStatement(): ast.Statement {
-    this.#expect(Break);
-
     return new ast.BreakStatement();
   }
 
