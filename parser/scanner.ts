@@ -5,19 +5,19 @@ interface ScannerOptions {
 }
 
 class Scanner {
-  private source = "";
-  private _index = 0;
+  #source = "";
+  #index = 0;
   public lnum = 1;
   public lnumStartIndex = 0;
-  private markedIndex = 0;
-  private options: ScannerOptions = {
+  #markedIndex = 0;
+  #options: ScannerOptions = {
     extendedIdentifiers: true,
   };
 
   constructor(source: string, options?: ScannerOptions) {
-    this.source = source;
-    this.options = {
-      ...this.options,
+    this.#source = source;
+    this.#options = {
+      ...this.#options,
       ...(options ?? {}),
     };
   }
@@ -26,40 +26,40 @@ class Scanner {
    * Current index the scanner is pointing at
    */
   get pos() {
-    return this._index;
+    return this.#index;
   }
 
   /**
    * Current char the scanner is pointing at
    */
   get char(): string {
-    return this.source[this._index];
+    return this.#source[this.#index];
   }
 
   /**
    * Current charCode the scanner is pointing at
    */
   get charCode(): number {
-    return this.source.charCodeAt(this._index);
+    return this.#source.charCodeAt(this.#index);
   }
 
   /**
    * Returns the current range from marked index to current index in an array or a specified range.
    */
   get text(): string {
-    return this.source.slice(this.markedIndex, this.pos);
+    return this.#source.slice(this.#markedIndex, this.pos);
   }
 
   /**
    * Returns the current range from marked index to current index in an array or a specified range.
    */
   get range(): number[] {
-    return [this.markedIndex, this.pos];
+    return [this.#markedIndex, this.pos];
   }
 
   // Mark the current index in memory.
   mark(): Scanner {
-    this.markedIndex = this._index;
+    this.#markedIndex = this.#index;
 
     return this;
   }
@@ -68,7 +68,7 @@ class Scanner {
   isCharCodeAt(index: number, charCode: number): boolean {
     if (this.isOutOfBoundsAt(index)) return false;
 
-    return this.source.charCodeAt(index) === charCode;
+    return this.#source.charCodeAt(index) === charCode;
   }
 
   // \n
@@ -83,7 +83,7 @@ class Scanner {
 
   // ' '
   isWhitespace(index: number): boolean {
-    const charCode = this.source.charCodeAt(index);
+    const charCode = this.#source.charCodeAt(index);
 
     switch (charCode) {
       case 9:
@@ -111,23 +111,23 @@ class Scanner {
 
   // [0-9]
   isDigitAt(index: number): boolean {
-    const charCode = this.source.charCodeAt(index);
+    const charCode = this.#source.charCodeAt(index);
 
     return charCode >= 48 && charCode <= 57;
   }
 
   // Extended alphabets starting  ending in ÿ
   isExtendedAlphabetsAt(index: number): boolean {
-    if (!this.options.extendedIdentifiers) return false;
+    if (!this.#options.extendedIdentifiers) return false;
 
-    const charCode = this.source.charCodeAt(index);
+    const charCode = this.#source.charCodeAt(index);
 
     return charCode >= 128;
   }
 
   // Alphabets [A-Z, a-z]
   isAlphabetAt(index: number): boolean {
-    const charCode = this.source.charCodeAt(index);
+    const charCode = this.#source.charCodeAt(index);
 
     return ((charCode >= 65 && charCode <= 90) ||
       (charCode >= 97 && charCode <= 122) || 95 === charCode);
@@ -135,7 +135,7 @@ class Scanner {
 
   // [0-9], [A-f, a-f]
   isHexDigitAt(index: number) {
-    const charCode = this.source.charCodeAt(index);
+    const charCode = this.#source.charCodeAt(index);
 
     return this.isDigitAt(index) || (charCode >= 65 && charCode <= 70) ||
       (charCode >= 97 && charCode <= 102);
@@ -151,16 +151,16 @@ class Scanner {
 
   // When scanner goes out of bounds of the source.
   isOutOfBoundsAt(index: number): boolean {
-    return index < 0 || index >= this.source.length;
+    return index < 0 || index >= this.#source.length;
   }
 
   getCol(): number {
-    return this._index - this.lnumStartIndex + 1;
+    return this.#index - this.lnumStartIndex + 1;
   }
 
   match(chars: string): boolean {
     for (let i = 0; i < chars.length; ++i) {
-      if (chars[i] !== this.source[this._index + i]) {
+      if (chars[i] !== this.#source[this.#index + i]) {
         return false;
       }
     }
@@ -169,17 +169,17 @@ class Scanner {
   }
 
   consumeEOL(): boolean {
-    if (this.isLineTerminatorAt(this._index)) {
+    if (this.isLineTerminatorAt(this.#index)) {
       // If we encountered a line terminator, we scan the line count by 1.
       ++this.lnum;
       // If we encounter \n\r or \r\n it's a new line.
-      if (this.isNewLineAt(this._index)) {
+      if (this.isNewLineAt(this.#index)) {
         this.scan().scan();
-        this.lnumStartIndex = this._index;
+        this.lnumStartIndex = this.#index;
         // Otherwise we skip the \n or \r.
       } else {
         this.scan();
-        this.lnumStartIndex = this._index;
+        this.lnumStartIndex = this.#index;
       }
 
       return true;
@@ -190,7 +190,7 @@ class Scanner {
 
   someChar(chars: string[] | string): boolean {
     for (const char of chars) {
-      if (char === this.source[this.pos]) {
+      if (char === this.#source[this.pos]) {
         return true;
       }
     }
@@ -200,7 +200,7 @@ class Scanner {
 
   everyChar(chars: string[] | string): boolean {
     for (const char of chars) {
-      if (char === this.source[this.pos]) {
+      if (char === this.#source[this.pos]) {
         return false;
       }
     }
@@ -223,7 +223,7 @@ class Scanner {
   // Increments the internal scanner index by 1.
   scan(by?: number): Scanner {
     // 0 gets ignored and treated as 1 which is why we use || and not ??.
-    this._index += by || 1;
+    this.#index += by || 1;
 
     return this;
   }
