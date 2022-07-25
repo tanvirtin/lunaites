@@ -65,7 +65,7 @@ class Scanner {
   }
 
   // Verify if a given charcode is the one being pointed at.
-  isCharCode(charCode: number, index: number): boolean {
+  isCharCodeAt(index: number, charCode: number): boolean {
     if (this.isOutOfBounds(index)) return false;
 
     return this.source.charCodeAt(index) === charCode;
@@ -73,12 +73,12 @@ class Scanner {
 
   // \n
   isLineFeed(index: number): boolean {
-    return this.isCharCode(10, index);
+    return this.isCharCodeAt(index, 10);
   }
 
   // \r
   isCarriageReturn(index: number): boolean {
-    return this.isCharCode(13, index);
+    return this.isCharCodeAt(index, 13);
   }
 
   // ' '
@@ -204,13 +204,13 @@ class Scanner {
   someCharCode(charCodes: number[]): boolean {
     if (this.isOutOfBounds(this.pos)) return false;
 
-    return charCodes.some((charCode) => this.isCharCode(charCode, this.pos));
+    return charCodes.some((charCode) => this.isCharCodeAt(this.pos, charCode));
   }
 
   everyCharCode(charCodes: number[]): boolean {
     if (this.isOutOfBounds(this.pos)) return false;
 
-    return charCodes.some((charCode) => this.isCharCode(charCode, this.pos));
+    return charCodes.some((charCode) => this.isCharCodeAt(this.pos, charCode));
   }
 
   // Increments the internal scanner index by 1.

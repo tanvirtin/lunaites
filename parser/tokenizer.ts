@@ -142,18 +142,18 @@ class Tokenizer {
 
     if (
       isBinary
-        ? (scanner.isCharCode(69, scanner.pos) ||
-          scanner.isCharCode(101, scanner.pos)) // (p or P)
-        : (scanner.isCharCode(80, scanner.pos) ||
-          scanner.isCharCode(112, scanner.pos)) // (e or E)
+        ? (scanner.isCharCodeAt(scanner.pos, 69) ||
+          scanner.isCharCodeAt(scanner.pos, 101)) // (p or P)
+        : (scanner.isCharCodeAt(scanner.pos, 80) ||
+          scanner.isCharCodeAt(scanner.pos, 112)) // (e or E)
     ) {
       scanner.scan();
 
       // If we encounter a "+" or "-", we can just continue our
       // scanning as it's part of the semantics.
       if (
-        scanner.isCharCode(43, scanner.pos) ||
-        scanner.isCharCode(45, scanner.pos)
+        scanner.isCharCodeAt(scanner.pos, 43) ||
+        scanner.isCharCodeAt(scanner.pos, 45)
       ) {
         scanner.scan();
       }
@@ -194,8 +194,8 @@ class Tokenizer {
 
     // We check of suffix indicator for imaginary numbers by "i" or "I"
     if (
-      scanner.isCharCode(73, scanner.pos) ||
-      scanner.isCharCode(105, scanner.pos)
+      scanner.isCharCodeAt(scanner.pos, 73) ||
+      scanner.isCharCodeAt(scanner.pos, 105)
     ) {
       scanner.scan();
 
@@ -222,20 +222,20 @@ class Tokenizer {
 
     // U or u
     if (
-      scanner.isCharCode(85, scanner.pos) ||
-      scanner.isCharCode(117, scanner.pos)
+      scanner.isCharCodeAt(scanner.pos, 85) ||
+      scanner.isCharCodeAt(scanner.pos, 117)
     ) {
       scanner.scan();
       // L or l
       if (
-        scanner.isCharCode(76, scanner.pos) ||
-        scanner.isCharCode(108, scanner.pos)
+        scanner.isCharCodeAt(scanner.pos, 76) ||
+        scanner.isCharCodeAt(scanner.pos, 108)
       ) {
         scanner.scan();
         // L or l
         if (
-          scanner.isCharCode(76, scanner.pos) ||
-          scanner.isCharCode(108, scanner.pos)
+          scanner.isCharCodeAt(scanner.pos, 76) ||
+          scanner.isCharCodeAt(scanner.pos, 108)
         ) {
           scanner.scan();
 
@@ -248,15 +248,15 @@ class Tokenizer {
       TokenizerException.raiseMalformedNumberError(scanner);
       // L or l
     } else if (
-      scanner.isCharCode(76, scanner.pos) ||
-      scanner.isCharCode(108, scanner.pos)
+      scanner.isCharCodeAt(scanner.pos, 76) ||
+      scanner.isCharCodeAt(scanner.pos, 108)
     ) {
       scanner.scan();
 
       // L or l
       if (
-        scanner.isCharCode(76, scanner.pos) ||
-        scanner.isCharCode(108, scanner.pos)
+        scanner.isCharCodeAt(scanner.pos, 76) ||
+        scanner.isCharCodeAt(scanner.pos, 108)
       ) {
         scanner.scan();
 
@@ -433,7 +433,7 @@ class Tokenizer {
     // Scan over the ending string delimiter (", ')
     scanner.scan();
 
-    while (!scanner.isCharCode(delimeterCharCode, scanner.pos)) {
+    while (!scanner.isCharCodeAt(scanner.pos, delimeterCharCode)) {
       // If we hit out of bounds we have an unfinished string that
       // never met the matching delimiter.
       if (scanner.isOutOfBounds(scanner.pos)) {

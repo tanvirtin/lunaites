@@ -82,13 +82,13 @@ describe("Scanner", () => {
 
   describe("isCharCode", () => {
     it("should return true if the char being pointed at is a the given char code", () => {
-      assert((new Scanner("E")).isCharCode(69, 0));
-      assert((new Scanner("e")).isCharCode(101, 0));
+      assert((new Scanner("E")).isCharCodeAt(0, 69));
+      assert((new Scanner("e")).isCharCodeAt(0, 101));
     });
 
     it("should return false if the char being pointed at is not a given char code", () => {
-      assert(!(new Scanner("E")).isCharCode(68, 0));
-      assert(!(new Scanner("e")).isCharCode(100, 0));
+      assert(!(new Scanner("E")).isCharCodeAt(0, 68));
+      assert(!(new Scanner("e")).isCharCodeAt(0, 100));
     });
   });
 
