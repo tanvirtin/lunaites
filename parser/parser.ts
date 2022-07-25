@@ -632,8 +632,8 @@ class Parser {
         OpenParenthesis,
         OpenBrace,
         OpenBracket,
-        ".",
-        ":",
+        Dot,
+        Colon,
       )
     ) {
       if (this.#tokenCursor.consumeNext(OpenBracket)) {
@@ -978,13 +978,13 @@ class Parser {
   parseReturnStatement(): ast.Statement {
     this.#expect(Return).advance();
 
-    if (this.#tokenCursor.consume(";") || this.#tokenCursor.eofToken) {
+    if (this.#tokenCursor.consume(SemiColon) || this.#tokenCursor.eofToken) {
       return new ast.ReturnStatement([]);
     }
 
     const expressions = this.#parseExplist();
 
-    this.#tokenCursor.consume(";");
+    this.#tokenCursor.consume(SemiColon);
 
     return new ast.ReturnStatement(expressions);
   }
@@ -1250,7 +1250,7 @@ class Parser {
         }
 
         this.#tokenCursor.advance();
-        this.#tokenCursor.consume(";");
+        this.#tokenCursor.consume(SemiColon);
 
         break;
       }
@@ -1262,7 +1262,7 @@ class Parser {
       }
 
       this.#tokenCursor.advance();
-      this.#tokenCursor.consume(";");
+      this.#tokenCursor.consume(SemiColon);
     }
 
     return new ast.Block(statements);
