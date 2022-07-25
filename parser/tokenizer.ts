@@ -495,86 +495,86 @@ class Tokenizer {
     // Itentifiers can only be characters that are alphanumeric (digits or alphabets).
     scanner.scanWhile(() => scanner.isAlphanumericAt(scanner.pos));
 
-    let keywordTokenType;
+    let type;
     const value = scanner.text;
 
     // Switch case is more optimized over heap allocations.
     switch (value) {
       case "or":
-        keywordTokenType = Or;
+        type = Or;
         break;
       case "and":
-        keywordTokenType = And;
+        type = And;
         break;
       case "not":
-        keywordTokenType = Not;
+        type = Not;
         break;
       case "true":
-        keywordTokenType = BooleanLiteral;
+        type = BooleanLiteral;
         break;
       case "false":
-        keywordTokenType = BooleanLiteral;
+        type = BooleanLiteral;
         break;
       case "nil":
-        keywordTokenType = NilLiteral;
+        type = NilLiteral;
         break;
       case "do":
-        keywordTokenType = Do;
+        type = Do;
         break;
       case "if":
-        keywordTokenType = If;
+        type = If;
         break;
       case "in":
-        keywordTokenType = In;
+        type = In;
         break;
       case "end":
-        keywordTokenType = End;
+        type = End;
         break;
       case "for":
-        keywordTokenType = For;
+        type = For;
         break;
       case "else":
-        keywordTokenType = Else;
+        type = Else;
         break;
       case "then":
-        keywordTokenType = Then;
+        type = Then;
         break;
       case "break":
-        keywordTokenType = Break;
+        type = Break;
         break;
       case "local":
-        keywordTokenType = Local;
+        type = Local;
         break;
       case "while":
-        keywordTokenType = While;
+        type = While;
         break;
       case "elseif":
-        keywordTokenType = Elseif;
+        type = Elseif;
         break;
       case "until":
-        keywordTokenType = Until;
+        type = Until;
         break;
       case "repeat":
-        keywordTokenType = Repeat;
+        type = Repeat;
         break;
       case "return":
-        keywordTokenType = Return;
+        type = Return;
         break;
       case "function":
-        keywordTokenType = Function;
+        type = Function;
         break;
       case "goto":
-        keywordTokenType = Goto;
+        type = Goto;
         break;
     }
 
     return {
-      type: keywordTokenType != null ? keywordTokenType : Identifier,
+      type: type != null ? type : Identifier,
       value,
       lnum: scanner.lnum,
       lnumStartIndex: scanner.lnumStartIndex,
       range: scanner.range,
-      isKeyword: !!keywordTokenType,
+      isKeyword: !!type,
     };
   }
 
