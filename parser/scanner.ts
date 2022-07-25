@@ -189,6 +189,8 @@ class Scanner {
   }
 
   someChar(chars: string[] | string): boolean {
+    if (this.isOutOfBoundsAt(this.pos)) return false;
+
     for (const char of chars) {
       if (char === this.#source[this.pos]) {
         return true;
@@ -198,26 +200,16 @@ class Scanner {
     return false;
   }
 
-  everyChar(chars: string[] | string): boolean {
-    for (const char of chars) {
-      if (char === this.#source[this.pos]) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   someCharCode(charCodes: number[]): boolean {
     if (this.isOutOfBoundsAt(this.pos)) return false;
 
-    return charCodes.some((charCode) => this.isCharCodeAt(this.pos, charCode));
-  }
+    for (const charCode of charCodes) {
+      if (this.isCharCodeAt(this.pos, charCode)) {
+        return true;
+      }
+    }
 
-  everyCharCode(charCodes: number[]): boolean {
-    if (this.isOutOfBoundsAt(this.pos)) return false;
-
-    return charCodes.some((charCode) => this.isCharCodeAt(this.pos, charCode));
+    return false;
   }
 
   // Increments the internal scanner index by 1.
