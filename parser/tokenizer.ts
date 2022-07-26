@@ -134,26 +134,27 @@ class Tokenizer {
 
   //@Profiler.bench
   #consumeExponent({ isBinary }: { isBinary?: boolean }) {
+    let charCode = this.scanner.charCode;
+
     if (
       isBinary
-        ? (this.scanner.isCharCodeAt(this.scanner.pos, 69) ||
-          this.scanner.isCharCodeAt(this.scanner.pos, 101)) // (p or P)
-        : (this.scanner.isCharCodeAt(this.scanner.pos, 80) ||
-          this.scanner.isCharCodeAt(this.scanner.pos, 112)) // (e or E)
+        ? charCode === 69 || charCode === 101 // (p or P)
+        : charCode === 80 || charCode === 112 // (e or E)
     ) {
       this.scanner.scan();
 
+      charCode = this.scanner.charCode;
+
       // If we encounter a "+" or "-", we can just continue our
       // scanning as it's part of the semantics.
-      if (
-        this.scanner.isCharCodeAt(this.scanner.pos, 43) ||
-        this.scanner.isCharCodeAt(this.scanner.pos, 45)
-      ) {
+      if (charCode === 43 || charCode === 45) {
         this.scanner.scan();
+
+        charCode = this.scanner.charCode;
       }
 
       // If we encounter a digit after the exponent it's an error.
-      if (!this.scanner.isDigitAt(this.scanner.pos)) {
+      if (!(charCode >= 48 && charCode <= 57)) {
         TokenizerException.raiseMalformedNumberError(this.scanner);
       }
 
@@ -182,11 +183,10 @@ class Tokenizer {
       return false;
     }
 
+    const charCode = this.scanner.charCode;
+
     // We check of suffix indicator for imaginary numbers by "i" or "I"
-    if (
-      this.scanner.isCharCodeAt(this.scanner.pos, 73) ||
-      this.scanner.isCharCodeAt(this.scanner.pos, 105)
-    ) {
+    if (charCode === 73 || charCode === 105) {
       this.scanner.scan();
 
       return true;
@@ -206,46 +206,41 @@ class Tokenizer {
       return false;
     }
 
+    let charCode = this.scanner.charCode;
+
     // Accepted suffixes: Any casing combination of ULL and LL
 
     // U or u
-    if (
-      this.scanner.isCharCodeAt(this.scanner.pos, 85) ||
-      this.scanner.isCharCodeAt(this.scanner.pos, 117)
-    ) {
+    if (charCode === 85 || charCode === 117) {
       this.scanner.scan();
+
+      charCode = this.scanner.charCode;
+
       // L or l
-      if (
-        this.scanner.isCharCodeAt(this.scanner.pos, 76) ||
-        this.scanner.isCharCodeAt(this.scanner.pos, 108)
-      ) {
+      if (charCode === 76 || charCode === 108) {
         this.scanner.scan();
+
+        charCode = this.scanner.charCode;
         // L or l
-        if (
-          this.scanner.isCharCodeAt(this.scanner.pos, 76) ||
-          this.scanner.isCharCodeAt(this.scanner.pos, 108)
-        ) {
+        if (charCode === 76 || charCode === 108) {
           this.scanner.scan();
 
           return true;
         }
+
         // UL but no L
         TokenizerException.raiseMalformedNumberError(this.scanner);
       }
       // U but no L
       TokenizerException.raiseMalformedNumberError(this.scanner);
       // L or l
-    } else if (
-      this.scanner.isCharCodeAt(this.scanner.pos, 76) ||
-      this.scanner.isCharCodeAt(this.scanner.pos, 108)
-    ) {
+    } else if (charCode === 76 || charCode === 108) {
       this.scanner.scan();
 
+      charCode = this.scanner.charCode;
+
       // L or l
-      if (
-        this.scanner.isCharCodeAt(this.scanner.pos, 76) ||
-        this.scanner.isCharCodeAt(this.scanner.pos, 108)
-      ) {
+      if (charCode === 76 || charCode === 108) {
         this.scanner.scan();
 
         return true;
@@ -690,110 +685,7 @@ class Tokenizer {
   }
 
   //@Profiler.bench
-  #tokenizePunctuator(punctuator: string): Token {
-    let type: TokenType;
-
-    switch (punctuator) {
-      case "..":
-        type = DoubleDot;
-        break;
-      case ".":
-        type = Dot;
-        break;
-      case ",":
-        type = Comma;
-        break;
-      case "==":
-        type = DoubleEqual;
-        break;
-      case "=":
-        type = Equal;
-        break;
-      case ">=":
-        type = GreaterThanEqual;
-        break;
-      case ">>":
-        type = DoubleGreaterThan;
-        break;
-      case ">":
-        type = GreaterThan;
-        break;
-      case "<=":
-        type = LessThanEqual;
-        break;
-      case "<<":
-        type = DoubleLessThan;
-        break;
-      case "<":
-        type = LessThan;
-        break;
-      case "~=":
-        type = TildaEqual;
-        break;
-      case "~":
-        type = Tilda;
-        break;
-      case "//":
-        type = DoubleDivide;
-        break;
-      case "/":
-        type = Divide;
-        break;
-      case ":":
-        type = Colon;
-        break;
-      case "::":
-        type = DoubleColon;
-        break;
-      case "&":
-        type = Ampersand;
-        break;
-      case "|":
-        type = Pipe;
-        break;
-      case "*":
-        type = Star;
-        break;
-      case "^":
-        type = Carrot;
-        break;
-      case "%":
-        type = Percentage;
-        break;
-      case "{":
-        type = OpenBrace;
-        break;
-      case "}":
-        type = ClosedBrace;
-        break;
-      case "[":
-        type = OpenBracket;
-        break;
-      case "]":
-        type = ClosedBracket;
-        break;
-      case "(":
-        type = OpenParenthesis;
-        break;
-      case ")":
-        type = ClosedParenthesis;
-        break;
-      case ";":
-        type = SemiColon;
-        break;
-      case "#":
-        type = HashTag;
-        break;
-      case "-":
-        type = Minus;
-        break;
-      case "+":
-        type = Plus;
-        break;
-      default:
-        TokenizerException.raiseUnexpectedCharacterError(this.scanner);
-    }
-
+  #tokenizePunctuator(punctuator: string, type: TokenType): Token {
     // Put a mark on the this.scanner before we progress it.
     this.scanner.mark();
 
@@ -821,128 +713,177 @@ class Tokenizer {
     // All whitespace noise is eaten away as they have no semantic value.
     this.#consumeWhitespace();
 
-    if (this.scanner.isOutOfBoundsAt(this.scanner.pos)) {
+    const pos = this.scanner.pos;
+
+    if (this.scanner.isOutOfBoundsAt(pos)) {
       return this.#tokenizeEOF();
     }
 
+    const charCode = this.scanner.charCode;
+
     // If the word is an alphabet it probably is an identifier.
     // NOTE: lua identifiers do not start with numbers.
-    if (this.scanner.isAlphabetAt(this.scanner.pos)) {
+    if (
+      ((charCode >= 65 && charCode <= 90) ||
+        (charCode >= 97 && charCode <= 122) || 95 === charCode)
+    ) {
       return this.#tokenizeIdentifier();
     }
 
-    if (this.scanner.match('"') || this.scanner.match("'")) {
+    if (charCode === 39 || charCode === 34) {
       return this.#tokenizeStringLiteral();
     }
 
-    if (this.scanner.isDigitAt(this.scanner.pos)) {
+    if (charCode >= 48 && charCode <= 57) {
       return this.#tokenizeNumericLiteral();
     }
 
-    if (this.#options.bitwiseOperators && this.scanner.match("&")) {
-      return this.#tokenizePunctuator("&");
+    switch (charCode) {
+      case 35: { // #
+        return this.#tokenizePunctuator(this.scanner.char, HashTag);
+      }
+      case 37: // %
+        return this.#tokenizePunctuator(this.scanner.char, Percentage);
+      case 40: // (
+        return this.#tokenizePunctuator(this.scanner.char, OpenParenthesis);
+      case 41: // )
+        return this.#tokenizePunctuator(this.scanner.char, ClosedParenthesis);
+      case 42: // *
+        return this.#tokenizePunctuator(this.scanner.char, Star);
+      case 43: // +
+        return this.#tokenizePunctuator(this.scanner.char, Plus);
+      case 44: // ,
+        return this.#tokenizePunctuator(this.scanner.char, Comma);
+      case 45: { // -
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (charCode === 45 && nextCharCode === 45) {
+          const nextNextCharCode = this.scanner.charCodeAt(pos + 2);
+          const nextNextNextCharCode = this.scanner.charCodeAt(pos + 3);
+
+          // We check for these two conditions because you can also have
+          // comments such as --[hello world which is valid.
+          if (nextNextCharCode === 91) {
+            if (nextNextNextCharCode === 91 || nextNextNextCharCode === 61) {
+              return this.#tokenizeLongComment();
+            }
+          }
+
+          return this.#tokenizeComment();
+        }
+
+        return this.#tokenizePunctuator(this.scanner.char, Minus);
+      }
+      case 46: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (nextCharCode >= 48 && nextCharCode <= 57) {
+          return this.#tokenizeDecimalNumericLiteral();
+        }
+
+        if (nextCharCode === 46) {
+          const nextNextCharCode = this.scanner.charCodeAt(pos + 2);
+
+          if (nextNextCharCode === 46) {
+            return this.#tokenizeVarargLiteral();
+          }
+
+          return this.#tokenizePunctuator("..", DoubleDot);
+        }
+
+        return this.#tokenizePunctuator(".", Dot);
+      }
+      case 47: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (this.#options.integerDivision && nextCharCode === 47) {
+          return this.#tokenizePunctuator("//", DoubleDivide);
+        }
+
+        return this.#tokenizePunctuator("/", Divide);
+      }
+      case 58: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (this.#options.labels && nextCharCode === 58) {
+          return this.#tokenizePunctuator("::", DoubleColon);
+        }
+
+        return this.#tokenizePunctuator(":", Colon);
+      }
+      case 59: // ;
+        return this.#tokenizePunctuator(this.scanner.char, SemiColon);
+      case 60: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (this.#options.bitwiseOperators && nextCharCode === 61) {
+          return this.#tokenizePunctuator("<=", LessThanEqual);
+        }
+
+        if (this.#options.bitwiseOperators && nextCharCode === 60) {
+          return this.#tokenizePunctuator("<<", DoubleLessThan);
+        }
+
+        return this.#tokenizePunctuator("<", LessThan);
+      }
+      case 61: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (nextCharCode === 61) {
+          return this.#tokenizePunctuator("==", DoubleEqual);
+        }
+
+        return this.#tokenizePunctuator("=", Equal);
+      }
+      case 62: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (this.#options.bitwiseOperators && nextCharCode === 61) {
+          return this.#tokenizePunctuator(">=", GreaterThanEqual);
+        }
+
+        if (this.#options.bitwiseOperators && nextCharCode === 62) {
+          return this.#tokenizePunctuator(">>", DoubleGreaterThan);
+        }
+
+        return this.#tokenizePunctuator(">", GreaterThan);
+      }
+      case 91: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (nextCharCode === 91 || nextCharCode === 61) {
+          return this.#tokenizeLongStringLiteral();
+        }
+
+        return this.#tokenizePunctuator("[", OpenBracket);
+      }
+      case 93: // ]
+        return this.#tokenizePunctuator(this.scanner.char, ClosedBracket);
+      case 94: // ^
+        return this.#tokenizePunctuator(this.scanner.char, Carrot);
+      case 123: // {
+        return this.#tokenizePunctuator(this.scanner.char, OpenBrace);
+      case 125: // }
+        return this.#tokenizePunctuator(this.scanner.char, ClosedBrace);
+      case 126: {
+        const nextCharCode = this.scanner.charCodeAt(pos + 1);
+
+        if (nextCharCode === 61) {
+          return this.#tokenizePunctuator("~=", TildaEqual);
+        }
+
+        if (this.#options.bitwiseOperators) {
+          return this.#tokenizePunctuator("~", Tilda);
+        }
+      }
     }
 
-    if (this.#options.bitwiseOperators && this.scanner.match("|")) {
-      return this.#tokenizePunctuator("|");
+    if (this.#options.bitwiseOperators && charCode === 38) {
+      return this.#tokenizePunctuator("&", Ampersand);
     }
 
-    if (this.scanner.match("[")) {
-      if (this.scanner.match("[[") || this.scanner.match("[=")) {
-        return this.#tokenizeLongStringLiteral();
-      }
-
-      return this.#tokenizePunctuator("[");
-    }
-
-    if (this.scanner.match("=")) {
-      if (this.scanner.match("==")) {
-        return this.#tokenizePunctuator("==");
-      }
-
-      return this.#tokenizePunctuator("=");
-    }
-
-    if (this.scanner.match("~")) {
-      if (this.scanner.match("~=")) {
-        return this.#tokenizePunctuator("~=");
-      }
-
-      if (this.#options.bitwiseOperators) {
-        return this.#tokenizePunctuator("~");
-      }
-    }
-
-    if (this.scanner.match("/")) {
-      if (this.#options.integerDivision && this.scanner.match("//")) {
-        return this.#tokenizePunctuator("//");
-      }
-
-      return this.#tokenizePunctuator("/");
-    }
-
-    if (this.scanner.match(":")) {
-      if (this.#options.labels && this.scanner.match("::")) {
-        return this.#tokenizePunctuator("::");
-      }
-
-      return this.#tokenizePunctuator(":");
-    }
-
-    if (this.scanner.match(">")) {
-      if (this.#options.bitwiseOperators && this.scanner.match(">=")) {
-        return this.#tokenizePunctuator(">=");
-      }
-
-      if (this.#options.bitwiseOperators && this.scanner.match(">>")) {
-        return this.#tokenizePunctuator(">>");
-      }
-
-      return this.#tokenizePunctuator(">");
-    }
-
-    if (this.scanner.match("<")) {
-      if (this.#options.bitwiseOperators && this.scanner.match("<=")) {
-        return this.#tokenizePunctuator("<=");
-      }
-
-      if (this.#options.bitwiseOperators && this.scanner.match("<<")) {
-        return this.#tokenizePunctuator("<<");
-      }
-
-      return this.#tokenizePunctuator("<");
-    }
-
-    if (this.scanner.match("--")) {
-      // We check for these two conditions because you can also have
-      // comments such as --[hello world which is valid.
-      if (this.scanner.match("--[[") || this.scanner.match("--[=")) {
-        return this.#tokenizeLongComment();
-      }
-
-      return this.#tokenizeComment();
-    }
-
-    if (this.scanner.match(".")) {
-      if (this.scanner.isDigitAt(this.scanner.pos + 1)) {
-        return this.#tokenizeDecimalNumericLiteral();
-      }
-
-      if (this.scanner.match("...")) {
-        return this.#tokenizeVarargLiteral();
-      }
-
-      if (this.scanner.match("..")) {
-        return this.#tokenizePunctuator("..");
-      }
-
-      if (this.scanner.match(".")) {
-        return this.#tokenizePunctuator(".");
-      }
-    }
-
-    if (this.scanner.someChar("*^%,{}]();#-+")) {
-      return this.#tokenizePunctuator(this.scanner.char);
+    if (this.#options.bitwiseOperators && charCode === 124) {
+      return this.#tokenizePunctuator("|", Pipe);
     }
 
     TokenizerException.raiseUnexpectedCharacterError(this.scanner);

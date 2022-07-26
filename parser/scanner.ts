@@ -64,6 +64,13 @@ class Scanner {
     return this;
   }
 
+  /**
+   * Retrieves the charcode of at a given index in the scanner
+   */
+  charCodeAt(index: number): number {
+    return this.#source.charCodeAt(index);
+  }
+
   // Verify if a given charcode is the one being pointed at.
   isCharCodeAt(index: number, charCode: number): boolean {
     if (this.isOutOfBoundsAt(index)) return false;
