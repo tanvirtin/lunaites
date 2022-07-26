@@ -342,20 +342,20 @@ class Parser {
     const base = this.#parseIdentifierExpression();
     const nextTokenType = this.#tokenCursor.nextType;
 
-    const createMemberExpression = (indexer: string) => {
-      this.#tokenCursor.advance().advance();
-
-      const identifier = this.#parseIdentifierExpression();
-
-      return new ast.MemberExpression(base, indexer, identifier);
-    };
-
     switch (nextTokenType) {
       case Dot: {
-        return createMemberExpression(".");
+        this.#tokenCursor.advance().advance();
+
+        const identifier = this.#parseIdentifierExpression();
+
+        return new ast.MemberExpression(base, ".", identifier);
       }
       case Colon: {
-        return createMemberExpression(":");
+        this.#tokenCursor.advance().advance();
+
+        const identifier = this.#parseIdentifierExpression();
+
+        return new ast.MemberExpression(base, ":", identifier);
       }
       default:
         return base;
