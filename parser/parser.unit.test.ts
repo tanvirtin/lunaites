@@ -1739,7 +1739,8 @@ ${source}
 
 (() => {
   const parser = new Parser(`
-
+print('OK')
+return deep
   `);
   const ast = parser.parse();
   const minimizerVisitor = new MinimizerVisitor();

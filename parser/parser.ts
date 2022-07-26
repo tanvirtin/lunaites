@@ -720,7 +720,7 @@ class Parser {
     //                      / \
     //                     2   3
     while (
-      !this.#tokenCursor.eofToken &&
+      !this.#tokenCursor.done &&
       precedence < Precedence.getPrecedence(this.#tokenCursor.next)
     ) {
       this.#tokenCursor.advance();
@@ -898,7 +898,7 @@ class Parser {
   parseReturnStatement(): ast.Statement {
     this.#expect(Return).advance();
 
-    if (this.#tokenCursor.consume(SemiColon) || this.#tokenCursor.eofToken) {
+    if (this.#tokenCursor.consume(SemiColon) || this.#tokenCursor.done) {
       return new ast.ReturnStatement([]);
     }
 
@@ -1157,7 +1157,7 @@ class Parser {
     // Only continue this loop if:
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
-    while (!this.#tokenCursor.eofToken && !this.#tokenCursor.isBlockFollow) {
+    while (!this.#tokenCursor.done && !this.#tokenCursor.isBlockFollow) {
       if (this.#tokenCursor.current.type === Return) {
         const statement = this.parseStatement();
 

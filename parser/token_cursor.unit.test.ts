@@ -6,8 +6,12 @@ const {
   EOF,
   BooleanLiteral,
   Equal,
+  StringLiteral,
   Carrot,
+  NumericLiteral,
+  SemiColon,
   Ampersand,
+  ClosedParenthesis,
   OpenParenthesis,
   Local,
   Function,
@@ -279,6 +283,71 @@ describe("TokenCursor", () => {
       assert(cursor.consumeNext(OpenParenthesis));
       assert(cursor.consumeNext(Local));
       assert(cursor.consumeNext(Equal));
+    });
+  });
+
+  describe("done", () => {
+    it("should be true if the cursor's internal index and api index matches and there exists and eof token", () => {
+      const cursor = createTokenCursor();
+
+      cursor
+        .advance();
+
+      assert(cursor.consume(Local));
+      assert(!cursor.done);
+      assert(cursor.consume(Function));
+      assert(!cursor.done);
+      assert(cursor.consume(Identifier));
+      assert(!cursor.done);
+      assert(cursor.consume(OpenParenthesis));
+      assert(!cursor.done);
+      assert(cursor.consume(ClosedParenthesis));
+      assert(!cursor.done);
+      assert(cursor.consume(Local));
+      assert(!cursor.done);
+      assert(cursor.consume(Identifier));
+      assert(!cursor.done);
+      assert(cursor.consume(Equal));
+      assert(!cursor.done);
+      assert(cursor.consume(NumericLiteral));
+      assert(!cursor.done);
+      assert(cursor.consume(SemiColon));
+      assert(!cursor.done);
+      assert(cursor.consume(Local));
+      assert(!cursor.done);
+      assert(cursor.consume(Identifier));
+      assert(!cursor.done);
+      assert(cursor.consume(Equal));
+      assert(!cursor.done);
+      assert(cursor.consume(StringLiteral));
+      assert(!cursor.done);
+      assert(cursor.consume(SemiColon));
+      assert(!cursor.done);
+      assert(cursor.consume(Local));
+      assert(!cursor.done);
+      assert(cursor.consume(Identifier));
+      assert(!cursor.done);
+      assert(cursor.consume(Equal));
+      assert(!cursor.done);
+      assert(cursor.consume(StringLiteral));
+      assert(!cursor.done);
+      assert(cursor.consume(SemiColon));
+      assert(!cursor.done);
+      cursor.advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance()
+        .advance();
+      assert(cursor.done);
     });
   });
 

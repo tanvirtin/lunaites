@@ -8,14 +8,18 @@ class TokenCursor {
   #internalIndex = -1;
   #tokens: Token[] = [];
   #tokenizer: Tokenizer;
-  eofToken: Token | void = undefined;
+  #eofToken: Token | void = undefined;
+
+  get done(): boolean {
+    return this.#index === this.#internalIndex && !!this.#eofToken;
+  }
 
   constructor(tokenizer: Tokenizer) {
     this.#tokenizer = tokenizer;
   }
 
   #tokenize(moveCursor = true): TokenCursor {
-    if (this.eofToken) {
+    if (this.#eofToken) {
       if (moveCursor && this.index < this.#tokens.length - 1) {
         ++this.#index;
       }
@@ -27,7 +31,7 @@ class TokenCursor {
     const token = this.#tokenizer.tokenize();
 
     if (token.type === EOF) {
-      this.eofToken = token;
+      this.#eofToken = token;
     }
 
     ++this.#internalIndex;
@@ -48,7 +52,7 @@ class TokenCursor {
       for (let i = 0; i < times + 1; ++i) {
         this.#tokenize(false);
 
-        if (this.eofToken) {
+        if (this.#eofToken) {
           break;
         }
       }
