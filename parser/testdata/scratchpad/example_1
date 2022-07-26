@@ -107,6 +107,10 @@ function a.b:c() end
 t = { a, b, c, d }
 
 for n in pairs(a) do end
+
+local function pack(...)
+end
+
 --------------------------------------
 
 return 4 + 5;

@@ -226,7 +226,7 @@ class Parser {
           return new ast.TableKeyString(key, value);
         }
 
-        return new ast.TableValue(key);
+        return new ast.TableValue(this.parseExpression());
       }
       default: {
         const value = this.parseExpression();
@@ -400,6 +400,9 @@ class Parser {
     switch (tokenType) {
       case VarargLiteral:
         parlist.push(this.#parseVarargLiteralExpression());
+
+        this.#tokenCursor.advance();
+
         break;
       case Identifier: {
         parlist.push(this.#parseIdentifierExpression());

@@ -28,7 +28,6 @@ const {
   BooleanLiteral,
   NilLiteral,
   VarargLiteral,
-  CommentLiteral,
   IfStatement,
   DoStatement,
   Chunk,
@@ -1715,6 +1714,14 @@ ${source}
           ],
         },
         {
+          type: FunctionLocalStatement,
+          funcname: Identifier,
+          parlist: [
+            VarargLiteral,
+          ],
+          block: [],
+        },
+        {
           type: ReturnStatement,
           expressions: [
             {
@@ -1732,8 +1739,7 @@ ${source}
 
 (() => {
   const parser = new Parser(`
-f(-- this line change must be valid
-  1, 2)
+
   `);
   const ast = parser.parse();
   const minimizerVisitor = new MinimizerVisitor();
