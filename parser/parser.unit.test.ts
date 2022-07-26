@@ -14,6 +14,7 @@ const {
   ReturnStatement,
   UnaryExpression,
   FunctionExpression,
+  IndexExpression,
   FunctionLocalStatement,
   FunctionGlobalStatement,
   NumericLiteral,
@@ -1603,13 +1604,122 @@ ${source}
                   right: NumericLiteral,
                 },
               },
-              identifier: Identifier,
               indexer: ":",
+              identifier: Identifier,
             },
             args: [],
           },
         },
         {
+          type: AssignmentStatement,
+          init: [
+            {
+              type: FunctionCallExpression,
+              args: [
+                Identifier,
+                NumericLiteral,
+                {
+                  type: UnaryExpression,
+                  argument: NumericLiteral,
+                },
+              ],
+              base: {
+                type: MemberExpression,
+                base: Identifier,
+                indexer: ".",
+                identifier: Identifier,
+              },
+            },
+          ],
+          variables: [
+            {
+              type: IndexExpression,
+              base: Identifier,
+              index: {
+                type: BinaryExpression,
+                left: {
+                  argument: Identifier,
+                  type: UnaryExpression,
+                },
+                right: NumericLiteral,
+              },
+            },
+          ],
+        },
+        {
+          type: FunctionGlobalStatement,
+          block: [],
+          funcname: {
+            type: MemberExpression,
+            base: {
+              type: MemberExpression,
+              base: Identifier,
+              indexer: ".",
+              identifier: Identifier,
+            },
+            indexer: ".",
+            identifier: Identifier,
+          },
+          parlist: [],
+        },
+
+        {
+          type: FunctionGlobalStatement,
+          block: [],
+          funcname: {
+            type: MemberExpression,
+            base: {
+              type: MemberExpression,
+              base: Identifier,
+              indexer: ".",
+              identifier: Identifier,
+            },
+            indexer: ".",
+            identifier: Identifier,
+          },
+          parlist: [],
+        },
+        {
+          type: AssignmentStatement,
+          variables: [Identifier],
+          init: [
+            {
+              type: TableConstructor,
+              fieldlist: [
+                {
+                  type: TableValue,
+                  value: Identifier,
+                },
+                {
+                  type: TableValue,
+                  value: Identifier,
+                },
+                {
+                  type: TableValue,
+                  value: Identifier,
+                },
+                {
+                  type: TableValue,
+                  value: Identifier,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: ForGenericStatement,
+          block: [],
+          variables: [Identifier],
+          iterators: [
+            {
+              args: [Identifier],
+              base: Identifier,
+              type: FunctionCallExpression,
+            },
+          ],
+        },
+        {
+          type: ReturnStatement,
           expressions: [
             {
               left: NumericLiteral,
@@ -1617,10 +1727,21 @@ ${source}
               type: BinaryExpression,
             },
           ],
-          type: ReturnStatement,
         },
       ],
       type: Chunk,
     });
   },
 );
+
+(() => {
+  const parser = new Parser(`
+f(-- this line change must be valid
+  1, 2)
+  `);
+  const ast = parser.parse();
+  const minimizerVisitor = new MinimizerVisitor();
+  const minimizedAst = minimizerVisitor.visit(ast);
+
+  console.log(JSON.stringify(minimizedAst, null, 2));
+})();

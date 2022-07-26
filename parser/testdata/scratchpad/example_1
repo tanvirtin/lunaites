@@ -27,7 +27,7 @@ local function bar()
 end
 
 local xzy = function(a, b, c)
-  ;end
+end
 
 for i = 1, i < 4 do
 end
@@ -96,5 +96,17 @@ x "Hello, world!"
 i = 3
 
 (1 + 5):c()
+
+--------------------------------------
+msgs[#msgs + 1] = string.sub(m, 3, -3)
+
+function a.b.c() end
+
+function a.b:c() end
+
+t = { a, b, c, d }
+
+for n in pairs(a) do end
+--------------------------------------
 
 return 4 + 5;

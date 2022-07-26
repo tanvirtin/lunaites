@@ -1,4 +1,3 @@
-import { Expression } from "./ast.ts";
 import {
   ast,
   ParserException,
@@ -13,6 +12,7 @@ const {
   Not,
   Dot,
   Colon,
+  Percentage,
   Equal,
   Do,
   Identifier,
@@ -137,6 +137,33 @@ class Parser {
   ////////////////////////////// Utility /////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
+  #createMemberExpression(
+    base: ast.Expression,
+    indexer: string,
+    identifier: ast.Identifier,
+  ): ast.MemberExpression {
+    const memberExpression = new ast.MemberExpression(
+      base,
+      indexer,
+      identifier,
+    );
+
+    if (this.#tokenCursor.consumeNext(Colon)) {
+      const identifier = this.#parseIdentifierExpression();
+
+      return new ast.MemberExpression(memberExpression, ".", identifier);
+    }
+
+    // Recursive call if we see a "."
+    if (this.#tokenCursor.consumeNext(Dot)) {
+      const identifier = this.#parseIdentifierExpression();
+
+      return this.#createMemberExpression(memberExpression, ".", identifier);
+    }
+
+    return memberExpression;
+  }
+
   // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
   #parseArgs(): ast.Expression[] {
     const tokenType = this.#tokenCursor.currentType;
@@ -193,13 +220,13 @@ class Parser {
       case Identifier: {
         const key = this.#parseIdentifierExpression();
 
-        this.#tokenCursor.advance();
+        if (this.#tokenCursor.consumeNext(Equal)) {
+          const value = this.parseExpression();
 
-        this.#expect(Equal).advance();
+          return new ast.TableKeyString(key, value);
+        }
 
-        const value = this.parseExpression();
-
-        return new ast.TableKeyString(key, value);
+        return new ast.TableValue(key);
       }
       default: {
         const value = this.parseExpression();
@@ -263,7 +290,7 @@ class Parser {
             const identifier = this.#parseIdentifierExpression();
 
             return this.#chainFunctionCalls(
-              new ast.MemberExpression(base, ".", identifier),
+              this.#createMemberExpression(base, ".", identifier),
             );
           }
           case Colon: {
@@ -271,7 +298,7 @@ class Parser {
 
             const identifier = this.#parseIdentifierExpression();
 
-            const memberExpression = new ast.MemberExpression(
+            const memberExpression = this.#createMemberExpression(
               base,
               ":",
               identifier,
@@ -348,14 +375,14 @@ class Parser {
 
         const identifier = this.#parseIdentifierExpression();
 
-        return new ast.MemberExpression(base, ".", identifier);
+        return this.#createMemberExpression(base, ".", identifier);
       }
       case Colon: {
         this.#tokenCursor.advance().advance();
 
         const identifier = this.#parseIdentifierExpression();
 
-        return new ast.MemberExpression(base, ":", identifier);
+        return this.#createMemberExpression(base, ":", identifier);
       }
       default:
         return base;
@@ -437,7 +464,7 @@ class Parser {
       if (this.#tokenCursor.consumeNext(Dot)) {
         const identifier = this.#parseIdentifierExpression();
 
-        leftExpression = new ast.MemberExpression(
+        leftExpression = this.#createMemberExpression(
           leftExpression,
           ".",
           identifier,
@@ -447,7 +474,7 @@ class Parser {
       if (this.#tokenCursor.consumeNext(Colon)) {
         const identifier = this.#parseIdentifierExpression();
 
-        leftExpression = new ast.MemberExpression(
+        leftExpression = this.#createMemberExpression(
           leftExpression,
           ":",
           identifier,
@@ -611,7 +638,7 @@ class Parser {
 
     const tokenType = this.#tokenCursor.currentType;
 
-    let leftExpression: Expression;
+    let leftExpression: ast.Expression;
 
     switch (tokenType) {
       case NumericLiteral:
@@ -709,6 +736,9 @@ class Parser {
           leftExpression = this.#parseBinaryExpression(leftExpression);
           break;
         case Divide:
+          leftExpression = this.#parseBinaryExpression(leftExpression);
+          break;
+        case Percentage:
           leftExpression = this.#parseBinaryExpression(leftExpression);
           break;
         case DoubleDivide:
@@ -926,9 +956,10 @@ class Parser {
     this.#expect(Identifier);
 
     const variable = this.#parseIdentifierExpression();
+    const nextTokenType = this.#tokenCursor.nextType;
 
     // Parse for generic statement
-    if (this.#tokenCursor.nextType === Comma) {
+    if (nextTokenType === Comma || nextTokenType === In) {
       const variables: ast.Identifier[] = [variable];
 
       while (
@@ -1039,12 +1070,7 @@ class Parser {
       );
     }
 
-    // First argument could either be a function call or an identifier
-    const [functionCallOrIdentifier] = varlist;
-
-    if (
-      functionCallOrIdentifier instanceof ast.Identifier || varlist.length > 1
-    ) {
+    if (this.#tokenCursor.matchNext(Equal)) {
       this.#tokenCursor.advance();
 
       this.#expect(Equal).advance();
@@ -1083,9 +1109,11 @@ class Parser {
     const token = this.#tokenCursor.current;
 
     switch (token.type) {
-      // @@ TODO: For a true lossless parser,
-      // I need to take this into consideration in the future.
+      // @@ TODO: We need to store semicolons for a true lossless parser.
       case SemiColon:
+        return null;
+      // @@ TODO: We need to store comments for a true lossless parser.
+      case CommentLiteral:
         return null;
       case DoubleColon:
         return this.parseLabelStatement();

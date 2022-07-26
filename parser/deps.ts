@@ -1,5 +1,6 @@
 export {
   afterAll,
+  beforeAll,
   beforeEach,
   describe,
   it,
