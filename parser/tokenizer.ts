@@ -106,7 +106,6 @@ class Tokenizer {
   //   - carriage return
   //   - horizontal tab
   //   - vertical tab
-  //@Profiler.bench
   #consumeWhitespace(): boolean {
     while (!this.scanner.isOutOfBoundsAt(this.scanner.pos)) {
       if (this.scanner.isWhitespace(this.scanner.pos)) {
@@ -120,7 +119,6 @@ class Tokenizer {
   }
 
   // Eats away the entire shebang line
-  //@Profiler.bench
   #consumeShebangLine(): boolean {
     if (this.scanner.match("#!")) {
       this.scanner.scanUntil(() => this.scanner.isLineFeedAt(this.scanner.pos));
@@ -132,7 +130,6 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
   #consumeExponent({ isBinary }: { isBinary?: boolean }) {
     let charCode = this.scanner.charCode;
 
@@ -166,7 +163,6 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
   #consumeBackslash(): boolean {
     if (this.scanner.match("\\")) {
       this.scanner.scan();
@@ -177,7 +173,6 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
   #consumeImaginaryUnitSuffix(): boolean {
     if (!this.#options.imaginaryNumbers) {
       return false;
@@ -200,7 +195,6 @@ class Tokenizer {
   // Integer suffix should not work if the literal being processed
   // has fractions ("." notation). Integer suffix will also
   // not work if there is an imaginary suffix before it as well.
-  //@Profiler.bench
   #consumeInt64Suffix(): boolean {
     if (!this.#options.integerSuffixes) {
       return false;
@@ -252,7 +246,6 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
   #consumeDotNotation(): boolean {
     if (this.scanner.match(".")) {
       this.scanner.scan();
@@ -263,7 +256,6 @@ class Tokenizer {
     return false;
   }
 
-  //@Profiler.bench
   #scanLongString(isComment: boolean): boolean {
     let depth = 0;
     let encounteredDelimeter = false;
@@ -334,7 +326,6 @@ class Tokenizer {
     return true;
   }
 
-  //@Profiler.bench
   #tokenizeEOF(): Token {
     // Mark the spot in the this.scanner for us to remember the start.
     this.scanner.mark();
@@ -349,7 +340,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeComment(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
 
@@ -376,7 +366,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeLongComment(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
 
@@ -398,7 +387,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeStringLiteral(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
     const delimeterCharCode = this.scanner.charCode;
@@ -438,7 +426,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeLongStringLiteral(): Token {
     const { lnum, lnumStartIndex } = this.scanner;
 
@@ -460,7 +447,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeIdentifier(): Token {
     // Mark the spot in the this.scanner for us to remember the start.
     this.scanner.mark();
@@ -553,7 +539,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeHexadecimalNumericLiteral(): Token {
     // Put a mark on the this.scanner before we progress it.
     this.scanner.mark();
@@ -612,7 +597,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeDecimalNumericLiteral(): Token {
     // Mark the position and scan until we no longer encounter a digit.
     this.scanner.mark().scanWhile(() =>
@@ -656,7 +640,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizeNumericLiteral(): Token {
     // If it's a hexadecimal it starts with "0x" or "0X".
     if (this.scanner.match("0x") || this.scanner.match("0X")) {
@@ -666,7 +649,6 @@ class Tokenizer {
     return this.#tokenizeDecimalNumericLiteral();
   }
 
-  //@Profiler.bench
   #tokenizeVarargLiteral(): Token {
     // Put a mark on the this.scanner before we progress it.
     this.scanner.mark();
@@ -684,7 +666,6 @@ class Tokenizer {
     };
   }
 
-  //@Profiler.bench
   #tokenizePunctuator(punctuator: string, type: TokenType): Token {
     // Put a mark on the this.scanner before we progress it.
     this.scanner.mark();
