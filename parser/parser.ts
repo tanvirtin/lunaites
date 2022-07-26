@@ -340,21 +340,22 @@ class Parser {
   // funcname ::= Name {‘.’ Name} [‘:’ Name]
   #parseFuncname(): ast.Identifier | ast.MemberExpression {
     const base = this.#parseIdentifierExpression();
-
     const nextTokenType = this.#tokenCursor.nextType;
 
+    const createMemberExpression = (indexer: string) => {
+      this.#tokenCursor.advance().advance();
+
+      const identifier = this.#parseIdentifierExpression();
+
+      return new ast.MemberExpression(base, indexer, identifier);
+    };
+
     switch (nextTokenType) {
-      case Dot:
+      case Dot: {
+        return createMemberExpression(".");
+      }
       case Colon: {
-        this.#tokenCursor.advance();
-
-        const indexerToken = this.#tokenCursor.current;
-
-        this.#tokenCursor.advance();
-
-        const identifier = this.#parseIdentifierExpression();
-
-        return new ast.MemberExpression(base, indexerToken.value, identifier);
+        return createMemberExpression(":");
       }
       default:
         return base;
@@ -1127,7 +1128,7 @@ class Parser {
     //  - We don't encounter an EOF token.
     //  - And we don't encounter a block that is a follow.
     while (!this.#tokenCursor.eofToken && !this.#tokenCursor.isBlockFollow) {
-      if (this.#tokenCursor.current.value === Return) {
+      if (this.#tokenCursor.current.type === Return) {
         const statement = this.parseStatement();
 
         if (statement) {
