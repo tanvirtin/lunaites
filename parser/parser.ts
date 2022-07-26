@@ -548,10 +548,6 @@ class Parser {
     return new ast.VarargLiteral(this.#tokenCursor.current);
   }
 
-  #parseCommentLiteralExpression(): ast.Expression {
-    return new ast.CommentLiteral(this.#tokenCursor.current);
-  }
-
   #parseFunctionExpression(): ast.Expression {
     this.#expect(Function).advance();
 
@@ -662,7 +658,10 @@ class Parser {
         break;
 
       case CommentLiteral:
-        leftExpression = this.#parseCommentLiteralExpression();
+        // @@@ TODO: Skip over comment for now.
+        this.#tokenCursor.advance();
+
+        leftExpression = this.parseExpression();
         break;
 
       case Not:

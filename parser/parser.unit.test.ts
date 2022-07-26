@@ -89,10 +89,6 @@ describe("Parser", () => {
       type: VarargLiteral,
       value: "...",
     },
-    "--\n": {
-      type: CommentLiteral,
-      value: "--",
-    },
     // or has a lower precedence over and
     "true and false or true": {
       type: BinaryExpression,
