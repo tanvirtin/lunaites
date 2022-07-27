@@ -1,6 +1,6 @@
 # Lunaites 🌙
 
-Transforms Lua source code into
+Handwritten Lua parser that transforms your Lua source code into
 [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 
 ### Supported Lua versions:
