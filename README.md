@@ -71,6 +71,3 @@ binop ::=  ‘+’ | ‘-’ | ‘*’ | ‘/’ | ‘//’ | ‘^’ | ‘%’ 
 
 unop ::= ‘-’ | not | ‘#’ | ‘~’
 ```
-
-- Unknowns keywords
-- <close>
