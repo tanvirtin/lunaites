@@ -1,8 +1,7 @@
 # Lunaites 🌙
 
-Generates an
-[Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) from
-Lua source code.
+Transforms Lua source code into
+[Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 
 ### Supported Lua versions:
 
@@ -24,23 +23,6 @@ print(sup);
 const parser = new Parser(source);
 
 const ast = parser.parse();
-```
-
-## Tests
-
-Run the following commands
-
-```sh
-make smoke-tests
-make integration-tests
-make snapshot-tests
-make unit-tests
-```
-
-or
-
-```sh
-make tests
 ```
 
 ## Live demo
@@ -140,6 +122,23 @@ binop ::= `+´ | `-´ | `*´ | `/´ | `^´ | `%´ | `..´ |
 - [ ] Lossless
 - [ ] Better syntax highlighting
 - [ ] Scope metadata
+
+## Tests
+
+Run the following commands
+
+```sh
+make smoke-tests
+make integration-tests
+make snapshot-tests
+make unit-tests
+```
+
+or
+
+```sh
+make tests
+```
 
 ## References:
 
