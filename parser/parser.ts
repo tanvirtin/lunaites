@@ -896,11 +896,17 @@ class Parser {
 
   // retstat ::= 'return' [exp {',' exp}] [';']
   parseReturnStatement(): ast.Statement {
-    this.#expect(Return).advance();
+    this.#expect(Return);
 
-    if (this.#tokenCursor.consume(SemiColon) || this.#tokenCursor.done) {
+    if (
+      this.#tokenCursor.consumeNext(SemiColon) ||
+      this.#tokenCursor.matchNext(End) ||
+      this.#tokenCursor.matchNext(EOF)
+    ) {
       return new ast.ReturnStatement([]);
     }
+
+    this.#tokenCursor.advance();
 
     const expressions = this.#parseExplist();
 

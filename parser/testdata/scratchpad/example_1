@@ -111,6 +111,9 @@ for n in pairs(a) do end
 local function pack(...)
 end
 
+if true then
+end
+
 --------------------------------------
 
 return 4 + 5;

@@ -1722,6 +1722,14 @@ ${source}
           block: [],
         },
         {
+          type: IfStatement,
+          ifCondition: BooleanLiteral,
+          ifBlock: [],
+          elseifBlocks: [],
+          elseifConditions: [],
+          elseBlock: undefined,
+        },
+        {
           type: ReturnStatement,
           expressions: [
             {
@@ -1736,15 +1744,3 @@ ${source}
     });
   },
 );
-
-(() => {
-  const parser = new Parser(`
-print('OK')
-return deep
-  `);
-  const ast = parser.parse();
-  const minimizerVisitor = new MinimizerVisitor();
-  const minimizedAst = minimizerVisitor.visit(ast);
-
-  console.log(JSON.stringify(minimizedAst, null, 2));
-})();

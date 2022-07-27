@@ -17,6 +17,6 @@ for await (const _ of watcher) {
 
     console.log(JSON.stringify(minimizedAst, null, 2));
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 }

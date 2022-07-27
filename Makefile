@@ -27,4 +27,7 @@ profile:
 compile: 
 	deno compile -A -o ./bin/lunaites mod.ts
 
+watch:
+	deno run -A ./scratchpad/watch.ts
+
 build: check compile
