@@ -1,0 +1,42 @@
+export const snapshot = {};
+
+snapshot[`multi_line_string_4 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  5,
+                  15,
+                ],
+                type: "StringLiteral",
+                value: "[[letsgo]]",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                4,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

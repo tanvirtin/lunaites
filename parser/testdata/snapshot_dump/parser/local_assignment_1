@@ -1,0 +1,29 @@
+export const snapshot = {};
+
+snapshot[`local_assignment_1 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "x",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

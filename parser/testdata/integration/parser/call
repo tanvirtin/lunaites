@@ -1,0 +1,8 @@
+call()
+call(1)
+call(1, 2)
+call(1, 2, 3, 4)
+call(a, b, c, d, e)
+a.a("a")
+a.b.c(3)
+sup:man("b")

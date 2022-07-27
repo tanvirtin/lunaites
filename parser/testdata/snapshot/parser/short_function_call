@@ -1,0 +1,4 @@
+call { foo = 1 }
+call "x"
+call { foo = 1 }
+call "x"

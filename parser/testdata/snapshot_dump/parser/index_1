@@ -1,0 +1,74 @@
+export const snapshot = {};
+
+snapshot[`index_1 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          MemberExpression {
+            base: MemberExpression {
+              base: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    10,
+                    11,
+                  ],
+                  type: "Identifier",
+                  value: "a",
+                },
+              },
+              identifier: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    12,
+                    13,
+                  ],
+                  type: "Identifier",
+                  value: "b",
+                },
+              },
+              indexer: ".",
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  14,
+                  15,
+                ],
+                type: "Identifier",
+                value: "c",
+              },
+            },
+            indexer: ".",
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "d",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

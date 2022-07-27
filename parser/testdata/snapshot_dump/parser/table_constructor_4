@@ -1,0 +1,65 @@
+export const snapshot = {};
+
+snapshot[`table_constructor_4 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          TableConstructor {
+            fieldlist: [
+              TableKey {
+                key: FunctionCallExpression {
+                  args: [
+                  ],
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 2,
+                      lnumStartIndex: 14,
+                      range: [
+                        16,
+                        20,
+                      ],
+                      type: "Identifier",
+                      value: "call",
+                    },
+                  },
+                },
+                value: NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 14,
+                    range: [
+                      26,
+                      28,
+                    ],
+                    type: "NumericLiteral",
+                    value: "42",
+                  },
+                },
+              },
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                9,
+              ],
+              type: "Identifier",
+              value: "foo",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

@@ -1,0 +1,74 @@
+export const snapshot = {};
+
+snapshot[`multi_line_string_5 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          StringLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                11,
+                17,
+              ],
+              type: "StringLiteral",
+              value: "[[💩]]",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                8,
+              ],
+              type: "Identifier",
+              value: "to",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 18,
+              range: [
+                35,
+                40,
+              ],
+              type: "Identifier",
+              value: "today",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 18,
+              range: [
+                24,
+                32,
+              ],
+              type: "Identifier",
+              value: "the_mall",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

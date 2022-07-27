@@ -1,0 +1,10 @@
+export const snapshot = {};
+
+snapshot[`line_comment_3 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+    ],
+  },
+}
+`;

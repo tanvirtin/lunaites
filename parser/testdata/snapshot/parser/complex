@@ -1,0 +1,994 @@
+local a = require 'parser.tokens'
+local b = require 'parser.guide'
+local c = string.byte;
+local d = string.find;
+local e = string.match;
+local f = string.gsub;
+local g = string.sub;
+local h = string.char;
+local i = string.upper;
+local j = utf8.char;
+local k = table.concat;
+local l = table.insert;
+local m = math.tointeger;
+local tonumber = tonumber;
+local n = math.maxinteger;
+local assert = assert;
+_ENV = nil;
+local function o(p) local q = {}
+local r = 1;
+while r <= #p do local s = c(p, r, r)
+q[h(s)] = true;
+r = r + 1;
+if g(p, r, r) == '-' and r < #p then r = r + 1;
+local t = c(p, r, r)
+assert(s < t) for u = s + 1, t do q[h(u)] = true end  r = r + 1 end end  return q end
+
+;local v = o '0-9'
+local w = o 'xX'
+local x = o 'bB'
+local y = o 'eE'
+local z = o 'pP'
+local A = o '+-'
+local B = o 'ao|~&=<>.*/%^+-'
+local C = o 'n#~!-'
+local D = o '.:([\'"{'
+local E = o '\'"`'
+local F = o '['
+local G = o ',;'
+local H = o '_a-zA-Z\x80-\xff'
+local I = { ['a'] = '\a', ['b'] = '\b', ['f'] = '\f', ['n'] = '\n', ['r'] = '\r', ['t'] = '\t', ['v'] = '\v', ['\\'] = '\\',
+  ['\''] = '\'', ['\"'] = '\"' }
+local J = { ['\n'] = true, ['\r'] = true, ['\r\n'] = true }
+local K = 10000;
+local L = { ['and'] = true, ['break'] = true, ['do'] = true, ['else'] = true, ['elseif'] = true, ['end'] = true,
+  ['false'] = true, ['for'] = true, ['function'] = true, ['if'] = true, ['in'] = true, ['local'] = true, ['nil'] = true,
+  ['not'] = true, ['or'] = true, ['repeat'] = true, ['return'] = true, ['then'] = true, ['true'] = true, ['until'] = true,
+  ['while'] = true }
+local M = { ['_G'] = true, ['rawset'] = true, ['rawget'] = true, ['setmetatable'] = true, ['require'] = true,
+  ['dofile'] = true, ['loadfile'] = true, ['pcall'] = true, ['xpcall'] = true, ['pairs'] = true, ['ipairs'] = true,
+  ['assert'] = true, ['error'] = true, ['type'] = true }
+local N = { ['not'] = 11, ['#'] = 11, ['~'] = 11, ['-'] = 11 }
+local O = { ['or'] = 1, ['and'] = 2, ['<='] = 3, ['>='] = 3, ['<'] = 3, ['>'] = 3, ['~='] = 3, ['=='] = 3, ['|'] = 4,
+  ['~'] = 5, ['&'] = 6, ['<<'] = 7, ['>>'] = 7, ['..'] = 8, ['+'] = 9, ['-'] = 9, ['*'] = 10, ['//'] = 10, ['/'] = 10,
+  ['%'] = 10, ['^'] = 12 }
+local P = { ['&&'] = 'and', ['||'] = 'or', ['!='] = '~=' }
+local Q = { ['='] = '==' }
+local R = { ['!'] = 'not' }
+local S = { [01] = true, [02] = true, [03] = true, [04] = true, [05] = true, [06] = true, [07] = true, [08] = false,
+  [09] = true, [10] = true, [11] = true, [12] = false }
+local T = { ['getglobal'] = 'setglobal', ['getlocal'] = 'setlocal', ['getfield'] = 'setfield', ['getindex'] = 'setindex',
+  ['getmethod'] = 'setmethod' }
+local U = { ['end'] = true, ['else'] = true, ['elseif'] = true, ['in'] = true, ['then'] = true, ['until'] = true,
+  [';'] = true, [']'] = true, [')'] = true, ['}'] = true }
+local V = { ['do'] = true, ['else'] = true, ['elseif'] = true, ['for'] = true, ['function'] = true, ['if'] = true,
+  ['local'] = true, ['repeat'] = true, ['return'] = true, ['then'] = true, ['until'] = true, ['while'] = true }
+local W = { ['end'] = true, ['else'] = true, ['elseif'] = true, ['in'] = true, ['then'] = true, ['do'] = true,
+  ['until'] = true, ['for'] = true, ['if'] = true, ['local'] = true, ['repeat'] = true, ['return'] = true, ['while'] = true }
+local X, Y, Z, _, a0, a1, a2, a3, a4, a5;
+local a6 = 200;
+local a7, a8;
+local a9;
+local function aa(ab, ac) if not X.specials then X.specials = {} end  if not X.specials[ab] then X.specials[ab] = {} end  X
+    .specials[ab][#X.specials[ab] + 1] = ac;
+ac.special = ab
+end
+
+;local function ad(ae, af) if not ae or ae > #Y then return K * Z + #Y - _ + 1 end  if af == 'left' then return K * Z +
+    ae - _ else return K * Z + ae - _ + 1 end end
+
+;local function ag() local ah = a1[a2 + 1] if not ah then return nil end  if not H[g(ah, 1, 1)] then return nil end  local ai = ad(a1
+  [a2], 'left')
+local aj = ad(a1[a2] + #ah - 1, 'right')
+return ah, ai, aj end
+
+;local function ak() if a2 < 2 then return 0 end  local al = a1[a2 - 1] if J[al] then return a3 elseif al then return ad(a1
+  [a2 - 2] + #al - 1, 'right') else return ad(#Y, 'right') end end
+
+;local function am(an, ao, ap) a9 { type = 'MISS_SYMBOL', start = ao or ak(), finish = ap or ao or ak(), info = { symbol = an } } end
+
+;local function aq() a9 { type = 'MISS_EXP', start = ak(), finish = ak() } end
+
+;local function ar(r) a9 { type = 'MISS_NAME', start = r or ak(), finish = r or ak() } end
+
+;local function as(at, au) a9 { type = 'MISS_SYMBOL', start = ak(), finish = ak(),
+  info = { symbol = 'end', related = { { start = at, finish = au } } } } a9 { type = 'MISS_END', start = at, finish = au } end
+
+;local function av(ao, ap, ah) local al = ah or a1[a2 + 1] if not al then return false end  a9 { type = 'UNKNOWN_SYMBOL',
+  start = ao or ad(a1[a2], 'left'), finish = ap or ad(a1[a2] + #al - 1, 'right'), info = { symbol = al } } return true end
+
+;local function aw(ax) if av() then a2 = a2 + 2; return true end  return false end
+
+;local function ay() local al = a1[a2 + 1] if J[al] then if a2 >= 2 and not J[a1[a2 - 1]] then a3 = ad(a1[a2 - 2] +
+  #a1[a2 - 1] - 1, 'right') end  Z = Z + 1;
+_ = a1[a2] + #al;
+a2 = a2 + 2;
+X.lines[Z] = _;
+return true end  return false end
+
+;local function az() local aA = a2;
+local aB = Z;
+local aC = _;
+local aD = X.errs;
+local aE = #aD;
+return function() a2 = aA;
+Z = aB;
+_ = aC;
+for aF = aE + 1, #aD do aD[aF] = nil end end end
+
+;local function aG(ae) while true do local aH = a1[a2] if not aH or aH >= ae then break end  local al = a1[a2 + 1] if J[
+    al] then Z = Z + 1;
+_ = a1[a2] + #al;
+X.lines[Z] = _
+end  a2 = a2 + 2 end end
+
+;local function aI(aJ) ay() local aK;
+local ao = a1[a2]
+local aL = d(Y, aJ, ao, true)
+if not aL then aL = #Y + 1;
+aK = true
+end  local aM = ao and g(Y, ao, aL - 1) or ''
+local aN = aM:find '[\r\n][^\r\n]*$'
+if aN then local aO = aM:gsub('\r\n?', '\n')
+aM = aO
+end  aG(aL + #aJ) if aK then local r = ad(aL - 1, 'right') a9 { type = 'MISS_SYMBOL', start = r, finish = r,
+  info = { symbol = aJ }, fix = { title = 'ADD_LSTRING_END', { start = r, finish = r, text = aJ } } } end  return aM,
+    ad(aL + #aJ - 1, 'right') end
+
+;local function aP() local ao, ap, aQ = d(Y, '^(%[%=*%[)', a1[a2]) if not aQ then return nil end  aG(ap + 1) local ai = ad(ao
+  , 'left')
+local aJ = f(aQ, '%[', ']')
+local aM, aj = aI(aJ)
+return { type = 'string', start = ai, finish = aj, [1] = aM, [2] = aQ } end
+
+;local function aR(aS) if X.options.nonstandardSymbol['//'] then return end  a9 { type = 'ERR_COMMENT_PREFIX', start = aS,
+  finish = aS + 2, fix = { title = 'FIX_COMMENT_PREFIX', { start = aS, finish = aS + 2, text = '--' } } } end
+
+;local function aT(aS, aU) if X.options.nonstandardSymbol['/**/'] then return end  a9 { type = 'ERR_C_LONG_COMMENT',
+  start = aS, finish = aU,
+  fix = { title = 'FIX_C_LONG_COMMENT', { start = aS, finish = aS + 2, text = '--[[' },
+    { start = aU - 2, finish = aU, text = '--]]' } } } end
+
+;local function aV(aW) local al = a1[a2 + 1] if al == '--' or al == '//' and (aW or X.options.nonstandardSymbol['//']) then local ao = a1
+    [a2]
+local aS = ad(ao, 'left')
+local aX = false;
+if al == '//' then aX = true; aR(aS) end  a2 = a2 + 2;
+local aY = ao + 2 == a1[a2] and aP()
+if aY then aY.type = 'comment.long'
+aY.text = aY[1]
+aY.mark = aY[2]
+aY[1] = nil;
+aY[2] = nil;
+X.comms[#X.comms + 1] = aY;
+return true end  while true do local aZ = a1[a2 + 1] if not aZ or J[aZ] then break end  a2 = a2 + 2 end  local aU = a1[
+    a2] and a1[a2] - 1 or #Y;
+X.comms[#X.comms + 1] = { type = aX and 'comment.cshort' or 'comment.short', start = aS, finish = ad(aU, 'right'),
+  text = g(Y, ao + 2, aU) }
+return true end  if al == '/*' then local ao = a1[a2]
+local aS = ad(ao, 'left')
+a2 = a2 + 2;
+local aO, aU = aI '*/'
+aT(aS, aU) X.comms[#X.comms + 1] = { type = 'comment.long', start = aS, finish = aU, text = aO } return true end  return false end
+
+;local function a_(aW) repeat
+until not ay() and not aV(aW) end
+
+;local function b0(aW) local al = a1[a2 + 1] if al == '=' then a2 = a2 + 2; return true end  if al == '==' then local aS = ad(a1
+  [a2], 'left')
+local aU = ad(a1[a2] + #al - 1, 'right')
+a9 { type = 'ERR_ASSIGN_AS_EQ', start = aS, finish = aU, fix = { title = 'FIX_ASSIGN_AS_EQ',
+  { start = aS, finish = aU, text = '=' } } } a2 = a2 + 2; return true end  if aW then if al == '+=' or al == '-=' or
+    al == '*=' or al == '/=' or al == '%=' or al == '^=' or al == '//=' or al == '|=' or al == '&=' or al == '>>=' or
+    al == '<<=' then if not X.options.nonstandardSymbol[al] then av() end  a2 = a2 + 2; return true end end  return false end
+
+;local function b1() local b2; while true do a_() local al = a1[a2 + 1] if al ~= '<' then break end  if not b2 then b2 = { type = 'localattrs' } end  local b3 = { type = 'localattr',
+  parent = b2, start = ad(a1[a2], 'left'), finish = ad(a1[a2], 'right') }
+b2[#b2 + 1] = b3;
+a2 = a2 + 2;
+a_() local ah, b4, b5 = ag() if ah then b3[1] = ah;
+b3.finish = b5;
+a2 = a2 + 2;
+if ah ~= 'const' and ah ~= 'close' then a9 { type = 'UNKNOWN_ATTRIBUTE', start = b4, finish = b5 } end else ar() end  b3
+    .finish = ak() a_() if a1[a2 + 1] == '>' then b3.finish = ad(a1[a2], 'right')
+a2 = a2 + 2
+elseif a1[a2 + 1] == '>=' then b3.finish = ad(a1[a2], 'right') a9 { type = 'MISS_SPACE_BETWEEN', start = ad(a1[a2],
+  'left'), finish = ad(a1[a2] + 1, 'right') } a2 = a2 + 2 else am '>' end  if X.version ~= 'Lua 5.4' then a9 { type = 'UNSUPPORT_SYMBOL',
+  start = b3.start, finish = b3.finish, version = 'Lua 5.4', info = { version = X.version } } end end  return b2 end
+
+;local function b6(ac, b2) ac.type = 'local'
+ac.effect = ac.finish;
+if b2 then ac.attrs = b2;
+b2.parent = ac
+end  local b7 = a0[#a0] if b7 then local b8 = b7.locals; if not b8 then b8 = {}
+b7.locals = b8
+end  b8[#b8 + 1] = ac;
+a5 = a5 + 1;
+if a5 > a6 then a9 { type = 'LOCAL_LIMIT', start = ac.start, finish = ac.finish } end end  return ac end
+
+;local function b9(b7) a0[#a0 + 1] = b7 end
+
+;local function ba(bb, ac) if not bb.ref then bb.ref = {} end  bb.ref[#bb.ref + 1] = ac;
+ac.node = bb;
+if ac.start > bb.start then return end  local bc = b.getBlock(ac)
+local b8 = bc and bc.locals;
+if not b8 then return end  for aF = 1, #b8 do local bd = b8[aF] if bd.start < ac.start or bd.finish > bb.finish then goto be end  local bf = bd
+    .ref; if not bf then goto be end  for bg = 1, #bf do local bh = bf[bg] if bh.finish > bb.finish then a9 { type = 'JUMP_LOCAL_SCOPE',
+  start = ac.start, finish = ac.finish, info = { loc = bd[1] },
+  relative = { { start = bb.start, finish = bb.finish }, { start = bd.start, finish = bd.finish } } } return end end ::be:: end end
+
+;local function bi(bj) for aF = 1, #bj do local bk = bj[aF]
+local bb = b.getLabel(bk, bk[1])
+if bb then ba(bb, bk) else a9 { type = 'NO_VISIBLE_LABEL', start = bk.start, finish = bk.finish, info = { label = bk[1] } } end end end
+
+;local function bl() local b7 = a0[#a0] if b7.gotos then bi(b7.gotos) b7.gotos = nil end  local bm = b7[#b7] if bm then b7
+    .finish = bm.finish end  a0[#a0] = nil end
+
+;local function bn() if a1[a2 + 1] ~= 'nil' then return nil end  local ae = a1[a2]
+a2 = a2 + 2;
+return { type = 'nil', start = ad(ae, 'left'), finish = ad(ae + 2, 'right') } end
+
+;local function bo() local ah = a1[a2 + 1] if ah ~= 'true' and ah ~= 'false' then return nil end  local ao = ad(a1[a2],
+  'left')
+local ap = ad(a1[a2] + #ah - 1, 'right')
+a2 = a2 + 2;
+return { type = 'boolean', start = ao, finish = ap, [1] = ah == 'true' and true or false } end
+
+;local function bp() local ae = a1[a2] + 1; if g(Y, ae, ae) ~= '{' then local r = ad(ae, 'left') am('{', r) return nil,
+    ae end  local bq = ad(ae, 'left')
+local br = e(Y, '^%w*', ae + 1)
+local bs = ad(ae + #br, 'right')
+ae = ae + #br + 1;
+if g(Y, ae, ae) == '}' then ae = ae + 1;
+bs = bs + 1
+else am('}', bs) end  ae = ae + 1; if #br == 0 then a9 { type = 'UTF8_SMALL', start = bq, finish = bs } return '', ae end  if X
+    .version ~= 'Lua 5.3' and X.version ~= 'Lua 5.4' and X.version ~= 'LuaJIT' then a9 { type = 'ERR_ESC', start = bq - 2,
+  finish = bs, version = { 'Lua 5.3', 'Lua 5.4', 'LuaJIT' }, info = { version = X.version } } return nil, ae end  local s = tonumber(br
+  , 16) if not s then for aF = 1, #br do if not tonumber(g(br, aF, aF), 16) then a9 { type = 'MUST_X16', start = bq + aF,
+  finish = bq + aF + 1 } end end  return nil, ae end  if X.version == 'Lua 5.4' then if s < 0 or s > 0x7FFFFFFF then a9 { type = 'UTF8_MAX',
+  start = bq, finish = bs, info = { min = '00000000', max = '7FFFFFFF' } } return nil, ae end else if s < 0 or s >
+    0x10FFFF then a9 { type = 'UTF8_MAX', start = bq, finish = bs, version = s <= 0x7FFFFFFF and 'Lua 5.4' or nil,
+  info = { min = '000000', max = '10FFFF' } } end end  if s >= 0 and s <= 0x10FFFF then return j(s), ae end  return '',
+    ae end
+
+;local bt = {}
+local function bu() local aQ = a1[a2 + 1]
+local bv = a1[a2]
+local ai = ad(bv, 'left')
+a2 = a2 + 2;
+local bw = 0;
+local bx = bv + 1;
+local by = {}
+while true do local al = a1[a2 + 1] if al == aQ then bw = bw + 1;
+bt[bw] = g(Y, bx, a1[a2] - 1)
+a2 = a2 + 2;
+break end  if J[al] then bw = bw + 1;
+bt[bw] = g(Y, bx, a1[a2] - 1)
+am(aQ) break end  if not al then bw = bw + 1;
+bt[bw] = g(Y, bx or -1)
+am(aQ) break end  if al == '\\' then bw = bw + 1;
+bt[bw] = g(Y, bx, a1[a2] - 1)
+bx = a1[a2]
+a2 = a2 + 2;
+if not a1[a2] then goto be end  local bz = ad(bx, 'left') if a1[a2] - bx > 1 then local aU = ad(bx + 1, 'right') a9 { type = 'ERR_ESC',
+  start = bz, finish = aU } by[#by + 1] = bz;
+by[#by + 1] = aU;
+by[#by + 1] = 'err'
+goto be end  local bA = g(a1[a2 + 1], 1, 1) if I[bA] then bw = bw + 1;
+bt[bw] = I[bA]
+bx = a1[a2] + #bA;
+a2 = a2 + 2;
+by[#by + 1] = bz;
+by[#by + 1] = bz + 2;
+by[#by + 1] = 'normal'
+goto be end  if bA == aQ then bw = bw + 1;
+bt[bw] = aQ;
+bx = a1[a2] + #bA;
+a2 = a2 + 2;
+by[#by + 1] = bz;
+by[#by + 1] = bz + 2;
+by[#by + 1] = 'normal'
+goto be end  if bA == 'z' then a2 = a2 + 2; repeat
+until not ay() bx = a1[a2]
+by[#by + 1] = bz;
+by[#by + 1] = bz + 2;
+by[#by + 1] = 'normal'
+goto be end  if v[bA] then local bB = e(a1[a2 + 1], '^%d+') if #bB > 3 then bB = g(bB, 1, 3) end  bx = a1[a2] + #bB; aG(bx) local aU = ad(bx
+  - 1, 'right')
+local s = m(bB)
+if s and s <= 255 then bw = bw + 1;
+bt[bw] = h(s)
+else a9 { type = 'ERR_ESC', start = bz, finish = aU } end  by[#by + 1] = bz;
+by[#by + 1] = aU;
+by[#by + 1] = 'byte'
+goto be end  if bA == 'x' then local aS = ad(a1[a2] - 1, 'left')
+local br = g(a1[a2 + 1], 2, 3)
+local s = tonumber(br, 16)
+if s then bx = a1[a2] + 3;
+bw = bw + 1;
+bt[bw] = h(s)
+else bx = a1[a2] + 1; a9 { type = 'MISS_ESC_X', start = ad(bx, 'left'), finish = ad(bx + 1, 'right') } end  local aU = ad(bx
+  + 1, 'right')
+by[#by + 1] = bz;
+by[#by + 1] = aU;
+by[#by + 1] = 'byte'
+if X.version == 'Lua 5.1' then a9 { type = 'ERR_ESC', start = aS, finish = aS + 4,
+  version = { 'Lua 5.2', 'Lua 5.3', 'Lua 5.4', 'LuaJIT' }, info = { version = X.version } } end  a2 = a2 + 2; goto be end  if bA
+    == 'u' then local p, bC = bp() if p then bw = bw + 1;
+bt[bw] = p
+end  bx = bC; aG(bx - 1) local aU = ad(bx + 1, 'right')
+by[#by + 1] = bz;
+by[#by + 1] = aU;
+by[#by + 1] = 'unicode'
+goto be end  if J[bA] then bw = bw + 1;
+bt[bw] = '\n'
+bx = a1[a2] + #bA;
+ay() local aU = ad(bx + 1, 'right')
+by[#by + 1] = bz;
+by[#by + 1] = bz + 1;
+by[#by + 1] = 'normal'
+goto be end  local aU = ad(bx + 1, 'right') a9 { type = 'ERR_ESC', start = bz, finish = aU } by[#by + 1] = bz;
+by[#by + 1] = aU;
+by[#by + 1] = 'err'
+end  a2 = a2 + 2 ::be:: end  local aM = k(bt, '', 1, bw)
+local p = { type = 'string', start = ai, finish = ak(), escs = #by > 0 and by or nil, [1] = aM, [2] = aQ }
+if aQ == '`' then if not X.options.nonstandardSymbol[aQ] then a9 { type = 'ERR_NONSTANDARD_SYMBOL', start = ai,
+  finish = p.finish, info = { symbol = '"' },
+  fix = { title = 'FIX_NONSTANDARD_SYMBOL', symbol = '"', { start = ai, finish = ai + 1, text = '"' },
+    { start = p.finish - 1, finish = p.finish, text = '"' } } } end end  return p end
+
+;local function bD() local bE = a1[a2 + 1] if E[bE] then return bu() end  if F[bE] then return aP() end  return nil end
+
+;local function bF(ao) local bG = true;
+local bH = e(Y, '^%d*', ao)
+local ae = ao + #bH;
+if g(Y, ae, ae) == '.' then local bI = e(Y, '^%d*', ae + 1)
+bG = false;
+ae = ae + #bI + 1
+end  local bJ = g(Y, ae, ae) if y[bJ] then bG = false;
+ae = ae + 1;
+local bK = g(Y, ae, ae)
+if A[bK] then ae = ae + 1 end  local bL = e(Y, '^%d*', ae)
+ae = ae + #bL;
+if #bL == 0 then a9 { type = 'MISS_EXPONENT', start = ad(ae - 1, 'right'), finish = ad(ae - 1, 'right') } end end  return tonumber(g(Y
+  , ao, ae - 1)), ae, bG end
+
+;local function bM(ao) local bH = e(Y, '^[%da-fA-F]*', ao)
+local ae = ao + #bH;
+local bG = true;
+if g(Y, ae, ae) == '.' then local bI = e(Y, '^[%da-fA-F]*', ae + 1)
+bG = false;
+ae = ae + #bI + 1;
+if #bH == 0 and #bI == 0 then a9 { type = 'MUST_X16', start = ad(ae - 1, 'right'), finish = ad(ae - 1, 'right') } end else if #
+    bH == 0 then a9 { type = 'MUST_X16', start = ad(ae - 1, 'right'), finish = ad(ae - 1, 'right') } return 0, ae end end  local bJ = g(Y
+  , ae, ae) if z[bJ] then bG = false;
+ae = ae + 1;
+local bK = g(Y, ae, ae)
+if A[bK] then ae = ae + 1 end  local bL = e(Y, '^%d*', ae)
+ae = ae + #bL
+end  local bN = tonumber(g(Y, ao - 2, ae - 1)) return bN, ae, bG end
+
+;local function bO(ao) local bP = e(Y, '^[01]*', ao)
+local ae = ao + #bP;
+if X.version ~= 'LuaJIT' then a9 { type = 'UNSUPPORT_SYMBOL', start = ad(ao - 2, 'left'), finish = ad(ae - 1, 'right'),
+  version = 'LuaJIT', info = { version = 'Lua 5.4' } } end  return tonumber(bP, 2), ae end
+
+;local function bQ(ae, bG) local bR, ap, ah = d(Y, '^([%.%w_\x80-\xff]+)', ae) if not ap then return ae end  if bG then if i(g(ah
+  , 1, 2)) == 'LL' then if X.version ~= 'LuaJIT' then a9 { type = 'UNSUPPORT_SYMBOL', start = ad(ae, 'left'),
+  finish = ad(ae + 1, 'right'), version = 'LuaJIT', info = { version = X.version } } end  ae = ae + 2;
+ah = g(ah, ae)
+elseif i(g(ah, 1, 3)) == 'ULL' then if X.version ~= 'LuaJIT' then a9 { type = 'UNSUPPORT_SYMBOL', start = ad(ae, 'left'),
+  finish = ad(ae + 2, 'right'), version = 'LuaJIT', info = { version = X.version } } end  ae = ae + 3;
+ah = g(ah, ae)
+end end  if i(g(ah, 1, 1)) == 'I' then if X.version ~= 'LuaJIT' then a9 { type = 'UNSUPPORT_SYMBOL', start = ad(ae,
+  'left'), finish = ad(ae, 'right'), version = 'LuaJIT', info = { version = X.version } } end  ae = ae + 1;
+ah = g(ah, ae)
+end  if #ah > 0 then a9 { type = 'MALFORMED_NUMBER', start = ad(ae, 'left'), finish = ad(ap, 'right') } end  return ap +
+    1 end
+
+;local function bS() local ae = a1[a2] if not ae then return nil end  local ai = ad(ae, 'left')
+local bT;
+if g(Y, ae, ae) == '-' then bT = true;
+ae = ae + 1
+end  local bU, bG;
+local bV = g(Y, ae, ae)
+if bV == '.' then bU, ae = bF(ae)
+bG = false
+elseif bV == '0' then local bK = g(Y, ae + 1, ae + 1) if w[bK] then bU, ae, bG = bM(ae + 2) elseif x[bK] then bU, ae = bO(ae
+  + 2)
+bG = true
+else bU, ae, bG = bF(ae) end elseif v[bV] then bU, ae, bG = bF(ae) else return nil end  if not bU then bU = 0 end  if bT then bU = -
+    bU end  local aO = { type = bG and 'integer' or 'number', start = ai, finish = ad(ae - 1, 'right'), [1] = bU }
+ae = bQ(ae, bG)
+aG(ae) return aO end
+
+;local function bW(ah) if L[ah] then return true end  if ah == 'goto' then return X.version ~= 'Lua 5.1' end  return false end
+
+;local function bX(bY) local ah = ag() if not ah then return nil end  if U[ah] then return nil end  if bY and V[ah] then return nil end  local ai = ad(a1
+  [a2], 'left')
+local aj = ad(a1[a2] + #ah - 1, 'right')
+a2 = a2 + 2;
+if not X.options.unicodeName and ah:find '[\x80-\xff]' then a9 { type = 'UNICODE_NAME', start = ai, finish = aj } end  if bW(ah) then a9 { type = 'KEYWORD',
+  start = ai, finish = aj } end  return { type = 'name', start = ai, finish = aj, [1] = ah } end
+
+;local function bZ(b_) local c0 = bX() if not c0 then return nil end  a_() local c1; while true do if a1[a2 + 1] ~= ',' then break end  a2 = a2
+    + 2; a_() local ab = bX(true) if not ab then ar() break end  if not c1 then c1 = { type = 'list', start = c0.start,
+  finish = c0.finish, parent = b_, [1] = c0 } end  c1[#c1 + 1] = ab;
+c1.finish = ab.finish
+end  return c1 or c0 end
+
+;local function c2() local al = a1[a2 + 1] if al ~= '?' and al ~= ':' then return end  local c3, c4, c5 = 0, 0, 0; while true do local al = a1
+    [a2 + 1] if not al then break end  if J[al] then break end  if al == ',' then if c3 > 0 or c4 > 0 or c5 > 0 then goto be else break end end  if al
+    == '<' then c3 = c3 + 1; goto be end  if al == '{' then c4 = c4 + 1; goto be end  if al == '(' then c5 = c5 + 1; goto be end  if al
+    == '>' then if c3 <= 0 then break end  c3 = c3 - 1; goto be end  if al == '}' then if c4 <= 0 then break end  c4 = c4
+    - 1; goto be end  if al == ')' then if c5 <= 0 then break end  c5 = c5 - 1; goto be end ::be:: a2 = a2 + 2 end end
+
+;local function c6(c7) local c1;
+local c8 = false;
+while true do a_() local al = a1[a2 + 1] if not al then break end  if W[al] then break end  if al == ',' then local c9 = ad(a1
+  [a2], 'right') if not c8 then a9 { type = 'UNEXPECT_SYMBOL', start = ad(a1[a2], 'left'), finish = c9, info = { symbol = ',' } } end  c8 = false;
+a2 = a2 + 2;
+goto be else if c7 then if c8 then break end  local bA = ag() if bW(bA) and bA ~= 'function' and bA ~= 'true' and
+    bA ~= 'false' and bA ~= 'nil' and bA ~= 'not' then break end end  local bL = a7() if not bL then break end  c2() if c8 then am(','
+  , c1[#c1].finish, bL.start) end  c8 = true; if not c1 then c1 = { type = 'list', start = bL.start } end  c1[#c1 + 1] = bL;
+c1.finish = bL.finish;
+bL.parent = c1
+end ::be:: end  if not c1 then return nil end  if not c8 then aq() end  return c1 end
+
+;local function ca() local ao = ad(a1[a2], 'left')
+a2 = a2 + 2;
+a_() local bL = a7()
+local aA = { type = 'index', start = ao, finish = bL and bL.finish or ao + 1, index = bL }
+if bL then bL.parent = aA else aq() end  a_() if a1[a2 + 1] == ']' then aA.finish = ad(a1[a2], 'right')
+a2 = a2 + 2
+else am ']' end  return aA end
+
+;local function cb() local cc = { type = 'table', start = ad(a1[a2], 'left'), finish = ad(a1[a2], 'right') }
+a2 = a2 + 2;
+local aA = 0;
+local cd = 0;
+local c8 = false;
+while true do a_(true) local al = a1[a2 + 1] if al == '}' then a2 = a2 + 2; break end  if G[al] then if not c8 then aq() end  c8 = false;
+a2 = a2 + 2;
+goto be end  local ce = ak() if ag() then local cf = az()
+local ab = bX()
+if ab then a_() if a1[a2 + 1] == '=' then a2 = a2 + 2; if c8 then a9 { type = 'MISS_SEP_IN_TABLE', start = ce,
+  finish = ad(a1[a2], 'left') } end  c8 = true; a_() local cg = a7()
+local ch = { type = 'tablefield', start = ab.start, finish = ab.finish, range = cg and cg.finish, node = cc, parent = cc,
+  field = ab, value = cg }
+ab.type = 'field'
+ab.parent = ch;
+if cg then cg.parent = ch else aq() end  aA = aA + 1;
+cc[aA] = ch;
+goto be end end  cf() end  local bL = a7(true) if bL then if c8 then a9 { type = 'MISS_SEP_IN_TABLE', start = ce,
+  finish = bL.start } end  c8 = true; if bL.type == 'varargs' then aA = aA + 1;
+cc[aA] = bL;
+bL.parent = cc;
+goto be end  aA = aA + 1;
+cd = cd + 1;
+local ci = { type = 'tableexp', start = bL.start, finish = bL.finish, tindex = cd, parent = cc, value = bL }
+bL.parent = ci;
+cc[aA] = ci;
+goto be end  if al == '[' then if c8 then a9 { type = 'MISS_SEP_IN_TABLE', start = ce, finish = ad(a1[a2], 'left') } end  c8 = true;
+local cd = ca()
+a_() cd.type = 'tableindex'
+cd.node = cc;
+cd.parent = cc;
+aA = aA + 1;
+cc[aA] = cd;
+if b0() then a_() local cj = a7() if cj then cj.parent = cd;
+cd.range = cj.finish;
+cd.value = cj
+else aq() end else am '=' end  goto be end  am '}' break ::be:: end  cc.finish = ak() return cc end
+
+;local function ck(cl, cm) if cl.type ~= 'getmethod' then return end  if not cm.args then cm.args = { type = 'callargs',
+  start = cm.start, finish = cm.finish, parent = cm } end  local self = { type = 'self', start = cl.colon.start,
+  finish = cl.colon.finish, parent = cm.args, [1] = 'self' } l(cm.args, 1, self) end
+
+;local function cn(cl, co) local cp; while true do if cp and cl.node == cp then if cl.type ~= 'call' then am('(',
+  cl.node.finish, cl.node.finish) end  cp = nil end  a_() local al = a1[a2 + 1] if al == '.' then local cq = { type = al,
+  start = ad(a1[a2], 'left'), finish = ad(a1[a2], 'right') }
+a2 = a2 + 2;
+a_() local cr = bX(true)
+local cs = { type = 'getfield', start = cl.start, finish = ak(), node = cl, dot = cq, field = cr }
+if cr then cr.parent = cs;
+cr.type = 'field'
+else a9 { type = 'MISS_FIELD', start = ak(), finish = ak() } end  cl.parent = cs;
+cl.next = cs;
+cl = cs
+elseif al == ':' then local ct = { type = al, start = ad(a1[a2], 'left'), finish = ad(a1[a2], 'right') }
+a2 = a2 + 2;
+a_() local cu = bX(true)
+local cv = { type = 'getmethod', start = cl.start, finish = ak(), node = cl, colon = ct, method = cu }
+if cu then cu.parent = cv;
+cu.type = 'method'
+else a9 { type = 'MISS_METHOD', start = ak(), finish = ak() } end  cl.parent = cv;
+cl.next = cv;
+cl = cv;
+if cp then am('(', cl.node.finish, cl.node.finish) end  cp = cv elseif al == '(' then if co then break end  local ai = ad(a1
+  [a2], 'left')
+local cm = { type = 'call', start = cl.start, node = cl }
+a2 = a2 + 2;
+local cw = c6()
+if a1[a2 + 1] == ')' then cm.finish = ad(a1[a2], 'right')
+a2 = a2 + 2
+else cm.finish = ak() am ')' end  if cw then cw.type = 'callargs'
+cw.start = ai;
+cw.finish = cm.finish;
+cw.parent = cm;
+cm.args = cw
+end  ck(cl, cm) cl.parent = cm;
+cl = cm
+elseif al == '{' then if co then break end  local cc = cb()
+local cm = { type = 'call', start = cl.start, finish = cc.finish, node = cl }
+local cw = { type = 'callargs', start = cc.start, finish = cc.finish, parent = cm, [1] = cc }
+cm.args = cw;
+ck(cl, cm) cc.parent = cw;
+cl.parent = cm;
+cl = cm
+elseif E[al] then if co then break end  local p = bu()
+local cm = { type = 'call', start = cl.start, finish = p.finish, node = cl }
+local cw = { type = 'callargs', start = p.start, finish = p.finish, parent = cm, [1] = p }
+cm.args = cw;
+ck(cl, cm) p.parent = cw;
+cl.parent = cm;
+cl = cm
+elseif F[al] then local p = aP() if p then if co then break end  local cm = { type = 'call', start = cl.start,
+  finish = p.finish, node = cl }
+local cw = { type = 'callargs', start = p.start, finish = p.finish, parent = cm, [1] = p }
+cm.args = cw;
+ck(cl, cm) p.parent = cw;
+cl.parent = cm;
+cl = cm
+else local aA = ca()
+local cx = aA.start;
+aA.type = 'getindex'
+aA.start = cl.start;
+aA.node = cl;
+cl.next = aA;
+cl.parent = aA;
+cl = aA;
+if co then a9 { type = 'INDEX_IN_FUNC_NAME', start = cx, finish = aA.finish } end end else break end end  if cl.type ==
+    'call' and cl.node == cp then cp = nil end  if cl == cp then if co then cp = nil end end  if cp then am('(',
+  cp.finish) end  return cl end
+
+;local function cy() local cz = { type = 'varargs', start = ad(a1[a2], 'left'), finish = ad(a1[a2] + 2, 'right') }
+a2 = a2 + 2;
+for aF = #a0, 1, -1 do local b7 = a0[aF] if b7.vararg then if not b7.vararg.ref then b7.vararg.ref = {} end  b7.vararg.ref
+    [#b7.vararg.ref + 1] = cz;
+cz.node = b7.vararg;
+break end  if b7.type == 'main' then break end  if b7.type == 'function' then a9 { type = 'UNEXPECT_DOTS', start = cz.start,
+  finish = cz.finish } break end end  return cz end
+
+;local function cA() local c3 = a1[a2]
+local cB = { type = 'paren', start = ad(c3, 'left'), finish = ad(c3, 'right') }
+a2 = a2 + 2;
+a_() local bL = a7() if bL then cB.exp = bL;
+cB.finish = bL.finish;
+bL.parent = cB
+else aq() end  a_() if a1[a2 + 1] == ')' then cB.finish = ad(a1[a2], 'right')
+a2 = a2 + 2
+else am ')' end  return cB end
+
+;local function cC(ab, r) for aF = #a0, 1, -1 do local b7 = a0[aF]
+local b8 = b7.locals;
+if b8 then local cD; for bN = 1, #b8 do local bd = b8[bN] if bd.effect > r then break end  if bd[1] == ab then if not cD
+    or cD.effect < bd.effect then cD = bd end end end  if cD then return cD end end end end
+
+;local function cE(cl) if not cl then return nil end  local bd = cC(cl[1], cl.start) if bd then cl.type = 'getlocal'
+cl.node = bd;
+if not bd.ref then bd.ref = {} end  bd.ref[#bd.ref + 1] = cl; if bd.special then aa(bd.special, cl) end else cl.type = 'getglobal'
+local cF = cC(X.ENVMode, cl.start)
+if cF then cl.node = cF; if not cF.ref then cF.ref = {} end  cF.ref[#cF.ref + 1] = cl end end  local ab = cl[1] if M[ab] then aa(ab
+  , cl) else local cG = X.options.special; if cG and cG[ab] then aa(cG[ab], cl) end end  return cl end
+
+;local function cH(al) local cI = a0[#a0] if not cI then return false end  local cJ = cI.type; if cJ == 'main' then return false end  if cJ
+    == 'for' or cJ == 'in' or cJ == 'loop' or cJ == 'function' then return al == 'end' end  if cJ == 'if' or
+    cJ == 'ifblock' or cJ == 'elseifblock' or cJ == 'elseblock' then return al == 'then' or al == 'end' or al == 'else'
+    or al == 'elseif' end  if cJ == 'repeat' then return al == 'until' end  return true end
+
+;local function cK() local cL, cM; while true do a_(true) local al = a1[a2 + 1] if al == ';' then a2 = a2 + 2; goto be end  if U
+    [al] and cH(al) then break end  local bk, cN = a8() if cN then if not aw() then break end end  if bk then if not cL
+    and bk.type == 'return' then cL = bk end  cM = bk end ::be:: end  if cL and cL ~= cM then a9 { type = 'ACTION_AFTER_RETURN',
+  start = cL.start, finish = cL.finish } end end
+
+;local function cO(cP) local cQ;
+local cR;
+while true do a_() local al = a1[a2 + 1] if not al or al == ')' then if cQ then ar() end  break end  if al == ',' then if cQ
+    or cQ == nil then ar() else cQ = true end  a2 = a2 + 2; goto be end  if al == '...' then if cQ == false then am ',' end  cQ = false; if not
+    cP then cP = {} end  local cS = { type = '...', start = ad(a1[a2], 'left'), finish = ad(a1[a2] + 2, 'right'),
+  parent = cP, [1] = '...' }
+local b7 = a0[#a0]
+b7.vararg = cS;
+cP[#cP + 1] = cS;
+if cR then a9 { type = 'ARGS_AFTER_DOTS', start = ad(a1[a2], 'left'), finish = ad(a1[a2] + 2, 'right') } end  cR = true;
+a2 = a2 + 2;
+goto be end  if H[g(al, 1, 1)] then if cQ == false then am ',' end  cQ = false; if not cP then cP = {} end  cP[#cP + 1] = b6 { start = ad(a1
+  [a2], 'left'), finish = ad(a1[a2] + #al - 1, 'right'), parent = cP, [1] = al } if cR then a9 { type = 'ARGS_AFTER_DOTS',
+  start = ad(a1[a2], 'left'), finish = ad(a1[a2] + #al - 1, 'right') } end  if bW(al) then a9 { type = 'KEYWORD',
+  start = ad(a1[a2], 'left'), finish = ad(a1[a2] + #al - 1, 'right') } end  a2 = a2 + 2; goto be end  aw '%,%)%.' ::be:: end  return cP end
+
+;local function cT(cU, aW) local cV = ad(a1[a2], 'left')
+local cW = ad(a1[a2] + 7, 'right')
+local cX = { type = 'function', start = cV, finish = cW, keyword = { [1] = cV, [2] = cW } }
+a2 = a2 + 2;
+local cY = a5;
+a5 = 0;
+a_(true) local cZ = a1[a2 + 1] == '(' if not cZ then local ab = bX() if ab then local c_ = cn(ab, true) if cU then if c_
+    == ab then b6(ab) else cE(ab) a9 { type = 'UNEXPECT_LFUNC_NAME', start = c_.start, finish = c_.finish } end else cE(ab) end  cX
+    .name = c_;
+cX.finish = c_.finish;
+if not aW then c_.parent = cX; a9 { type = 'UNEXPECT_EFUNC_NAME', start = c_.start, finish = c_.finish } end  a_(true) cZ = a1
+    [a2 + 1] == '(' end end  b9(cX) local cP; if cX.name and cX.name.type == 'getmethod' then if cX.name.type ==
+    'getmethod' then cP = {}
+cP[1] = b6 { start = cW, finish = cW, parent = cP, [1] = 'self' }
+cP[1].type = 'self'
+end end  if cZ then local d0 = ad(a1[a2], 'left')
+a2 = a2 + 2;
+cP = cO(cP)
+if cP then cP.type = 'funcargs'
+cP.start = d0;
+cP.finish = ak()
+cP.parent = cX;
+cX.args = cP
+end  a_(true) if a1[a2 + 1] == ')' then local d1 = ad(a1[a2], 'right')
+cX.finish = d1;
+if cP then cP.finish = d1 end  a2 = a2 + 2; a_(true) else cX.finish = ak() if cP then cP.finish = cX.finish end  am ')' end else am '(' end  cK() bl() if a1
+    [a2 + 1] == 'end' then local d2 = ad(a1[a2], 'left')
+local d3 = ad(a1[a2] + 2, 'right')
+cX.keyword[3] = d2;
+cX.keyword[4] = d3;
+cX.finish = d3;
+a2 = a2 + 2
+else cX.finish = ak() as(cV, cW) end  a5 = cY; return cX end
+
+;local function d4() local al = a1[a2 + 1] if al == '(' then local cB = cA() return cn(cB, false) end  if al == '...' then local cz = cy() return cz end  if al
+    == '{' then local table = cb() return table end  if E[al] then local string = bu() return string end  if F[al] then local string = aP() return string end  local bU = bS() if bU then return bU end  if U
+    [al] then return nil end  if al == 'nil' then return bn() end  if al == 'true' or al == 'false' then return bo() end  if al
+    == 'function' then return cT() end  local cl = bX() if cl then return cn(cE(cl), false) end  return nil end
+
+;local function d5() local al = a1[a2 + 1]
+local an = N[al] and al or R[al]
+if not an then return nil end  local d6 = N[an]
+local d7 = { type = an, start = ad(a1[a2], 'left'), finish = ad(a1[a2] + #an - 1, 'right') }
+a2 = a2 + 2;
+return d7, d6 end
+
+;local function d8(bY, d9) local al = a1[a2 + 1]
+local an = O[al] and al or P[al] or not bY and Q[al]
+if not an then return nil end  if an == '//' and X.options.nonstandardSymbol['//'] then return nil end  local d6 = O[an] if d9
+    and d6 < d9 then return nil end  local d7 = { type = an, start = ad(a1[a2], 'left'), finish = ad(a1[a2] + #al - 1,
+  'right') } if not bY then if al == '=' then a9 { type = 'ERR_EQ_AS_ASSIGN', start = d7.start, finish = d7.finish,
+  fix = { title = 'FIX_EQ_AS_ASSIGN', { start = d7.start, finish = d7.finish, text = '==' } } } end end  if P[al] then if not
+    X.options.nonstandardSymbol[al] then a9 { type = 'ERR_NONSTANDARD_SYMBOL', start = d7.start, finish = d7.finish,
+  info = { symbol = an }, fix = { title = 'FIX_NONSTANDARD_SYMBOL', symbol = an,
+    { start = d7.start, finish = d7.finish, text = an } } } end end  if al == '//' or al == '<<' or al == '>>' then if X
+    .version ~= 'Lua 5.3' and X.version ~= 'Lua 5.4' then a9 { type = 'UNSUPPORT_SYMBOL', version = { 'Lua 5.3',
+  'Lua 5.4' }, start = d7.start, finish = d7.finish, info = { version = X.version } } end end  a2 = a2 + 2; return d7, d6 end
+
+;function a7(bY, d9) local bL;
+local da, db = d5()
+if da then a_() local dc = a7(bY, db) if da.type == '-' and dc and (dc.type == 'number' or dc.type == 'integer') then dc
+    .start = da.start;
+dc[1] = -dc[1]
+bL = dc
+else bL = { type = 'unary', op = da, start = da.start, finish = dc and dc.finish or da.finish, [1] = dc } if dc then dc.parent = bL else aq() end end else bL = d4() if not
+    bL then return nil end end  while true do a_() local dd, de = d8(bY, d9) if not dd then break end ::df:: a_() local dg = S
+    [de]
+local dc = a7(bY, dg and de + 0.5 or de)
+if not dc then if aw() then goto df else aq() end end  local dh = { type = 'binary', start = bL.start,
+  finish = dc and dc.finish or dd.finish, op = dd, [1] = bL, [2] = dc }
+bL.parent = dh;
+if dc then dc.parent = dh end  bL = dh end  return bL end
+
+;local function di() while true do a_() if a1[a2 + 1] == ',' then aq() a2 = a2 + 2 else break end end end
+
+;local function dj() a_() local c0 = a7() if not c0 then return nil end  a_() if a1[a2 + 1] ~= ',' then return c0 end  a2 = a2
+    + 2; di() local dk = a7() if not dk then aq() return c0 end  a_() if a1[a2 + 1] ~= ',' then return c0, dk end  a2 = a2
+    + 2; di() local dl = a7() if not dl then aq() return c0, dk end  local dm = { dl } while true do a_() if a1[a2 + 1]
+    ~= ',' then return c0, dk, dm end  a2 = a2 + 2; di() local bL = a7() if not bL then aq() return c0, dk, dm end  dm[
+    #dm + 1] = bL end end
+
+;local function dn(bk) local b7 = a0[#a0] if b7 then b7[#b7 + 1] = bk;
+bk.parent = b7
+end end
+
+;local function dp(dq, cU) if a1[a2 + 1] ~= ',' then return nil end  a2 = a2 + 2; a_() local dk = dq(true) if not dk then ar() return nil end  if cU then b6(dk
+  , b1()) end  a_() if a1[a2 + 1] ~= ',' then return dk end  a2 = a2 + 2; di() local dl = dq(true) if not dl then ar() return dk end  if cU then b6(dl
+  , b1()) end  local dm = { dl } while true do a_() if a1[a2 + 1] ~= ',' then return dk, dm end  a2 = a2 + 2; di() local ab = dq(true) if not
+    ab then ar() return dk, dm end  if cU then b6(ab, b1()) end  dm[#dm + 1] = ab end end
+
+;local function dr(bN, ds, aA, dt, cU, du) if cU then if ds and ds.special then aa(ds.special, bN) end elseif du then bN
+    .type = T[bN.type] or bN.type; if bN.type == 'setlocal' then local bd = bN.node; if bd.attrs then a9 { type = 'SET_CONST',
+  start = bN.start, finish = bN.finish } end end end  if not ds and dt then if dt.type == 'call' or dt.type == 'varargs' then ds = dt; if not
+    ds.extParent then ds.extParent = {} end end end  if ds then if ds.type == 'call' or ds.type == 'varargs' then local dv = { type = 'select',
+  sindex = aA, start = ds.start, finish = ds.finish, vararg = ds } if ds.parent then ds.extParent[#ds.extParent + 1] = dv else ds
+    .parent = dv end  ds = dv end  bN.value = ds;
+bN.range = ds.finish;
+ds.parent = bN
+end end
+
+;local function dw(dx, dq, cU) local dy, dz = dp(dq, cU) a_() local dA, dB, dC;
+local du;
+local dD = 1;
+if b0(not cU) then dA, dB, dC = dj()
+du = true;
+if not dA then aq() end end  local aA = 1; dr(dx, dA, aA, nil, cU, du) local dt = dA;
+local dE = dx;
+if dy then dD = 2; if not dB then aA = 2 end  dr(dy, dB, aA, dt, cU, du) dt = dB or dt;
+dE = dy;
+dn(dy) end  if dz then for aF = 1, #dz do local bN = dz[aF]
+local ds = dC and dC[aF]
+dD = aF + 2;
+if not ds then aA = aA + 1 end  dr(bN, ds, aA, dt, cU, du) dt = ds or dt;
+dE = bN;
+dn(bN) end end  if cU then local dF = dt and dt.finish or dE.finish;
+dx.effect = dF;
+if dy then dy.effect = dF end  if dz then for aF = 1, #dz do dz[aF].effect = dF end end end  if dB and not dy then dB.redundant = { max = dD,
+  passed = 2 } dn(dB) end  if dC then for aF = 1, #dC do local ds = dC[aF] if not dz or not dz[aF] then ds.redundant = { max = dD,
+  passed = aF + 2 } dn(ds) end end end  return dx, du end
+
+;local function dG(bL) dn(bL) if T[bL.type] then a_() local cU; if bL.type == 'getlocal' and bL[1] == X.ENVMode then bL.special = nil;
+local bd = b6(bL, b1())
+bd.locPos = bL.start;
+bd.effect = n;
+cU = true;
+a_() end  local bk, du = dw(bL, a7, cU) if du or bk.type == 'getmethod' then return bk end end  if bL.type == 'call' then if bL
+    .node.special == 'error' then for aF = #a0, 1, -1 do local bc = a0[aF] if bc.type == 'ifblock' or
+    bc.type == 'elseifblock' or bc.type == 'elseblock' or bc.type == 'function' then bc.hasError = true; break end end end  return bL end  if bL
+    .type == 'binary' then if T[bL[1].type] then local d7 = bL.op; if d7.type == '==' then a9 { type = 'ERR_ASSIGN_AS_EQ',
+  start = d7.start, finish = d7.finish, fix = { title = 'FIX_ASSIGN_AS_EQ', { start = d7.start, finish = d7.finish,
+    text = '=' } } } return end end end  a9 { type = 'EXP_IN_ACTION', start = bL.start, finish = bL.finish } return bL end
+
+;local function dH() local dI = ad(a1[a2], 'left')
+a2 = a2 + 2;
+a_() local ah = ag() if not ah then ar() return nil end  if ah == 'function' then local cX = cT(true, true)
+local ab = cX.name;
+if ab then cX.name = nil;
+ab.value = cX;
+ab.vstart = cX.start;
+ab.range = cX.finish;
+ab.locPos = dI;
+cX.parent = ab;
+dn(ab) return ab else ar(cX.keyword[2]) dn(cX) return cX end end  local ab = bX(true) if not ab then ar() return nil end  local bd = b6(ab
+  , b1())
+bd.locPos = dI;
+bd.effect = n;
+dn(bd) a_() dw(bd, bX, true) return bd end
+
+;local function dJ() local dK = ad(a1[a2], 'left')
+local dL = ad(a1[a2] + 1, 'right')
+local ac = { type = 'do', start = dK, finish = dL, keyword = { [1] = dK, [2] = dL } }
+a2 = a2 + 2;
+dn(ac) b9(ac) cK() bl() if a1[a2 + 1] == 'end' then ac.finish = ad(a1[a2] + 2, 'right')
+ac.keyword[3] = ad(a1[a2], 'left')
+ac.keyword[4] = ad(a1[a2] + 2, 'right')
+a2 = a2 + 2
+else as(dK, dL) end  if ac.locals then a5 = a5 - #ac.locals end  return ac end
+
+;local function dM() local dN = ad(a1[a2], 'left')
+local dO = ad(a1[a2] + 5, 'right')
+a2 = a2 + 2;
+a_() local cL = c6(true) if cL then cL.type = 'return'
+cL.start = dN
+else cL = { type = 'return', start = dN, finish = dO } end  dn(cL) for aF = #a0, 1, -1 do local bc = a0[aF] if bc.type ==
+    'function' or bc.type == 'main' then if not bc.returns then bc.returns = {} end  bc.returns[#bc.returns + 1] = cL; break end end  for aF = #
+    a0, 1, -1 do local bc = a0[aF] if bc.type == 'ifblock' or bc.type == 'elseifblock' or bc.type == 'elseblock' or
+    bc.type == 'function' then bc.hasReturn = true; break end end  return cL end
+
+;local function dP() local aS = ad(a1[a2], 'left')
+a2 = a2 + 2;
+a_() local bb = bX() a_() if not bb then ar() end  if a1[a2 + 1] == '::' then a2 = a2 + 2 else if bb then am '::' end end  if not
+    bb then return nil end  bb.type = 'label' dn(bb) local bc = b.getBlock(bb) if bc then if not bc.labels then bc.labels = {} end  local ab = bb
+    [1]
+local dQ = b.getLabel(bc, ab)
+if dQ then if X.version == 'Lua 5.4' or bc == b.getBlock(dQ) then a9 { type = 'REDEFINED_LABEL', start = bb.start,
+  finish = bb.finish, relative = { { dQ.start, dQ.finish } } } end end  bc.labels[ab] = bb end  if X.version == 'Lua 5.1' then a9 { type = 'UNSUPPORT_SYMBOL',
+  start = aS, finish = ak(), version = { 'Lua 5.2', 'Lua 5.3', 'Lua 5.4', 'LuaJIT' }, info = { version = X.version } } return end  return bb end
+
+;local function dR() local ao = ad(a1[a2], 'left')
+a2 = a2 + 2;
+a_() local bk = bX() if not bk then ar() return nil end  bk.type = 'goto'
+bk.keyStart = ao;
+for aF = #a0, 1, -1 do local b7 = a0[aF] if b7.type == 'function' or b7.type == 'main' then if not b7.gotos then b7.gotos = {} end  b7
+    .gotos[#b7.gotos + 1] = bk; break end end  for aF = #a0, 1, -1 do local b7 = a0[aF] if b7.type == 'ifblock' or
+    b7.type == 'elseifblock' or b7.type == 'elseblock' then b7.hasGoTo = true; break end end  dn(bk) return bk end
+
+;local function dS(b_) local dT = ad(a1[a2], 'left')
+local dU = ad(a1[a2] + 1, 'right')
+a2 = a2 + 2;
+local dV = { type = 'ifblock', parent = b_, start = dT, finish = dU, keyword = { [1] = dT, [2] = dU } }
+a_() local dW = a7() if dW then dV.filter = dW;
+dV.finish = dW.finish;
+dW.parent = dV
+else aq() end  a_() local dX = a1[a2 + 1] if dX == 'then' or dX == 'do' then dV.finish = ad(a1[a2] + #dX - 1, 'right')
+dV.keyword[3] = ad(a1[a2], 'left')
+dV.keyword[4] = dV.finish;
+if dX == 'do' then a9 { type = 'ERR_THEN_AS_DO', start = dV.keyword[3], finish = dV.keyword[4],
+  fix = { title = 'FIX_THEN_AS_DO', { start = dV.keyword[3], finish = dV.keyword[4], text = 'then' } } } end  a2 = a2 + 2 else am 'then' end  b9(dV) cK() bl() dV
+    .finish = ak() if dV.locals then a5 = a5 - #dV.locals end  return dV end
+
+;local function dY(b_) local dT = ad(a1[a2], 'left')
+local dU = ad(a1[a2] + 5, 'right')
+local dZ = { type = 'elseifblock', parent = b_, start = dT, finish = dU, keyword = { [1] = dT, [2] = dU } }
+a2 = a2 + 2;
+a_() local dW = a7() if dW then dZ.filter = dW;
+dZ.finish = dW.finish;
+dW.parent = dZ
+else aq() end  a_() local dX = a1[a2 + 1] if dX == 'then' or dX == 'do' then dZ.finish = ad(a1[a2] + #dX - 1, 'right')
+dZ.keyword[3] = ad(a1[a2], 'left')
+dZ.keyword[4] = dZ.finish;
+if dX == 'do' then a9 { type = 'ERR_THEN_AS_DO', start = dZ.keyword[3], finish = dZ.keyword[4],
+  fix = { title = 'FIX_THEN_AS_DO', { start = dZ.keyword[3], finish = dZ.keyword[4], text = 'then' } } } end  a2 = a2 + 2 else am 'then' end  b9(dZ) cK() bl() dZ
+    .finish = ak() if dZ.locals then a5 = a5 - #dZ.locals end  return dZ end
+
+;local function d_(b_) local dT = ad(a1[a2], 'left')
+local dU = ad(a1[a2] + 3, 'right')
+local e0 = { type = 'elseblock', parent = b_, start = dT, finish = dU, keyword = { [1] = dT, [2] = dU } }
+a2 = a2 + 2;
+a_() b9(e0) cK() bl() e0.finish = ak() if e0.locals then a5 = a5 - #e0.locals end  return e0 end
+
+;local function e1() local al = a1[a2 + 1]
+local aS = ad(a1[a2], 'left')
+local bk = { type = 'if', start = aS, finish = ad(a1[a2] + #al - 1, 'right') }
+dn(bk) if al ~= 'if' then am('if', aS, aS) end  local e2; while true do local ah = a1[a2 + 1]
+local dc;
+if ah == 'if' then dc = dS(bk) elseif ah == 'elseif' then dc = dY(bk) elseif ah == 'else' then dc = d_(bk) end  if not dc then break end  if e2 then a9 { type = 'BLOCK_AFTER_ELSE',
+  start = dc.start, finish = dc.finish } end  if ah == 'else' then e2 = true end  bk[#bk + 1] = dc;
+bk.finish = dc.finish;
+a_() end  if a1[a2 + 1] == 'end' then bk.finish = ad(a1[a2] + 2, 'right')
+a2 = a2 + 2
+else as(bk[1].keyword[1], bk[1].keyword[2]) end  return bk end
+
+;local function e3() local bk = { type = 'for', start = ad(a1[a2], 'left'), finish = ad(a1[a2] + 2, 'right'), keyword = {} }
+bk.keyword[1] = bk.start;
+bk.keyword[2] = bk.finish;
+a2 = a2 + 2;
+dn(bk) b9(bk) a_() local e4 = bZ(bk) if not e4 then ar() end  a_() if b0() then bk.type = 'loop' a_() local e5 = c6()
+local ab;
+if e4 then if e4.type == 'name' then ab = e4 else ab = e4[1] end end  if ab then local bd = b6(ab)
+bd.parent = bk;
+bk.finish = ab.finish;
+bk.loc = bd
+end  if e5 then e5.parent = bk;
+local e6 = e5[1]
+if e6 then e6.parent = e5;
+bk.init = e6;
+bk.finish = e5[#e5].finish
+end  local dD = e5[2] if dD then dD.parent = e5;
+bk.max = dD;
+bk.finish = dD.finish
+else a9 { type = 'MISS_LOOP_MAX', start = ak(), finish = ak() } end  local e7 = e5[3] if e7 then e7.parent = e5;
+bk.step = e7;
+bk.finish = e7.finish
+end else a9 { type = 'MISS_LOOP_MIN', start = ak(), finish = ak() } end  if bk.loc then bk.loc.effect = bk.finish end elseif a1
+    [a2 + 1] == 'in' then bk.type = 'in'
+local e8 = ad(a1[a2], 'left')
+local e9 = ad(a1[a2] + 1, 'right')
+a2 = a2 + 2;
+a_() local ea = c6()
+bk.finish = e9;
+bk.keyword[3] = e8;
+bk.keyword[4] = e9;
+local c1;
+if e4 and e4.type == 'name' then c1 = { type = 'list', start = e4.start, finish = e4.finish, parent = bk, [1] = e4 } else c1 = e4 end  if ea then local eb = ea
+    [#ea] if eb then bk.finish = eb.finish end  bk.exps = ea;
+ea.parent = bk;
+for aF = 1, #ea do local bL = ea[aF]
+bL.parent = ea
+end else aq() end  if c1 then local ec = c1[#c1]
+c1.range = ec and ec.range or e9;
+bk.keys = c1;
+for aF = 1, #c1 do local bd = b6(c1[aF])
+bd.parent = bk;
+bd.effect = bk.finish
+end end else am 'in' end  a_() local ed = a1[a2 + 1] if ed == 'do' or ed == 'then' then local aS = ad(a1[a2], 'left')
+local aU = ad(a1[a2] + #ed - 1, 'right')
+bk.finish = aS;
+bk.keyword[#bk.keyword + 1] = aS;
+bk.keyword[#bk.keyword + 1] = aU;
+if ed == 'then' then a9 { type = 'ERR_DO_AS_THEN', start = aS, finish = aU,
+  fix = { title = 'FIX_DO_AS_THEN', { start = aS, finish = aU, text = 'do' } } } end  a2 = a2 + 2 else am 'do' end  a_() cK() bl() a_() if a1
+    [a2 + 1] == 'end' then bk.finish = ad(a1[a2] + 2, 'right')
+bk.keyword[#bk.keyword + 1] = ad(a1[a2], 'left')
+bk.keyword[#bk.keyword + 1] = bk.finish;
+a2 = a2 + 2
+else as(bk.keyword[1], bk.keyword[2]) end  if bk.locals then a5 = a5 - #bk.locals end  return bk end
+
+;local function ee() local bk = { type = 'while', start = ad(a1[a2], 'left'), finish = ad(a1[a2] + 4, 'right'),
+  keyword = {} }
+bk.keyword[1] = bk.start;
+bk.keyword[2] = bk.finish;
+a2 = a2 + 2;
+a_() local bA = a1[a2 + 1]
+local dW = bA ~= 'do' and bA ~= 'then' and a7()
+if dW then bk.filter = dW;
+bk.finish = dW.finish;
+dW.parent = bk
+else aq() end  a_() local ed = a1[a2 + 1] if ed == 'do' or ed == 'then' then local aS = ad(a1[a2], 'left')
+local aU = ad(a1[a2] + #ed - 1, 'right')
+bk.finish = aS;
+bk.keyword[#bk.keyword + 1] = aS;
+bk.keyword[#bk.keyword + 1] = aU;
+if ed == 'then' then a9 { type = 'ERR_DO_AS_THEN', start = aS, finish = aU,
+  fix = { title = 'FIX_DO_AS_THEN', { start = aS, finish = aU, text = 'do' } } } end  a2 = a2 + 2 else am 'do' end  dn(bk) b9(bk) a_() cK() bl() a_() if a1
+    [a2 + 1] == 'end' then bk.finish = ad(a1[a2] + 2, 'right')
+bk.keyword[#bk.keyword + 1] = ad(a1[a2], 'left')
+bk.keyword[#bk.keyword + 1] = bk.finish;
+a2 = a2 + 2
+else as(bk.keyword[1], bk.keyword[2]) end  if bk.locals then a5 = a5 - #bk.locals end  return bk end
+
+;local function ef() local bk = { type = 'repeat', start = ad(a1[a2], 'left'), finish = ad(a1[a2] + 5, 'right'),
+  keyword = {} }
+bk.keyword[1] = bk.start;
+bk.keyword[2] = bk.finish;
+a2 = a2 + 2;
+dn(bk) b9(bk) a_() cK() a_() if a1[a2 + 1] == 'until' then bk.finish = ad(a1[a2] + 4, 'right')
+bk.keyword[#bk.keyword + 1] = ad(a1[a2], 'left')
+bk.keyword[#bk.keyword + 1] = bk.finish;
+a2 = a2 + 2;
+a_() local dW = a7() if dW then bk.filter = dW;
+dW.parent = bk
+else aq() end else am 'until' end  bl() if bk.filter then bk.finish = bk.filter.finish end  if bk.locals then a5 = a5 -
+    #bk.locals end  return bk end
+
+;local function eg() local dN = ad(a1[a2], 'left')
+local dO = ad(a1[a2] + #a1[a2 + 1] - 1, 'right')
+a2 = a2 + 2;
+a_() local bk = { type = 'break', start = dN, finish = dO }
+local eh;
+for aF = #a0, 1, -1 do local b7 = a0[aF] if b7.type == 'function' then break end  if b7.type == 'while' or b7.type ==
+    'in' or b7.type == 'loop' or b7.type == 'repeat' or b7.type == 'for' then if not b7.breaks then b7.breaks = {} end  b7
+    .breaks[#b7.breaks + 1] = bk;
+eh = true;
+break end end  for aF = #a0, 1, -1 do local b7 = a0[aF] if b7.type == 'ifblock' or b7.type == 'elseifblock' or
+    b7.type == 'elseblock' then b7.hasBreak = true; break end end  if not eh and a4 == 'Lua' then a9 { type = 'BREAK_OUTSIDE',
+  start = bk.start, finish = bk.finish } end  dn(bk) return bk end
+
+;function a8() local al = a1[a2 + 1] if al == '::' then return dP() end  if al == 'local' then return dH() end  if al ==
+    'if' or al == 'elseif' or al == 'else' then return e1() end  if al == 'for' then return e3() end  if al == 'do' then return dJ() end  if al
+    == 'return' then return dM() end  if al == 'break' then return eg() end  if al == 'continue' and
+    X.options.nonstandardSymbol['continue'] then return eg() end  if al == 'while' then return ee() end  if al ==
+    'repeat' then return ef() end  if al == 'goto' and bW 'goto' then return dR() end  if al == 'function' then local bL = cT(false
+  , true)
+local ab = bL.name;
+if ab then bL.name = nil;
+ab.type = T[ab.type]
+ab.value = bL;
+ab.vstart = bL.start;
+ab.range = bL.finish;
+bL.parent = ab;
+if ab.type == 'setlocal' then local bd = ab.node; if bd.attrs then a9 { type = 'SET_CONST', start = ab.start,
+  finish = ab.finish } end end  dn(ab) return ab else dn(bL) ar(bL.keyword[2]) return bL end end  local bL = a7(true) if bL then local bk = dG(bL) if bk then return bk end end  return nil
+    , true end
+
+;local function ei() if a1[a2 + 1] ~= '#' then return end  while true do a2 = a2 + 2;
+local al = a1[a2 + 1]
+if not al then break end  if J[al] then ay() break end end end
+
+;local function ej() local ek = { type = 'main', start = 0, finish = 0 } b9(ek) b6 { type = 'local', start = -1,
+  finish = -1, effect = -1, parent = ek, tag = '_ENV', special = '_G', [1] = X.ENVMode } a5 = 0; ei() while true do cK() if a2
+    <= #a1 then av() a2 = a2 + 2 else break end end  bl() ek.finish = ad(#Y, 'right') return ek end
+
+;local function el(em, en, eo) Y = em;
+Z = 0;
+_ = 1;
+a3 = 0;
+a5 = 0;
+a0 = {}
+a1 = a(em)
+a2 = 1;
+local ep = { version = en, lua = em, ast = {}, errs = {}, comms = {}, lines = { [0] = 1 }, options = eo or {} }
+if not ep.options.nonstandardSymbol then ep.options.nonstandardSymbol = {} end  X = ep; if en == 'Lua 5.1' or
+    en == 'LuaJIT' then ep.ENVMode = '@fenv' else ep.ENVMode = '_ENV' end  a9 = function(eq) local aD = ep.errs; if eq.finish
+    < eq.start then eq.finish = eq.start end  local cM = aD[#aD] if cM then if cM.start <= eq.start and
+    cM.finish >= eq.finish then return end end  eq.level = eq.level or 'Error'
+aD[#aD + 1] = eq;
+return eq end;
+ep.pushError = a9
+end
+
+;return function(em, er, en, eo) a4 = er; el(em, en, eo) a_() if er == 'Lua' then X.ast = ej() elseif er == 'Nil' then X
+    .ast = bn() elseif er == 'Boolean' then X.ast = bo() elseif er == 'String' then X.ast = bD() elseif er == 'Number' then X
+    .ast = bS() elseif er == 'Name' then X.ast = bX() elseif er == 'Exp' then X.ast = a7() elseif er == 'Action' then X.ast = a8() end  if X
+    .ast then X.ast.state = X end  while true do if a2 <= #a1 then av() a2 = a2 + 2 else break end end  return X end

@@ -1,0 +1,3 @@
+call(function()
+	bar("baz")
+end)

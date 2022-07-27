@@ -1,0 +1,48 @@
+export const snapshot = {};
+
+snapshot[`repeat_until 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      RepeatStatement {
+        block: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 7,
+                    range: [
+                      7,
+                      11,
+                    ],
+                    type: "Identifier",
+                    value: "call",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        condition: BooleanLiteral {
+          token: {
+            isKeyword: true,
+            lnum: 3,
+            lnumStartIndex: 14,
+            range: [
+              20,
+              24,
+            ],
+            type: "BooleanLiteral",
+            value: "true",
+          },
+        },
+      },
+    ],
+  },
+}
+`;

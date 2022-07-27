@@ -1,0 +1,283 @@
+export const snapshot = {};
+
+snapshot[`assignment_3 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      AssignmentStatement {
+        init: [
+          BooleanLiteral {
+            token: {
+              isKeyword: true,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                86,
+                90,
+              ],
+              type: "BooleanLiteral",
+              value: "true",
+            },
+          },
+          BooleanLiteral {
+            token: {
+              isKeyword: true,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                92,
+                97,
+              ],
+              type: "BooleanLiteral",
+              value: "false",
+            },
+          },
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                99,
+                100,
+              ],
+              type: "NumericLiteral",
+              value: "1",
+            },
+          },
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                102,
+                103,
+              ],
+              type: "NumericLiteral",
+              value: "4",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                3,
+              ],
+              type: "Identifier",
+              value: "foo",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                5,
+                8,
+              ],
+              type: "Identifier",
+              value: "bar",
+            },
+          },
+          IndexExpression {
+            base: IndexExpression {
+              base: IndexExpression {
+                base: MemberExpression {
+                  base: MemberExpression {
+                    base: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 1,
+                        lnumStartIndex: 0,
+                        range: [
+                          10,
+                          12,
+                        ],
+                        type: "Identifier",
+                        value: "no",
+                      },
+                    },
+                    identifier: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 1,
+                        lnumStartIndex: 0,
+                        range: [
+                          13,
+                          19,
+                        ],
+                        type: "Identifier",
+                        value: "alarms",
+                      },
+                    },
+                    indexer: ".",
+                  },
+                  identifier: Identifier {
+                    token: {
+                      isKeyword: true,
+                      lnum: 1,
+                      lnumStartIndex: 0,
+                      range: [
+                        20,
+                        23,
+                      ],
+                      type: "And",
+                      value: "and",
+                    },
+                  },
+                  indexer: ".",
+                },
+                index: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 1,
+                    lnumStartIndex: 0,
+                    range: [
+                      24,
+                      26,
+                    ],
+                    type: "Identifier",
+                    value: "no",
+                  },
+                },
+              },
+              index: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    28,
+                    37,
+                  ],
+                  type: "Identifier",
+                  value: "surprises",
+                },
+              },
+            },
+            index: NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  39,
+                  40,
+                ],
+                type: "NumericLiteral",
+                value: "1",
+              },
+            },
+          },
+          IndexExpression {
+            base: FunctionCallExpression {
+              args: [
+              ],
+              base: MemberExpression {
+                base: IndexExpression {
+                  base: MemberExpression {
+                    base: FunctionCallExpression {
+                      args: [
+                      ],
+                      base: MemberExpression {
+                        base: Identifier {
+                          token: {
+                            isKeyword: false,
+                            lnum: 1,
+                            lnumStartIndex: 0,
+                            range: [
+                              43,
+                              50,
+                            ],
+                            type: "Identifier",
+                            value: "silence",
+                          },
+                        },
+                        identifier: Identifier {
+                          token: {
+                            isKeyword: false,
+                            lnum: 1,
+                            lnumStartIndex: 0,
+                            range: [
+                              51,
+                              57,
+                            ],
+                            type: "Identifier",
+                            value: "please",
+                          },
+                        },
+                        indexer: ":",
+                      },
+                    },
+                    identifier: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 1,
+                        lnumStartIndex: 0,
+                        range: [
+                          60,
+                          67,
+                        ],
+                        type: "Identifier",
+                        value: "silence",
+                      },
+                    },
+                    indexer: ".",
+                  },
+                  index: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 1,
+                      lnumStartIndex: 0,
+                      range: [
+                        68,
+                        69,
+                      ],
+                      type: "Identifier",
+                      value: "k",
+                    },
+                  },
+                },
+                identifier: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 1,
+                    lnumStartIndex: 0,
+                    range: [
+                      71,
+                      77,
+                    ],
+                    type: "Identifier",
+                    value: "please",
+                  },
+                },
+                indexer: ":",
+              },
+            },
+            index: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  80,
+                  82,
+                ],
+                type: "Identifier",
+                value: "rh",
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

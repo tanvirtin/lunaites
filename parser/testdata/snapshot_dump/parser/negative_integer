@@ -1,0 +1,197 @@
+export const snapshot = {};
+
+snapshot[`negative_integer 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          BinaryExpression {
+            left: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  10,
+                  11,
+                ],
+                type: "Identifier",
+                value: "i",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                12,
+                13,
+              ],
+              type: "Minus",
+              value: "-",
+            },
+            right: NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  14,
+                  15,
+                ],
+                type: "NumericLiteral",
+                value: "1",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          BinaryExpression {
+            left: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 16,
+                range: [
+                  26,
+                  27,
+                ],
+                type: "Identifier",
+                value: "k",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 16,
+              range: [
+                28,
+                29,
+              ],
+              type: "Minus",
+              value: "-",
+            },
+            right: NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 16,
+                range: [
+                  30,
+                  31,
+                ],
+                type: "NumericLiteral",
+                value: "1",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 16,
+              range: [
+                22,
+                23,
+              ],
+              type: "Identifier",
+              value: "b",
+            },
+          },
+        ],
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 32,
+                  range: [
+                    38,
+                    39,
+                  ],
+                  type: "NumericLiteral",
+                  value: "4",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 3,
+                lnumStartIndex: 32,
+                range: [
+                  40,
+                  41,
+                ],
+                type: "Plus",
+                value: "+",
+              },
+              right: UnaryExpression {
+                argument: NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 3,
+                    lnumStartIndex: 32,
+                    range: [
+                      43,
+                      45,
+                    ],
+                    type: "NumericLiteral",
+                    value: "21",
+                  },
+                },
+                operator: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 32,
+                  range: [
+                    42,
+                    43,
+                  ],
+                  type: "Minus",
+                  value: "-",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 32,
+              range: [
+                32,
+                37,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

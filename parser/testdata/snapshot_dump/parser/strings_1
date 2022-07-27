@@ -1,0 +1,139 @@
+export const snapshot = {};
+
+snapshot[`strings_1 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      AssignmentStatement {
+        init: [
+          StringLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                4,
+                9,
+              ],
+              type: "StringLiteral",
+              value: '"hey"',
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                1,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          StringLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 10,
+              range: [
+                14,
+                21,
+              ],
+              type: "StringLiteral",
+              value: "'there'",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 10,
+              range: [
+                10,
+                11,
+              ],
+              type: "Identifier",
+              value: "b",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          StringLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 22,
+              range: [
+                26,
+                37,
+              ],
+              type: "StringLiteral",
+              value: '"dilay\\
+la"',
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 22,
+              range: [
+                22,
+                23,
+              ],
+              type: "Identifier",
+              value: "c",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          StringLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 38,
+              range: [
+                42,
+                44,
+              ],
+              type: "StringLiteral",
+              value: '""',
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 38,
+              range: [
+                38,
+                39,
+              ],
+              type: "Identifier",
+              value: "d",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

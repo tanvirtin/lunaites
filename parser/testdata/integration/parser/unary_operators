@@ -1,0 +1,5 @@
+local a = -3
+local b = -x
+local e = #x
+local c = not true
+local d = not x

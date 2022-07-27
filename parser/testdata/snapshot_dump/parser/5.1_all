@@ -1,0 +1,4791 @@
+export const snapshot = {};
+
+snapshot[`5.1_all 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  16,
+                  17,
+                ],
+                type: "NumericLiteral",
+                value: "0",
+              },
+            },
+          ],
+          base: MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  0,
+                  4,
+                ],
+                type: "Identifier",
+                value: "math",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  5,
+                  15,
+                ],
+                type: "Identifier",
+                value: "randomseed",
+              },
+            },
+            indexer: ".",
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 3,
+                lnumStartIndex: 20,
+                range: [
+                  35,
+                  47,
+                ],
+                type: "StringLiteral",
+                value: '"setstepmul"',
+              },
+            },
+            NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 3,
+                lnumStartIndex: 20,
+                range: [
+                  49,
+                  52,
+                ],
+                type: "NumericLiteral",
+                value: "180",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 20,
+              range: [
+                20,
+                34,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 4,
+                lnumStartIndex: 54,
+                range: [
+                  69,
+                  79,
+                ],
+                type: "StringLiteral",
+                value: '"setpause"',
+              },
+            },
+            NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 4,
+                lnumStartIndex: 54,
+                range: [
+                  81,
+                  84,
+                ],
+                type: "NumericLiteral",
+                value: "190",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 54,
+              range: [
+                54,
+                68,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: StringLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 7,
+                  lnumStartIndex: 88,
+                  range: [
+                    94,
+                    113,
+                  ],
+                  type: "StringLiteral",
+                  value: '"current path:\\
+  "',
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 7,
+                lnumStartIndex: 88,
+                range: [
+                  114,
+                  116,
+                ],
+                type: "DoubleDot",
+                value: "..",
+              },
+              right: FunctionCallExpression {
+                args: [
+                  MemberExpression {
+                    base: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 7,
+                        lnumStartIndex: 88,
+                        range: [
+                          129,
+                          136,
+                        ],
+                        type: "Identifier",
+                        value: "package",
+                      },
+                    },
+                    identifier: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 7,
+                        lnumStartIndex: 88,
+                        range: [
+                          137,
+                          141,
+                        ],
+                        type: "Identifier",
+                        value: "path",
+                      },
+                    },
+                    indexer: ".",
+                  },
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 7,
+                      lnumStartIndex: 88,
+                      range: [
+                        143,
+                        146,
+                      ],
+                      type: "StringLiteral",
+                      value: '";"',
+                    },
+                  },
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 7,
+                      lnumStartIndex: 88,
+                      range: [
+                        148,
+                        154,
+                      ],
+                      type: "StringLiteral",
+                      value: '"\\
+  "',
+                    },
+                  },
+                ],
+                base: MemberExpression {
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 7,
+                      lnumStartIndex: 88,
+                      range: [
+                        117,
+                        123,
+                      ],
+                      type: "Identifier",
+                      value: "string",
+                    },
+                  },
+                  identifier: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 7,
+                      lnumStartIndex: 88,
+                      range: [
+                        124,
+                        128,
+                      ],
+                      type: "Identifier",
+                      value: "gsub",
+                    },
+                  },
+                  indexer: ".",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 7,
+              lnumStartIndex: 88,
+              range: [
+                88,
+                93,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+        },
+      },
+      LocalStatement {
+        init: [
+          TableConstructor {
+            fieldlist: [
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 10,
+              lnumStartIndex: 159,
+              range: [
+                165,
+                169,
+              ],
+              type: "Identifier",
+              value: "msgs",
+            },
+          },
+        ],
+      },
+      FunctionDeclarationStatement {
+        block: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                  Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 12,
+                      lnumStartIndex: 195,
+                      range: [
+                        203,
+                        204,
+                      ],
+                      type: "Identifier",
+                      value: "m",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 12,
+                    lnumStartIndex: 195,
+                    range: [
+                      197,
+                      202,
+                    ],
+                    type: "Identifier",
+                    value: "print",
+                  },
+                },
+              },
+            },
+            AssignmentStatement {
+              init: [
+                FunctionCallExpression {
+                  args: [
+                    Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 13,
+                        lnumStartIndex: 206,
+                        range: [
+                          237,
+                          238,
+                        ],
+                        type: "Identifier",
+                        value: "m",
+                      },
+                    },
+                    NumericLiteral {
+                      token: {
+                        isKeyword: false,
+                        lnum: 13,
+                        lnumStartIndex: 206,
+                        range: [
+                          240,
+                          241,
+                        ],
+                        type: "NumericLiteral",
+                        value: "3",
+                      },
+                    },
+                    UnaryExpression {
+                      argument: NumericLiteral {
+                        token: {
+                          isKeyword: false,
+                          lnum: 13,
+                          lnumStartIndex: 206,
+                          range: [
+                            244,
+                            245,
+                          ],
+                          type: "NumericLiteral",
+                          value: "3",
+                        },
+                      },
+                      operator: {
+                        isKeyword: false,
+                        lnum: 13,
+                        lnumStartIndex: 206,
+                        range: [
+                          243,
+                          244,
+                        ],
+                        type: "Minus",
+                        value: "-",
+                      },
+                    },
+                  ],
+                  base: MemberExpression {
+                    base: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 13,
+                        lnumStartIndex: 206,
+                        range: [
+                          226,
+                          232,
+                        ],
+                        type: "Identifier",
+                        value: "string",
+                      },
+                    },
+                    identifier: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 13,
+                        lnumStartIndex: 206,
+                        range: [
+                          233,
+                          236,
+                        ],
+                        type: "Identifier",
+                        value: "sub",
+                      },
+                    },
+                    indexer: ".",
+                  },
+                },
+              ],
+              variables: [
+                IndexExpression {
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 13,
+                      lnumStartIndex: 206,
+                      range: [
+                        208,
+                        212,
+                      ],
+                      type: "Identifier",
+                      value: "msgs",
+                    },
+                  },
+                  index: BinaryExpression {
+                    left: UnaryExpression {
+                      argument: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 13,
+                          lnumStartIndex: 206,
+                          range: [
+                            214,
+                            218,
+                          ],
+                          type: "Identifier",
+                          value: "msgs",
+                        },
+                      },
+                      operator: {
+                        isKeyword: false,
+                        lnum: 13,
+                        lnumStartIndex: 206,
+                        range: [
+                          213,
+                          214,
+                        ],
+                        type: "HashTag",
+                        value: "#",
+                      },
+                    },
+                    operator: {
+                      isKeyword: false,
+                      lnum: 13,
+                      lnumStartIndex: 206,
+                      range: [
+                        219,
+                        220,
+                      ],
+                      type: "Plus",
+                      value: "+",
+                    },
+                    right: NumericLiteral {
+                      token: {
+                        isKeyword: false,
+                        lnum: 13,
+                        lnumStartIndex: 206,
+                        range: [
+                          221,
+                          222,
+                        ],
+                        type: "NumericLiteral",
+                        value: "1",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        funcname: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 11,
+            lnumStartIndex: 175,
+            range: [
+              184,
+              191,
+            ],
+            type: "Identifier",
+            value: "Message",
+          },
+        },
+        parlist: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 11,
+              lnumStartIndex: 175,
+              range: [
+                192,
+                193,
+              ],
+              type: "Identifier",
+              value: "m",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          FunctionCallExpression {
+            args: [
+            ],
+            base: MemberExpression {
+              base: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 16,
+                  lnumStartIndex: 252,
+                  range: [
+                    262,
+                    264,
+                  ],
+                  type: "Identifier",
+                  value: "os",
+                },
+              },
+              identifier: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 16,
+                  lnumStartIndex: 252,
+                  range: [
+                    265,
+                    270,
+                  ],
+                  type: "Identifier",
+                  value: "clock",
+                },
+              },
+              indexer: ".",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 16,
+              lnumStartIndex: 252,
+              range: [
+                258,
+                259,
+              ],
+              type: "Identifier",
+              value: "c",
+            },
+          },
+        ],
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            FunctionCallExpression {
+              args: [
+                StringLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 18,
+                    lnumStartIndex: 274,
+                    range: [
+                      294,
+                      297,
+                    ],
+                    type: "StringLiteral",
+                    value: '"C"',
+                  },
+                },
+              ],
+              base: MemberExpression {
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 18,
+                    lnumStartIndex: 274,
+                    range: [
+                      281,
+                      283,
+                    ],
+                    type: "Identifier",
+                    value: "os",
+                  },
+                },
+                identifier: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 18,
+                    lnumStartIndex: 274,
+                    range: [
+                      284,
+                      293,
+                    ],
+                    type: "Identifier",
+                    value: "setlocale",
+                  },
+                },
+                indexer: ".",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 18,
+              lnumStartIndex: 274,
+              range: [
+                274,
+                280,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+        },
+      },
+      LocalStatement {
+        init: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 21,
+              lnumStartIndex: 354,
+              range: [
+                354,
+                355,
+              ],
+              type: "Identifier",
+              value: "T",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 21,
+              lnumStartIndex: 354,
+              range: [
+                357,
+                362,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 21,
+              lnumStartIndex: 354,
+              range: [
+                364,
+                370,
+              ],
+              type: "Identifier",
+              value: "gcinfo",
+            },
+          },
+          MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 21,
+                lnumStartIndex: 354,
+                range: [
+                  372,
+                  378,
+                ],
+                type: "Identifier",
+                value: "string",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 21,
+                lnumStartIndex: 354,
+                range: [
+                  379,
+                  385,
+                ],
+                type: "Identifier",
+                value: "format",
+              },
+            },
+            indexer: ".",
+          },
+          MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 21,
+                lnumStartIndex: 354,
+                range: [
+                  387,
+                  389,
+                ],
+                type: "Identifier",
+                value: "io",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 21,
+                lnumStartIndex: 354,
+                range: [
+                  390,
+                  395,
+                ],
+                type: "Identifier",
+                value: "write",
+              },
+            },
+            indexer: ".",
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 21,
+              lnumStartIndex: 354,
+              range: [
+                397,
+                403,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 21,
+              lnumStartIndex: 354,
+              range: [
+                405,
+                409,
+              ],
+              type: "Identifier",
+              value: "type",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 20,
+              lnumStartIndex: 300,
+              range: [
+                306,
+                307,
+              ],
+              type: "Identifier",
+              value: "T",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 20,
+              lnumStartIndex: 300,
+              range: [
+                309,
+                314,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 20,
+              lnumStartIndex: 300,
+              range: [
+                316,
+                322,
+              ],
+              type: "Identifier",
+              value: "gcinfo",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 20,
+              lnumStartIndex: 300,
+              range: [
+                324,
+                330,
+              ],
+              type: "Identifier",
+              value: "format",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 20,
+              lnumStartIndex: 300,
+              range: [
+                332,
+                337,
+              ],
+              type: "Identifier",
+              value: "write",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 20,
+              lnumStartIndex: 300,
+              range: [
+                339,
+                345,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 20,
+              lnumStartIndex: 300,
+              range: [
+                347,
+                351,
+              ],
+              type: "Identifier",
+              value: "type",
+            },
+          },
+        ],
+      },
+      FunctionLocalStatement {
+        block: Block {
+          statements: [
+            IfStatement {
+              elseBlock: Block {
+                statements: [
+                  AssignmentStatement {
+                    init: [
+                      BinaryExpression {
+                        left: BinaryExpression {
+                          left: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 26,
+                              lnumStartIndex: 474,
+                              range: [
+                                482,
+                                483,
+                              ],
+                              type: "Identifier",
+                              value: "m",
+                            },
+                          },
+                          operator: {
+                            isKeyword: false,
+                            lnum: 26,
+                            lnumStartIndex: 474,
+                            range: [
+                              484,
+                              485,
+                            ],
+                            type: "Divide",
+                            value: "/",
+                          },
+                          right: NumericLiteral {
+                            token: {
+                              isKeyword: false,
+                              lnum: 26,
+                              lnumStartIndex: 474,
+                              range: [
+                                486,
+                                490,
+                              ],
+                              type: "NumericLiteral",
+                              value: "1024",
+                            },
+                          },
+                        },
+                        operator: {
+                          isKeyword: false,
+                          lnum: 26,
+                          lnumStartIndex: 474,
+                          range: [
+                            491,
+                            492,
+                          ],
+                          type: "Minus",
+                          value: "-",
+                        },
+                        right: BinaryExpression {
+                          left: BinaryExpression {
+                            left: Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 26,
+                                lnumStartIndex: 474,
+                                range: [
+                                  493,
+                                  494,
+                                ],
+                                type: "Identifier",
+                                value: "m",
+                              },
+                            },
+                            operator: {
+                              isKeyword: false,
+                              lnum: 26,
+                              lnumStartIndex: 474,
+                              range: [
+                                495,
+                                496,
+                              ],
+                              type: "Divide",
+                              value: "/",
+                            },
+                            right: NumericLiteral {
+                              token: {
+                                isKeyword: false,
+                                lnum: 26,
+                                lnumStartIndex: 474,
+                                range: [
+                                  497,
+                                  501,
+                                ],
+                                type: "NumericLiteral",
+                                value: "1024",
+                              },
+                            },
+                          },
+                          operator: {
+                            isKeyword: false,
+                            lnum: 26,
+                            lnumStartIndex: 474,
+                            range: [
+                              502,
+                              503,
+                            ],
+                            type: "Percentage",
+                            value: "%",
+                          },
+                          right: NumericLiteral {
+                            token: {
+                              isKeyword: false,
+                              lnum: 26,
+                              lnumStartIndex: 474,
+                              range: [
+                                504,
+                                505,
+                              ],
+                              type: "NumericLiteral",
+                              value: "1",
+                            },
+                          },
+                        },
+                      },
+                    ],
+                    variables: [
+                      Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 26,
+                          lnumStartIndex: 474,
+                          range: [
+                            478,
+                            479,
+                          ],
+                          type: "Identifier",
+                          value: "m",
+                        },
+                      },
+                    ],
+                  },
+                  IfStatement {
+                    elseBlock: Block {
+                      statements: [
+                        AssignmentStatement {
+                          init: [
+                            BinaryExpression {
+                              left: BinaryExpression {
+                                left: Identifier {
+                                  token: {
+                                    isKeyword: false,
+                                    lnum: 29,
+                                    lnumStartIndex: 552,
+                                    range: [
+                                      562,
+                                      563,
+                                    ],
+                                    type: "Identifier",
+                                    value: "m",
+                                  },
+                                },
+                                operator: {
+                                  isKeyword: false,
+                                  lnum: 29,
+                                  lnumStartIndex: 552,
+                                  range: [
+                                    564,
+                                    565,
+                                  ],
+                                  type: "Divide",
+                                  value: "/",
+                                },
+                                right: NumericLiteral {
+                                  token: {
+                                    isKeyword: false,
+                                    lnum: 29,
+                                    lnumStartIndex: 552,
+                                    range: [
+                                      566,
+                                      570,
+                                    ],
+                                    type: "NumericLiteral",
+                                    value: "1024",
+                                  },
+                                },
+                              },
+                              operator: {
+                                isKeyword: false,
+                                lnum: 29,
+                                lnumStartIndex: 552,
+                                range: [
+                                  571,
+                                  572,
+                                ],
+                                type: "Minus",
+                                value: "-",
+                              },
+                              right: BinaryExpression {
+                                left: BinaryExpression {
+                                  left: Identifier {
+                                    token: {
+                                      isKeyword: false,
+                                      lnum: 29,
+                                      lnumStartIndex: 552,
+                                      range: [
+                                        573,
+                                        574,
+                                      ],
+                                      type: "Identifier",
+                                      value: "m",
+                                    },
+                                  },
+                                  operator: {
+                                    isKeyword: false,
+                                    lnum: 29,
+                                    lnumStartIndex: 552,
+                                    range: [
+                                      575,
+                                      576,
+                                    ],
+                                    type: "Divide",
+                                    value: "/",
+                                  },
+                                  right: NumericLiteral {
+                                    token: {
+                                      isKeyword: false,
+                                      lnum: 29,
+                                      lnumStartIndex: 552,
+                                      range: [
+                                        577,
+                                        581,
+                                      ],
+                                      type: "NumericLiteral",
+                                      value: "1024",
+                                    },
+                                  },
+                                },
+                                operator: {
+                                  isKeyword: false,
+                                  lnum: 29,
+                                  lnumStartIndex: 552,
+                                  range: [
+                                    582,
+                                    583,
+                                  ],
+                                  type: "Percentage",
+                                  value: "%",
+                                },
+                                right: NumericLiteral {
+                                  token: {
+                                    isKeyword: false,
+                                    lnum: 29,
+                                    lnumStartIndex: 552,
+                                    range: [
+                                      584,
+                                      585,
+                                    ],
+                                    type: "NumericLiteral",
+                                    value: "1",
+                                  },
+                                },
+                              },
+                            },
+                          ],
+                          variables: [
+                            Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 29,
+                                lnumStartIndex: 552,
+                                range: [
+                                  558,
+                                  559,
+                                ],
+                                type: "Identifier",
+                                value: "m",
+                              },
+                            },
+                          ],
+                        },
+                        ReturnStatement {
+                          arguments: [
+                            BinaryExpression {
+                              left: Identifier {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 30,
+                                  lnumStartIndex: 586,
+                                  range: [
+                                    599,
+                                    600,
+                                  ],
+                                  type: "Identifier",
+                                  value: "m",
+                                },
+                              },
+                              operator: {
+                                isKeyword: false,
+                                lnum: 30,
+                                lnumStartIndex: 586,
+                                range: [
+                                  601,
+                                  603,
+                                ],
+                                type: "DoubleDot",
+                                value: "..",
+                              },
+                              right: StringLiteral {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 30,
+                                  lnumStartIndex: 586,
+                                  range: [
+                                    604,
+                                    607,
+                                  ],
+                                  type: "StringLiteral",
+                                  value: '"M"',
+                                },
+                              },
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    elseifBlocks: [
+                    ],
+                    elseifConditions: [
+                    ],
+                    ifBlock: Block {
+                      statements: [
+                        ReturnStatement {
+                          arguments: [
+                            BinaryExpression {
+                              left: Identifier {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 27,
+                                  lnumStartIndex: 506,
+                                  range: [
+                                    534,
+                                    535,
+                                  ],
+                                  type: "Identifier",
+                                  value: "m",
+                                },
+                              },
+                              operator: {
+                                isKeyword: false,
+                                lnum: 27,
+                                lnumStartIndex: 506,
+                                range: [
+                                  536,
+                                  538,
+                                ],
+                                type: "DoubleDot",
+                                value: "..",
+                              },
+                              right: StringLiteral {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 27,
+                                  lnumStartIndex: 506,
+                                  range: [
+                                    539,
+                                    542,
+                                  ],
+                                  type: "StringLiteral",
+                                  value: '"K"',
+                                },
+                              },
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    ifCondition: BinaryExpression {
+                      left: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 27,
+                          lnumStartIndex: 506,
+                          range: [
+                            513,
+                            514,
+                          ],
+                          type: "Identifier",
+                          value: "m",
+                        },
+                      },
+                      operator: {
+                        isKeyword: false,
+                        lnum: 27,
+                        lnumStartIndex: 506,
+                        range: [
+                          515,
+                          516,
+                        ],
+                        type: "LessThan",
+                        value: "<",
+                      },
+                      right: NumericLiteral {
+                        token: {
+                          isKeyword: false,
+                          lnum: 27,
+                          lnumStartIndex: 506,
+                          range: [
+                            517,
+                            521,
+                          ],
+                          type: "NumericLiteral",
+                          value: "1024",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+              elseifBlocks: [
+              ],
+              elseifConditions: [
+              ],
+              ifBlock: Block {
+                statements: [
+                  ReturnStatement {
+                    arguments: [
+                      Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 24,
+                          lnumStartIndex: 439,
+                          range: [
+                            465,
+                            466,
+                          ],
+                          type: "Identifier",
+                          value: "m",
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              ifCondition: BinaryExpression {
+                left: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 24,
+                    lnumStartIndex: 439,
+                    range: [
+                      444,
+                      445,
+                    ],
+                    type: "Identifier",
+                    value: "m",
+                  },
+                },
+                operator: {
+                  isKeyword: false,
+                  lnum: 24,
+                  lnumStartIndex: 439,
+                  range: [
+                    446,
+                    447,
+                  ],
+                  type: "LessThan",
+                  value: "<",
+                },
+                right: NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 24,
+                    lnumStartIndex: 439,
+                    range: [
+                      448,
+                      452,
+                    ],
+                    type: "NumericLiteral",
+                    value: "1024",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        funcname: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 23,
+            lnumStartIndex: 411,
+            range: [
+              426,
+              435,
+            ],
+            type: "Identifier",
+            value: "formatmem",
+          },
+        },
+        parlist: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 23,
+              lnumStartIndex: 411,
+              range: [
+                436,
+                437,
+              ],
+              type: "Identifier",
+              value: "m",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          FunctionExpression {
+            block: Block {
+              statements: [
+                IfStatement {
+                  elseBlock: Block {
+                    statements: [
+                      FunctionCallStatement {
+                        expression: FunctionCallExpression {
+                          args: [
+                          ],
+                          base: MemberExpression {
+                            base: Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 39,
+                                lnumStartIndex: 752,
+                                range: [
+                                  756,
+                                  757,
+                                ],
+                                type: "Identifier",
+                                value: "T",
+                              },
+                            },
+                            identifier: Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 39,
+                                lnumStartIndex: 752,
+                                range: [
+                                  758,
+                                  769,
+                                ],
+                                type: "Identifier",
+                                value: "checkmemory",
+                              },
+                            },
+                            indexer: ".",
+                          },
+                        },
+                      },
+                      LocalStatement {
+                        init: [
+                          FunctionCallExpression {
+                            args: [
+                            ],
+                            base: MemberExpression {
+                              base: Identifier {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 40,
+                                  lnumStartIndex: 772,
+                                  range: [
+                                    792,
+                                    793,
+                                  ],
+                                  type: "Identifier",
+                                  value: "T",
+                                },
+                              },
+                              identifier: Identifier {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 40,
+                                  lnumStartIndex: 772,
+                                  range: [
+                                    794,
+                                    802,
+                                  ],
+                                  type: "Identifier",
+                                  value: "totalmem",
+                                },
+                              },
+                              indexer: ".",
+                            },
+                          },
+                        ],
+                        variables: [
+                          Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 40,
+                              lnumStartIndex: 772,
+                              range: [
+                                782,
+                                783,
+                              ],
+                              type: "Identifier",
+                              value: "a",
+                            },
+                          },
+                          Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 40,
+                              lnumStartIndex: 772,
+                              range: [
+                                785,
+                                786,
+                              ],
+                              type: "Identifier",
+                              value: "b",
+                            },
+                          },
+                          Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 40,
+                              lnumStartIndex: 772,
+                              range: [
+                                788,
+                                789,
+                              ],
+                              type: "Identifier",
+                              value: "c",
+                            },
+                          },
+                        ],
+                      },
+                      LocalStatement {
+                        init: [
+                          FunctionCallExpression {
+                            args: [
+                            ],
+                            base: Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 41,
+                                lnumStartIndex: 805,
+                                range: [
+                                  822,
+                                  828,
+                                ],
+                                type: "Identifier",
+                                value: "gcinfo",
+                              },
+                            },
+                          },
+                        ],
+                        variables: [
+                          Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 41,
+                              lnumStartIndex: 805,
+                              range: [
+                                815,
+                                816,
+                              ],
+                              type: "Identifier",
+                              value: "d",
+                            },
+                          },
+                          Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 41,
+                              lnumStartIndex: 805,
+                              range: [
+                                818,
+                                819,
+                              ],
+                              type: "Identifier",
+                              value: "e",
+                            },
+                          },
+                        ],
+                      },
+                      FunctionCallStatement {
+                        expression: FunctionCallExpression {
+                          args: [
+                            FunctionCallExpression {
+                              args: [
+                                StringLiteral {
+                                  token: {
+                                    isKeyword: false,
+                                    lnum: 43,
+                                    lnumStartIndex: 849,
+                                    range: [
+                                      855,
+                                      918,
+                                    ],
+                                    type: "StringLiteral",
+                                    value: '"\\
+    ---- total memory: %s (%dK), max use: %s,  blocks: %d\\
+"',
+                                  },
+                                },
+                                FunctionCallExpression {
+                                  args: [
+                                    Identifier {
+                                      token: {
+                                        isKeyword: false,
+                                        lnum: 44,
+                                        lnumStartIndex: 920,
+                                        range: [
+                                          936,
+                                          937,
+                                        ],
+                                        type: "Identifier",
+                                        value: "a",
+                                      },
+                                    },
+                                  ],
+                                  base: Identifier {
+                                    token: {
+                                      isKeyword: false,
+                                      lnum: 44,
+                                      lnumStartIndex: 920,
+                                      range: [
+                                        926,
+                                        935,
+                                      ],
+                                      type: "Identifier",
+                                      value: "formatmem",
+                                    },
+                                  },
+                                },
+                                Identifier {
+                                  token: {
+                                    isKeyword: false,
+                                    lnum: 44,
+                                    lnumStartIndex: 920,
+                                    range: [
+                                      940,
+                                      941,
+                                    ],
+                                    type: "Identifier",
+                                    value: "d",
+                                  },
+                                },
+                                FunctionCallExpression {
+                                  args: [
+                                    Identifier {
+                                      token: {
+                                        isKeyword: false,
+                                        lnum: 44,
+                                        lnumStartIndex: 920,
+                                        range: [
+                                          953,
+                                          954,
+                                        ],
+                                        type: "Identifier",
+                                        value: "c",
+                                      },
+                                    },
+                                  ],
+                                  base: Identifier {
+                                    token: {
+                                      isKeyword: false,
+                                      lnum: 44,
+                                      lnumStartIndex: 920,
+                                      range: [
+                                        943,
+                                        952,
+                                      ],
+                                      type: "Identifier",
+                                      value: "formatmem",
+                                    },
+                                  },
+                                },
+                                Identifier {
+                                  token: {
+                                    isKeyword: false,
+                                    lnum: 44,
+                                    lnumStartIndex: 920,
+                                    range: [
+                                      957,
+                                      958,
+                                    ],
+                                    type: "Identifier",
+                                    value: "b",
+                                  },
+                                },
+                              ],
+                              base: Identifier {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 42,
+                                  lnumStartIndex: 831,
+                                  range: [
+                                    841,
+                                    847,
+                                  ],
+                                  type: "Identifier",
+                                  value: "format",
+                                },
+                              },
+                            },
+                          ],
+                          base: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 42,
+                              lnumStartIndex: 831,
+                              range: [
+                                835,
+                                840,
+                              ],
+                              type: "Identifier",
+                              value: "print",
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  elseifBlocks: [
+                  ],
+                  elseifConditions: [
+                  ],
+                  ifBlock: Block {
+                    statements: [
+                      FunctionCallStatement {
+                        expression: FunctionCallExpression {
+                          args: [
+                            FunctionCallExpression {
+                              args: [
+                                StringLiteral {
+                                  token: {
+                                    isKeyword: false,
+                                    lnum: 37,
+                                    lnumStartIndex: 670,
+                                    range: [
+                                      687,
+                                      721,
+                                    ],
+                                    type: "StringLiteral",
+                                    value: '"    ---- total memory: %s ----\\
+"',
+                                  },
+                                },
+                                FunctionCallExpression {
+                                  args: [
+                                    FunctionCallExpression {
+                                      args: [
+                                      ],
+                                      base: Identifier {
+                                        token: {
+                                          isKeyword: false,
+                                          lnum: 37,
+                                          lnumStartIndex: 670,
+                                          range: [
+                                            733,
+                                            739,
+                                          ],
+                                          type: "Identifier",
+                                          value: "gcinfo",
+                                        },
+                                      },
+                                    },
+                                  ],
+                                  base: Identifier {
+                                    token: {
+                                      isKeyword: false,
+                                      lnum: 37,
+                                      lnumStartIndex: 670,
+                                      range: [
+                                        723,
+                                        732,
+                                      ],
+                                      type: "Identifier",
+                                      value: "formatmem",
+                                    },
+                                  },
+                                },
+                              ],
+                              base: Identifier {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 37,
+                                  lnumStartIndex: 670,
+                                  range: [
+                                    680,
+                                    686,
+                                  ],
+                                  type: "Identifier",
+                                  value: "format",
+                                },
+                              },
+                            },
+                          ],
+                          base: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 37,
+                              lnumStartIndex: 670,
+                              range: [
+                                674,
+                                679,
+                              ],
+                              type: "Identifier",
+                              value: "print",
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  ifCondition: UnaryExpression {
+                    argument: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 36,
+                        lnumStartIndex: 654,
+                        range: [
+                          663,
+                          664,
+                        ],
+                        type: "Identifier",
+                        value: "T",
+                      },
+                    },
+                    operator: {
+                      isKeyword: true,
+                      lnum: 36,
+                      lnumStartIndex: 654,
+                      range: [
+                        659,
+                        662,
+                      ],
+                      type: "Not",
+                      value: "not",
+                    },
+                  },
+                },
+              ],
+            },
+            parlist: [
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 35,
+              lnumStartIndex: 627,
+              range: [
+                633,
+                640,
+              ],
+              type: "Identifier",
+              value: "showmem",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          FunctionExpression {
+            block: Block {
+              statements: [
+                FunctionCallStatement {
+                  expression: FunctionCallExpression {
+                    args: [
+                    ],
+                    base: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 53,
+                        lnumStartIndex: 1052,
+                        range: [
+                          1054,
+                          1061,
+                        ],
+                        type: "Identifier",
+                        value: "showmem",
+                      },
+                    },
+                  },
+                },
+                LocalStatement {
+                  init: [
+                    FunctionCallExpression {
+                      args: [
+                        FunctionCallExpression {
+                          args: [
+                            Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 54,
+                                lnumStartIndex: 1064,
+                                range: [
+                                  1092,
+                                  1093,
+                                ],
+                                type: "Identifier",
+                                value: "n",
+                              },
+                            },
+                          ],
+                          base: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 54,
+                              lnumStartIndex: 1064,
+                              range: [
+                                1083,
+                                1091,
+                              ],
+                              type: "Identifier",
+                              value: "loadfile",
+                            },
+                          },
+                        },
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 54,
+                          lnumStartIndex: 1064,
+                          range: [
+                            1076,
+                            1082,
+                          ],
+                          type: "Identifier",
+                          value: "assert",
+                        },
+                      },
+                    },
+                  ],
+                  variables: [
+                    Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 54,
+                        lnumStartIndex: 1064,
+                        range: [
+                          1072,
+                          1073,
+                        ],
+                        type: "Identifier",
+                        value: "f",
+                      },
+                    },
+                  ],
+                },
+                LocalStatement {
+                  init: [
+                    FunctionCallExpression {
+                      args: [
+                        Identifier {
+                          token: {
+                            isKeyword: false,
+                            lnum: 55,
+                            lnumStartIndex: 1096,
+                            range: [
+                              1120,
+                              1121,
+                            ],
+                            type: "Identifier",
+                            value: "f",
+                          },
+                        },
+                      ],
+                      base: MemberExpression {
+                        base: Identifier {
+                          token: {
+                            isKeyword: false,
+                            lnum: 55,
+                            lnumStartIndex: 1096,
+                            range: [
+                              1108,
+                              1114,
+                            ],
+                            type: "Identifier",
+                            value: "string",
+                          },
+                        },
+                        identifier: Identifier {
+                          token: {
+                            isKeyword: false,
+                            lnum: 55,
+                            lnumStartIndex: 1096,
+                            range: [
+                              1115,
+                              1119,
+                            ],
+                            type: "Identifier",
+                            value: "dump",
+                          },
+                        },
+                        indexer: ".",
+                      },
+                    },
+                  ],
+                  variables: [
+                    Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 55,
+                        lnumStartIndex: 1096,
+                        range: [
+                          1104,
+                          1105,
+                        ],
+                        type: "Identifier",
+                        value: "b",
+                      },
+                    },
+                  ],
+                },
+                AssignmentStatement {
+                  init: [
+                    FunctionCallExpression {
+                      args: [
+                        FunctionCallExpression {
+                          args: [
+                            Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 56,
+                                lnumStartIndex: 1123,
+                                range: [
+                                  1147,
+                                  1148,
+                                ],
+                                type: "Identifier",
+                                value: "b",
+                              },
+                            },
+                          ],
+                          base: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 56,
+                              lnumStartIndex: 1123,
+                              range: [
+                                1136,
+                                1146,
+                              ],
+                              type: "Identifier",
+                              value: "loadstring",
+                            },
+                          },
+                        },
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 56,
+                          lnumStartIndex: 1123,
+                          range: [
+                            1129,
+                            1135,
+                          ],
+                          type: "Identifier",
+                          value: "assert",
+                        },
+                      },
+                    },
+                  ],
+                  variables: [
+                    Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 56,
+                        lnumStartIndex: 1123,
+                        range: [
+                          1125,
+                          1126,
+                        ],
+                        type: "Identifier",
+                        value: "f",
+                      },
+                    },
+                  ],
+                },
+                ReturnStatement {
+                  arguments: [
+                    FunctionCallExpression {
+                      args: [
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 57,
+                          lnumStartIndex: 1151,
+                          range: [
+                            1160,
+                            1161,
+                          ],
+                          type: "Identifier",
+                          value: "f",
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            parlist: [
+              Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 52,
+                  lnumStartIndex: 1031,
+                  range: [
+                    1049,
+                    1050,
+                  ],
+                  type: "Identifier",
+                  value: "n",
+                },
+              },
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 52,
+              lnumStartIndex: 1031,
+              range: [
+                1031,
+                1037,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        ],
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 60,
+                lnumStartIndex: 1169,
+                range: [
+                  1176,
+                  1186,
+                ],
+                type: "StringLiteral",
+                value: "'main.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 60,
+              lnumStartIndex: 1169,
+              range: [
+                1169,
+                1175,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      DoStatement {
+        block: Block {
+          statements: [
+            LocalStatement {
+              init: [
+                FunctionCallExpression {
+                  args: [
+                    BooleanLiteral {
+                      token: {
+                        isKeyword: true,
+                        lnum: 63,
+                        lnumStartIndex: 1192,
+                        range: [
+                          1213,
+                          1217,
+                        ],
+                        type: "BooleanLiteral",
+                        value: "true",
+                      },
+                    },
+                  ],
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 63,
+                      lnumStartIndex: 1192,
+                      range: [
+                        1204,
+                        1212,
+                      ],
+                      type: "Identifier",
+                      value: "newproxy",
+                    },
+                  },
+                },
+              ],
+              variables: [
+                Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 63,
+                    lnumStartIndex: 1192,
+                    range: [
+                      1200,
+                      1201,
+                    ],
+                    type: "Identifier",
+                    value: "u",
+                  },
+                },
+              ],
+            },
+            LocalStatement {
+              init: [
+                Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 64,
+                    lnumStartIndex: 1219,
+                    range: [
+                      1246,
+                      1254,
+                    ],
+                    type: "Identifier",
+                    value: "newproxy",
+                  },
+                },
+                MemberExpression {
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 64,
+                      lnumStartIndex: 1219,
+                      range: [
+                        1256,
+                        1258,
+                      ],
+                      type: "Identifier",
+                      value: "io",
+                    },
+                  },
+                  identifier: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 64,
+                      lnumStartIndex: 1219,
+                      range: [
+                        1259,
+                        1265,
+                      ],
+                      type: "Identifier",
+                      value: "stderr",
+                    },
+                  },
+                  indexer: ".",
+                },
+              ],
+              variables: [
+                Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 64,
+                    lnumStartIndex: 1219,
+                    range: [
+                      1227,
+                      1235,
+                    ],
+                    type: "Identifier",
+                    value: "newproxy",
+                  },
+                },
+                Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 64,
+                    lnumStartIndex: 1219,
+                    range: [
+                      1237,
+                      1243,
+                    ],
+                    type: "Identifier",
+                    value: "stderr",
+                  },
+                },
+              ],
+            },
+            AssignmentStatement {
+              init: [
+                FunctionExpression {
+                  block: Block {
+                    statements: [
+                      FunctionCallStatement {
+                        expression: FunctionCallExpression {
+                          args: [
+                            StringLiteral {
+                              token: {
+                                isKeyword: false,
+                                lnum: 66,
+                                lnumStartIndex: 1303,
+                                range: [
+                                  1320,
+                                  1323,
+                                ],
+                                type: "StringLiteral",
+                                value: "'.'",
+                              },
+                            },
+                          ],
+                          base: MemberExpression {
+                            base: Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 66,
+                                lnumStartIndex: 1303,
+                                range: [
+                                  1307,
+                                  1313,
+                                ],
+                                type: "Identifier",
+                                value: "stderr",
+                              },
+                            },
+                            identifier: Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 66,
+                                lnumStartIndex: 1303,
+                                range: [
+                                  1314,
+                                  1319,
+                                ],
+                                type: "Identifier",
+                                value: "write",
+                              },
+                            },
+                            indexer: ":",
+                          },
+                        },
+                      },
+                      FunctionCallStatement {
+                        expression: FunctionCallExpression {
+                          args: [
+                            Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 67,
+                                lnumStartIndex: 1324,
+                                range: [
+                                  1337,
+                                  1338,
+                                ],
+                                type: "Identifier",
+                                value: "o",
+                              },
+                            },
+                          ],
+                          base: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 67,
+                              lnumStartIndex: 1324,
+                              range: [
+                                1328,
+                                1336,
+                              ],
+                              type: "Identifier",
+                              value: "newproxy",
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  parlist: [
+                    Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 65,
+                        lnumStartIndex: 1266,
+                        range: [
+                          1300,
+                          1301,
+                        ],
+                        type: "Identifier",
+                        value: "o",
+                      },
+                    },
+                  ],
+                },
+              ],
+              variables: [
+                MemberExpression {
+                  base: FunctionCallExpression {
+                    args: [
+                      Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 65,
+                          lnumStartIndex: 1266,
+                          range: [
+                            1281,
+                            1282,
+                          ],
+                          type: "Identifier",
+                          value: "u",
+                        },
+                      },
+                    ],
+                    base: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 65,
+                        lnumStartIndex: 1266,
+                        range: [
+                          1268,
+                          1280,
+                        ],
+                        type: "Identifier",
+                        value: "getmetatable",
+                      },
+                    },
+                  },
+                  identifier: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 65,
+                      lnumStartIndex: 1266,
+                      range: [
+                        1284,
+                        1288,
+                      ],
+                      type: "Identifier",
+                      value: "__gc",
+                    },
+                  },
+                  indexer: ".",
+                },
+              ],
+            },
+          ],
+        },
+      },
+      LocalStatement {
+        init: [
+          FunctionCallExpression {
+            args: [
+              FunctionCallExpression {
+                args: [
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 71,
+                      lnumStartIndex: 1351,
+                      range: [
+                        1377,
+                        1385,
+                      ],
+                      type: "StringLiteral",
+                      value: "'gc.lua'",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 71,
+                    lnumStartIndex: 1351,
+                    range: [
+                      1368,
+                      1376,
+                    ],
+                    type: "Identifier",
+                    value: "loadfile",
+                  },
+                },
+              },
+            ],
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 71,
+                lnumStartIndex: 1351,
+                range: [
+                  1361,
+                  1367,
+                ],
+                type: "Identifier",
+                value: "assert",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 71,
+              lnumStartIndex: 1351,
+              range: [
+                1357,
+                1358,
+              ],
+              type: "Identifier",
+              value: "f",
+            },
+          },
+        ],
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 72,
+              lnumStartIndex: 1388,
+              range: [
+                1388,
+                1389,
+              ],
+              type: "Identifier",
+              value: "f",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 73,
+                lnumStartIndex: 1392,
+                range: [
+                  1399,
+                  1407,
+                ],
+                type: "StringLiteral",
+                value: "'db.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 73,
+              lnumStartIndex: 1392,
+              range: [
+                1392,
+                1398,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: BinaryExpression {
+                left: FunctionCallExpression {
+                  args: [
+                    StringLiteral {
+                      token: {
+                        isKeyword: false,
+                        lnum: 74,
+                        lnumStartIndex: 1409,
+                        range: [
+                          1423,
+                          1434,
+                        ],
+                        type: "StringLiteral",
+                        value: "'calls.lua'",
+                      },
+                    },
+                  ],
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 74,
+                      lnumStartIndex: 1409,
+                      range: [
+                        1416,
+                        1422,
+                      ],
+                      type: "Identifier",
+                      value: "dofile",
+                    },
+                  },
+                },
+                operator: {
+                  isKeyword: false,
+                  lnum: 74,
+                  lnumStartIndex: 1409,
+                  range: [
+                    1436,
+                    1438,
+                  ],
+                  type: "DoubleEqual",
+                  value: "==",
+                },
+                right: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 74,
+                    lnumStartIndex: 1409,
+                    range: [
+                      1439,
+                      1443,
+                    ],
+                    type: "Identifier",
+                    value: "deep",
+                  },
+                },
+              },
+              operator: {
+                isKeyword: true,
+                lnum: 74,
+                lnumStartIndex: 1409,
+                range: [
+                  1444,
+                  1447,
+                ],
+                type: "And",
+                value: "and",
+              },
+              right: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 74,
+                  lnumStartIndex: 1409,
+                  range: [
+                    1448,
+                    1452,
+                  ],
+                  type: "Identifier",
+                  value: "deep",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 74,
+              lnumStartIndex: 1409,
+              range: [
+                1409,
+                1415,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 75,
+                lnumStartIndex: 1454,
+                range: [
+                  1461,
+                  1474,
+                ],
+                type: "StringLiteral",
+                value: "'strings.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 75,
+              lnumStartIndex: 1454,
+              range: [
+                1454,
+                1460,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 76,
+                lnumStartIndex: 1476,
+                range: [
+                  1483,
+                  1497,
+                ],
+                type: "StringLiteral",
+                value: "'literals.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 76,
+              lnumStartIndex: 1476,
+              range: [
+                1476,
+                1482,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: FunctionCallExpression {
+                args: [
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 77,
+                      lnumStartIndex: 1499,
+                      range: [
+                        1513,
+                        1525,
+                      ],
+                      type: "StringLiteral",
+                      value: "'attrib.lua'",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 77,
+                    lnumStartIndex: 1499,
+                    range: [
+                      1506,
+                      1512,
+                    ],
+                    type: "Identifier",
+                    value: "dofile",
+                  },
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 77,
+                lnumStartIndex: 1499,
+                range: [
+                  1527,
+                  1529,
+                ],
+                type: "DoubleEqual",
+                value: "==",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 77,
+                  lnumStartIndex: 1499,
+                  range: [
+                    1530,
+                    1532,
+                  ],
+                  type: "NumericLiteral",
+                  value: "27",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 77,
+              lnumStartIndex: 1499,
+              range: [
+                1499,
+                1505,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: FunctionCallExpression {
+                args: [
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 78,
+                      lnumStartIndex: 1534,
+                      range: [
+                        1548,
+                        1560,
+                      ],
+                      type: "StringLiteral",
+                      value: "'locals.lua'",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 78,
+                    lnumStartIndex: 1534,
+                    range: [
+                      1541,
+                      1547,
+                    ],
+                    type: "Identifier",
+                    value: "dofile",
+                  },
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 78,
+                lnumStartIndex: 1534,
+                range: [
+                  1562,
+                  1564,
+                ],
+                type: "DoubleEqual",
+                value: "==",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 78,
+                  lnumStartIndex: 1534,
+                  range: [
+                    1565,
+                    1566,
+                  ],
+                  type: "NumericLiteral",
+                  value: "5",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 78,
+              lnumStartIndex: 1534,
+              range: [
+                1534,
+                1540,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 79,
+                lnumStartIndex: 1568,
+                range: [
+                  1575,
+                  1591,
+                ],
+                type: "StringLiteral",
+                value: "'constructs.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 79,
+              lnumStartIndex: 1568,
+              range: [
+                1568,
+                1574,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 80,
+                lnumStartIndex: 1593,
+                range: [
+                  1600,
+                  1610,
+                ],
+                type: "StringLiteral",
+                value: "'code.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 80,
+              lnumStartIndex: 1593,
+              range: [
+                1593,
+                1599,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      DoStatement {
+        block: Block {
+          statements: [
+            LocalStatement {
+              init: [
+                FunctionCallExpression {
+                  args: [
+                    FunctionCallExpression {
+                      args: [
+                        FunctionCallExpression {
+                          args: [
+                            StringLiteral {
+                              token: {
+                                isKeyword: false,
+                                lnum: 82,
+                                lnumStartIndex: 1615,
+                                range: [
+                                  1658,
+                                  1667,
+                                ],
+                                type: "StringLiteral",
+                                value: "'big.lua'",
+                              },
+                            },
+                          ],
+                          base: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 82,
+                              lnumStartIndex: 1615,
+                              range: [
+                                1649,
+                                1657,
+                              ],
+                              type: "Identifier",
+                              value: "loadfile",
+                            },
+                          },
+                        },
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 82,
+                          lnumStartIndex: 1615,
+                          range: [
+                            1642,
+                            1648,
+                          ],
+                          type: "Identifier",
+                          value: "assert",
+                        },
+                      },
+                    },
+                  ],
+                  base: MemberExpression {
+                    base: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 82,
+                        lnumStartIndex: 1615,
+                        range: [
+                          1627,
+                          1636,
+                        ],
+                        type: "Identifier",
+                        value: "coroutine",
+                      },
+                    },
+                    identifier: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 82,
+                        lnumStartIndex: 1615,
+                        range: [
+                          1637,
+                          1641,
+                        ],
+                        type: "Identifier",
+                        value: "wrap",
+                      },
+                    },
+                    indexer: ".",
+                  },
+                },
+              ],
+              variables: [
+                Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 82,
+                    lnumStartIndex: 1615,
+                    range: [
+                      1623,
+                      1624,
+                    ],
+                    type: "Identifier",
+                    value: "f",
+                  },
+                },
+              ],
+            },
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                  BinaryExpression {
+                    left: FunctionCallExpression {
+                      args: [
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 83,
+                          lnumStartIndex: 1671,
+                          range: [
+                            1680,
+                            1681,
+                          ],
+                          type: "Identifier",
+                          value: "f",
+                        },
+                      },
+                    },
+                    operator: {
+                      isKeyword: false,
+                      lnum: 83,
+                      lnumStartIndex: 1671,
+                      range: [
+                        1684,
+                        1686,
+                      ],
+                      type: "DoubleEqual",
+                      value: "==",
+                    },
+                    right: StringLiteral {
+                      token: {
+                        isKeyword: false,
+                        lnum: 83,
+                        lnumStartIndex: 1671,
+                        range: [
+                          1687,
+                          1690,
+                        ],
+                        type: "StringLiteral",
+                        value: "'b'",
+                      },
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 83,
+                    lnumStartIndex: 1671,
+                    range: [
+                      1673,
+                      1679,
+                    ],
+                    type: "Identifier",
+                    value: "assert",
+                  },
+                },
+              },
+            },
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                  BinaryExpression {
+                    left: FunctionCallExpression {
+                      args: [
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 84,
+                          lnumStartIndex: 1692,
+                          range: [
+                            1701,
+                            1702,
+                          ],
+                          type: "Identifier",
+                          value: "f",
+                        },
+                      },
+                    },
+                    operator: {
+                      isKeyword: false,
+                      lnum: 84,
+                      lnumStartIndex: 1692,
+                      range: [
+                        1705,
+                        1707,
+                      ],
+                      type: "DoubleEqual",
+                      value: "==",
+                    },
+                    right: StringLiteral {
+                      token: {
+                        isKeyword: false,
+                        lnum: 84,
+                        lnumStartIndex: 1692,
+                        range: [
+                          1708,
+                          1711,
+                        ],
+                        type: "StringLiteral",
+                        value: "'a'",
+                      },
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 84,
+                    lnumStartIndex: 1692,
+                    range: [
+                      1694,
+                      1700,
+                    ],
+                    type: "Identifier",
+                    value: "assert",
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 86,
+                lnumStartIndex: 1717,
+                range: [
+                  1724,
+                  1737,
+                ],
+                type: "StringLiteral",
+                value: "'nextvar.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 86,
+              lnumStartIndex: 1717,
+              range: [
+                1717,
+                1723,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 87,
+                lnumStartIndex: 1739,
+                range: [
+                  1746,
+                  1754,
+                ],
+                type: "StringLiteral",
+                value: "'pm.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 87,
+              lnumStartIndex: 1739,
+              range: [
+                1739,
+                1745,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 88,
+                lnumStartIndex: 1756,
+                range: [
+                  1763,
+                  1772,
+                ],
+                type: "StringLiteral",
+                value: "'api.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 88,
+              lnumStartIndex: 1756,
+              range: [
+                1756,
+                1762,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: FunctionCallExpression {
+                args: [
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 89,
+                      lnumStartIndex: 1774,
+                      range: [
+                        1788,
+                        1800,
+                      ],
+                      type: "StringLiteral",
+                      value: "'events.lua'",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 89,
+                    lnumStartIndex: 1774,
+                    range: [
+                      1781,
+                      1787,
+                    ],
+                    type: "Identifier",
+                    value: "dofile",
+                  },
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 89,
+                lnumStartIndex: 1774,
+                range: [
+                  1802,
+                  1804,
+                ],
+                type: "DoubleEqual",
+                value: "==",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 89,
+                  lnumStartIndex: 1774,
+                  range: [
+                    1805,
+                    1807,
+                  ],
+                  type: "NumericLiteral",
+                  value: "12",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 89,
+              lnumStartIndex: 1774,
+              range: [
+                1774,
+                1780,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 90,
+                lnumStartIndex: 1809,
+                range: [
+                  1816,
+                  1828,
+                ],
+                type: "StringLiteral",
+                value: "'vararg.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 90,
+              lnumStartIndex: 1809,
+              range: [
+                1809,
+                1815,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 91,
+                lnumStartIndex: 1830,
+                range: [
+                  1837,
+                  1850,
+                ],
+                type: "StringLiteral",
+                value: "'closure.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 91,
+              lnumStartIndex: 1830,
+              range: [
+                1830,
+                1836,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 92,
+                lnumStartIndex: 1852,
+                range: [
+                  1859,
+                  1871,
+                ],
+                type: "StringLiteral",
+                value: "'errors.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 92,
+              lnumStartIndex: 1852,
+              range: [
+                1852,
+                1858,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 93,
+                lnumStartIndex: 1873,
+                range: [
+                  1880,
+                  1890,
+                ],
+                type: "StringLiteral",
+                value: "'math.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 93,
+              lnumStartIndex: 1873,
+              range: [
+                1873,
+                1879,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 94,
+                lnumStartIndex: 1892,
+                range: [
+                  1899,
+                  1909,
+                ],
+                type: "StringLiteral",
+                value: "'sort.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 94,
+              lnumStartIndex: 1892,
+              range: [
+                1892,
+                1898,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: FunctionCallExpression {
+                args: [
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 95,
+                      lnumStartIndex: 1911,
+                      range: [
+                        1925,
+                        1938,
+                      ],
+                      type: "StringLiteral",
+                      value: "'verybig.lua'",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 95,
+                    lnumStartIndex: 1911,
+                    range: [
+                      1918,
+                      1924,
+                    ],
+                    type: "Identifier",
+                    value: "dofile",
+                  },
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 95,
+                lnumStartIndex: 1911,
+                range: [
+                  1940,
+                  1942,
+                ],
+                type: "DoubleEqual",
+                value: "==",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 95,
+                  lnumStartIndex: 1911,
+                  range: [
+                    1943,
+                    1945,
+                  ],
+                  type: "NumericLiteral",
+                  value: "10",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 95,
+              lnumStartIndex: 1911,
+              range: [
+                1911,
+                1917,
+              ],
+              type: "Identifier",
+              value: "assert",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 96,
+              lnumStartIndex: 1948,
+              range: [
+                1948,
+                1962,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 97,
+                lnumStartIndex: 1965,
+                range: [
+                  1972,
+                  1983,
+                ],
+                type: "StringLiteral",
+                value: "'files.lua'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 97,
+              lnumStartIndex: 1965,
+              range: [
+                1965,
+                1971,
+              ],
+              type: "Identifier",
+              value: "dofile",
+            },
+          },
+        },
+      },
+      IfStatement {
+        elseBlock: null,
+        elseifBlocks: [
+        ],
+        elseifConditions: [
+        ],
+        ifBlock: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                  StringLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 100,
+                      lnumStartIndex: 2004,
+                      range: [
+                        2012,
+                        2036,
+                      ],
+                      type: "StringLiteral",
+                      value: '"\\
+tests not performed:"',
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 100,
+                    lnumStartIndex: 2004,
+                    range: [
+                      2006,
+                      2011,
+                    ],
+                    type: "Identifier",
+                    value: "print",
+                  },
+                },
+              },
+            },
+            ForNumericStatement {
+              block: Block {
+                statements: [
+                  FunctionCallStatement {
+                    expression: FunctionCallExpression {
+                      args: [
+                        IndexExpression {
+                          base: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 102,
+                              lnumStartIndex: 2060,
+                              range: [
+                                2070,
+                                2074,
+                              ],
+                              type: "Identifier",
+                              value: "msgs",
+                            },
+                          },
+                          index: Identifier {
+                            token: {
+                              isKeyword: false,
+                              lnum: 102,
+                              lnumStartIndex: 2060,
+                              range: [
+                                2075,
+                                2076,
+                              ],
+                              type: "Identifier",
+                              value: "i",
+                            },
+                          },
+                        },
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 102,
+                          lnumStartIndex: 2060,
+                          range: [
+                            2064,
+                            2069,
+                          ],
+                          type: "Identifier",
+                          value: "print",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+              end: UnaryExpression {
+                argument: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 101,
+                    lnumStartIndex: 2038,
+                    range: [
+                      2052,
+                      2056,
+                    ],
+                    type: "Identifier",
+                    value: "msgs",
+                  },
+                },
+                operator: {
+                  isKeyword: false,
+                  lnum: 101,
+                  lnumStartIndex: 2038,
+                  range: [
+                    2051,
+                    2052,
+                  ],
+                  type: "HashTag",
+                  value: "#",
+                },
+              },
+              start: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 101,
+                  lnumStartIndex: 2038,
+                  range: [
+                    2048,
+                    2049,
+                  ],
+                  type: "NumericLiteral",
+                  value: "1",
+                },
+              },
+              step: undefined,
+              variable: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 101,
+                  lnumStartIndex: 2038,
+                  range: [
+                    2044,
+                    2045,
+                  ],
+                  type: "Identifier",
+                  value: "i",
+                },
+              },
+            },
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 104,
+                    lnumStartIndex: 2085,
+                    range: [
+                      2087,
+                      2092,
+                    ],
+                    type: "Identifier",
+                    value: "print",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        ifCondition: BinaryExpression {
+          left: UnaryExpression {
+            argument: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 99,
+                lnumStartIndex: 1986,
+                range: [
+                  1990,
+                  1994,
+                ],
+                type: "Identifier",
+                value: "msgs",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 99,
+              lnumStartIndex: 1986,
+              range: [
+                1989,
+                1990,
+              ],
+              type: "HashTag",
+              value: "#",
+            },
+          },
+          operator: {
+            isKeyword: false,
+            lnum: 99,
+            lnumStartIndex: 1986,
+            range: [
+              1995,
+              1996,
+            ],
+            type: "GreaterThan",
+            value: ">",
+          },
+          right: NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 99,
+              lnumStartIndex: 1986,
+              range: [
+                1997,
+                1998,
+              ],
+              type: "NumericLiteral",
+              value: "0",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 107,
+                lnumStartIndex: 2100,
+                range: [
+                  2106,
+                  2120,
+                ],
+                type: "StringLiteral",
+                value: '"final OK !!!"',
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 107,
+              lnumStartIndex: 2100,
+              range: [
+                2100,
+                2105,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 108,
+                lnumStartIndex: 2122,
+                range: [
+                  2128,
+                  2146,
+                ],
+                type: "StringLiteral",
+                value: "'cleaning all!!!!'",
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 108,
+              lnumStartIndex: 2122,
+              range: [
+                2122,
+                2127,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            FunctionExpression {
+              block: Block {
+                statements: [
+                  FunctionCallStatement {
+                    expression: FunctionCallExpression {
+                      args: [
+                        BinaryExpression {
+                          left: FunctionCallExpression {
+                            args: [
+                              Identifier {
+                                token: {
+                                  isKeyword: false,
+                                  lnum: 110,
+                                  lnumStartIndex: 2149,
+                                  range: [
+                                    2187,
+                                    2188,
+                                  ],
+                                  type: "Identifier",
+                                  value: "a",
+                                },
+                              },
+                            ],
+                            base: Identifier {
+                              token: {
+                                isKeyword: false,
+                                lnum: 110,
+                                lnumStartIndex: 2149,
+                                range: [
+                                  2182,
+                                  2186,
+                                ],
+                                type: "Identifier",
+                                value: "type",
+                              },
+                            },
+                          },
+                          operator: {
+                            isKeyword: false,
+                            lnum: 110,
+                            lnumStartIndex: 2149,
+                            range: [
+                              2190,
+                              2192,
+                            ],
+                            type: "DoubleEqual",
+                            value: "==",
+                          },
+                          right: StringLiteral {
+                            token: {
+                              isKeyword: false,
+                              lnum: 110,
+                              lnumStartIndex: 2149,
+                              range: [
+                                2193,
+                                2201,
+                              ],
+                              type: "StringLiteral",
+                              value: "'string'",
+                            },
+                          },
+                        },
+                      ],
+                      base: Identifier {
+                        token: {
+                          isKeyword: false,
+                          lnum: 110,
+                          lnumStartIndex: 2149,
+                          range: [
+                            2175,
+                            2181,
+                          ],
+                          type: "Identifier",
+                          value: "assert",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+              parlist: [
+                Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 110,
+                    lnumStartIndex: 2149,
+                    range: [
+                      2172,
+                      2173,
+                    ],
+                    type: "Identifier",
+                    value: "a",
+                  },
+                },
+              ],
+            },
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 110,
+                lnumStartIndex: 2149,
+                range: [
+                  2208,
+                  2212,
+                ],
+                type: "StringLiteral",
+                value: '"cr"',
+              },
+            },
+          ],
+          base: MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 110,
+                lnumStartIndex: 2149,
+                range: [
+                  2149,
+                  2154,
+                ],
+                type: "Identifier",
+                value: "debug",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 110,
+                lnumStartIndex: 2149,
+                range: [
+                  2155,
+                  2162,
+                ],
+                type: "Identifier",
+                value: "sethook",
+              },
+            },
+            indexer: ".",
+          },
+        },
+      },
+      LocalStatement {
+        init: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 113,
+              lnumStartIndex: 2273,
+              range: [
+                2273,
+                2275,
+              ],
+              type: "Identifier",
+              value: "_G",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 113,
+              lnumStartIndex: 2273,
+              range: [
+                2277,
+                2291,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 113,
+              lnumStartIndex: 2273,
+              range: [
+                2293,
+                2300,
+              ],
+              type: "Identifier",
+              value: "showmem",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 113,
+              lnumStartIndex: 2273,
+              range: [
+                2302,
+                2307,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 113,
+              lnumStartIndex: 2273,
+              range: [
+                2309,
+                2315,
+              ],
+              type: "Identifier",
+              value: "format",
+            },
+          },
+          MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 113,
+                lnumStartIndex: 2273,
+                range: [
+                  2317,
+                  2319,
+                ],
+                type: "Identifier",
+                value: "os",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 113,
+                lnumStartIndex: 2273,
+                range: [
+                  2320,
+                  2325,
+                ],
+                type: "Identifier",
+                value: "clock",
+              },
+            },
+            indexer: ".",
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 112,
+              lnumStartIndex: 2215,
+              range: [
+                2221,
+                2223,
+              ],
+              type: "Identifier",
+              value: "_G",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 112,
+              lnumStartIndex: 2215,
+              range: [
+                2225,
+                2239,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 112,
+              lnumStartIndex: 2215,
+              range: [
+                2241,
+                2248,
+              ],
+              type: "Identifier",
+              value: "showmem",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 112,
+              lnumStartIndex: 2215,
+              range: [
+                2250,
+                2255,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 112,
+              lnumStartIndex: 2215,
+              range: [
+                2257,
+                2263,
+              ],
+              type: "Identifier",
+              value: "format",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 112,
+              lnumStartIndex: 2215,
+              range: [
+                2265,
+                2270,
+              ],
+              type: "Identifier",
+              value: "clock",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          TableConstructor {
+            fieldlist: [
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 115,
+              lnumStartIndex: 2327,
+              range: [
+                2333,
+                2334,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+      ForGenericStatement {
+        block: Block {
+          statements: [
+            AssignmentStatement {
+              init: [
+                NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 116,
+                    lnumStartIndex: 2340,
+                    range: [
+                      2369,
+                      2370,
+                    ],
+                    type: "NumericLiteral",
+                    value: "1",
+                  },
+                },
+              ],
+              variables: [
+                IndexExpression {
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 116,
+                      lnumStartIndex: 2340,
+                      range: [
+                        2362,
+                        2363,
+                      ],
+                      type: "Identifier",
+                      value: "a",
+                    },
+                  },
+                  index: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 116,
+                      lnumStartIndex: 2340,
+                      range: [
+                        2364,
+                        2365,
+                      ],
+                      type: "Identifier",
+                      value: "n",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        iterators: [
+          FunctionCallExpression {
+            args: [
+              Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 116,
+                  lnumStartIndex: 2340,
+                  range: [
+                    2355,
+                    2357,
+                  ],
+                  type: "Identifier",
+                  value: "_G",
+                },
+              },
+            ],
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 116,
+                lnumStartIndex: 2340,
+                range: [
+                  2349,
+                  2354,
+                ],
+                type: "Identifier",
+                value: "pairs",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 116,
+              lnumStartIndex: 2340,
+              range: [
+                2344,
+                2345,
+              ],
+              type: "Identifier",
+              value: "n",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          NilLiteral {
+            token: {
+              isKeyword: true,
+              lnum: 117,
+              lnumStartIndex: 2375,
+              range: [
+                2388,
+                2391,
+              ],
+              type: "NilLiteral",
+              value: "nil",
+            },
+          },
+        ],
+        variables: [
+          MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 117,
+                lnumStartIndex: 2375,
+                range: [
+                  2375,
+                  2376,
+                ],
+                type: "Identifier",
+                value: "a",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 117,
+                lnumStartIndex: 2375,
+                range: [
+                  2377,
+                  2385,
+                ],
+                type: "Identifier",
+                value: "tostring",
+              },
+            },
+            indexer: ".",
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          NilLiteral {
+            token: {
+              isKeyword: true,
+              lnum: 118,
+              lnumStartIndex: 2392,
+              range: [
+                2404,
+                2407,
+              ],
+              type: "NilLiteral",
+              value: "nil",
+            },
+          },
+        ],
+        variables: [
+          MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 118,
+                lnumStartIndex: 2392,
+                range: [
+                  2392,
+                  2393,
+                ],
+                type: "Identifier",
+                value: "a",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 118,
+                lnumStartIndex: 2392,
+                range: [
+                  2394,
+                  2401,
+                ],
+                type: "Identifier",
+                value: "___Glob",
+              },
+            },
+            indexer: ".",
+          },
+        ],
+      },
+      ForGenericStatement {
+        block: Block {
+          statements: [
+            AssignmentStatement {
+              init: [
+                NilLiteral {
+                  token: {
+                    isKeyword: true,
+                    lnum: 119,
+                    lnumStartIndex: 2408,
+                    range: [
+                      2437,
+                      2440,
+                    ],
+                    type: "NilLiteral",
+                    value: "nil",
+                  },
+                },
+              ],
+              variables: [
+                IndexExpression {
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 119,
+                      lnumStartIndex: 2408,
+                      range: [
+                        2429,
+                        2431,
+                      ],
+                      type: "Identifier",
+                      value: "_G",
+                    },
+                  },
+                  index: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 119,
+                      lnumStartIndex: 2408,
+                      range: [
+                        2432,
+                        2433,
+                      ],
+                      type: "Identifier",
+                      value: "n",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        iterators: [
+          FunctionCallExpression {
+            args: [
+              Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 119,
+                  lnumStartIndex: 2408,
+                  range: [
+                    2423,
+                    2424,
+                  ],
+                  type: "Identifier",
+                  value: "a",
+                },
+              },
+            ],
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 119,
+                lnumStartIndex: 2408,
+                range: [
+                  2417,
+                  2422,
+                ],
+                type: "Identifier",
+                value: "pairs",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 119,
+              lnumStartIndex: 2408,
+              range: [
+                2412,
+                2413,
+              ],
+              type: "Identifier",
+              value: "n",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          NilLiteral {
+            token: {
+              isKeyword: true,
+              lnum: 121,
+              lnumStartIndex: 2446,
+              range: [
+                2450,
+                2453,
+              ],
+              type: "NilLiteral",
+              value: "nil",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 121,
+              lnumStartIndex: 2446,
+              range: [
+                2446,
+                2447,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 122,
+              lnumStartIndex: 2454,
+              range: [
+                2454,
+                2468,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 123,
+              lnumStartIndex: 2471,
+              range: [
+                2471,
+                2485,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 124,
+              lnumStartIndex: 2488,
+              range: [
+                2488,
+                2502,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 125,
+              lnumStartIndex: 2505,
+              range: [
+                2505,
+                2519,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 126,
+              lnumStartIndex: 2522,
+              range: [
+                2522,
+                2536,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 127,
+              lnumStartIndex: 2539,
+              range: [
+                2539,
+                2553,
+              ],
+              type: "Identifier",
+              value: "collectgarbage",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 128,
+              lnumStartIndex: 2557,
+              range: [
+                2557,
+                2564,
+              ],
+              type: "Identifier",
+              value: "showmem",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            FunctionCallExpression {
+              args: [
+                StringLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 130,
+                    lnumStartIndex: 2568,
+                    range: [
+                      2581,
+                      2605,
+                    ],
+                    type: "StringLiteral",
+                    value: '"\\
+\\
+total time: %.2f\\
+"',
+                  },
+                },
+                BinaryExpression {
+                  left: FunctionCallExpression {
+                    args: [
+                    ],
+                    base: Identifier {
+                      token: {
+                        isKeyword: false,
+                        lnum: 130,
+                        lnumStartIndex: 2568,
+                        range: [
+                          2607,
+                          2612,
+                        ],
+                        type: "Identifier",
+                        value: "clock",
+                      },
+                    },
+                  },
+                  operator: {
+                    isKeyword: false,
+                    lnum: 130,
+                    lnumStartIndex: 2568,
+                    range: [
+                      2615,
+                      2616,
+                    ],
+                    type: "Minus",
+                    value: "-",
+                  },
+                  right: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 130,
+                      lnumStartIndex: 2568,
+                      range: [
+                        2617,
+                        2618,
+                      ],
+                      type: "Identifier",
+                      value: "c",
+                    },
+                  },
+                },
+              ],
+              base: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 130,
+                  lnumStartIndex: 2568,
+                  range: [
+                    2574,
+                    2580,
+                  ],
+                  type: "Identifier",
+                  value: "format",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 130,
+              lnumStartIndex: 2568,
+              range: [
+                2568,
+                2573,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

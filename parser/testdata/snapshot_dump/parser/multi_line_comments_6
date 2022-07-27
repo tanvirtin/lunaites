@@ -1,0 +1,44 @@
+export const snapshot = {};
+
+snapshot[`multi_line_comments_6 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionLocalStatement {
+        block: Block {
+          statements: [
+          ],
+        },
+        funcname: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              15,
+              16,
+            ],
+            type: "Identifier",
+            value: "x",
+          },
+        },
+        parlist: [
+          VarargLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                17,
+                20,
+              ],
+              type: "VarargLiteral",
+              value: "...",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

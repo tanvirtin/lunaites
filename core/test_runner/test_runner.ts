@@ -6,6 +6,7 @@ enum TestType {
   Integration = "Integration",
   Unit = "Unit",
   Smoke = "Smoke",
+  Snapshot = "Snapshot",
 }
 
 interface TestOptions {
@@ -79,7 +80,7 @@ class TestRunner {
       }),
     );
 
-    const files = fs.walkSync(this.getTestdataPath(), {
+    const files = fs.walkSync(this.getCurrentTestPath(), {
       match: [path.globToRegExp("*/**/*.lua")],
     });
 
@@ -97,7 +98,11 @@ class TestRunner {
     return path.resolve(path.dirname(path.fromFileUrl(this.importMeta.url)));
   }
 
-  getTestdataPath() {
+  getTestdataPath(): string {
+    return path.join(this.getModuleDir(), "testdata");
+  }
+
+  getCurrentTestPath() {
     return `${this.getModuleDir()}/testdata/${this.type.toLowerCase()}/${this.name.toLowerCase()}`;
   }
 
@@ -108,13 +113,15 @@ class TestRunner {
       return fragments[fragments.length - 1];
     }
 
-    return `${this.getTestdataPath()}/${getRepoName(repoName)}`;
+    return `${this.getCurrentTestPath()}/${getRepoName(repoName)}`;
   }
 
   async registerIntegration(computation: (suite: Suite) => void) {
     this.assertType(TestType.Integration);
 
-    const specGenerator = new IntegrationSpecGenerator(this.getTestdataPath());
+    const specGenerator = new IntegrationSpecGenerator(
+      this.getCurrentTestPath(),
+    );
     this.integrationSuite = {
       computation: computation,
       specs: await specGenerator.generate(),
@@ -208,7 +215,7 @@ class TestRunner {
           }
 
           it(
-            path.relative(this.getTestdataPath(), p),
+            path.relative(this.getCurrentTestPath(), p),
             computation.bind(null, p),
           );
         }

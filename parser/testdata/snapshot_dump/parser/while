@@ -1,0 +1,49 @@
+export const snapshot = {};
+
+snapshot[`while 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      WhileStatement {
+        block: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 14,
+                    range: [
+                      15,
+                      19,
+                    ],
+                    type: "Identifier",
+                    value: "call",
+                  },
+                },
+              },
+            },
+            BreakStatement {},
+          ],
+        },
+        condition: BooleanLiteral {
+          token: {
+            isKeyword: true,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              6,
+              10,
+            ],
+            type: "BooleanLiteral",
+            value: "true",
+          },
+        },
+      },
+    ],
+  },
+}
+`;

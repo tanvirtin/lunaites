@@ -1,0 +1,42 @@
+export const snapshot = {};
+
+snapshot[`assignment_1 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      AssignmentStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "NumericLiteral",
+              value: "1",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                3,
+              ],
+              type: "Identifier",
+              value: "baz",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

@@ -1,0 +1,7 @@
+if true then
+	foo()
+elseif false then
+	bar()
+else
+	baz()
+end

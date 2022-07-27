@@ -1,0 +1,117 @@
+export const snapshot = {};
+
+snapshot[`generic_for_loop_2 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      ForGenericStatement {
+        block: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                  Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 2,
+                      lnumStartIndex: 34,
+                      range: [
+                        40,
+                        45,
+                      ],
+                      type: "Identifier",
+                      value: "index",
+                    },
+                  },
+                  Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 2,
+                      lnumStartIndex: 34,
+                      range: [
+                        47,
+                        52,
+                      ],
+                      type: "Identifier",
+                      value: "value",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 34,
+                    range: [
+                      35,
+                      39,
+                    ],
+                    type: "Identifier",
+                    value: "call",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        iterators: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                20,
+                24,
+              ],
+              type: "Identifier",
+              value: "next",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                26,
+                30,
+              ],
+              type: "Identifier",
+              value: "list",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                4,
+                9,
+              ],
+              type: "Identifier",
+              value: "index",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                11,
+                16,
+              ],
+              type: "Identifier",
+              value: "value",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

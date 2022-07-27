@@ -1,0 +1,100 @@
+export const snapshot = {};
+
+snapshot[`semicolons_1 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          StringLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                12,
+                17,
+              ],
+              type: "StringLiteral",
+              value: '"sup"',
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                9,
+              ],
+              type: "Identifier",
+              value: "foo",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 19,
+                range: [
+                  25,
+                  28,
+                ],
+                type: "Identifier",
+                value: "baz",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 19,
+              range: [
+                29,
+                30,
+              ],
+              type: "Plus",
+              value: "+",
+            },
+            right: NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 19,
+                range: [
+                  31,
+                  33,
+                ],
+                type: "NumericLiteral",
+                value: "42",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 19,
+              range: [
+                19,
+                22,
+              ],
+              type: "Identifier",
+              value: "bar",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

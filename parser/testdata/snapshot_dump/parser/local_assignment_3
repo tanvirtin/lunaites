@@ -1,0 +1,184 @@
+export const snapshot = {};
+
+snapshot[`local_assignment_3 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                13,
+                14,
+              ],
+              type: "NumericLiteral",
+              value: "9",
+            },
+          },
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                16,
+                17,
+              ],
+              type: "NumericLiteral",
+              value: "3",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "i",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                9,
+                10,
+              ],
+              type: "Identifier",
+              value: "k",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 18,
+              range: [
+                31,
+                32,
+              ],
+              type: "NumericLiteral",
+              value: "8",
+            },
+          },
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 18,
+              range: [
+                34,
+                35,
+              ],
+              type: "NumericLiteral",
+              value: "2",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 18,
+              range: [
+                24,
+                25,
+              ],
+              type: "Identifier",
+              value: "f",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 18,
+              range: [
+                27,
+                28,
+              ],
+              type: "Identifier",
+              value: "c",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 36,
+              range: [
+                49,
+                50,
+              ],
+              type: "NumericLiteral",
+              value: "7",
+            },
+          },
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 36,
+              range: [
+                52,
+                53,
+              ],
+              type: "NumericLiteral",
+              value: "1",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 36,
+              range: [
+                42,
+                43,
+              ],
+              type: "Identifier",
+              value: "j",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 36,
+              range: [
+                45,
+                46,
+              ],
+              type: "Identifier",
+              value: "l",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

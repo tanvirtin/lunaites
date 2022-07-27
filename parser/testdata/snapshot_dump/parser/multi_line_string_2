@@ -1,0 +1,44 @@
+export const snapshot = {};
+
+snapshot[`multi_line_string_2 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          StringLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                10,
+                27,
+              ],
+              type: "StringLiteral",
+              value: "[=[multi
+line
+]=]",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "x",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

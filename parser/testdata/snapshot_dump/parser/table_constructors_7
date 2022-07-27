@@ -1,0 +1,117 @@
+export const snapshot = {};
+
+snapshot[`table_constructors_7 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          TableConstructor {
+            fieldlist: [
+              TableKey {
+                key: StringLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 14,
+                    range: [
+                      16,
+                      18,
+                    ],
+                    type: "StringLiteral",
+                    value: '""',
+                  },
+                },
+                value: BooleanLiteral {
+                  token: {
+                    isKeyword: true,
+                    lnum: 2,
+                    lnumStartIndex: 14,
+                    range: [
+                      22,
+                      26,
+                    ],
+                    type: "BooleanLiteral",
+                    value: "true",
+                  },
+                },
+              },
+              TableKey {
+                key: StringLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 3,
+                    lnumStartIndex: 28,
+                    range: [
+                      30,
+                      32,
+                    ],
+                    type: "StringLiteral",
+                    value: '""',
+                  },
+                },
+                value: BooleanLiteral {
+                  token: {
+                    isKeyword: true,
+                    lnum: 3,
+                    lnumStartIndex: 28,
+                    range: [
+                      36,
+                      41,
+                    ],
+                    type: "BooleanLiteral",
+                    value: "false",
+                  },
+                },
+              },
+              TableKey {
+                key: StringLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 4,
+                    lnumStartIndex: 43,
+                    range: [
+                      45,
+                      47,
+                    ],
+                    type: "StringLiteral",
+                    value: '""',
+                  },
+                },
+                value: BooleanLiteral {
+                  token: {
+                    isKeyword: true,
+                    lnum: 4,
+                    lnumStartIndex: 43,
+                    range: [
+                      51,
+                      55,
+                    ],
+                    type: "BooleanLiteral",
+                    value: "true",
+                  },
+                },
+              },
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                9,
+              ],
+              type: "Identifier",
+              value: "foo",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

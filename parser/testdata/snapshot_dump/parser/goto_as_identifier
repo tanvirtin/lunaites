@@ -1,0 +1,58 @@
+export const snapshot = {};
+
+snapshot[`goto_as_identifier 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  10,
+                  15,
+                ],
+                type: "StringLiteral",
+                value: '"foo"',
+              },
+            },
+          ],
+          base: MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  0,
+                  4,
+                ],
+                type: "Identifier",
+                value: "self",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: true,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  5,
+                  9,
+                ],
+                type: "Goto",
+                value: "goto",
+              },
+            },
+            indexer: ".",
+          },
+        },
+      },
+    ],
+  },
+}
+`;

@@ -1,0 +1,799 @@
+export const snapshot = {};
+
+snapshot[`binary_operators 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  6,
+                  7,
+                ],
+                type: "NumericLiteral",
+                value: "5",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                8,
+                9,
+              ],
+              type: "Plus",
+              value: "+",
+            },
+            right: BinaryExpression {
+              left: BinaryExpression {
+                left: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 1,
+                    lnumStartIndex: 0,
+                    range: [
+                      10,
+                      11,
+                    ],
+                    type: "Identifier",
+                    value: "x",
+                  },
+                },
+                operator: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    12,
+                    13,
+                  ],
+                  type: "Carrot",
+                  value: "^",
+                },
+                right: NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 1,
+                    lnumStartIndex: 0,
+                    range: [
+                      14,
+                      15,
+                    ],
+                    type: "NumericLiteral",
+                    value: "2",
+                  },
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  16,
+                  17,
+                ],
+                type: "Star",
+                value: "*",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    18,
+                    19,
+                  ],
+                  type: "NumericLiteral",
+                  value: "8",
+                },
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                3,
+              ],
+              type: "Identifier",
+              value: "bar",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: BinaryExpression {
+              left: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 2,
+                  lnumStartIndex: 20,
+                  range: [
+                    24,
+                    27,
+                  ],
+                  type: "Identifier",
+                  value: "foo",
+                },
+              },
+              operator: {
+                isKeyword: true,
+                lnum: 2,
+                lnumStartIndex: 20,
+                range: [
+                  28,
+                  31,
+                ],
+                type: "And",
+                value: "and",
+              },
+              right: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 2,
+                  lnumStartIndex: 20,
+                  range: [
+                    32,
+                    35,
+                  ],
+                  type: "Identifier",
+                  value: "bar",
+                },
+              },
+            },
+            operator: {
+              isKeyword: true,
+              lnum: 2,
+              lnumStartIndex: 20,
+              range: [
+                36,
+                38,
+              ],
+              type: "Or",
+              value: "or",
+            },
+            right: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 20,
+                range: [
+                  39,
+                  42,
+                ],
+                type: "Identifier",
+                value: "baz",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 20,
+              range: [
+                20,
+                21,
+              ],
+              type: "Identifier",
+              value: "y",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: BinaryExpression {
+              left: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 43,
+                  range: [
+                    47,
+                    48,
+                  ],
+                  type: "NumericLiteral",
+                  value: "1",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 3,
+                lnumStartIndex: 43,
+                range: [
+                  49,
+                  50,
+                ],
+                type: "Plus",
+                value: "+",
+              },
+              right: BinaryExpression {
+                left: NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 3,
+                    lnumStartIndex: 43,
+                    range: [
+                      51,
+                      52,
+                    ],
+                    type: "NumericLiteral",
+                    value: "2",
+                  },
+                },
+                operator: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 43,
+                  range: [
+                    53,
+                    54,
+                  ],
+                  type: "Star",
+                  value: "*",
+                },
+                right: NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 3,
+                    lnumStartIndex: 43,
+                    range: [
+                      55,
+                      56,
+                    ],
+                    type: "NumericLiteral",
+                    value: "3",
+                  },
+                },
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 43,
+              range: [
+                57,
+                58,
+              ],
+              type: "Minus",
+              value: "-",
+            },
+            right: BinaryExpression {
+              left: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 43,
+                  range: [
+                    59,
+                    60,
+                  ],
+                  type: "NumericLiteral",
+                  value: "4",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 3,
+                lnumStartIndex: 43,
+                range: [
+                  61,
+                  62,
+                ],
+                type: "Carrot",
+                value: "^",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 43,
+                  range: [
+                    63,
+                    64,
+                  ],
+                  type: "NumericLiteral",
+                  value: "2",
+                },
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 43,
+              range: [
+                43,
+                44,
+              ],
+              type: "Identifier",
+              value: "z",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: BinaryExpression {
+              left: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 4,
+                  lnumStartIndex: 65,
+                  range: [
+                    71,
+                    72,
+                  ],
+                  type: "Identifier",
+                  value: "a",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 4,
+                lnumStartIndex: 65,
+                range: [
+                  73,
+                  74,
+                ],
+                type: "LessThan",
+                value: "<",
+              },
+              right: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 4,
+                  lnumStartIndex: 65,
+                  range: [
+                    75,
+                    76,
+                  ],
+                  type: "Identifier",
+                  value: "y",
+                },
+              },
+            },
+            operator: {
+              isKeyword: true,
+              lnum: 4,
+              lnumStartIndex: 65,
+              range: [
+                77,
+                80,
+              ],
+              type: "And",
+              value: "and",
+            },
+            right: BinaryExpression {
+              left: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 4,
+                  lnumStartIndex: 65,
+                  range: [
+                    81,
+                    82,
+                  ],
+                  type: "Identifier",
+                  value: "y",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 4,
+                lnumStartIndex: 65,
+                range: [
+                  83,
+                  85,
+                ],
+                type: "LessThanEqual",
+                value: "<=",
+              },
+              right: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 4,
+                  lnumStartIndex: 65,
+                  range: [
+                    86,
+                    87,
+                  ],
+                  type: "Identifier",
+                  value: "z",
+                },
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 65,
+              range: [
+                65,
+                68,
+              ],
+              type: "Identifier",
+              value: "baz",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: BinaryExpression {
+              left: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 5,
+                  lnumStartIndex: 88,
+                  range: [
+                    94,
+                    95,
+                  ],
+                  type: "Identifier",
+                  value: "c",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 5,
+                lnumStartIndex: 88,
+                range: [
+                  96,
+                  97,
+                ],
+                type: "Plus",
+                value: "+",
+              },
+              right: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 5,
+                  lnumStartIndex: 88,
+                  range: [
+                    98,
+                    99,
+                  ],
+                  type: "Identifier",
+                  value: "i",
+                },
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 88,
+              range: [
+                100,
+                101,
+              ],
+              type: "LessThan",
+              value: "<",
+            },
+            right: BinaryExpression {
+              left: BinaryExpression {
+                left: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 5,
+                    lnumStartIndex: 88,
+                    range: [
+                      102,
+                      103,
+                    ],
+                    type: "Identifier",
+                    value: "b",
+                  },
+                },
+                operator: {
+                  isKeyword: false,
+                  lnum: 5,
+                  lnumStartIndex: 88,
+                  range: [
+                    104,
+                    105,
+                  ],
+                  type: "Divide",
+                  value: "/",
+                },
+                right: NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 5,
+                    lnumStartIndex: 88,
+                    range: [
+                      106,
+                      107,
+                    ],
+                    type: "NumericLiteral",
+                    value: "2",
+                  },
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 5,
+                lnumStartIndex: 88,
+                range: [
+                  108,
+                  109,
+                ],
+                type: "Plus",
+                value: "+",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 5,
+                  lnumStartIndex: 88,
+                  range: [
+                    110,
+                    111,
+                  ],
+                  type: "NumericLiteral",
+                  value: "1",
+                },
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 88,
+              range: [
+                88,
+                91,
+              ],
+              type: "Identifier",
+              value: "foo",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          UnaryExpression {
+            argument: BinaryExpression {
+              left: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 6,
+                  lnumStartIndex: 112,
+                  range: [
+                    117,
+                    118,
+                  ],
+                  type: "Identifier",
+                  value: "a",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 6,
+                lnumStartIndex: 112,
+                range: [
+                  119,
+                  120,
+                ],
+                type: "Carrot",
+                value: "^",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 6,
+                  lnumStartIndex: 112,
+                  range: [
+                    121,
+                    122,
+                  ],
+                  type: "NumericLiteral",
+                  value: "2",
+                },
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 6,
+              lnumStartIndex: 112,
+              range: [
+                116,
+                117,
+              ],
+              type: "Minus",
+              value: "-",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 6,
+              lnumStartIndex: 112,
+              range: [
+                112,
+                113,
+              ],
+              type: "Identifier",
+              value: "i",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 7,
+                lnumStartIndex: 123,
+                range: [
+                  127,
+                  130,
+                ],
+                type: "Identifier",
+                value: "foo",
+              },
+            },
+            operator: {
+              isKeyword: true,
+              lnum: 7,
+              lnumStartIndex: 123,
+              range: [
+                131,
+                134,
+              ],
+              type: "And",
+              value: "and",
+            },
+            right: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 7,
+                lnumStartIndex: 123,
+                range: [
+                  135,
+                  138,
+                ],
+                type: "Identifier",
+                value: "bar",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 7,
+              lnumStartIndex: 123,
+              range: [
+                123,
+                124,
+              ],
+              type: "Identifier",
+              value: "x",
+            },
+          },
+        ],
+      },
+      AssignmentStatement {
+        init: [
+          BinaryExpression {
+            left: BinaryExpression {
+              left: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 8,
+                  lnumStartIndex: 139,
+                  range: [
+                    143,
+                    144,
+                  ],
+                  type: "Identifier",
+                  value: "b",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 8,
+                lnumStartIndex: 139,
+                range: [
+                  145,
+                  146,
+                ],
+                type: "Carrot",
+                value: "^",
+              },
+              right: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 8,
+                  lnumStartIndex: 139,
+                  range: [
+                    147,
+                    148,
+                  ],
+                  type: "Identifier",
+                  value: "y",
+                },
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 8,
+              lnumStartIndex: 139,
+              range: [
+                149,
+                150,
+              ],
+              type: "Carrot",
+              value: "^",
+            },
+            right: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 8,
+                lnumStartIndex: 139,
+                range: [
+                  151,
+                  152,
+                ],
+                type: "Identifier",
+                value: "z",
+              },
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 8,
+              lnumStartIndex: 139,
+              range: [
+                139,
+                140,
+              ],
+              type: "Identifier",
+              value: "k",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

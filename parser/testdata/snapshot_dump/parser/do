@@ -1,0 +1,35 @@
+export const snapshot = {};
+
+snapshot[`do 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      DoStatement {
+        block: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 3,
+                    range: [
+                      4,
+                      8,
+                    ],
+                    type: "Identifier",
+                    value: "call",
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+    ],
+  },
+}
+`;

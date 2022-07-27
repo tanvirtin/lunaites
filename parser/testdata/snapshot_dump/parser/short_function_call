@@ -1,0 +1,176 @@
+export const snapshot = {};
+
+snapshot[`short_function_call 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            TableConstructor {
+              fieldlist: [
+                TableKeyString {
+                  key: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 1,
+                      lnumStartIndex: 0,
+                      range: [
+                        7,
+                        10,
+                      ],
+                      type: "Identifier",
+                      value: "foo",
+                    },
+                  },
+                  value: NumericLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 1,
+                      lnumStartIndex: 0,
+                      range: [
+                        13,
+                        14,
+                      ],
+                      type: "NumericLiteral",
+                      value: "1",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                4,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 17,
+                range: [
+                  22,
+                  25,
+                ],
+                type: "StringLiteral",
+                value: '"x"',
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 17,
+              range: [
+                17,
+                21,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            TableConstructor {
+              fieldlist: [
+                TableKeyString {
+                  key: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 3,
+                      lnumStartIndex: 26,
+                      range: [
+                        33,
+                        36,
+                      ],
+                      type: "Identifier",
+                      value: "foo",
+                    },
+                  },
+                  value: NumericLiteral {
+                    token: {
+                      isKeyword: false,
+                      lnum: 3,
+                      lnumStartIndex: 26,
+                      range: [
+                        39,
+                        40,
+                      ],
+                      type: "NumericLiteral",
+                      value: "1",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 26,
+              range: [
+                26,
+                30,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 4,
+                lnumStartIndex: 43,
+                range: [
+                  48,
+                  51,
+                ],
+                type: "StringLiteral",
+                value: '"x"',
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 43,
+              range: [
+                43,
+                47,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

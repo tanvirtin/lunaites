@@ -1,0 +1,10 @@
+export const snapshot = {};
+
+snapshot[`indented_comment 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+    ],
+  },
+}
+`;

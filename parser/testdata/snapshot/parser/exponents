@@ -1,0 +1,3 @@
+local a = 1e1
+local b = 1e-2
+local c = 1e+3

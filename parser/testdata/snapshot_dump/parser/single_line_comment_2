@@ -1,0 +1,29 @@
+export const snapshot = {};
+
+snapshot[`single_line_comment_2 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                4,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

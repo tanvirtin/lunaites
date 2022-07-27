@@ -1,0 +1,76 @@
+export const snapshot = {};
+
+snapshot[`anonymous_function_4 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          FunctionExpression {
+            block: Block {
+              statements: [
+              ],
+            },
+            parlist: [
+              Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    21,
+                    22,
+                  ],
+                  type: "Identifier",
+                  value: "a",
+                },
+              },
+              Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    24,
+                    25,
+                  ],
+                  type: "Identifier",
+                  value: "b",
+                },
+              },
+              VarargLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    27,
+                    30,
+                  ],
+                  type: "VarargLiteral",
+                  value: "...",
+                },
+              },
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                9,
+              ],
+              type: "Identifier",
+              value: "bar",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

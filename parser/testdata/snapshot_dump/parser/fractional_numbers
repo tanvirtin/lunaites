@@ -1,0 +1,170 @@
+export const snapshot = {};
+
+snapshot[`fractional_numbers 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                10,
+                13,
+              ],
+              type: "NumericLiteral",
+              value: "0.5",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 14,
+              range: [
+                24,
+                29,
+              ],
+              type: "NumericLiteral",
+              value: "0.5e5",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 14,
+              range: [
+                20,
+                21,
+              ],
+              type: "Identifier",
+              value: "b",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 30,
+              range: [
+                40,
+                42,
+              ],
+              type: "NumericLiteral",
+              value: ".5",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 30,
+              range: [
+                36,
+                37,
+              ],
+              type: "Identifier",
+              value: "c",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 43,
+              range: [
+                53,
+                57,
+              ],
+              type: "NumericLiteral",
+              value: ".5e5",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 43,
+              range: [
+                49,
+                50,
+              ],
+              type: "Identifier",
+              value: "d",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 58,
+              range: [
+                68,
+                70,
+              ],
+              type: "NumericLiteral",
+              value: "1.",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 58,
+              range: [
+                64,
+                65,
+              ],
+              type: "Identifier",
+              value: "e",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

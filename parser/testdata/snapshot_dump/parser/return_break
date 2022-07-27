@@ -1,0 +1,61 @@
+export const snapshot = {};
+
+snapshot[`return_break 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      DoStatement {
+        block: Block {
+          statements: [
+            ReturnStatement {
+              arguments: [
+                NumericLiteral {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 3,
+                    range: [
+                      11,
+                      12,
+                    ],
+                    type: "NumericLiteral",
+                    value: "1",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      DoStatement {
+        block: Block {
+          statements: [
+            BreakStatement {},
+          ],
+        },
+      },
+      ReturnStatement {
+        arguments: [
+          FunctionCallExpression {
+            args: [
+            ],
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 9,
+                lnumStartIndex: 33,
+                range: [
+                  40,
+                  44,
+                ],
+                type: "Identifier",
+                value: "call",
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

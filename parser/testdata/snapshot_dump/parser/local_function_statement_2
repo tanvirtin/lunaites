@@ -1,0 +1,151 @@
+export const snapshot = {};
+
+snapshot[`local_function_statement_2 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionLocalStatement {
+        block: Block {
+          statements: [
+          ],
+        },
+        funcname: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              15,
+              18,
+            ],
+            type: "Identifier",
+            value: "foo",
+          },
+        },
+        parlist: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                19,
+                20,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                22,
+                23,
+              ],
+              type: "Identifier",
+              value: "b",
+            },
+          },
+        ],
+      },
+      FunctionLocalStatement {
+        block: Block {
+          statements: [
+          ],
+        },
+        funcname: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 3,
+            lnumStartIndex: 30,
+            range: [
+              45,
+              48,
+            ],
+            type: "Identifier",
+            value: "bar",
+          },
+        },
+        parlist: [
+          VarargLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 30,
+              range: [
+                49,
+                52,
+              ],
+              type: "VarargLiteral",
+              value: "...",
+            },
+          },
+        ],
+      },
+      FunctionLocalStatement {
+        block: Block {
+          statements: [
+          ],
+        },
+        funcname: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 5,
+            lnumStartIndex: 59,
+            range: [
+              74,
+              77,
+            ],
+            type: "Identifier",
+            value: "baz",
+          },
+        },
+        parlist: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 59,
+              range: [
+                78,
+                79,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 59,
+              range: [
+                81,
+                82,
+              ],
+              type: "Identifier",
+              value: "b",
+            },
+          },
+          VarargLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 59,
+              range: [
+                84,
+                87,
+              ],
+              type: "VarargLiteral",
+              value: "...",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

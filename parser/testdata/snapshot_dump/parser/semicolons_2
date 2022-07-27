@@ -1,0 +1,27 @@
+export const snapshot = {};
+
+snapshot[`semicolons_2 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      ReturnStatement {
+        arguments: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                7,
+                10,
+              ],
+              type: "Identifier",
+              value: "bar",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

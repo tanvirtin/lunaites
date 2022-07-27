@@ -1,0 +1,8 @@
+bar = 5 + x ^ 2 * 8
+y = foo and bar or baz
+z = 1 + 2 * 3 - 4 ^ 2
+baz = a < y and y <= z
+foo = c + i < b / 2 + 1
+i = -a ^ 2
+x = foo and bar
+k = b ^ y ^ z

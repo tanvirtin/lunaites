@@ -1,0 +1,106 @@
+export const snapshot = {};
+
+snapshot[`exponents 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                10,
+                13,
+              ],
+              type: "NumericLiteral",
+              value: "1e1",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 14,
+              range: [
+                24,
+                28,
+              ],
+              type: "NumericLiteral",
+              value: "1e-2",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 14,
+              range: [
+                20,
+                21,
+              ],
+              type: "Identifier",
+              value: "b",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          NumericLiteral {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 29,
+              range: [
+                39,
+                43,
+              ],
+              type: "NumericLiteral",
+              value: "1e+3",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 29,
+              range: [
+                35,
+                36,
+              ],
+              type: "Identifier",
+              value: "c",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

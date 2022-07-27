@@ -1,0 +1,33 @@
+export const snapshot = {};
+
+snapshot[`table_constructor_1 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      AssignmentStatement {
+        init: [
+          TableConstructor {
+            fieldlist: [
+            ],
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                1,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

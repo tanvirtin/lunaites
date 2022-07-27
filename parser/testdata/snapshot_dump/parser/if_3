@@ -1,0 +1,89 @@
+export const snapshot = {};
+
+snapshot[`if_3 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      IfStatement {
+        elseBlock: null,
+        elseifBlocks: [
+          Block {
+            statements: [
+              FunctionCallStatement {
+                expression: FunctionCallExpression {
+                  args: [
+                  ],
+                  base: Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 4,
+                      lnumStartIndex: 38,
+                      range: [
+                        39,
+                        42,
+                      ],
+                      type: "Identifier",
+                      value: "bar",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        ],
+        elseifConditions: [
+          BooleanLiteral {
+            token: {
+              isKeyword: true,
+              lnum: 3,
+              lnumStartIndex: 21,
+              range: [
+                28,
+                32,
+              ],
+              type: "BooleanLiteral",
+              value: "true",
+            },
+          },
+        ],
+        ifBlock: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 14,
+                    range: [
+                      15,
+                      18,
+                    ],
+                    type: "Identifier",
+                    value: "foo",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        ifCondition: BooleanLiteral {
+          token: {
+            isKeyword: true,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              3,
+              8,
+            ],
+            type: "BooleanLiteral",
+            value: "false",
+          },
+        },
+      },
+    ],
+  },
+}
+`;

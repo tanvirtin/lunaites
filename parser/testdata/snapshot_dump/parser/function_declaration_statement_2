@@ -1,0 +1,63 @@
+export const snapshot = {};
+
+snapshot[`function_declaration_statement_2 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionDeclarationStatement {
+        block: Block {
+          statements: [
+          ],
+        },
+        funcname: MemberExpression {
+          base: MemberExpression {
+            base: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  9,
+                  13,
+                ],
+                type: "Identifier",
+                value: "your",
+              },
+            },
+            identifier: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  14,
+                  20,
+                ],
+                type: "Identifier",
+                value: "friend",
+              },
+            },
+            indexer: ".",
+          },
+          identifier: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                21,
+                22,
+              ],
+              type: "Identifier",
+              value: "t",
+            },
+          },
+          indexer: ".",
+        },
+        parlist: [
+        ],
+      },
+    ],
+  },
+}
+`;

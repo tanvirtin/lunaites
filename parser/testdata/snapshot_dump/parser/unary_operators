@@ -1,0 +1,235 @@
+export const snapshot = {};
+
+snapshot[`unary_operators 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      LocalStatement {
+        init: [
+          UnaryExpression {
+            argument: NumericLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  11,
+                  12,
+                ],
+                type: "NumericLiteral",
+                value: "3",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                10,
+                11,
+              ],
+              type: "Minus",
+              value: "-",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                6,
+                7,
+              ],
+              type: "Identifier",
+              value: "a",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          UnaryExpression {
+            argument: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 13,
+                range: [
+                  24,
+                  25,
+                ],
+                type: "Identifier",
+                value: "x",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 13,
+              range: [
+                23,
+                24,
+              ],
+              type: "Minus",
+              value: "-",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 13,
+              range: [
+                19,
+                20,
+              ],
+              type: "Identifier",
+              value: "b",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          UnaryExpression {
+            argument: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 3,
+                lnumStartIndex: 26,
+                range: [
+                  37,
+                  38,
+                ],
+                type: "Identifier",
+                value: "x",
+              },
+            },
+            operator: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 26,
+              range: [
+                36,
+                37,
+              ],
+              type: "HashTag",
+              value: "#",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 26,
+              range: [
+                32,
+                33,
+              ],
+              type: "Identifier",
+              value: "e",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          UnaryExpression {
+            argument: BooleanLiteral {
+              token: {
+                isKeyword: true,
+                lnum: 4,
+                lnumStartIndex: 39,
+                range: [
+                  53,
+                  57,
+                ],
+                type: "BooleanLiteral",
+                value: "true",
+              },
+            },
+            operator: {
+              isKeyword: true,
+              lnum: 4,
+              lnumStartIndex: 39,
+              range: [
+                49,
+                52,
+              ],
+              type: "Not",
+              value: "not",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 39,
+              range: [
+                45,
+                46,
+              ],
+              type: "Identifier",
+              value: "c",
+            },
+          },
+        ],
+      },
+      LocalStatement {
+        init: [
+          UnaryExpression {
+            argument: Identifier {
+              token: {
+                isKeyword: false,
+                lnum: 5,
+                lnumStartIndex: 58,
+                range: [
+                  72,
+                  73,
+                ],
+                type: "Identifier",
+                value: "x",
+              },
+            },
+            operator: {
+              isKeyword: true,
+              lnum: 5,
+              lnumStartIndex: 58,
+              range: [
+                68,
+                71,
+              ],
+              type: "Not",
+              value: "not",
+            },
+          },
+        ],
+        variables: [
+          Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 58,
+              range: [
+                64,
+                65,
+              ],
+              type: "Identifier",
+              value: "d",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

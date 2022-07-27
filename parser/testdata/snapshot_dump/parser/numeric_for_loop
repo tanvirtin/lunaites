@@ -1,0 +1,192 @@
+export const snapshot = {};
+
+snapshot[`numeric_for_loop 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      ForNumericStatement {
+        block: Block {
+          statements: [
+          ],
+        },
+        end: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              11,
+              12,
+            ],
+            type: "Identifier",
+            value: "b",
+          },
+        },
+        start: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              8,
+              9,
+            ],
+            type: "Identifier",
+            value: "a",
+          },
+        },
+        step: undefined,
+        variable: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              4,
+              5,
+            ],
+            type: "Identifier",
+            value: "_",
+          },
+        },
+      },
+      ForNumericStatement {
+        block: Block {
+          statements: [
+          ],
+        },
+        end: NumericLiteral {
+          token: {
+            isKeyword: false,
+            lnum: 2,
+            lnumStartIndex: 20,
+            range: [
+              31,
+              34,
+            ],
+            type: "NumericLiteral",
+            value: "100",
+          },
+        },
+        start: NumericLiteral {
+          token: {
+            isKeyword: false,
+            lnum: 2,
+            lnumStartIndex: 20,
+            range: [
+              28,
+              29,
+            ],
+            type: "NumericLiteral",
+            value: "1",
+          },
+        },
+        step: NumericLiteral {
+          token: {
+            isKeyword: false,
+            lnum: 2,
+            lnumStartIndex: 20,
+            range: [
+              36,
+              37,
+            ],
+            type: "NumericLiteral",
+            value: "2",
+          },
+        },
+        variable: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 2,
+            lnumStartIndex: 20,
+            range: [
+              24,
+              25,
+            ],
+            type: "Identifier",
+            value: "_",
+          },
+        },
+      },
+      ForNumericStatement {
+        block: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                  Identifier {
+                    token: {
+                      isKeyword: false,
+                      lnum: 3,
+                      lnumStartIndex: 45,
+                      range: [
+                        66,
+                        67,
+                      ],
+                      type: "Identifier",
+                      value: "i",
+                    },
+                  },
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 3,
+                    lnumStartIndex: 45,
+                    range: [
+                      61,
+                      65,
+                    ],
+                    type: "Identifier",
+                    value: "call",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        end: NumericLiteral {
+          token: {
+            isKeyword: false,
+            lnum: 3,
+            lnumStartIndex: 45,
+            range: [
+              56,
+              57,
+            ],
+            type: "NumericLiteral",
+            value: "1",
+          },
+        },
+        start: NumericLiteral {
+          token: {
+            isKeyword: false,
+            lnum: 3,
+            lnumStartIndex: 45,
+            range: [
+              53,
+              54,
+            ],
+            type: "NumericLiteral",
+            value: "1",
+          },
+        },
+        step: undefined,
+        variable: Identifier {
+          token: {
+            isKeyword: false,
+            lnum: 3,
+            lnumStartIndex: 45,
+            range: [
+              49,
+              50,
+            ],
+            type: "Identifier",
+            value: "i",
+          },
+        },
+      },
+    ],
+  },
+}
+`;

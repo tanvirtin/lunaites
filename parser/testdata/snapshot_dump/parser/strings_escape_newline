@@ -1,0 +1,43 @@
+export const snapshot = {};
+
+snapshot[`strings_escape_newline 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            StringLiteral {
+              token: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  6,
+                  17,
+                ],
+                type: "StringLiteral",
+                value: '"foo\\\\
+\\tbar"',
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                5,
+              ],
+              type: "Identifier",
+              value: "print",
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

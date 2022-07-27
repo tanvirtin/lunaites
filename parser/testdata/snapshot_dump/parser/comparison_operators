@@ -1,0 +1,300 @@
+export const snapshot = {};
+
+snapshot[`comparison_operators 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    5,
+                    6,
+                  ],
+                  type: "NumericLiteral",
+                  value: "1",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 1,
+                lnumStartIndex: 0,
+                range: [
+                  7,
+                  8,
+                ],
+                type: "LessThan",
+                value: "<",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 1,
+                  lnumStartIndex: 0,
+                  range: [
+                    9,
+                    10,
+                  ],
+                  type: "NumericLiteral",
+                  value: "2",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 1,
+              lnumStartIndex: 0,
+              range: [
+                0,
+                4,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 2,
+                  lnumStartIndex: 12,
+                  range: [
+                    17,
+                    18,
+                  ],
+                  type: "NumericLiteral",
+                  value: "2",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 2,
+                lnumStartIndex: 12,
+                range: [
+                  19,
+                  20,
+                ],
+                type: "GreaterThan",
+                value: ">",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 2,
+                  lnumStartIndex: 12,
+                  range: [
+                    21,
+                    22,
+                  ],
+                  type: "NumericLiteral",
+                  value: "1",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 2,
+              lnumStartIndex: 12,
+              range: [
+                12,
+                16,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 24,
+                  range: [
+                    29,
+                    30,
+                  ],
+                  type: "NumericLiteral",
+                  value: "2",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 3,
+                lnumStartIndex: 24,
+                range: [
+                  31,
+                  33,
+                ],
+                type: "GreaterThanEqual",
+                value: ">=",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 3,
+                  lnumStartIndex: 24,
+                  range: [
+                    34,
+                    35,
+                  ],
+                  type: "NumericLiteral",
+                  value: "1",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 3,
+              lnumStartIndex: 24,
+              range: [
+                24,
+                28,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 4,
+                  lnumStartIndex: 37,
+                  range: [
+                    42,
+                    43,
+                  ],
+                  type: "NumericLiteral",
+                  value: "1",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 4,
+                lnumStartIndex: 37,
+                range: [
+                  44,
+                  46,
+                ],
+                type: "LessThanEqual",
+                value: "<=",
+              },
+              right: NumericLiteral {
+                token: {
+                  isKeyword: false,
+                  lnum: 4,
+                  lnumStartIndex: 37,
+                  range: [
+                    47,
+                    48,
+                  ],
+                  type: "NumericLiteral",
+                  value: "2",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 4,
+              lnumStartIndex: 37,
+              range: [
+                37,
+                41,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+      FunctionCallStatement {
+        expression: FunctionCallExpression {
+          args: [
+            BinaryExpression {
+              left: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 5,
+                  lnumStartIndex: 50,
+                  range: [
+                    55,
+                    56,
+                  ],
+                  type: "Identifier",
+                  value: "a",
+                },
+              },
+              operator: {
+                isKeyword: false,
+                lnum: 5,
+                lnumStartIndex: 50,
+                range: [
+                  57,
+                  59,
+                ],
+                type: "GreaterThanEqual",
+                value: ">=",
+              },
+              right: Identifier {
+                token: {
+                  isKeyword: false,
+                  lnum: 5,
+                  lnumStartIndex: 50,
+                  range: [
+                    60,
+                    61,
+                  ],
+                  type: "Identifier",
+                  value: "b",
+                },
+              },
+            },
+          ],
+          base: Identifier {
+            token: {
+              isKeyword: false,
+              lnum: 5,
+              lnumStartIndex: 50,
+              range: [
+                50,
+                54,
+              ],
+              type: "Identifier",
+              value: "call",
+            },
+          },
+        },
+      },
+    ],
+  },
+}
+`;

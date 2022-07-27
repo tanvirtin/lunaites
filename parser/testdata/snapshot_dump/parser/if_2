@@ -1,0 +1,75 @@
+export const snapshot = {};
+
+snapshot[`if_2 1`] = `
+Chunk {
+  block: Block {
+    statements: [
+      IfStatement {
+        elseBlock: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 4,
+                    lnumStartIndex: 25,
+                    range: [
+                      26,
+                      29,
+                    ],
+                    type: "Identifier",
+                    value: "bar",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        elseifBlocks: [
+        ],
+        elseifConditions: [
+        ],
+        ifBlock: Block {
+          statements: [
+            FunctionCallStatement {
+              expression: FunctionCallExpression {
+                args: [
+                ],
+                base: Identifier {
+                  token: {
+                    isKeyword: false,
+                    lnum: 2,
+                    lnumStartIndex: 13,
+                    range: [
+                      14,
+                      17,
+                    ],
+                    type: "Identifier",
+                    value: "foo",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        ifCondition: BooleanLiteral {
+          token: {
+            isKeyword: true,
+            lnum: 1,
+            lnumStartIndex: 0,
+            range: [
+              3,
+              7,
+            ],
+            type: "BooleanLiteral",
+            value: "true",
+          },
+        },
+      },
+    ],
+  },
+}
+`;
