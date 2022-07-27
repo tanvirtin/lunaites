@@ -18,6 +18,15 @@ class TokenCursor {
     this.#tokenizer = tokenizer;
   }
 
+  #skipComments(token: Token): Token {
+    // @@@ TODO: Skipping any single or chain of comments.
+    while (token.type === TokenType.CommentLiteral) {
+      token = this.#tokenizer.tokenize();
+    }
+
+    return token;
+  }
+
   #tokenize(moveCursor = true): TokenCursor {
     if (this.#eofToken) {
       if (moveCursor && this.index < this.#tokens.length - 1) {
@@ -27,11 +36,7 @@ class TokenCursor {
       return this;
     }
 
-    let token = this.#tokenizer.tokenize();
-    // @@@ TODO: Skipping any single or chain of comments.
-    while (token.type === TokenType.CommentLiteral) {
-      token = this.#tokenizer.tokenize();
-    }
+    const token = this.#skipComments(this.#tokenizer.tokenize());
 
     if (token.type === EOF) {
       this.#eofToken = token;
