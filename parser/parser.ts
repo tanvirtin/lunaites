@@ -945,6 +945,8 @@ class Parser {
 
     const condition = this.parseExpression();
 
+    this.#tokenCursor.advance();
+
     this.#expect(Do).advance();
 
     const block = this.parseBlock();
