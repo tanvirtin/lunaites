@@ -136,6 +136,9 @@ class Parser {
   ////////////////////////////// Utility /////////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
+  /**
+   * memberexpression := ‘(’ exp ‘)’ ':' Name | ‘(’ exp ‘)’ '.' Name
+   */
   #createMemberExpression(
     base: ast.Expression,
     indexer: string,
@@ -163,7 +166,9 @@ class Parser {
     return memberExpression;
   }
 
-  // args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
+  /**
+   * args ::= ‘(’ [explist] ‘)’ | tableconstructor | LiteralString
+   */
   #parseArgs(): ast.Expression[] {
     const tokenType = this.#tokenCursor.currentType;
 
@@ -196,7 +201,9 @@ class Parser {
     }
   }
 
-  // field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
+  /**
+   * field ::= ‘[’ exp ‘]’ ‘=’ exp | Name ‘=’ exp | exp
+   */
   #parseField(): ast.Expression {
     const tokenType = this.#tokenCursor.currentType;
 
@@ -235,7 +242,9 @@ class Parser {
     }
   }
 
-  // fieldlist ::= field {fieldsep field} [fieldsep]
+  /**
+   * fieldlist ::= field {fieldsep field} [fieldsep]
+   */
   #parseFieldlist(): ast.Expression[] {
     const fieldList = [this.#parseField()];
 
@@ -257,9 +266,11 @@ class Parser {
     return fieldList;
   }
 
-  // var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
-  // prefixexp ::= var | functioncall | ‘(’ exp ‘)’
-  // functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
+  /**
+   * var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
+   * prefixexp ::= var | functioncall | ‘(’ exp ‘)’
+   * functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
+   */
   #parseVar(): ast.Expression {
     const tokenType = this.#tokenCursor.currentType;
 
@@ -330,7 +341,9 @@ class Parser {
     }
   }
 
-  // varlist ::= var {‘,’ var}
+  /**
+   *  varlist ::= var {‘,’ var}
+   */
   #parseVarlist(): ast.Expression[] {
     const varlist = [this.#parseVar()];
 
@@ -341,7 +354,9 @@ class Parser {
     return varlist;
   }
 
-  // explist ::= exp {‘,’ exp}
+  /**
+   * explist ::= exp {‘,’ exp}
+   */
   #parseExplist(): ast.Expression[] {
     const expressions = [this.parseExpression()];
 
@@ -352,7 +367,9 @@ class Parser {
     return expressions;
   }
 
-  // namelist ::= Name {‘,’ Name}
+  /**
+   * namelist ::= Name {‘,’ Name}
+   */
   #parseNamelist(): ast.Identifier[] {
     const namelist = [this.#parseIdentifierExpression()];
 
@@ -363,7 +380,9 @@ class Parser {
     return namelist;
   }
 
-  // funcname ::= Name {‘.’ Name} [‘:’ Name]
+  /**
+   * funcname ::= Name {‘.’ Name} [‘:’ Name]
+   */
   #parseFuncname(): ast.Identifier | ast.MemberExpression {
     const base = this.#parseIdentifierExpression();
     const nextTokenType = this.#tokenCursor.nextType;
@@ -388,7 +407,9 @@ class Parser {
     }
   }
 
-  // parlist ::= namelist [‘,’ ‘...’] | ‘...’
+  /**
+   * parlist ::= namelist [‘,’ ‘...’] | ‘...’
+   */
   #parseParlist(): ast.Expression[] {
     this.#expect(OpenParenthesis).advance();
 
@@ -424,7 +445,9 @@ class Parser {
     return parlist;
   }
 
-  // funcbody ::= ‘(’ [parlist] ‘)’ block end
+  /**
+   * funcbody ::= ‘(’ [parlist] ‘)’ block end
+   */
   #parseFuncbody(): [ast.Expression[], ast.Block] {
     const parlist = this.#parseParlist();
 
@@ -437,8 +460,10 @@ class Parser {
     return [parlist, block];
   }
 
-  //     suffix ::= '[' exp ']' | '.' Name | ':' Name args | args
-  //     args ::= '(' [explist] ')' | tableconstructor | String
+  /**
+   * suffix ::= '[' exp ']' | '.' Name | ':' Name args | args
+   * args ::= '(' [explist] ')' | tableconstructor | String
+   */
   #chainFunctionCalls(leftExpression: ast.Expression): ast.Expression {
     while (
       this.#tokenCursor.someMatchNext(
@@ -513,6 +538,9 @@ class Parser {
     return leftExpression;
   }
 
+  /**
+   * functioncall ::=  prefixexp args | prefixexp `:´ Name args
+   */
   #createFunctionCallExpression(
     base: ast.Expression,
     args: ast.Expression[],
@@ -526,30 +554,51 @@ class Parser {
   ////////////////////////////// Expressions //////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Name
+   */
   #parseIdentifierExpression(): ast.Identifier {
     return new ast.Identifier(this.#tokenCursor.current);
   }
 
+  /**
+   * Number
+   */
   #parseNumericLiteralExpression(): ast.Expression {
     return new ast.NumericLiteral(this.#tokenCursor.current);
   }
 
+  /**
+   * String
+   */
   #parseStringLiteralExpression(): ast.Expression {
     return new ast.StringLiteral(this.#tokenCursor.current);
   }
 
+  /**
+   * true | false
+   */
   #parseBooleanLiteralExpression(): ast.Expression {
     return new ast.BooleanLiteral(this.#tokenCursor.current);
   }
 
+  /**
+   * nil
+   */
   #parseNilLiteralExpression(): ast.Expression {
     return new ast.NilLiteral(this.#tokenCursor.current);
   }
 
+  /**
+   * '...'
+   */
   #parseVarargLiteralExpression(): ast.Expression {
     return new ast.VarargLiteral(this.#tokenCursor.current);
   }
 
+  /**
+   * function ::= function funcbody
+   */
   #parseFunctionExpression(): ast.Expression {
     this.#expect(Function).advance();
 
@@ -558,7 +607,9 @@ class Parser {
     return new ast.FunctionExpression(parlist, block);
   }
 
-  // tableconstructor ::= ‘{’ [fieldlist] ‘}’
+  /**
+   * tableconstructor ::= ‘{’ [fieldlist] ‘}’
+   */
   #parseTableConstructorExpression(): ast.Expression {
     this.#expect(OpenBrace).advance();
 
@@ -575,6 +626,9 @@ class Parser {
     return new ast.TableConstructor(fieldlist);
   }
 
+  /**
+   * unop ::= `-´ | not | `#´
+   */
   #parseUnaryExpression(): ast.Expression {
     const operatorToken = this.#tokenCursor.current;
 
@@ -589,6 +643,11 @@ class Parser {
     return new ast.UnaryExpression(operatorToken, rightExpression);
   }
 
+  /**
+   * binop ::= `+´ | `-´ | `*´ | `/´ | `^´ | `%´ | `..´ |
+   * `<´ | `<=´ | `>´ | `>=´ | `==´ | `~=´ |
+   * and | or
+   */
   #parseBinaryExpression(
     leftExpression: ast.Expression,
   ): ast.Expression {
@@ -610,6 +669,8 @@ class Parser {
   }
 
   // NOTE: Grouping expression implicitly will have the highest precedence.
+  // Hypothetical bnf:
+  // groupingexp := '(' [exp] ')'
   #parseGroupingExpression(): ast.Expression {
     // Skipping over the OpenParenthesis
     this.#expect(OpenParenthesis).advance();
@@ -625,13 +686,15 @@ class Parser {
     return new ast.GroupingExpression(expression);
   }
 
-  // exp ::= (unop exp | primary | prefixexp ) { binop exp }
-  // primary ::= nil | false | true | Number | String | '...' |
-  //             functiondef | tableconstructor
+  /**
+   * exp ::= (unop exp | primary | prefixexp ) { binop exp }
+   * primary ::= nil | false | true | Number | String | '...' |
+   * functiondef | tableconstructor
+   */
   parseExpression(
     precedence: Precedence = Precedence.Lowest,
   ): ast.Expression {
-    // For future me, checkout comments in the link below to refresh your memory on how pratt parsing works:
+    // Checkout:
     //   - https://github.com/tanvirtin/tslox/blob/09209bc1b5025baa9cbbcfe85d03fca9360584e6/src/Parser.ts#L311
 
     const tokenType = this.#tokenCursor.currentType;
@@ -799,8 +862,10 @@ class Parser {
   ////////////////////////////// Statements //////////////////////////////
   ////////////////////////////////////////////////////////////////////////
 
-  // local ::= 'local' 'function' Name funcdecl |
-  //           'local' Name {',' Name} ['=' exp {',' exp}]
+  /**
+   * local ::= 'local' 'function' Name funcdecl |
+   * 'local' Name {',' Name} ['=' exp {',' exp}]
+   */
   parseLocalStatement(): ast.Statement {
     this.#expect(Local).advance();
 
@@ -831,7 +896,9 @@ class Parser {
     }
   }
 
-  // label ::= '::' Name '::'
+  /**
+   * label ::= '::' Name '::'
+   */
   parseLabelStatement(): ast.Statement {
     this.#expect(DoubleColon).advance();
 
@@ -845,8 +912,10 @@ class Parser {
     return new ast.LabelStatement(name);
   }
 
-  // if ::= 'if' exp 'then' block {elseif} ['else' block] 'end'
-  // elseif ::= 'elseif' exp 'then' block
+  /**
+   * if ::= 'if' exp 'then' block {elseif} ['else' block] 'end'
+   * elseif ::= 'elseif' exp 'then' block
+   */
   parseIfStatement(): ast.Statement {
     this.#expect(If).advance();
 
@@ -886,7 +955,9 @@ class Parser {
     );
   }
 
-  // retstat ::= 'return' [exp {',' exp}] [';']
+  /**
+   * retstat ::= 'return' [exp {',' exp}] [';']
+   */
   parseReturnStatement(): ast.Statement {
     this.#expect(Return);
 
@@ -909,6 +980,9 @@ class Parser {
     return new ast.ReturnStatement(expressions);
   }
 
+  /**
+   * local function Name funcbody
+   */
   parseLocalFunctionStatement(): ast.Statement {
     this.#expect(Function).advance();
 
@@ -921,7 +995,10 @@ class Parser {
     return new ast.FunctionLocalStatement(name, parlist, block);
   }
 
-  parseGlobalFunctionStatement(): ast.Statement {
+  /**
+   * function funcname funcbody
+   */
+  parseFunctionDeclarationStatement(): ast.Statement {
     this.#expect(Function).advance();
 
     const funcname = this.#parseFuncname();
@@ -930,10 +1007,12 @@ class Parser {
 
     const [parlist, block] = this.#parseFuncbody();
 
-    return new ast.FunctionGlobalStatement(funcname, parlist, block);
+    return new ast.FunctionDeclarationStatement(funcname, parlist, block);
   }
 
-  // while ::= 'while' exp 'do' block 'end'
+  /**
+   * while ::= 'while' exp 'do' block 'end'
+   */
   parseWhileStatement(): ast.Statement {
     this.#expect(While).advance();
 
@@ -950,10 +1029,12 @@ class Parser {
     return new ast.WhileStatement(block, condition);
   }
 
-  // for ::= Name '=' exp ',' exp [',' exp] 'do' block 'end'
-  // for ::= namelist 'in' explist 'do' block 'end'
-  // namelist ::= Name {',' Name}
-  // explist ::= exp {',' exp}
+  /**
+   * for ::= Name '=' exp ',' exp [',' exp] 'do' block 'end'
+   * for ::= namelist 'in' explist 'do' block 'end'
+   * namelist ::= Name {',' Name}
+   * explist ::= exp {',' exp}
+   */
   parseForStatement(): ast.Statement {
     this.#expect(For).advance();
 
@@ -1016,7 +1097,9 @@ class Parser {
     return new ast.ForNumericStatement(variable, start, end, step, block);
   }
 
-  // repeat ::= 'repeat' block 'until' exp
+  /**
+   * repeat ::= 'repeat' block 'until' exp
+   */
   parseRepeatStatement(): ast.Statement {
     this.#expect(Repeat).advance();
 
@@ -1029,12 +1112,16 @@ class Parser {
     return new ast.RepeatStatement(block, condition);
   }
 
-  // break ::= 'break'
+  /**
+   * break ::= 'break'
+   */
   parseBreakStatement(): ast.Statement {
     return new ast.BreakStatement();
   }
 
-  // do ::= 'do' block 'end'
+  /**
+   * do ::= 'do' block 'end'
+   */
   parseDoStatement(): ast.Statement {
     this.#expect(Do).advance();
 
@@ -1045,7 +1132,9 @@ class Parser {
     return new ast.DoStatement(block);
   }
 
-  // goto ::= 'goto' Name
+  /**
+   * goto ::= 'goto' Name
+   */
   parseGotoStatement(): ast.Statement {
     this.#expect(Goto).advance();
 
@@ -1056,13 +1145,14 @@ class Parser {
     return new ast.GotoStatement(identifier);
   }
 
-  //     assignment ::= varlist '=' explist
-  //     var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
-  //     varlist ::= var {',' var}
-  //     explist ::= exp {',' exp}
-  //
-  //     call ::= callexp
-  //     callexp ::= prefixexp args | prefixexp ':' Name args
+  /**
+   * assignment ::= varlist '=' explist
+   * var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
+   * varlist ::= var {',' var}
+   * explist ::= exp {',' exp}
+   * call ::= callexp
+   * callexp ::= prefixexp args | prefixexp ':' Name args
+   */
   parseAssignmentOrFunctionCallStatement(): ast.Statement {
     const varlist = this.#parseVarlist();
 
@@ -1094,21 +1184,23 @@ class Parser {
     return functionCallStatement;
   }
 
-  // stat ::=  ‘;’ |
-  //         varlist ‘=’ explist |
-  //         local function Name funcbody |
-  //         local namelist [‘=’ explist]
-  //         function funcname funcbody |
-  //         label |
-  //         break |
-  //         goto Name |
-  //         do block end |
-  //         while exp do block end |
-  //         repeat block until exp |
-  //         if exp then block {elseif exp then block} [else block] end |
-  //         for Name ‘=’ exp ‘,’ exp [‘,’ exp] do block end |
-  //         for namelist in explist do block end |
-  //         functioncall |
+  /**
+   * stat ::=  ‘;’ |
+   * varlist ‘=’ explist |
+   * local function Name funcbody |
+   * local namelist [‘=’ explist]
+   * function funcname funcbody |
+   * label |
+   * break |
+   * goto Name |
+   * do block end |
+   * while exp do block end |
+   * repeat block until exp |
+   * if exp then block {elseif exp then block} [else block] end |
+   * for Name ‘=’ exp ‘,’ exp [‘,’ exp] do block end |
+   * for namelist in explist do block end |
+   * functioncall |
+   */
   parseStatement(): ast.Statement | null {
     const token = this.#tokenCursor.current;
 
@@ -1135,7 +1227,7 @@ class Parser {
       case For:
         return this.parseForStatement();
       case Function:
-        return this.parseGlobalFunctionStatement();
+        return this.parseFunctionDeclarationStatement();
       case Local:
         return this.parseLocalStatement();
       default:
@@ -1143,7 +1235,9 @@ class Parser {
     }
   }
 
-  // block ::= {stat} [retstat]
+  /**
+   * block ::= {stat} [retstat]
+   */
   parseBlock(): ast.Block {
     // A lua source file should essentially contain an array of statements.
 
@@ -1183,7 +1277,9 @@ class Parser {
     return new ast.Block(statements);
   }
 
-  // chunk ::= block
+  /**
+   * chunk ::= block
+   */
   parseChunk(): ast.Chunk {
     const block = this.parseBlock();
 

@@ -191,9 +191,11 @@ class MinimizerVisitor implements Visitor {
     };
   }
 
-  visitFunctionGlobalStatement(node: ast.FunctionGlobalStatement): unknown {
+  visitFunctionDeclarationStatement(
+    node: ast.FunctionDeclarationStatement,
+  ): unknown {
     return {
-      type: ast.NodeType.FunctionGlobalStatement,
+      type: ast.NodeType.FunctionDeclarationStatement,
       funcname: node.funcname.accept(this),
       parlist: node.parlist.map((par) => par.accept(this)),
       block: node.block.accept(this),
@@ -276,9 +278,9 @@ class MinimizerVisitor implements Visitor {
         return this.visitFunctionLocalStatement(
           node as ast.FunctionLocalStatement,
         );
-      case ast.FunctionGlobalStatement:
-        return this.visitFunctionGlobalStatement(
-          node as ast.FunctionGlobalStatement,
+      case ast.FunctionDeclarationStatement:
+        return this.visitFunctionDeclarationStatement(
+          node as ast.FunctionDeclarationStatement,
         );
       case ast.BreakStatement:
         return this.visitBreakStatement(node as ast.BreakStatement);

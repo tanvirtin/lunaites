@@ -4,15 +4,6 @@ Generates an
 [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) from
 Lua source code.
 
-## Why
-
-- Curiosity to learn how programming languages are parsed by implementing one
-  for a language widely used by the programming community.
-- Lua parsers are mostly written using recursive descent algorithm. Lunaites
-  implements a precedence parsing algorithm called Pratt Parsing.
-- Understand and utilize
-  [Backus–Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form).
-
 ### Supported Lua versions:
 
 - [Lua 5.1](https://www.lua.org/manual/5.1/manual.html)
@@ -66,7 +57,7 @@ editor to type or paste in your lua sourcode.
 The ast representation of the source code will be piped to standard output as
 you make changes to this file.
 
-## Lua 5.1 Grammer
+## Lua 5.1 Grammar
 
 ---
 
@@ -128,6 +119,27 @@ binop ::= `+´ | `-´ | `*´ | `/´ | `^´ | `%´ | `..´ |
 
 	unop ::= `-´ | not | `#´
 ```
+
+## Why
+
+- Curiosity to learn how programming languages are parsed by implementing one
+  for a language widely used by the programming community.
+- Lua parsers are usually written using recursive descent algorithm. Lunaites
+  implements a precedence parsing algorithm to solve the problem, called Pratt
+  Parsing.
+- Understand and utilize
+  [Backus–Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form).
+
+## What's supported
+
+- [x] Lua 5.1
+- [ ] Lua 5.2
+- [ ] Lua 5.3
+- [ ] Lua 5.4
+- [ ] LuaJIT
+- [ ] Lossless
+- [ ] Better syntax highlighting
+- [ ] Scope metadata
 
 ## References:
 

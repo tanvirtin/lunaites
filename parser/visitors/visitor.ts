@@ -30,7 +30,7 @@ interface Visitor {
   visitIfStatement(node: ast.Node): void;
   visitAssignmentStatement(node: ast.Node): void;
   visitFunctionLocalStatement(node: ast.Node): void;
-  visitFunctionGlobalStatement(node: ast.Node): void;
+  visitFunctionDeclarationStatement(node: ast.Node): void;
   visitTableKey(node: ast.Node): void;
   visitTableValue(node: ast.Node): void;
   visitTableKeyString(node: ast.Node): void;

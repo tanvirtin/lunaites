@@ -29,7 +29,7 @@ enum NodeType {
   WhileStatement = "WhileStatement",
   IfStatement = "IfStatement",
   FunctionLocalStatement = "FunctionLocalStatement",
-  FunctionGlobalStatement = "FunctionGlobalStatement",
+  FunctionDeclarationStatement = "FunctionDeclarationStatement",
   AssignmentStatement = "AssignmentStatement",
   FunctionCallStatement = "FunctionCallStatement",
   TableKey = "TableKey",
@@ -141,7 +141,7 @@ class FunctionLocalStatement implements Statement {
   }
 }
 
-class FunctionGlobalStatement implements Statement {
+class FunctionDeclarationStatement implements Statement {
   funcname: Identifier | MemberExpression;
   parlist: Expression[];
   block: Block;
@@ -157,7 +157,7 @@ class FunctionGlobalStatement implements Statement {
   }
 
   accept(visitor: Visitor): unknown {
-    return visitor.visitFunctionGlobalStatement(this);
+    return visitor.visitFunctionDeclarationStatement(this);
   }
 }
 
@@ -530,8 +530,8 @@ export {
   ForNumericStatement,
   FunctionCallExpression,
   FunctionCallStatement,
+  FunctionDeclarationStatement,
   FunctionExpression,
-  FunctionGlobalStatement,
   FunctionLocalStatement,
   GotoStatement,
   GroupingExpression,
