@@ -7,8 +7,9 @@ function f(x)
     local y = 0
     do
       a[i] = function() B.g = B.g + 1;
-      y = y + x;
-      return y + A end
+        y = y + x;
+        return y + A
+      end
     end
   end
   local dummy = function() return a[A] end
@@ -58,7 +59,7 @@ assert(a[2].get() == 'a')
 a = {}
 for i, k in pairs { 'a', 'b' } do
   a[i] = { set = function(x, y) i = x;
-  k = y
+    k = y
   end,
     get = function() return i, k end }
   if i == 2 then break end
@@ -105,7 +106,10 @@ function f(x)
     end
     if x == 1 then do break end
     elseif x == 2 then return
-    else if x ~= 3 then error() end
+    else
+      if x ~= 3 then
+        error()
+      end
     end
     first = nil
   end
