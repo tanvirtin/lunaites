@@ -1,5 +1,6 @@
 import { Parser } from "./mod.ts";
 import { TestRunner, TestType } from "../core/mod.ts";
+import { assertSnapshot } from "./deps.ts";
 
 async function getSpecPaths(path: string) {
   const names: string[] = [];
@@ -34,8 +35,8 @@ sources = paths.map((path) => {
 });
 
 sources.forEach(({ path, source }) => {
-  Deno.test(path, () => {
+  Deno.test(path, async function (t): Promise<void> {
     const parser = new Parser(source);
-    parser.parse();
+    await assertSnapshot(t, parser.parse());
   });
 });
