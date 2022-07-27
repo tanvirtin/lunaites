@@ -1760,6 +1760,25 @@ ${source}
           elseBlock: [],
         },
         {
+          type: FunctionGlobalStatement,
+          funcname: Identifier,
+          parlist: [],
+          block: [
+            {
+              expression: {
+                args: [],
+                base: Identifier,
+                type: FunctionCallExpression,
+              },
+              type: FunctionCallStatement,
+            },
+            {
+              expressions: [],
+              type: ReturnStatement,
+            },
+          ],
+        },
+        {
           type: ReturnStatement,
           expressions: [
             {
