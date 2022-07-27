@@ -1,4 +1,1 @@
-if x == 1 then do end
-elseif x == 2 then return
-else
-end
+function g() f(); return; end

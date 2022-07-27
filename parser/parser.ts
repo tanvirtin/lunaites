@@ -899,7 +899,7 @@ class Parser {
     this.#expect(Return);
 
     if (
-      this.#tokenCursor.consumeNext(SemiColon) ||
+      this.#tokenCursor.matchNext(SemiColon) ||
       this.#tokenCursor.matchNext(End) ||
       this.#tokenCursor.matchNext(Else) ||
       this.#tokenCursor.matchNext(Elseif) ||
