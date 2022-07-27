@@ -1730,6 +1730,36 @@ ${source}
           elseBlock: undefined,
         },
         {
+          type: IfStatement,
+          ifBlock: [
+            {
+              body: [],
+              type: DoStatement,
+            },
+          ],
+          ifCondition: {
+            left: Identifier,
+            right: NumericLiteral,
+            type: BinaryExpression,
+          },
+          elseifBlocks: [
+            [
+              {
+                expressions: [],
+                type: ReturnStatement,
+              },
+            ],
+          ],
+          elseifConditions: [
+            {
+              left: Identifier,
+              right: NumericLiteral,
+              type: BinaryExpression,
+            },
+          ],
+          elseBlock: [],
+        },
+        {
           type: ReturnStatement,
           expressions: [
             {

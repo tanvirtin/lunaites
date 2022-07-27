@@ -7,8 +7,7 @@ const filename = path.join(
 );
 const watcher = Deno.watchFs(filename);
 
-for await (const _ of watcher) {
-  console.clear();
+const run = () => {
   const parser = new Parser(Deno.readTextFileSync(filename));
   try {
     const ast = parser.parse();
@@ -19,4 +18,11 @@ for await (const _ of watcher) {
   } catch (err) {
     console.log(err);
   }
+};
+
+run();
+
+for await (const _ of watcher) {
+  console.clear();
+  run();
 }

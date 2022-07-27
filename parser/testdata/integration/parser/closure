@@ -106,6 +106,7 @@ function f(x)
     end
     if x == 1 then do break end
     elseif x == 2 then return
+    elseif x == 2 then return
     else
       if x ~= 3 then
         error()

@@ -30,4 +30,7 @@ compile:
 watch:
 	deno run -A ./scratchpad/watch.ts
 
+dev:
+	fswatch -o . | xargs -n1 -I{} make watch
+
 build: check compile

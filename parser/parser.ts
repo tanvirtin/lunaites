@@ -901,6 +901,8 @@ class Parser {
     if (
       this.#tokenCursor.consumeNext(SemiColon) ||
       this.#tokenCursor.matchNext(End) ||
+      this.#tokenCursor.matchNext(Else) ||
+      this.#tokenCursor.matchNext(Elseif) ||
       this.#tokenCursor.matchNext(EOF)
     ) {
       return new ast.ReturnStatement([]);

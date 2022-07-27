@@ -1,3 +1,4 @@
-testamem("thread creation", function()
-  return T.doonnewstack("x=1") == 0 -- try to create thread
-end)
+if x == 1 then do end
+elseif x == 2 then return
+else
+end

@@ -114,6 +114,10 @@ end
 if true then
 end
 
+if x == 1 then do end
+elseif x == 2 then return
+else
+end
 --------------------------------------
 
 return 4 + 5;
