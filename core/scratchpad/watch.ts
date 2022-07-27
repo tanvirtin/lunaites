@@ -1,4 +1,4 @@
-import { MinimizerVisitor, Parser } from "../parser/mod.ts";
+import { MinimizerVisitor, Parser } from "../../parser/mod.ts";
 import { path } from "./deps.ts";
 
 const filename = path.join(
