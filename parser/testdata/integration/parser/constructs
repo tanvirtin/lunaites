@@ -36,19 +36,18 @@ until 1
 until true
 ;while false do end
 ;while nil do end
-;
-do -- test old bug (first name could not be an `upvalue')
+;do -- test old bug (first name could not be an `upvalue')
   local a;
   function f(x) x = { a = 1 };
-  x = { x = 1 };
-  x = { G = 1 }
+    x = { x = 1 };
+    x = { G = 1 }
   end
 end
 
 function f(i)
   if type(i) ~= 'number' then return i, 'jojo'; end
   ;if i > 0 then return i, f(i - 1); end
-  ;end
+  ; end
 
 x = { f(3), f(5), f(10); };
 assert(x[1] == 3 and x[2] == 5 and x[3] == 10 and x[4] == 9 and x[12] == 1);
@@ -66,11 +65,11 @@ local f = function(i)
   elseif i < 20 then return 'b';
   elseif i < 30 then return 'c';
   end
-  ;end
+  ; end
 
 assert(f(3) == 'a' and f(12) == 'b' and f(26) == 'c' and f(100) == nil)
 
-for i = 1, 1000 do break  end
+for i = 1, 1000 do break end
 ;n = 100;
 i = 3;
 t = {};
@@ -78,9 +77,10 @@ a = nil
 while not a do
   a = 0;
   for i = 1, n do for i = i, 1, -1 do a = a + 1;
-  t[i] = 1;
-  end  end
-  ;end
+      t[i] = 1;
+    end
+  end
+  ; end
 assert(a == n * (n + 1) / 2 and i == 3);
 assert(t[1] and t[n] and not t[0] and not t[n + 1])
 
@@ -89,20 +89,19 @@ function f(b)
   repeat
     local a;
     if b == 1 then local b = 1;
-    x = 10;
-    break
+      x = 10;
+      break
     elseif b == 2 then x = 20; break
     elseif b == 3 then x = 30;
     else local a, b, c, d = math.sin(1);
-    x = x + 1;
+      x = x + 1;
 
     end
   until x >= 12
   ;return x;
 end
 
-;
-assert(f(1) == 10 and f(2) == 20 and f(3) == 30 and f(4) == 12)
+;assert(f(1) == 10 and f(2) == 20 and f(3) == 30 and f(4) == 12)
 
 
 local f = function(i)
@@ -129,11 +128,10 @@ function f(i)
   while 1 do
     if i > 0 then i = i - 1;
     else return; end
-    ;end
-  ;end
+    ; end
+  ; end
 
-;
-function g(i)
+;function g(i)
   while 1 do
     if i > 0 then i = i - 1
     else return end
@@ -178,15 +176,14 @@ assert(a.a == 1 and a.b)
 
 function g(a, b, c, d, e)
   if not (a >= b or c or d and e or nil) then return 0; else return 1; end
-  ;end
+  ; end
 
 function h(a, b, c, d, e)
   while (a >= b or c or (d and e) or nil) do return 1; end
   ;return 0;
 end
 
-;
-assert(f(2, 1) == true and g(2, 1) == 1 and h(2, 1) == 1)
+;assert(f(2, 1) == true and g(2, 1) == 1 and h(2, 1) == 1)
 assert(f(1, 2, 'a') == 'a' and g(1, 2, 'a') == 1 and h(1, 2, 'a') == 1)
 assert(f(1, 2, 'a')
   ~= -- force SETLINE before nil

@@ -26,12 +26,10 @@ class TokenCursor {
 
       return this;
     }
-    // Function tokenize will keep returning the same
-    // token called EOF if we hit the end of the line.
-    let token = this.#tokenizer.tokenize();
 
-    // @@@ TODO: Skipping comments for me.
-    if (token.type === TokenType.CommentLiteral) {
+    let token = this.#tokenizer.tokenize();
+    // @@@ TODO: Skipping any single or chain of comments.
+    while (token.type === TokenType.CommentLiteral) {
       token = this.#tokenizer.tokenize();
     }
 

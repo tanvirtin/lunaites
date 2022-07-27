@@ -25,7 +25,6 @@ const {
   BooleanLiteral,
   ClosedParenthesis,
   StringLiteral,
-  CommentLiteral,
   NumericLiteral,
   Or,
   Comma,
@@ -660,13 +659,6 @@ class Parser {
         leftExpression = this.#parseVarargLiteralExpression();
         break;
 
-      case CommentLiteral:
-        // @@@ TODO: Skip over comment for now.
-        this.#tokenCursor.advance();
-
-        leftExpression = this.parseExpression();
-        break;
-
       case Not:
         leftExpression = this.#parseUnaryExpression();
         break;
@@ -1123,9 +1115,6 @@ class Parser {
     switch (token.type) {
       // @@ TODO: We need to store semicolons for a true lossless parser.
       case SemiColon:
-        return null;
-      // @@ TODO: We need to store comments for a true lossless parser.
-      case CommentLiteral:
         return null;
       case DoubleColon:
         return this.parseLabelStatement();
