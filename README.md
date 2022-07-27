@@ -51,8 +51,8 @@ Run the following command
 make watch
 ```
 
-And then open `lunaites/core/scratchpad/scratchpad` using your favourite text
-editor to type or paste in your lua sourcode.
+And then paste in or type your lua source code into
+`lunaites/core/scratchpad/scratchpad`.
 
 The ast representation of the source code will be piped to standard output as
 you make changes to this file.
@@ -122,8 +122,8 @@ binop ::= `+´ | `-´ | `*´ | `/´ | `^´ | `%´ | `..´ |
 
 ## Why
 
-- Curiosity to learn how programming languages are parsed by implementing one
-  for a language widely used by the programming community.
+- Curiosity to learn how programming languages are parsed. Best way to learn
+  more was to implement one for a language used by many.
 - Lua parsers are usually written using recursive descent algorithm. Lunaites
   implements a precedence parsing algorithm to solve the problem, called Pratt
   Parsing.
@@ -147,4 +147,5 @@ binop ::= `+´ | `-´ | `*´ | `/´ | `^´ | `%´ | `..´ |
 
 ## Notes:
 
-- Please feel free to leave an issue if you find any problems with this parser.
+- If you find any bugs please feel free to
+  [leave an issue](https://github.com/tanvirtin/lunaites/issues).
