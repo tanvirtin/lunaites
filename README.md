@@ -52,7 +52,7 @@ or
 make tests
 ```
 
-## Testing scratchpad
+## Live demo
 
 Run the following command
 
