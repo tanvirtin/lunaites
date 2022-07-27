@@ -11,6 +11,7 @@ async function main() {
   await testRunner
     .registerSmoke([
       "https://github.com/tanvirtin/vgit.nvim.git",
+      "https://github.com/tanvirtin/monokai.nvim.git",
       "https://github.com/koreader/koreader",
       "https://github.com/Neopallium/lua-pb.git",
       "https://github.com/luvit/luvit.git",

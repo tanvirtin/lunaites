@@ -11,6 +11,7 @@ async function main() {
   await testRunner
     .registerSmoke([
       "https://github.com/tanvirtin/vgit.nvim.git",
+      "https://github.com/tanvirtin/monokai.nvim.git",
       "https://github.com/Alloyed/lua-lsp.git",
       "https://github.com/moteus/lua-path.git",
       "https://github.com/Neopallium/llvm-lua.git",
