@@ -120,7 +120,7 @@ binop ::= `+´ | `-´ | `*´ | `/´ | `^´ | `%´ | `..´ |
 - [ ] Lua 5.4
 - [ ] LuaJIT
 - [ ] Lossless
-- [ ] Better syntax highlighting
+- [ ] Better error reporting
 - [ ] Scope metadata
 
 ## Tests
