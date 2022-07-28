@@ -14,7 +14,7 @@ integration-tests:
 	deno test -A --unstable ./*/*.integration.test.ts
 
 snapshot-tests:
-	deno test -A ./*/*.snapshot.test.ts -- --update
+	deno test -A ./*/*.snapshot.test.ts
 
 snapshot-tests-update:
 	deno test -A ./*/*.snapshot.test.ts -- --update
